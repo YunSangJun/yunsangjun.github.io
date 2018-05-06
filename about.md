@@ -4,5 +4,5 @@ title: About
 permalink: /about/
 ---
 
-This is a Cloud Native Platform Service Team Blog.
+This is a SJ Blog.
 

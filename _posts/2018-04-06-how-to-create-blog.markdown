@@ -25,13 +25,13 @@ Github Site > Add Repository > Owner와 Repository Name을 입력 후 생성<br 
 생성한 repository를 clone 받고 README 파일을 push 합니다.
 
 ```
-git clone https://github.com/cloudzlab/blog.git
+git clone https://github.com/yunsangjun/blog.git
 cd blog
 echo "# blog" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
-git remote add origin https://github.com/cloudzlab/blog.git
+git remote add origin https://github.com/yunsangjun/blog.git
 git push -u origin master
 ```
 
@@ -127,7 +127,7 @@ Github repository home > Settings > Github Pages > Source > master branch > Save
 
 ```
 ## https://GITHUB_OWNER.github.io/GITHUB_REPOSITORY_NAME/
-Your site is published at https://cloudzlab.github.io/blog/
+Your site is published at https://yunsangjun.github.io/blog/
 ```
 
 # 사용자 도메인 설정(옵션)
@@ -147,5 +147,5 @@ DNS 정보가 업데이트 완료되면 사용자 도메인으로 접속해 블�
 
   ```
   ## CNAME CUSTOM_DOMAIN GITHUB_PAGE_ADDRESS
-  CNAME blog.example.com cloudzlab.github.io
+  CNAME blog.example.com yunsangjun.github.io
   ```

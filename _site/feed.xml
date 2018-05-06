@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-03T13:17:43+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">Cloud Native Platform Service Team Blog</title><subtitle>© 2018 Cloud Platform Service Team. All Rights Reserved.</subtitle><author><name>Cloud Platform Service Team</name></author><entry><title type="html">Istio Intelligent Routing #2 가중치 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #2 가중치 기반 라우팅" /><published>2018-05-02T20:46:39+09:00</published><updated>2018-05-02T20:46:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html">&lt;p&gt;이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-07T00:50:10+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">SJ Blog</title><subtitle></subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Istio Intelligent Routing #2 가중치 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #2 가중치 기반 라우팅" /><published>2018-05-02T20:46:39+09:00</published><updated>2018-05-02T20:46:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html">&lt;p&gt;이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.&lt;/p&gt;
 
 &lt;h1 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h1&gt;
 
@@ -556,35 +556,7 @@ Pilot은 플랫폼 특화 서비스 검색 메커니즘을 추상화하고 이�
 Istio의 향후 배포에는 세분화 된 접근 제어 및 감사 기능이 추가되어 누가 서비스, API, 리소스에 접근하는지 제어 및 모니터링 할 수 있습니다.&lt;/p&gt;
 
 &lt;h1 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h1&gt;
-&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Overview Istio는 로드밸런싱, 서비스 대 서비스 인증, 모니터링을 통해 코드 변경없이 배포된 서비스의 네트워크를 쉽게 생성할 수 있는 방법을 제공합니다. Istio의 control plane을 사용하여 설정 및 관리되고, 마이크로서비스의 모든 통신을 가로채는 환경에 특수한 sidecar proxy를 배포하여 Istio를 서비스에 추가할 수 있습니다. Istio는 현재 Kubernetes 환경만을 지원하지만 향후 다른 환경도 지원할 예정입니다. Istio components에 대한 자세한 정보를 원하면 다른 컨셉들의 가이드를 참고하세요.</summary></entry><entry><title type="html">Persistent Volume Claim 삭제 방지</title><link href="http://localhost:4000/blog/kubernetes/2018/04/26/how-to-reuse-persistent-volume.html" rel="alternate" type="text/html" title="Persistent Volume Claim 삭제 방지" /><published>2018-04-26T14:46:39+09:00</published><updated>2018-04-26T14:46:39+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/04/26/how-to-reuse-persistent-volume</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/04/26/how-to-reuse-persistent-volume.html">&lt;p&gt;Helm Chart 삭제 시 일반적으로 PVC(Persistent Volume Claim)가 삭제된다.
-&lt;br /&gt;
-Helm Chart 배포 시 사용한 resource에 PersistentVolumeClaim이 있으면 그렇다.
-&lt;br /&gt;
-즉, Helm Chart를 삭제하면 배포한 resource를 기준으로 삭제한다는 뜻이다.
-&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;PV(Persistent Volume)의 RECLAIM POLICY가 Retain이면 PVC가 삭제되도 PV는 삭제되지 않고 남아있다.
-&lt;br /&gt;
-하지만 Helm Chart를 재배포하면 PVC가 재생성되고 PV도 새로 생성된다.
-&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;아래 처럼 STS(StatefulSet)에 volumeClaimTemplates을 사용해 PVC를 생성하면 Helm Chart를 삭제해도 PVC가 삭제되지 않는다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: apps/v1
-kind: StatefulSet
-...
-  volumeClaimTemplates:
-  - metadata:
-      name: my-retain-pvc
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
-      storageClassName: standard
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">Helm Chart 삭제 시 일반적으로 PVC(Persistent Volume Claim)가 삭제된다. Helm Chart 배포 시 사용한 resource에 PersistentVolumeClaim이 있으면 그렇다. 즉, Helm Chart를 삭제하면 배포한 resource를 기준으로 삭제한다는 뜻이다.</summary></entry><entry><title type="html">Github Page를 활용해 블로그 만들기</title><link href="http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog.html" rel="alternate" type="text/html" title="Github Page를 활용해 블로그 만들기" /><published>2018-04-06T14:46:39+09:00</published><updated>2018-04-06T14:46:39+09:00</updated><id>http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog</id><content type="html" xml:base="http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog.html">&lt;p&gt;Github는 소스코드 형상관리 도구인 Git을 사용하는 프로젝트를 지원하는 웹 호스팅 서비스입니다.&lt;br /&gt;
+&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Overview Istio는 로드밸런싱, 서비스 대 서비스 인증, 모니터링을 통해 코드 변경없이 배포된 서비스의 네트워크를 쉽게 생성할 수 있는 방법을 제공합니다. Istio의 control plane을 사용하여 설정 및 관리되고, 마이크로서비스의 모든 통신을 가로채는 환경에 특수한 sidecar proxy를 배포하여 Istio를 서비스에 추가할 수 있습니다. Istio는 현재 Kubernetes 환경만을 지원하지만 향후 다른 환경도 지원할 예정입니다. Istio components에 대한 자세한 정보를 원하면 다른 컨셉들의 가이드를 참고하세요.</summary></entry><entry><title type="html">Github Page를 활용해 블로그 만들기</title><link href="http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog.html" rel="alternate" type="text/html" title="Github Page를 활용해 블로그 만들기" /><published>2018-04-06T14:46:39+09:00</published><updated>2018-04-06T14:46:39+09:00</updated><id>http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog</id><content type="html" xml:base="http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog.html">&lt;p&gt;Github는 소스코드 형상관리 도구인 Git을 사용하는 프로젝트를 지원하는 웹 호스팅 서비스입니다.&lt;br /&gt;
 Private repository를 만들지 않는 이상 무료로 제공되는 서비스입니다.&lt;br /&gt;
 Github Page는 Github에 업로드한 소스코드를 웹 호스팅 해주는 기능입니다. 추가적인 비용을 들여 웹 호스팅 서비스를 신청하지 않아도 자신만의 블로그, 웹 사이트를 서비스 할 수 있습니다.&lt;br /&gt;
 &lt;br /&gt;
@@ -601,13 +573,13 @@ Github Page는 Github에 업로드한 소스코드를 웹 호스팅 해주는 �
 &lt;p&gt;Github Site &amp;gt; Add Repository &amp;gt; Owner와 Repository Name을 입력 후 생성&lt;br /&gt;
 생성한 repository를 clone 받고 README 파일을 push 합니다.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/cloudzlab/blog.git
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/yunsangjun/blog.git
 cd blog
 echo &quot;# blog&quot; &amp;gt;&amp;gt; README.md
 git init
 git add README.md
 git commit -m &quot;first commit&quot;
-git remote add origin https://github.com/cloudzlab/blog.git
+git remote add origin https://github.com/yunsangjun/blog.git
 git push -u origin master
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -704,7 +676,7 @@ git push
 이 주소의 GITHUB_REPOSITORY_NAME는 블로그 페이지 용도로 생성한 repository 이름이고, GITHUB_OWNER는 repository의 소유자 이름입니다.&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## https://GITHUB_OWNER.github.io/GITHUB_REPOSITORY_NAME/
-Your site is published at https://cloudzlab.github.io/blog/
+Your site is published at https://yunsangjun.github.io/blog/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h1 id=&quot;사용자-도메인-설정옵션&quot;&gt;사용자 도메인 설정(옵션)&lt;/h1&gt;
@@ -725,7 +697,7 @@ CNAME 뒤에 첫번째 값은 위에서 설정한 사용자 도메인 주소, �
 DNS 정보가 업데이트 완료되면 사용자 도메인으로 접속해 블로그 페이지를 확인 할 수 있습니다.(DNS 정보 업데이트 소요 시간은 도메인 제공 업체 별로 상이합니다.)&lt;/p&gt;
 
     &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## CNAME CUSTOM_DOMAIN GITHUB_PAGE_ADDRESS
-CNAME blog.example.com cloudzlab.github.io
+CNAME blog.example.com yunsangjun.github.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
 &lt;/ul&gt;</content><author><name>윤상준</name></author><summary type="html">Github는 소스코드 형상관리 도구인 Git을 사용하는 프로젝트를 지원하는 웹 호스팅 서비스입니다. Private repository를 만들지 않는 이상 무료로 제공되는 서비스입니다. Github Page는 Github에 업로드한 소스코드를 웹 호스팅 해주는 기능입니다. 추가적인 비용을 들여 웹 호스팅 서비스를 신청하지 않아도 자신만의 블로그, 웹 사이트를 서비스 할 수 있습니다. 이 문서에서는 Github Page를 활용해 블로그 만드는 방법을 설명합니다.</summary></entry></feed>
