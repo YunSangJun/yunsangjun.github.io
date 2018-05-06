@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-03T13:17:43+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">Cloud Native Platform Service Team Blog</title><subtitle>© 2018 Cloud Platform Service Team. All Rights Reserved.</subtitle><author><name>Cloud Platform Service Team</name></author><entry><title type="html">Istio Intelligent Routing #2 가중치 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #2 가중치 기반 라우팅" /><published>2018-05-02T20:46:39+09:00</published><updated>2018-05-02T20:46:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html">&lt;p&gt;이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kubernetes에 Istio 설치하기&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;를 참고하여 Kubernetes에 Istio 설치합니다.&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html&quot;&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/a&gt;를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;가중치-기반-라우팅&quot;&gt;가중치 기반 라우팅&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;모든 마이크로서비스 대해 기본 버전을 v1으로 적용합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;아래 명령어를 통해 route rule을 조회할 수 있습니다.&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerules -o yaml
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: details-default
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: details
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+ ---
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: productpage-default
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: productpage
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+ ---
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: ratings-default
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: ratings
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+ ---
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: reviews-default
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: reviews
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+ ---
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;브라우저에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;http://$GATEWAY_ADDRESS/productpage&lt;/code&gt; 페이지를 열어 v1이 reviews 서비스의 기본 버전인지 확인합니다.&lt;/p&gt;
+
+    &lt;p&gt;Bookinfo 애플리케이션의 productpage가 표시되어야합니다. v1은 ratings 서비스에 액세스하지 않으므로 productpage에 별표가 표시되지 않습니다.&lt;/p&gt;
+
+    &lt;p&gt;참고 : 이전에 콘텐츠 기반 라우팅 작업을 실행 한 경우 테스트 사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;으로 로그 아웃하거나 생성 된 테스트 규칙을 삭제해야 합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl delete routerule reviews-test-v2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;먼저 트래픽을 reviews:v1과 reviews:v3에 50:50 비율로 전송합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;아래 명령어를 통해 route rule을 조회할 수 있습니다.&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerule reviews-default -o yaml
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: reviews-default
+   namespace: default
+ spec:
+   destination:
+     name: reviews
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+     weight: 50
+   - labels:
+       version: v3
+     weight: 50
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;브라우저에서 productpage를 새로 고침하면 빨간색 별표가 약 50%의 비율로 표시됩니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_intel_routing_contents_red_rating.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;이번에는 트래픽을 reviews:v1과 reviews:v3에 20:80 비율로 전송합니다.&lt;/p&gt;
+
+    &lt;p&gt;아래와 같이 route rule을 수정합니다.&lt;/p&gt;
+
+    &lt;p&gt;참고 : istioctl CLI에는 edit 명령어가 없으므로 kubectl 명령어를 사용합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl edit routerule reviews-default
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: reviews-default
+   namespace: default
+ spec:
+   destination:
+     name: reviews
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+     weight: 20
+   - labels:
+       version: v3
+     weight: 80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;브라우저에서 productpage를 새로 고침하면 빨간색 별표가 약 80%의 비율로 표시됩니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;reviews 마이크로서비스의 버전 v3가 안정적이라고 판단되면 트래픽의 100%를 reviews:v3에 라우팅 할 수 있습니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;이제 아무 사용자로 제품 페이지에 로그인 할 수 있으며 항상 빨간색 별표가 표시됩니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.</summary></entry><entry><title type="html">Istio Intelligent Routing #1 콘텐츠 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #1 콘텐츠 기반 라우팅" /><published>2018-04-26T20:46:39+09:00</published><updated>2018-04-26T20:46:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html">&lt;p&gt;이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kubernetes에 Istio 설치하기&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;를 참고하여 Kubernetes에 Istio 설치합니다.&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html&quot;&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/a&gt;를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;콘텐츠-기반-라우팅&quot;&gt;콘텐츠 기반 라우팅&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;모든 마이크로서비스에 대해 기본버전을 v1으로 적용합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;참고: istioctl은 kubectl로 대체할 수 있습니다. 하지만 kubectl은 현재 유효성 검사를 하지 않습니다.&lt;/p&gt;
+
+    &lt;p&gt;아래 명령어를 통해 route rule을 조회할 수 있습니다.&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerules -o yaml
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: details-default
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: details
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+ ---
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: productpage-default
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: productpage
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+ ---
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: ratings-default
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: ratings
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+ ---
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: reviews-default
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: reviews
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+ ---
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;BookInfo app 접속&lt;/p&gt;
+
+    &lt;p&gt;http://$GATEWAY_ADDRESS/productpage &lt;br /&gt;
+ Bookinfo application의 &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt;를 볼수 있습니다.&lt;br /&gt;
+ &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v1&lt;/code&gt; 인스턴스 에는 rating stars가 없으므로 표시되지 않습니다.&lt;br /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_intel_routing_contents_norating.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;특정 user로 접속&lt;/p&gt;
+
+    &lt;p&gt;아래 명령어를 실행하면 user &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;이 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v2&lt;/code&gt; 인스턴스로 접속되도록 설정할 수 있습니다.&lt;br /&gt;&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;설정 확인&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerule reviews-test-v2 -o yaml
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   creationTimestamp: null
+   name: reviews-test-v2
+   namespace: bookinfo
+   resourceVersion: &quot;517883&quot;
+ spec:
+   destination:
+     name: reviews
+   match:
+     request:
+       headers:
+         cookie:
+           regex: ^(.*?;)?(user=jason)(;.*)?$
+   precedence: 2
+   route:
+   - labels:
+       version: v2
+ ---
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;productpage web page에서 user &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;으로 접속&lt;/p&gt;
+
+    &lt;p&gt;이제 ratings (1-5 stars)를 볼 수 있습니다. 로그인하지 않으면 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v1&lt;/code&gt; 인스턴스로 접속됩니다.&lt;br /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_intel_routing_contents_rating.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/02/istio-intelligent-routing-2.html&quot;&gt;Istio Intelligent Routing #2 가중치 기반 라우팅&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.</summary></entry><entry><title type="html">마이크로서비스 샘플앱(BookInfo) 배포하기</title><link href="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html" rel="alternate" type="text/html" title="마이크로서비스 샘플앱(BookInfo) 배포하기" /><published>2018-04-26T20:20:39+09:00</published><updated>2018-04-26T20:20:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html">&lt;p&gt;이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;이 가이드에서는 온라인 서점의 카탈로그 항목과 비슷한 책에 대한 정보를 표시하는 간단한 애플리케이션을 배포합니다. 이 페이지에는 책에 대한 설명, 책 세부 정보 (ISBN, 페이지 수 등) 및 몇 권의 서평이 표시됩니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Bookinfo 애플리케이션은 4개의 마이크로서비스로 나뉩니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;productpage : 세부 사항을 호출하고 마이크로서비스를 검토하여 페이지를 채웁니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;details : 도서 정보가 들어 있습니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;reviews : 서평이 포함되어 있습니다. 또한 ratings 마이크로서비스를 호출합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;ratings : 서평을 수반하는 서적 순위 정보가 포함됩니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;reviews 마이크로서비스에는 3가지 버전이 있습니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;버전 v1은 ratings 서비스를 호출하지 않습니다.&lt;/li&gt;
+  &lt;li&gt;버전 v2는 ratings 서비스를 호출하고 각 순위를 1 - 5 개의 검은 별로 표시합니다.&lt;/li&gt;
+  &lt;li&gt;버전 v3는 ratings 서비스를 호출하고 각 순위를 1 ~ 5 개의 빨간색 별로 표시합니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;애플리케이션의 end-to-end 아키텍처는 아래와 같습니다. 이 애플리케이션은 다양한 프로그래밍 언어로 작성되었습니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/bookinfo_noistio.svg&quot; alt=&quot;BookInfo Application Without Istio&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kubernetes에 Istio 설치하기&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;를 참고하여 Kubernetes에 Istio 설치합니다.&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;bookinfo-애플리케이션&quot;&gt;BookInfo 애플리케이션&lt;/h1&gt;
+&lt;p&gt;Istio와 함께 샘플을 실행하기 위해 애플리케이션을 변경할 필요는 없습니다. 대신, Istio가 활성화 된 환경에서 서비스를 구성하고 실행하면 각각의 서비스에 Envoy 사이드카가 주입됩니다. 필요한 명령과 구성은 런타임 환경에 따라 다르지만 모든 경우의 결과는 다음과 같습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/bookinfo_withistio.svg&quot; alt=&quot;BookInfo Application With Istio&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;모든 마이크로서비스는 Envoy 사이드카와 함께 패키지화되어 수신 및 발신 요청을 가로챕니다. Istio control plane, 라우팅, 원격 측정 수집 및 애플리케이션 전체에 대한 정책 적용을 통해 외부 제어에 필요한 후크를 제공합니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;kubernetes에서-bookinfo-애플리케이션-실행&quot;&gt;Kubernetes에서 BookInfo 애플리케이션 실행&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;BookInfo 애플리케이션 실행&lt;/p&gt;
+
+    &lt;p&gt;사전 준비에서 다운로드한 Istio 설치 디렉터리의 root로 이동한 후 아래 명령을 실행합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl apply -f &amp;lt;(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;BookInfo svc 확인&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl get svc
+ NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+ details       ClusterIP   172.21.67.160    &amp;lt;none&amp;gt;        9080/TCP   20h
+ productpage   ClusterIP   172.21.39.218    &amp;lt;none&amp;gt;        9080/TCP   20h
+ ratings       ClusterIP   172.21.201.191   &amp;lt;none&amp;gt;        9080/TCP   20h
+ reviews       ClusterIP   172.21.154.60    &amp;lt;none&amp;gt;        9080/TCP   20h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;BookInfo pod 확인&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl get pods
+ NAME                              READY     STATUS    RESTARTS   AGE
+ details-v1-55496dcd64-qjqmb       2/2       Running   0          20h
+ productpage-v1-586897968d-j2kwf   2/2       Running   0          20h
+ ratings-v1-6d9f5df564-4kzlt       2/2       Running   0          20h
+ reviews-v1-5985df7dd4-x22zl       2/2       Running   0          20h
+ reviews-v2-856d5b976-vtlct        2/2       Running   0          20h
+ reviews-v3-c4fbb98d8-5bv9j        2/2       Running   0          20h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;BookInfo ingress 확인&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $  kubectl get ingress
+ NAME      HOSTS     ADDRESS         PORTS     AGE
+ gateway   *         169.x.x.x       80        20h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;BookInfo 접속&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; export GATEWAY_ADDRESS=169.x.x.x
+ http://$GATEWAY_ADDRESS/productpage
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_intel_routing_contents_norating.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/istio-intelligent-routing-1.html&quot;&gt;Istio Intelligent Routing #1 콘텐츠 기반 라우팅&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.</summary></entry><entry><title type="html">Kubernetes에 Istio 설치하기</title><link href="http://localhost:4000/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html" rel="alternate" type="text/html" title="Kubernetes에 Istio 설치하기" /><published>2018-04-26T20:00:39+09:00</published><updated>2018-04-26T20:00:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/deploying-istio-on-kubernetes</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html">&lt;p&gt;이 문서를 따라 Kubernetes에 Istio 설치 할 수 있습니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;istio다운로드-및-설치&quot;&gt;Istio 다운로드 및 설치&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Istio release 다운로드&lt;/p&gt;
+
+    &lt;p&gt;아래 Istio github에서 원하는 버전의 release download
+ &lt;br /&gt;
+ https://github.com/istio/istio/releases&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;설치파일 추출&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ tar zxvf istio-x.x.x-xxx.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;istioctl binary를 /usr/local/bin으로 이동&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ cd istio-x.x.x
+ $ mv bin/istioctl /usr/local/bin/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kubernetes에 Istio 설치&lt;/p&gt;
+
+    &lt;p&gt;Istio는 &lt;code class=&quot;highlighter-rouge&quot;&gt;istio-system&lt;/code&gt; namespace에 배포됩니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; //without tls
+ $ kubectl apply -f install/kubernetes/istio.yaml
+
+ //with tls
+ $ kubectl apply -f install/kubernetes/istio-auth.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Istio svc 확인&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl get svc -n istio-system
+ NAME            TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                             AGE
+ istio-ingress   LoadBalancer   172.21.x.x       169.x.x.x       80:30493/TCP,443:31629/TCP                                          20h
+ istio-mixer     ClusterIP      172.21.x.x       &amp;lt;none&amp;gt;          9091/TCP,15004/TCP,9093/TCP,9094/TCP,9102/TCP,9125/UDP,42422/TCP    20h
+ istio-pilot     ClusterIP      172.21.x.x       &amp;lt;none&amp;gt;          15003/TCP,15005/TCP,15007/TCP,15010/TCP,8080/TCP,9093/TCP,443/TCP   20h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Istio pod 확인&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl get pods -n istio-system
+ NAME                             READY     STATUS    RESTARTS   AGE
+ istio-ca-86f55cc46f-5pcj6        1/1       Running   0          20h
+ istio-ingress-5bb556fcbf-n99cr   1/1       Running   0          20h
+ istio-mixer-86f5df6997-rtld9     3/3       Running   0          20h
+ istio-pilot-67d6ddbdf6-svnfp     2/2       Running   0          20h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html&quot;&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서를 따라 Kubernetes에 Istio 설치 할 수 있습니다.</summary></entry><entry><title type="html">Istio Overview</title><link href="http://localhost:4000/blog/istio/2018/04/26/istio-overview.html" rel="alternate" type="text/html" title="Istio Overview" /><published>2018-04-26T19:40:39+09:00</published><updated>2018-04-26T19:40:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/istio-overview</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/istio-overview.html">&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;Istio는 로드밸런싱, 서비스 대 서비스 인증, 모니터링을 통해 코드 변경없이 배포된 서비스의 네트워크를 쉽게 생성할 수 있는 방법을 제공합니다.&lt;br /&gt;
+Istio의 control plane을 사용하여 설정 및 관리되고, 마이크로서비스의 모든 통신을 가로채는 환경에 특수한 sidecar proxy를 배포하여 Istio를 서비스에 추가할 수 있습니다.&lt;br /&gt;
+Istio는 현재 Kubernetes 환경만을 지원하지만 향후 다른 환경도 지원할 예정입니다.&lt;br /&gt;
+Istio components에 대한 자세한 정보를 원하면 다른 컨셉들의 가이드를 참고하세요. &lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;왜-istio를-사용하는가&quot;&gt;왜 Istio를 사용하는가?&lt;/h2&gt;
+&lt;p&gt;모놀리식 애플리케이션이 마이크로 서비스 아키텍처로 전환함에 따라 개발자와 운영자는 많은 문제에 직면합니다.&lt;br /&gt;
+마이크로 서비스의 네트워크(서비스 매시)의 크기와 복잡성이 커짐에 따라 이해와 관리가 어려워 질 수 있습니다.&lt;br /&gt;
+이런 어려움을 해결하기 위해서 아래와 같은 요구사항이 있습니다.&lt;br /&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;디스커버리, 로드밸런싱, 복구, 메트릭, 모니터링, A/B 테스트, canary 배포, 속도 제한, 접근 제어, end-to-end 인증
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;
+Istio는 마이크로 서비스 애플리케이션의 다양한 요구 사항을 충족시킬 수있는 솔루션을 제공합니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;트래픽 관리
+서비스간의 트래픽과 API 호출 흐름을 제어하고, 호출을 보다 안정적으로 만들고, 불리한 조건에서도 네트워크를 강하게 만듭니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;관찰
+서비스간의 의존성 및 트래픽간의 특성과 흐름을 파악하여 문제를 빠르게 식별할 수 있습니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;정책 적용
+서비스간의 상호작용에 조직 정책을 적용하고, 접근 정책 적용 및 컨슈머 사이에 균일하게 분산된 리소스를 보장합니다.&lt;br /&gt;
+정책 변경은 애플리케이션 코드 변경이 아니라 매시 설정에 의해 만들어집니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;서비스 신원 및 보안
+매시에서 검증가능한 신원을 가진 서비스를 제공하고, 다양한 신뢰도의 네트워크를 통해 전송되는 서비스 트래픽을 보호하는 기능을 제공합니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이 외에도, Istio는 다양한 배포 요구사항을 충족할 수 있도록 확장성있게 디자인되었습니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;플랫폼 지원
+Istio는 Cloud, On-premise, Kubernetes, Mesos 등 다양한 환경에서 실행할 수 있도록 설계되었습니다.&lt;br /&gt;
+현재는 Kubernetes 환경에 중점을 두고 있지만 곧 다른 환경에서도 지원할 예정입니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;통합과 커스터마이징
+정책 적용 컴포넌트를 확장하고 통합하여 ACLs, 로깅, 모니터링, 할당량, 감사등의 기존 솔루션과 통합할 수 있습니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이런 기능들은 애플리케이션 코드, 플랫폼, 정책 간의 결합을 크게 줄입니다.&lt;br /&gt;
+애플이케이션간의 결합이 감소하면 서비스 구현을 쉽게 할 뿐 아니라, 운영자에게 서로 다른 환경 간이나 새로운 정책 구성으로의 애플리케이션 이동을 용이하게 합니다.&lt;br /&gt;
+애플리케이션은 본질적으로 이식성이 더 높아집니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;architecture&quot;&gt;Architecture&lt;/h2&gt;
+&lt;p&gt;Istio 서비스 매시는 논리적으로 data plane과 control plane으로 나누어집니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Data plane은 지능형 프록시(Envoy)로 구성됩니다. 이 프록시는 사이드카로 배포되고 마이크로서비스 사이의 모든 네트워크 통신을 중재 및 제어합니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Control plane은 트래픽을 라우팅하기 위해 프록시를 관리하고 설정합니다. 또한 런타임에 정책을 적용합니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래 다이어그램은 각 plane을 구성하는 다양한 컴포넌트를 보여줍니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_architecture.png&quot; alt=&quot;Istio Architecture&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;envoy&quot;&gt;Envoy&lt;/h3&gt;
+
+&lt;p&gt;Istio는 C++로 개발된 고성능 프록시인 Envoy 프록시의 확장 버전을 사용하여 서비스 매시의 모든 서비스에 대한 인바운드 및 아웃바운드 트래픽을 중재합니다.&lt;br /&gt;
+Istio는 아래와 같은 Envoy의 많은 내장된 기능을 사용합니다.&lt;br /&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dynamic service discovery, load balancing, TLS termination, HTTP/2 &amp;amp; gRPC proxying, circuit breakers, health checks, staged rollouts with %-based traffic split, fault injection, and rich metrics
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Envoy는 같은 Kubernetes pod의 관련 서비스에 사이트카로 배포되고, 이를 통해 Istio는 트래픽에 대한 신호를 속성으로 추출할 수 있습니다.&lt;br /&gt;
+이 값을 Mixer에서 정책 결정을 적용하는데 사용할 수 있으며, 모니터링 시스템으로 보내져 전체 매시의 동작에 대한 정보를 제공할 수 있습니다.&lt;br /&gt;
+사이드카 프록시 모델을 사용하면 아키텍처나 코드 변경없이 기존 배포 환경에 Istio 기능을 추가할 수 있습니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mixer&quot;&gt;Mixer&lt;/h3&gt;
+&lt;p&gt;Mixer는 서비스 매시 전반에 접근 제어와 사용 정책을 적용하고 Envoy 프록시와 다른 서비스로부터 원격 측정 데이터를 수집하는 플랫폼 독립적인 컴포넌트입니다.&lt;br /&gt;
+프록시는 요청 레벨 속성을 추출하여 평가를 위해 Mixer로 보냅니다. 이 속성에 대한 더 많은 정보 및 정책 평가에 대한 자세한 내용은 &lt;a href=&quot;https://istio.io/docs/concepts/policy-and-control/mixer-config.html&quot;&gt;Mixer Configuration&lt;/a&gt;에 있습니다.&lt;br /&gt;
+Mixer는 다양한 호스트 환경 및 인프라 백앤드와 인터페이스 할 수 있는 유연한 플러그인 모델을 포함하며 Envoy 프록시와 Istio 관리 서비스를 추상화 합니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;pilot&quot;&gt;Pilot&lt;/h3&gt;
+&lt;p&gt;Pilot은 Envoy 사이드카에 대한 서비스 검색, 지능형 라우팅(예, A/B 테스트, canary 배포 등) 및 복원(timeouts, retries, circuit breakers 등)을 위한 트래픽 관리 기능을 제공합니다.&lt;br /&gt;
+Pilot은 트래픽 동작을 Envoy 특정 구성으로 제어하는 상위 레벨 라우팅을 변환하여 런타임의 사이드카에 전달합니다.&lt;br /&gt;
+Pilot은 플랫폼 특화 서비스 검색 메커니즘을 추상화하고 이를 data plane APIs를 준수하는 모든 사이드카에 표준 포맷으로 통합합니다.&lt;br /&gt;
+이 느슨한 결합을 통해 Istio는 트래픽 관리를 위한 동일한 운영자 인터페이스를 유지하면서도 여러 환경(예, Kubernetes, Consul/Nomad)에 실행될 수 있습니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;istio-auth&quot;&gt;Istio-Auth&lt;/h3&gt;
+&lt;p&gt;Istio-Auth는 상호 TLS, 내장 아이디, 자격 증명 관리를 사용하는 강력한 서비스 대 서비스 및 엔드 유저 인증 기능을 제공합니다.&lt;br /&gt;
+이것은 서비스 매시에서 암호화되지 않은 트래픽을 업그레이드하는데 사용 할 수 있으며, 네트워크 제어 대신 서비스 아이디에 기반하여 정책 적용을 할 수 있습니다.&lt;br /&gt;
+Istio의 향후 배포에는 세분화 된 접근 제어 및 감사 기능이 추가되어 누가 서비스, API, 리소스에 접근하는지 제어 및 모니터링 할 수 있습니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Overview Istio는 로드밸런싱, 서비스 대 서비스 인증, 모니터링을 통해 코드 변경없이 배포된 서비스의 네트워크를 쉽게 생성할 수 있는 방법을 제공합니다. Istio의 control plane을 사용하여 설정 및 관리되고, 마이크로서비스의 모든 통신을 가로채는 환경에 특수한 sidecar proxy를 배포하여 Istio를 서비스에 추가할 수 있습니다. Istio는 현재 Kubernetes 환경만을 지원하지만 향후 다른 환경도 지원할 예정입니다. Istio components에 대한 자세한 정보를 원하면 다른 컨셉들의 가이드를 참고하세요.</summary></entry><entry><title type="html">Persistent Volume Claim 삭제 방지</title><link href="http://localhost:4000/blog/kubernetes/2018/04/26/how-to-reuse-persistent-volume.html" rel="alternate" type="text/html" title="Persistent Volume Claim 삭제 방지" /><published>2018-04-26T14:46:39+09:00</published><updated>2018-04-26T14:46:39+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/04/26/how-to-reuse-persistent-volume</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/04/26/how-to-reuse-persistent-volume.html">&lt;p&gt;Helm Chart 삭제 시 일반적으로 PVC(Persistent Volume Claim)가 삭제된다.
+&lt;br /&gt;
+Helm Chart 배포 시 사용한 resource에 PersistentVolumeClaim이 있으면 그렇다.
+&lt;br /&gt;
+즉, Helm Chart를 삭제하면 배포한 resource를 기준으로 삭제한다는 뜻이다.
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;PV(Persistent Volume)의 RECLAIM POLICY가 Retain이면 PVC가 삭제되도 PV는 삭제되지 않고 남아있다.
+&lt;br /&gt;
+하지만 Helm Chart를 재배포하면 PVC가 재생성되고 PV도 새로 생성된다.
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래 처럼 STS(StatefulSet)에 volumeClaimTemplates을 사용해 PVC를 생성하면 Helm Chart를 삭제해도 PVC가 삭제되지 않는다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: StatefulSet
+...
+  volumeClaimTemplates:
+  - metadata:
+      name: my-retain-pvc
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: standard
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">Helm Chart 삭제 시 일반적으로 PVC(Persistent Volume Claim)가 삭제된다. Helm Chart 배포 시 사용한 resource에 PersistentVolumeClaim이 있으면 그렇다. 즉, Helm Chart를 삭제하면 배포한 resource를 기준으로 삭제한다는 뜻이다.</summary></entry><entry><title type="html">Github Page를 활용해 블로그 만들기</title><link href="http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog.html" rel="alternate" type="text/html" title="Github Page를 활용해 블로그 만들기" /><published>2018-04-06T14:46:39+09:00</published><updated>2018-04-06T14:46:39+09:00</updated><id>http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog</id><content type="html" xml:base="http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog.html">&lt;p&gt;Github는 소스코드 형상관리 도구인 Git을 사용하는 프로젝트를 지원하는 웹 호스팅 서비스입니다.&lt;br /&gt;
+Private repository를 만들지 않는 이상 무료로 제공되는 서비스입니다.&lt;br /&gt;
+Github Page는 Github에 업로드한 소스코드를 웹 호스팅 해주는 기능입니다. 추가적인 비용을 들여 웹 호스팅 서비스를 신청하지 않아도 자신만의 블로그, 웹 사이트를 서비스 할 수 있습니다.&lt;br /&gt;
+&lt;br /&gt;
+이 문서에서는 Github Page를 활용해 블로그 만드는 방법을 설명합니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;jekyll-설치&quot;&gt;Jekyll 설치&lt;/h1&gt;
+&lt;p&gt;아래 명령어를 실행해 jekyll 모듈을 설치합니다. Ruby가 설치되어 있어야 합니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install jekyll
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;github-repository-생성&quot;&gt;Github repository 생성&lt;/h1&gt;
+&lt;p&gt;블로그 페이지로 사용할 github repository를 생성합니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Github Site &amp;gt; Add Repository &amp;gt; Owner와 Repository Name을 입력 후 생성&lt;br /&gt;
+생성한 repository를 clone 받고 README 파일을 push 합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/cloudzlab/blog.git
+cd blog
+echo &quot;# blog&quot; &amp;gt;&amp;gt; README.md
+git init
+git add README.md
+git commit -m &quot;first commit&quot;
+git remote add origin https://github.com/cloudzlab/blog.git
+git push -u origin master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;jekyll-template-생성&quot;&gt;Jekyll template 생성&lt;/h1&gt;
+&lt;p&gt;아래 명령어를 실행해 블로그 템플릿을 만듭니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# jekyll new sample-blog
+.
+├── 404.html
+├── CNAME
+├── Gemfile
+├── Gemfile.lock
+├── README.md
+├── _config.yml
+├── _posts
+├── _site
+├── about.md
+├── index.md
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;블로그-환경-설정&quot;&gt;블로그 환경 설정&lt;/h1&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; 파일을 열고 아래와 같이 편집합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Github Page 기본 도메인 사용 시&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;baseurl: &quot;/blog&quot; # the subpath of your site, e.g. /blog
+url: &quot;&quot; # the base hostname &amp;amp; protocol for your site, e.g. http://example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;사용자 도메인 사용 시&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;baseurl: &quot;&quot; # the subpath of your site, e.g. /blog
+url: &quot;http://blog.example.com&quot; # the base hostname &amp;amp; protocol for your site, e.g. http://example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;블로그-페이지-작성&quot;&gt;블로그 페이지 작성&lt;/h1&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; 디렉토리 하위에 포맷(&lt;code class=&quot;highlighter-rouge&quot;&gt;yyyy-mm-dd-title.markdown&lt;/code&gt;)을 맞춰 블로그 페이지를 작성합니다.&lt;br /&gt;
+date는 UTC 기준입니다. KST 기준으로 변경하려면 +0900을 추가합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi _post/2018-04-06-how-to-create-blog.markdown
+---
+layout: post
+title:  &quot;Example&quot;
+author: 저자
+date: yyyy-mm-dd hh:mm:ss +0900
+categories: etc
+---
+...
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;블로그-로컬-환경에서-실행&quot;&gt;블로그 로컬 환경에서 실행&lt;/h1&gt;
+&lt;p&gt;아래 명령어를 실행해 로컬 환경에서 블로그 페이지를 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Github Page 기본 도메인 사용 시&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll serve --watch
+
+http://127.0.0.1:4000/blog/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;사용자 도메인 사용 시&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll serve --watch
+
+http://127.0.0.1:4000/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;github-repository에-commit--push&quot;&gt;Github repository에 commit &amp;amp; push&lt;/h1&gt;
+&lt;p&gt;아래 명령어를 실행해 변경 내용을 Github repository에 반영합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git add --all
+git commit -m &quot;init&quot;
+git push
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;github-page-활성화&quot;&gt;Github Page 활성화&lt;/h1&gt;
+&lt;p&gt;아래와 같이 Github Page 기능을 활성화 합니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Github repository home &amp;gt; Settings &amp;gt; Github Pages &amp;gt; Source &amp;gt; master branch &amp;gt; Save
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;설정을 완료하면 아래와 같이 접속가능한 Github Page 주소가 출력됩니다.&lt;br /&gt;
+이 주소의 GITHUB_REPOSITORY_NAME는 블로그 페이지 용도로 생성한 repository 이름이고, GITHUB_OWNER는 repository의 소유자 이름입니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## https://GITHUB_OWNER.github.io/GITHUB_REPOSITORY_NAME/
+Your site is published at https://cloudzlab.github.io/blog/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;사용자-도메인-설정옵션&quot;&gt;사용자 도메인 설정(옵션)&lt;/h1&gt;
+&lt;p&gt;사용자 도메인을 사용할 경우 Github repository와 사용자 도메인 관리페이지에서 추가 설정이 필요합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Github repository&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Github repository home &amp;gt; Settings &amp;gt; Github Pages &amp;gt; Source &amp;gt; Custom domain &amp;gt; blog.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;사용자 도메인 관리페이지
+도메인 제공 업체마다 설정 방법은 다를 수 있습니다. (이 가이드는 GoDaddy 기준)&lt;br /&gt;
+도메인 관리페이지에서 아래와 같이 CNAME을 설정합니다.&lt;br /&gt;
+CNAME 뒤에 첫번째 값은 위에서 설정한 사용자 도메인 주소, 두번째 값은 부여받은 Github Page 주소입니다.&lt;br /&gt;
+DNS 정보가 업데이트 완료되면 사용자 도메인으로 접속해 블로그 페이지를 확인 할 수 있습니다.(DNS 정보 업데이트 소요 시간은 도메인 제공 업체 별로 상이합니다.)&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## CNAME CUSTOM_DOMAIN GITHUB_PAGE_ADDRESS
+CNAME blog.example.com cloudzlab.github.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>윤상준</name></author><summary type="html">Github는 소스코드 형상관리 도구인 Git을 사용하는 프로젝트를 지원하는 웹 호스팅 서비스입니다. Private repository를 만들지 않는 이상 무료로 제공되는 서비스입니다. Github Page는 Github에 업로드한 소스코드를 웹 호스팅 해주는 기능입니다. 추가적인 비용을 들여 웹 호스팅 서비스를 신청하지 않아도 자신만의 블로그, 웹 사이트를 서비스 할 수 있습니다. 이 문서에서는 Github Page를 활용해 블로그 만드는 방법을 설명합니다.</summary></entry></feed>
