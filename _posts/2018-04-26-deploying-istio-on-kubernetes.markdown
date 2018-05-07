@@ -8,7 +8,7 @@ categories: istio
 
 이 문서를 따라 Kubernetes에 Istio 설치 할 수 있습니다.
 
-# Istio 다운로드 및 설치
+## Istio 다운로드 및 설치
 
 1. Istio release 다운로드
 
@@ -41,7 +41,14 @@ categories: istio
     $ kubectl apply -f install/kubernetes/istio-auth.yaml
     ```
 
-5. Istio svc 확인
+5. 옵션: 자동으로 사이드카를 주입하도록 설정하고 싶으면 sidecar injector webhook을 설치합니다.
+참고: Kubernetes 버전이 1.9 이상이어야 합니다.
+
+
+
+## 설치 검증
+
+1. Istio svc 확인
 
     ```
     $ kubectl get svc -n istio-system
@@ -51,7 +58,7 @@ categories: istio
     istio-pilot     ClusterIP      172.21.x.x       <none>          15003/TCP,15005/TCP,15007/TCP,15010/TCP,8080/TCP,9093/TCP,443/TCP   20h
     ```
 
-6. Istio pod 확인
+2. Istio pod 확인
 
     ```
     $ kubectl get pods -n istio-system
@@ -62,7 +69,7 @@ categories: istio
     istio-pilot-67d6ddbdf6-svnfp     2/2       Running   0          20h
     ```
 
-7. 애플리케이션 배포
+## 애플리케이션 배포
 
     Bookinfo와 같은 샘플 애플리케이션 또는 자체 개발한 애플리케이션을 배포 할 수 있습니다. <br>
     참고 : `HTTP / 1.0`은 지원되지 않으므로 애플리케이션은 `HTTP / 1.1` 또는 `HTTP / 2.0` 프로토콜을 사용해야합니다.<br>
@@ -77,8 +84,6 @@ categories: istio
     ```
     $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
     ```
-
-
 
 # 다음 포스트
 [마이크로서비스 샘플앱(BookInfo) 배포하기](/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)
