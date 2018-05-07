@@ -44,8 +44,6 @@ categories: istio
 5. 옵션: 자동으로 사이드카를 주입하도록 설정하고 싶으면 sidecar injector webhook을 설치합니다.
 참고: Kubernetes 버전이 1.9 이상이어야 합니다.
 
-
-
 ## 설치 검증
 
 1. Istio svc 확인
@@ -85,5 +83,5 @@ categories: istio
     $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
     ```
 
-# 다음 포스트
+## 다음 포스트
 [마이크로서비스 샘플앱(BookInfo) 배포하기](/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)
