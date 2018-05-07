@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-07T00:50:10+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">SJ Blog</title><subtitle></subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Istio Intelligent Routing #2 가중치 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #2 가중치 기반 라우팅" /><published>2018-05-02T20:46:39+09:00</published><updated>2018-05-02T20:46:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html">&lt;p&gt;이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-07T21:59:16+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">SJ Blog</title><subtitle></subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Istio Intelligent Routing #3 가중치 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #3 가중치 기반 라우팅" /><published>2018-05-07T15:20:05+09:00</published><updated>2018-05-07T15:20:05+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html">&lt;p&gt;이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.&lt;/p&gt;
 
-&lt;h1 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h1&gt;
+&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -15,7 +15,7 @@
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h1 id=&quot;가중치-기반-라우팅&quot;&gt;가중치 기반 라우팅&lt;/h1&gt;
+&lt;h2 id=&quot;가중치-기반-라우팅&quot;&gt;가중치 기반 라우팅&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -159,9 +159,177 @@
 
     &lt;p&gt;이제 아무 사용자로 제품 페이지에 로그인 할 수 있으며 항상 빨간색 별표가 표시됩니다.&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.</summary></entry><entry><title type="html">Istio Intelligent Routing #1 콘텐츠 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #1 콘텐츠 기반 라우팅" /><published>2018-04-26T20:46:39+09:00</published><updated>2018-04-26T20:46:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html">&lt;p&gt;이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.&lt;/p&gt;
+&lt;/ol&gt;
 
-&lt;h1 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h1&gt;
+&lt;h2 id=&quot;이해하기&quot;&gt;이해하기&lt;/h2&gt;
+&lt;p&gt;이 예제에서는 Istio의 가중치 기반 라우팅 기능을 사용하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스로의 트래픽을 이전 버전에서 새 버전으로 마이그레이션했습니다. 이는 인스턴스 scaling을 사용하여 트래픽을 관리하는 컨테이너 오케스트레이션 플랫폼의 배포 기능을 사용하는 버전 마이그레이션과 매우 다릅니다. Istio를 사용하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스의 두 버전간의 트래픽 분산에 영향을 미치지 않고 독립적으로 확장 및 축소 할 수 있습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.</summary></entry><entry><title type="html">Istio Intelligent Routing #2 오류 주입</title><link href="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #2 오류 주입" /><published>2018-05-02T20:11:20+09:00</published><updated>2018-05-02T20:11:20+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html">&lt;p&gt;이 문서는 지연을 주입하고 애플리케이션의 복원력을 테스트하는 방법을 보여줍니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kubernetes에 Istio 설치하기&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;를 참고하여 Kubernetes에 Istio 설치합니다.&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html&quot;&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/a&gt;를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;애플리케이션의 버전 라우팅 초기화하기&lt;/p&gt;
+
+    &lt;p&gt;아래 명령을 실행하여 버전 라우팅을 초기화합니다. 이미 생성한 라우팅이 있으면 &lt;code class=&quot;highlighter-rouge&quot;&gt;create&lt;/code&gt; 대신 &lt;code class=&quot;highlighter-rouge&quot;&gt;replace&lt;/code&gt; 명령을 사용합니다.&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
+ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;http-지연을-사용한-오류-주입&quot;&gt;HTTP 지연을 사용한 오류 주입&lt;/h2&gt;
+&lt;p&gt;Bookinfo 마이크로서비스의 복원력을 테스트하기 위해, &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v2&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;ratings&lt;/code&gt; 마이크로서비스 사이에 7s의 지연을 주입합니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v2&lt;/code&gt; 서비스는 &lt;code class=&quot;highlighter-rouge&quot;&gt;ratings&lt;/code&gt; 서비스로의 요청에 대해 10s의 timeout을 갖기 때문에, 그 요청에 에러가 발생하지 않을 것으로 예상할 수 있습니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;의 트래픽을 지연시키는 오류 주입 규칙을 생성합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;생성한 규칙 확인&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerule ratings-test-delay -o yaml
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: ratings-test-delay
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: ratings
+   httpFault:
+     delay:
+       fixedDelay: 7.000s
+       percent: 100
+   match:
+     request:
+       headers:
+         cookie:
+           regex: ^(.*?;)?(user=jason)(;.*)?$
+   precedence: 2
+   route:
+   - labels:
+       version: v1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;모든 pods에 규칙이 전파되도록 몇 초간 대기합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;애플리케이션의 동작 확인&lt;/p&gt;
+
+    &lt;p&gt;사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;으로 로그인합니다. 애플리케이션의 프론트 페이지가 지연을 올바르게 처리하도록 설정되어 있으면, 약 7초 내로 로드될 것으로 예상됩니다.
+ 웹 페이지 응답 시간을 보려면, IE, Chrome 또는 Firefox (일반적으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl + Shift + I&lt;/code&gt; 또는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Alt + Cmd + I&lt;/code&gt; 키 조합)의 개발자 도구 메뉴를 열고 네트워크 탭을 클릭 한 다음 &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt;를 다시 로드하십시오.&lt;br /&gt;
+ 약 6 초 후에 웹 페이지가 로드됩니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 섹션에 &lt;b&gt;“죄송합니다. 현재 이 책에 대한 제품 리뷰를 사용할 수 없습니다.”&lt;/b&gt;라고 표시 될 것입니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_fault_injection_delay_error.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;이해하기&quot;&gt;이해하기&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스에 에러가 난 이유는 Bookinfo 애플리케이션에 버그가 있기 때문입니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스 간의 timeout(3s + 1 retry = 6s total)은 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;ratings&lt;/code&gt; 서비스 사이의 timeout(10s)보다 작습니다. 이런 버그는 서로 다른 팀이 마이크로서비스를 독립적으로 개발하는 환경에서 발생할 수 있습니다. Istio의 &lt;b&gt;오류 주입&lt;/b&gt; 규칙은 사용자에게 영향을 주지 않고 이런 예외를 식별하는 데 도움을 줍니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;이 예제에서는 에러가 사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;에게만 영향을 주도록 제한하고 있습니다. 다른 사용자로 로그인하면 지연이 발생하지 않습니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;버그 수정: 일반적으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt; timeout 늘리거나 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;ratings&lt;/code&gt; 서비스 간의 timeout을 줄여 문제를 해결합니다.&lt;br /&gt;
+아래와 같이 지연을 2.8초로 변경하여 문제가 해결되는지 확인합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl edit routerule ratings-test-delay
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  creationTimestamp: null
+  name: ratings-test-delay
+  ...
+spec:
+  destination:
+    name: ratings
+  httpFault:
+    delay:
+      fixedDelay: 2.800s
+      percent: 100
+  match:
+    request:
+      headers:
+        cookie:
+          regex: ^(.*?;)?(user=jason)(;.*)?$
+  precedence: 2
+  route:
+  - labels:
+      version: v1
+---
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_fault_injection_delay_fixed.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;http-중단을-사용한-오류-주입&quot;&gt;HTTP 중단을 사용한 오류 주입&lt;/h2&gt;
+&lt;p&gt;다른 복원력 테스트 방법으로써 HTTP 중단을 소개합니다. 지연을 통한 방법과 달리 페이지가 즉시 로드되고 ‘ratings 서비스 사용할 수 없음’이라는 메시지가 표시됩니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;지연을 사용한 오류 주입 규칙을 삭제합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;에게 HTTP 중단을 보내기 위한 오류 주입 규칙을 생성합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;생성한 규칙 확인&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerules ratings-test-abort -o yaml
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: ratings-test-abort
+   namespace: default
+   ...
+ spec:
+   destination:
+     name: ratings
+   httpFault:
+     abort:
+       httpStatus: 500
+       percent: 100
+   match:
+     request:
+       headers:
+         cookie:
+           regex: ^(.*?;)?(user=jason)(;.*)?$
+   precedence: 2
+   route:
+   - labels:
+       version: v1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;애플리케이션의 동작 확인
+사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;으로 로그인합니다. 규칙이 모든 pods에 전파되면 “ratings 서비스 사용할 수 없음”이라는 메시지와 함께 페이지가 표시됩니다. 사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;에서 로그 아웃하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt; 페이지에 ratings v1이 정상적으로 표시됩니다.&lt;/p&gt;
+
+    &lt;p&gt;HTTP 중단을 사용한 오류 주입 상태
+ &lt;img src=&quot;/blog/assets/images/istio_fault_injection_aborted.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;ratings v1이 정상적으로 표시 상태
+ &lt;img src=&quot;/blog/assets/images/istio_fault_injection_not_aborted.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/07/istio-intelligent-routing-3.html&quot;&gt;Istio Intelligent Routing #3 가중치 기반 라우팅&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 지연을 주입하고 애플리케이션의 복원력을 테스트하는 방법을 보여줍니다.</summary></entry><entry><title type="html">Istio Intelligent Routing #1 콘텐츠 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #1 콘텐츠 기반 라우팅" /><published>2018-04-26T20:46:39+09:00</published><updated>2018-04-26T20:46:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html">&lt;p&gt;이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -176,7 +344,7 @@
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h1 id=&quot;콘텐츠-기반-라우팅&quot;&gt;콘텐츠 기반 라우팅&lt;/h1&gt;
+&lt;h2 id=&quot;콘텐츠-기반-라우팅&quot;&gt;콘텐츠 기반 라우팅&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -296,8 +464,8 @@
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h1 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h1&gt;
-&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/02/istio-intelligent-routing-2.html&quot;&gt;Istio Intelligent Routing #2 가중치 기반 라우팅&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.</summary></entry><entry><title type="html">마이크로서비스 샘플앱(BookInfo) 배포하기</title><link href="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html" rel="alternate" type="text/html" title="마이크로서비스 샘플앱(BookInfo) 배포하기" /><published>2018-04-26T20:20:39+09:00</published><updated>2018-04-26T20:20:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html">&lt;p&gt;이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.&lt;/p&gt;
+&lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/02/istio-intelligent-routing-2.html&quot;&gt;Istio Intelligent Routing #2 오류 주입&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.</summary></entry><entry><title type="html">마이크로서비스 샘플앱(BookInfo) 배포하기</title><link href="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html" rel="alternate" type="text/html" title="마이크로서비스 샘플앱(BookInfo) 배포하기" /><published>2018-04-26T20:20:39+09:00</published><updated>2018-04-26T20:20:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html">&lt;p&gt;이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.&lt;/p&gt;
 
 &lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
 &lt;p&gt;이 가이드에서는 온라인 서점의 카탈로그 항목과 비슷한 책에 대한 정보를 표시하는 간단한 애플리케이션을 배포합니다. 이 페이지에는 책에 대한 설명, 책 세부 정보 (ISBN, 페이지 수 등) 및 몇 권의 서평이 표시됩니다.&lt;br /&gt;&lt;/p&gt;

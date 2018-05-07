@@ -3,20 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.4.0 -->
-<title>Istio Intelligent Routing #1 콘텐츠 기반 라우팅 | SJ Blog</title>
+<title>Istio Intelligent Routing #3 가중치 기반 라우팅 | SJ Blog</title>
 <meta name="generator" content="Jekyll v3.8.0" />
-<meta property="og:title" content="Istio Intelligent Routing #1 콘텐츠 기반 라우팅" />
+<meta property="og:title" content="Istio Intelligent Routing #3 가중치 기반 라우팅" />
 <meta name="author" content="윤상준" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다." />
-<meta property="og:description" content="이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다." />
-<link rel="canonical" href="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html" />
-<meta property="og:url" content="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html" />
+<meta name="description" content="이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다." />
+<meta property="og:description" content="이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다." />
+<link rel="canonical" href="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html" />
+<meta property="og:url" content="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html" />
 <meta property="og:site_name" content="SJ Blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-04-26T20:46:39+09:00" />
+<meta property="article:published_time" content="2018-05-07T15:20:05+09:00" />
 <script type="application/ld+json">
-{"description":"이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html","headline":"Istio Intelligent Routing #1 콘텐츠 기반 라우팅","dateModified":"2018-04-26T20:46:39+09:00","datePublished":"2018-04-26T20:46:39+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html"},"@context":"http://schema.org"}</script>
+{"description":"이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html","headline":"Istio Intelligent Routing #3 가중치 기반 라우팅","dateModified":"2018-05-07T15:20:05+09:00","datePublished":"2018-05-07T15:20:05+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="SJ Blog" /></head>
 <body><header class="site-header" role="banner">
@@ -39,14 +39,14 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Istio Intelligent Routing #1 콘텐츠 기반 라우팅</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Istio Intelligent Routing #3 가중치 기반 라우팅</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2018-04-26T20:46:39+09:00" itemprop="datePublished">Apr 26, 2018
+      <time class="dt-published" datetime="2018-05-07T15:20:05+09:00" itemprop="datePublished">May 7, 2018
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">윤상준</span></span></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.</p>
+    <p>이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.</p>
 
 <h2 id="사전-준비">사전 준비</h2>
 
@@ -63,17 +63,14 @@
   </li>
 </ol>
 
-<h2 id="콘텐츠-기반-라우팅">콘텐츠 기반 라우팅</h2>
+<h2 id="가중치-기반-라우팅">가중치 기반 라우팅</h2>
 
 <ol>
   <li>
-    <p>모든 마이크로서비스에 대해 기본버전을 v1으로 적용합니다.</p>
+    <p>모든 마이크로서비스 대해 기본 버전을 v1으로 적용합니다.</p>
 
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
 </code></pre></div>    </div>
-
-    <p>참고: istioctl은 kubectl로 대체할 수 있습니다. 하지만 kubectl은 현재 유효성 검사를 하지 않습니다.</p>
-
     <p>아래 명령어를 통해 route rule을 조회할 수 있습니다.</p>
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ istioctl get routerules -o yaml
  apiVersion: config.istio.io/v1alpha2
@@ -135,56 +132,85 @@
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>BookInfo app 접속</p>
+    <p>브라우저에서 <code class="highlighter-rouge">http://$GATEWAY_ADDRESS/productpage</code> 페이지를 열어 v1이 reviews 서비스의 기본 버전인지 확인합니다.</p>
 
-    <p>http://$GATEWAY_ADDRESS/productpage <br />
- Bookinfo application의 <code class="highlighter-rouge">productpage</code>를 볼수 있습니다.<br />
- <code class="highlighter-rouge">reviews:v1</code> 인스턴스 에는 rating stars가 없으므로 표시되지 않습니다.<br /></p>
+    <p>Bookinfo 애플리케이션의 productpage가 표시되어야합니다. v1은 ratings 서비스에 액세스하지 않으므로 productpage에 별표가 표시되지 않습니다.</p>
 
-    <p><img src="/blog/assets/images/istio_intel_routing_contents_norating.png" alt="" /></p>
+    <p>참고 : 이전에 콘텐츠 기반 라우팅 작업을 실행 한 경우 테스트 사용자 <code class="highlighter-rouge">jason</code>으로 로그 아웃하거나 생성 된 테스트 규칙을 삭제해야 합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ istioctl delete routerule reviews-test-v2
+</code></pre></div>    </div>
   </li>
   <li>
-    <p>특정 user로 접속</p>
+    <p>먼저 트래픽을 reviews:v1과 reviews:v3에 50:50 비율로 전송합니다.</p>
 
-    <p>아래 명령어를 실행하면 user <code class="highlighter-rouge">jason</code>이 <code class="highlighter-rouge">reviews:v2</code> 인스턴스로 접속되도록 설정할 수 있습니다.<br /></p>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ istioctl replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml
 </code></pre></div>    </div>
 
-    <p>설정 확인</p>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ istioctl get routerule reviews-test-v2 -o yaml
+    <p>아래 명령어를 통해 route rule을 조회할 수 있습니다.</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ istioctl get routerule reviews-default -o yaml
  apiVersion: config.istio.io/v1alpha2
  kind: RouteRule
  metadata:
-   creationTimestamp: null
-   name: reviews-test-v2
-   namespace: bookinfo
-   resourceVersion: "517883"
+   name: reviews-default
+   namespace: default
  spec:
    destination:
      name: reviews
-   match:
-     request:
-       headers:
-         cookie:
-           regex: ^(.*?;)?(user=jason)(;.*)?$
-   precedence: 2
+   precedence: 1
    route:
    - labels:
-       version: v2
- ---
+       version: v1
+     weight: 50
+   - labels:
+       version: v3
+     weight: 50
 </code></pre></div>    </div>
+
+    <p>브라우저에서 productpage를 새로 고침하면 빨간색 별표가 약 50%의 비율로 표시됩니다.</p>
+
+    <p><img src="/blog/assets/images/istio_intel_routing_contents_red_rating.png" alt="" /></p>
   </li>
   <li>
-    <p>productpage web page에서 user <code class="highlighter-rouge">jason</code>으로 접속</p>
+    <p>이번에는 트래픽을 reviews:v1과 reviews:v3에 20:80 비율로 전송합니다.</p>
 
-    <p>이제 ratings (1-5 stars)를 볼 수 있습니다. 로그인하지 않으면 <code class="highlighter-rouge">reviews:v1</code> 인스턴스로 접속됩니다.<br /></p>
+    <p>아래와 같이 route rule을 수정합니다.</p>
 
-    <p><img src="/blog/assets/images/istio_intel_routing_contents_rating.png" alt="" /></p>
+    <p>참고 : istioctl CLI에는 edit 명령어가 없으므로 kubectl 명령어를 사용합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ kubectl edit routerule reviews-default
+ apiVersion: config.istio.io/v1alpha2
+ kind: RouteRule
+ metadata:
+   name: reviews-default
+   namespace: default
+ spec:
+   destination:
+     name: reviews
+   precedence: 1
+   route:
+   - labels:
+       version: v1
+     weight: 20
+   - labels:
+       version: v3
+     weight: 80
+</code></pre></div>    </div>
+
+    <p>브라우저에서 productpage를 새로 고침하면 빨간색 별표가 약 80%의 비율로 표시됩니다.</p>
+  </li>
+  <li>
+    <p>reviews 마이크로서비스의 버전 v3가 안정적이라고 판단되면 트래픽의 100%를 reviews:v3에 라우팅 할 수 있습니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ istioctl replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
+</code></pre></div>    </div>
+
+    <p>이제 아무 사용자로 제품 페이지에 로그인 할 수 있으며 항상 빨간색 별표가 표시됩니다.</p>
   </li>
 </ol>
 
-<h2 id="다음-포스트">다음 포스트</h2>
-<p><a href="/blog/istio/2018/05/02/istio-intelligent-routing-2.html">Istio Intelligent Routing #2 오류 주입</a></p>
+<h2 id="이해하기">이해하기</h2>
+<p>이 예제에서는 Istio의 가중치 기반 라우팅 기능을 사용하여 <code class="highlighter-rouge">reviews</code> 서비스로의 트래픽을 이전 버전에서 새 버전으로 마이그레이션했습니다. 이는 인스턴스 scaling을 사용하여 트래픽을 관리하는 컨테이너 오케스트레이션 플랫폼의 배포 기능을 사용하는 버전 마이그레이션과 매우 다릅니다. Istio를 사용하면 <code class="highlighter-rouge">reviews</code> 서비스의 두 버전간의 트래픽 분산에 영향을 미치지 않고 독립적으로 확장 및 축소 할 수 있습니다.</p>
 
   </div>
 <div id="disqus_thread"></div>
@@ -206,7 +232,7 @@
   })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a class="u-url" href="/blog/istio/2018/04/26/istio-intelligent-routing-1.html" hidden></a>
+<a class="u-url" href="/blog/istio/2018/05/07/istio-intelligent-routing-3.html" hidden></a>
 </article>
 
       </div>

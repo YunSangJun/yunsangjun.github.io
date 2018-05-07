@@ -8,7 +8,7 @@ categories: istio
 
 이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.
 
-# 사전 준비
+## 사전 준비
 
 1. Kubernetes에 Istio 설치하기
 
@@ -19,7 +19,7 @@ categories: istio
     [마이크로서비스 샘플앱(BookInfo) 배포하기](/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.<br />
 
 
-# 콘텐츠 기반 라우팅
+## 콘텐츠 기반 라우팅
 
 1. 모든 마이크로서비스에 대해 기본버전을 v1으로 적용합니다.
 
@@ -136,5 +136,5 @@ categories: istio
 
     ![](/blog/assets/images/istio_intel_routing_contents_rating.png)
 
-# 다음 포스트
-[Istio Intelligent Routing #2 가중치 기반 라우팅](/blog/istio/2018/05/02/istio-intelligent-routing-2.html)
+## 다음 포스트
+[Istio Intelligent Routing #2 오류 주입](/blog/istio/2018/05/02/istio-intelligent-routing-2.html)
