@@ -41,7 +41,7 @@ categories: istio
     $ kubectl apply -f install/kubernetes/istio-auth.yaml
     ```
 
-5. 옵션: 자동으로 사이드카를 주입하도록 설정하고 싶으면 sidecar injector webhook을 설치합니다.
+5. 옵션: 자동으로 사이드카를 주입하도록 설정하고 싶으면 sidecar injector webhook을 설치합니다.<br>
 참고: Kubernetes 버전이 1.9 이상이어야 합니다.
 
 ## 설치 검증
@@ -69,19 +69,19 @@ categories: istio
 
 ## 애플리케이션 배포
 
-    Bookinfo와 같은 샘플 애플리케이션 또는 자체 개발한 애플리케이션을 배포 할 수 있습니다. <br>
-    참고 : `HTTP / 1.0`은 지원되지 않으므로 애플리케이션은 `HTTP / 1.1` 또는 `HTTP / 2.0` 프로토콜을 사용해야합니다.<br>
+Bookinfo와 같은 샘플 애플리케이션 또는 자체 개발한 애플리케이션을 배포 할 수 있습니다. <br>
+참고 : `HTTP / 1.0`은 지원되지 않으므로 애플리케이션은 `HTTP / 1.1` 또는 `HTTP / 2.0` 프로토콜을 사용해야합니다.<br>
 
-    Istio-sidecar-injector를 사용한다면 `kubectl create` 명령어만 사용해 애플리케이션을 배포하면 됩니다. Istio-sidecar-injector는 `istio-injection = enabled`로 이름 붙여진 네임스페이스에서 실행되는 애플리케이션 pods에 Envoy 컨테이너를 자동으로 주입합니다.
-    ```
-    $ kubectl label namespace <namespace> istio-injection=enabled
-    $ kubectl create -n <namespace> -f <your-app-spec>.yaml
-    ```
+Istio-sidecar-injector를 사용한다면 `kubectl create` 명령어만 사용해 애플리케이션을 배포하면 됩니다. Istio-sidecar-injector는 `istio-injection = enabled`로 이름 붙여진 네임스페이스에서 실행되는 애플리케이션 pods에 Envoy 컨테이너를 자동으로 주입합니다.
+```
+$ kubectl label namespace <namespace> istio-injection=enabled
+$ kubectl create -n <namespace> -f <your-app-spec>.yaml
+```
 
-    Istio-sidecar-injector가 설치되어 있지 않은 경우 애플리케이션을 배포하기 전에 istioctl kube-inject를 사용하여 Envoy 컨테이너를 애플리케이션에 수동으로 주입해야합니다.
-    ```
-    $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
-    ```
+Istio-sidecar-injector가 설치되어 있지 않은 경우 애플리케이션을 배포하기 전에 istioctl kube-inject를 사용하여 Envoy 컨테이너를 애플리케이션에 수동으로 주입해야합니다.
+```
+$ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
+```
 
 ## 다음 포스트
 [마이크로서비스 샘플앱(BookInfo) 배포하기](/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)
