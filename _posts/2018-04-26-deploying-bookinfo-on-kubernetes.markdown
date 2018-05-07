@@ -48,11 +48,18 @@ Istio와 함께 샘플을 실행하기 위해 애플리케이션을 변경할 �
 
 1. BookInfo 애플리케이션 실행
 
-    사전 준비에서 다운로드한 Istio 설치 디렉터리의 root로 이동한 후 아래 명령을 실행합니다.
-
+    수동으로 사이트카 주입을 하는 경우 아래 명령어를 실행합니다.
     ```
     $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
     ```
+
+    자동 사이드카 주입 기능이 활성화되어 있는 경우 아래 명령어를 실행합니다.
+    ```
+    $ kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
+    ```
+
+    istioctl kube-inject 명령은 애플리케이션을 배포하기 전에 bookinfo.yaml 파일을 수동으로 수정하는 데 사용됩니다.
+    이 명령은 다이어그램에서 설명한 것처럼 네 개의 마이크로서비스를 시작하고 게이트웨이 ingress 자원을 생성합니다. `reviews` 서비스 v1, v2 및 v3의 3 가지 버전이 모두 시작됩니다.<br>
 
 2. BookInfo svc 확인
 
