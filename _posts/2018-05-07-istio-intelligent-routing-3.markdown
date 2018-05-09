@@ -166,3 +166,6 @@ categories: istio
 
 ## 이해하기
 이 예제에서는 Istio의 가중치 기반 라우팅 기능을 사용하여 `reviews` 서비스로의 트래픽을 이전 버전에서 새 버전으로 마이그레이션했습니다. 이는 인스턴스 scaling을 사용하여 트래픽을 관리하는 컨테이너 오케스트레이션 플랫폼의 배포 기능을 사용하는 버전 마이그레이션과 매우 다릅니다. Istio를 사용하면 `reviews` 서비스의 두 버전간의 트래픽 분산에 영향을 미치지 않고 독립적으로 확장 및 축소 할 수 있습니다.
+
+## 참고 자료
+https://istio.io/docs/tasks/traffic-management/traffic-shifting.html

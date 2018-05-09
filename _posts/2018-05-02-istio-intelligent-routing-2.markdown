@@ -160,5 +160,8 @@ spec:
     ratings v1이 정상적으로 표시 상태
     ![](/blog/assets/images/istio_fault_injection_not_aborted.png)
 
+## 참고 자료
+https://istio.io/docs/tasks/traffic-management/fault-injection.html
+
 ## 다음 포스트
 [Istio Intelligent Routing #3 가중치 기반 라우팅](/blog/istio/2018/05/07/istio-intelligent-routing-3.html)

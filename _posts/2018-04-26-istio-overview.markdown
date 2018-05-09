@@ -6,7 +6,7 @@ date: 2018-04-26 19:40:39 +0900
 categories: istio
 ---
 
-# Overview
+## Overview
 Istio는 로드밸런싱, 서비스 대 서비스 인증, 모니터링을 통해 코드 변경없이 배포된 서비스의 네트워크를 쉽게 생성할 수 있는 방법을 제공합니다.<br />
 Istio의 control plane을 사용하여 설정 및 관리되고, 마이크로서비스의 모든 통신을 가로채는 환경에 특수한 sidecar proxy를 배포하여 Istio를 서비스에 추가할 수 있습니다.<br />
 Istio는 현재 Kubernetes 환경만을 지원하지만 향후 다른 환경도 지원할 예정입니다.<br />
@@ -87,5 +87,8 @@ Istio-Auth는 상호 TLS, 내장 아이디, 자격 증명 관리를 사용하는
 이것은 서비스 매시에서 암호화되지 않은 트래픽을 업그레이드하는데 사용 할 수 있으며, 네트워크 제어 대신 서비스 아이디에 기반하여 정책 적용을 할 수 있습니다.<br />
 Istio의 향후 배포에는 세분화 된 접근 제어 및 감사 기능이 추가되어 누가 서비스, API, 리소스에 접근하는지 제어 및 모니터링 할 수 있습니다.
 
-# 다음 포스트
+## 참고 자료
+https://istio.io/docs/concepts/what-is-istio/overview.html
+
+## 다음 포스트
 [Kubernetes에 Istio 설치하기](/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html)

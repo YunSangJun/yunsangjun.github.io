@@ -8,7 +8,7 @@ categories: istio
 
 이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.
 
-# Overview
+## Overview
 이 가이드에서는 온라인 서점의 카탈로그 항목과 비슷한 책에 대한 정보를 표시하는 간단한 애플리케이션을 배포합니다. 이 페이지에는 책에 대한 설명, 책 세부 정보 (ISBN, 페이지 수 등) 및 몇 권의 서평이 표시됩니다.<br>
 
 Bookinfo 애플리케이션은 4개의 마이크로서비스로 나뉩니다.<br>
@@ -31,20 +31,20 @@ reviews 마이크로서비스에는 3가지 버전이 있습니다.<br>
 
 ![BookInfo Application Without Istio](/blog/assets/images/bookinfo_noistio.svg)
 
-# 사전 준비
+## 사전 준비
 
 1. Kubernetes에 Istio 설치하기
 
     [Kubernetes에 Istio 설치하기](/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html)를 참고하여 Kubernetes에 Istio 설치합니다.<br />
 
-# BookInfo 애플리케이션
+## BookInfo 애플리케이션
 Istio와 함께 샘플을 실행하기 위해 애플리케이션을 변경할 필요는 없습니다. 대신, Istio가 활성화 된 환경에서 서비스를 구성하고 실행하면 각각의 서비스에 Envoy 사이드카가 주입됩니다. 필요한 명령과 구성은 런타임 환경에 따라 다르지만 모든 경우의 결과는 다음과 같습니다.
 
 ![BookInfo Application With Istio](/blog/assets/images/bookinfo_withistio.svg)
 
 모든 마이크로서비스는 Envoy 사이드카와 함께 패키지화되어 수신 및 발신 요청을 가로챕니다. Istio control plane, 라우팅, 원격 측정 수집 및 애플리케이션 전체에 대한 정책 적용을 통해 외부 제어에 필요한 후크를 제공합니다.
 
-# Kubernetes에서 BookInfo 애플리케이션 실행
+## Kubernetes에서 BookInfo 애플리케이션 실행
 
 1. BookInfo 애플리케이션 실행
 
@@ -102,5 +102,8 @@ Istio와 함께 샘플을 실행하기 위해 애플리케이션을 변경할 �
 
     ![](/blog/assets/images/istio_intel_routing_contents_norating.png)
 
-# 다음 포스트
+## 참고 자료
+https://istio.io/docs/guides/bookinfo.html
+
+## 다음 포스트
 [Istio Intelligent Routing #1 콘텐츠 기반 라우팅](/blog/istio/2018/04/26/istio-intelligent-routing-1.html)

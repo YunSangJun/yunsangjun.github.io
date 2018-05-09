@@ -83,5 +83,8 @@ Istio-sidecar-injector가 설치되어 있지 않은 경우 애플리케이션�
 $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 ```
 
+## 참고 자료
+https://istio.io/docs/setup/kubernetes/quick-start.html
+
 ## 다음 포스트
 [마이크로서비스 샘플앱(BookInfo) 배포하기](/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)

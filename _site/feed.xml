@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-08T22:30:44+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">SJ Blog</title><subtitle></subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Istio Intelligent Routing #3 가중치 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #3 가중치 기반 라우팅" /><published>2018-05-07T15:20:05+09:00</published><updated>2018-05-07T15:20:05+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html">&lt;p&gt;이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-10T00:13:21+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">SJ Blog</title><subtitle></subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Istio Intelligent Routing #3 가중치 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #3 가중치 기반 라우팅" /><published>2018-05-07T15:20:05+09:00</published><updated>2018-05-07T15:20:05+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html">&lt;p&gt;이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
@@ -162,7 +162,10 @@
 &lt;/ol&gt;
 
 &lt;h2 id=&quot;이해하기&quot;&gt;이해하기&lt;/h2&gt;
-&lt;p&gt;이 예제에서는 Istio의 가중치 기반 라우팅 기능을 사용하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스로의 트래픽을 이전 버전에서 새 버전으로 마이그레이션했습니다. 이는 인스턴스 scaling을 사용하여 트래픽을 관리하는 컨테이너 오케스트레이션 플랫폼의 배포 기능을 사용하는 버전 마이그레이션과 매우 다릅니다. Istio를 사용하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스의 두 버전간의 트래픽 분산에 영향을 미치지 않고 독립적으로 확장 및 축소 할 수 있습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.</summary></entry><entry><title type="html">Istio Intelligent Routing #2 오류 주입</title><link href="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #2 오류 주입" /><published>2018-05-02T20:11:20+09:00</published><updated>2018-05-02T20:11:20+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html">&lt;p&gt;이 문서는 지연을 주입하고 애플리케이션의 복원력을 테스트하는 방법을 보여줍니다.&lt;/p&gt;
+&lt;p&gt;이 예제에서는 Istio의 가중치 기반 라우팅 기능을 사용하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스로의 트래픽을 이전 버전에서 새 버전으로 마이그레이션했습니다. 이는 인스턴스 scaling을 사용하여 트래픽을 관리하는 컨테이너 오케스트레이션 플랫폼의 배포 기능을 사용하는 버전 마이그레이션과 매우 다릅니다. Istio를 사용하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스의 두 버전간의 트래픽 분산에 영향을 미치지 않고 독립적으로 확장 및 축소 할 수 있습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
+&lt;p&gt;https://istio.io/docs/tasks/traffic-management/traffic-shifting.html&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.</summary></entry><entry><title type="html">Istio Intelligent Routing #2 오류 주입</title><link href="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #2 오류 주입" /><published>2018-05-02T20:11:20+09:00</published><updated>2018-05-02T20:11:20+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html">&lt;p&gt;이 문서는 지연을 주입하고 애플리케이션의 복원력을 테스트하는 방법을 보여줍니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
@@ -326,6 +329,9 @@ spec:
   &lt;/li&gt;
 &lt;/ol&gt;
 
+&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
+&lt;p&gt;https://istio.io/docs/tasks/traffic-management/fault-injection.html&lt;/p&gt;
+
 &lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/07/istio-intelligent-routing-3.html&quot;&gt;Istio Intelligent Routing #3 가중치 기반 라우팅&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 지연을 주입하고 애플리케이션의 복원력을 테스트하는 방법을 보여줍니다.</summary></entry><entry><title type="html">Istio Intelligent Routing #1 콘텐츠 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #1 콘텐츠 기반 라우팅" /><published>2018-04-26T20:46:39+09:00</published><updated>2018-04-26T20:46:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html">&lt;p&gt;이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.&lt;/p&gt;
 
@@ -464,10 +470,13 @@ spec:
   &lt;/li&gt;
 &lt;/ol&gt;
 
+&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
+&lt;p&gt;https://istio.io/docs/tasks/traffic-management/request-routing.html&lt;/p&gt;
+
 &lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/02/istio-intelligent-routing-2.html&quot;&gt;Istio Intelligent Routing #2 오류 주입&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.</summary></entry><entry><title type="html">마이크로서비스 샘플앱(BookInfo) 배포하기</title><link href="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html" rel="alternate" type="text/html" title="마이크로서비스 샘플앱(BookInfo) 배포하기" /><published>2018-04-26T20:20:39+09:00</published><updated>2018-04-26T20:20:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html">&lt;p&gt;이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.&lt;/p&gt;
 
-&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;이 가이드에서는 온라인 서점의 카탈로그 항목과 비슷한 책에 대한 정보를 표시하는 간단한 애플리케이션을 배포합니다. 이 페이지에는 책에 대한 설명, 책 세부 정보 (ISBN, 페이지 수 등) 및 몇 권의 서평이 표시됩니다.&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;Bookinfo 애플리케이션은 4개의 마이크로서비스로 나뉩니다.&lt;br /&gt;&lt;/p&gt;
@@ -499,7 +508,7 @@ spec:
 
 &lt;p&gt;&lt;img src=&quot;/blog/assets/images/bookinfo_noistio.svg&quot; alt=&quot;BookInfo Application Without Istio&quot; /&gt;&lt;/p&gt;
 
-&lt;h1 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h1&gt;
+&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -509,14 +518,14 @@ spec:
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h1 id=&quot;bookinfo-애플리케이션&quot;&gt;BookInfo 애플리케이션&lt;/h1&gt;
+&lt;h2 id=&quot;bookinfo-애플리케이션&quot;&gt;BookInfo 애플리케이션&lt;/h2&gt;
 &lt;p&gt;Istio와 함께 샘플을 실행하기 위해 애플리케이션을 변경할 필요는 없습니다. 대신, Istio가 활성화 된 환경에서 서비스를 구성하고 실행하면 각각의 서비스에 Envoy 사이드카가 주입됩니다. 필요한 명령과 구성은 런타임 환경에 따라 다르지만 모든 경우의 결과는 다음과 같습니다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/blog/assets/images/bookinfo_withistio.svg&quot; alt=&quot;BookInfo Application With Istio&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;모든 마이크로서비스는 Envoy 사이드카와 함께 패키지화되어 수신 및 발신 요청을 가로챕니다. Istio control plane, 라우팅, 원격 측정 수집 및 애플리케이션 전체에 대한 정책 적용을 통해 외부 제어에 필요한 후크를 제공합니다.&lt;/p&gt;
 
-&lt;h1 id=&quot;kubernetes에서-bookinfo-애플리케이션-실행&quot;&gt;Kubernetes에서 BookInfo 애플리케이션 실행&lt;/h1&gt;
+&lt;h2 id=&quot;kubernetes에서-bookinfo-애플리케이션-실행&quot;&gt;Kubernetes에서 BookInfo 애플리케이션 실행&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -576,7 +585,10 @@ spec:
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h1 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h1&gt;
+&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
+&lt;p&gt;https://istio.io/docs/guides/bookinfo.html&lt;/p&gt;
+
+&lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/istio-intelligent-routing-1.html&quot;&gt;Istio Intelligent Routing #1 콘텐츠 기반 라우팅&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.</summary></entry><entry><title type="html">Kubernetes에 Istio 설치하기</title><link href="http://localhost:4000/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html" rel="alternate" type="text/html" title="Kubernetes에 Istio 설치하기" /><published>2018-04-26T20:00:39+09:00</published><updated>2018-04-26T20:00:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/deploying-istio-on-kubernetes</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html">&lt;p&gt;이 문서를 따라 Kubernetes에 Istio 설치 할 수 있습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;istio다운로드-및-설치&quot;&gt;Istio 다운로드 및 설치&lt;/h2&gt;
@@ -660,8 +672,11 @@ $ kubectl create -n &amp;lt;namespace&amp;gt; -f &amp;lt;your-app-spec&amp;gt;.y
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl create -f &amp;lt;(istioctl kube-inject -f &amp;lt;your-app-spec&amp;gt;.yaml)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
+&lt;p&gt;https://istio.io/docs/setup/kubernetes/quick-start.html&lt;/p&gt;
+
 &lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html&quot;&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서를 따라 Kubernetes에 Istio 설치 할 수 있습니다.</summary></entry><entry><title type="html">Istio Overview</title><link href="http://localhost:4000/blog/istio/2018/04/26/istio-overview.html" rel="alternate" type="text/html" title="Istio Overview" /><published>2018-04-26T19:40:39+09:00</published><updated>2018-04-26T19:40:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/istio-overview</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/istio-overview.html">&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html&quot;&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서를 따라 Kubernetes에 Istio 설치 할 수 있습니다.</summary></entry><entry><title type="html">Istio Overview</title><link href="http://localhost:4000/blog/istio/2018/04/26/istio-overview.html" rel="alternate" type="text/html" title="Istio Overview" /><published>2018-04-26T19:40:39+09:00</published><updated>2018-04-26T19:40:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/istio-overview</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/istio-overview.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;Istio는 로드밸런싱, 서비스 대 서비스 인증, 모니터링을 통해 코드 변경없이 배포된 서비스의 네트워크를 쉽게 생성할 수 있는 방법을 제공합니다.&lt;br /&gt;
 Istio의 control plane을 사용하여 설정 및 관리되고, 마이크로서비스의 모든 통신을 가로채는 환경에 특수한 sidecar proxy를 배포하여 Istio를 서비스에 추가할 수 있습니다.&lt;br /&gt;
 Istio는 현재 Kubernetes 환경만을 지원하지만 향후 다른 환경도 지원할 예정입니다.&lt;br /&gt;
@@ -752,7 +767,10 @@ Pilot은 플랫폼 특화 서비스 검색 메커니즘을 추상화하고 이�
 이것은 서비스 매시에서 암호화되지 않은 트래픽을 업그레이드하는데 사용 할 수 있으며, 네트워크 제어 대신 서비스 아이디에 기반하여 정책 적용을 할 수 있습니다.&lt;br /&gt;
 Istio의 향후 배포에는 세분화 된 접근 제어 및 감사 기능이 추가되어 누가 서비스, API, 리소스에 접근하는지 제어 및 모니터링 할 수 있습니다.&lt;/p&gt;
 
-&lt;h1 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h1&gt;
+&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
+&lt;p&gt;https://istio.io/docs/concepts/what-is-istio/overview.html&lt;/p&gt;
+
+&lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Overview Istio는 로드밸런싱, 서비스 대 서비스 인증, 모니터링을 통해 코드 변경없이 배포된 서비스의 네트워크를 쉽게 생성할 수 있는 방법을 제공합니다. Istio의 control plane을 사용하여 설정 및 관리되고, 마이크로서비스의 모든 통신을 가로채는 환경에 특수한 sidecar proxy를 배포하여 Istio를 서비스에 추가할 수 있습니다. Istio는 현재 Kubernetes 환경만을 지원하지만 향후 다른 환경도 지원할 예정입니다. Istio components에 대한 자세한 정보를 원하면 다른 컨셉들의 가이드를 참고하세요.</summary></entry><entry><title type="html">Github Page를 활용해 블로그 만들기</title><link href="http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog.html" rel="alternate" type="text/html" title="Github Page를 활용해 블로그 만들기" /><published>2018-04-06T14:46:39+09:00</published><updated>2018-04-06T14:46:39+09:00</updated><id>http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog</id><content type="html" xml:base="http://localhost:4000/blog/etc/2018/04/06/how-to-create-blog.html">&lt;p&gt;Github는 소스코드 형상관리 도구인 Git을 사용하는 프로젝트를 지원하는 웹 호스팅 서비스입니다.&lt;br /&gt;
 Private repository를 만들지 않는 이상 무료로 제공되는 서비스입니다.&lt;br /&gt;
 Github Page는 Github에 업로드한 소스코드를 웹 호스팅 해주는 기능입니다. 추가적인 비용을 들여 웹 호스팅 서비스를 신청하지 않아도 자신만의 블로그, 웹 사이트를 서비스 할 수 있습니다.&lt;br /&gt;

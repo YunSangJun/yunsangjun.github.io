@@ -136,5 +136,8 @@ categories: istio
 
     ![](/blog/assets/images/istio_intel_routing_contents_rating.png)
 
+## 참고 자료
+https://istio.io/docs/tasks/traffic-management/request-routing.html
+
 ## 다음 포스트
 [Istio Intelligent Routing #2 오류 주입](/blog/istio/2018/05/02/istio-intelligent-routing-2.html)
