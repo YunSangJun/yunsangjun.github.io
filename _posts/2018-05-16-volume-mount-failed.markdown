@@ -32,39 +32,39 @@ Events:
 
 1. 해당 Pod가 실행중인 Node에 접속
 
-```
-$ kubectl get pod xxx -o wide
-NAME  READY     STATUS              RESTARTS   AGE       IP        NODE
-xxx   0/1       ContainerCreating   0          1m        <none>    10.178.218.181
+    ```
+    $ kubectl get pod xxx -o wide
+    NAME  READY     STATUS              RESTARTS   AGE       IP        NODE
+    xxx   0/1       ContainerCreating   0          1m        <none>    10.178.218.181
 
-$ ssh user@10.178.218.181
-```
+    $ ssh user@10.178.218.181
+    ```
 
 2. 해당 Pod가 mount 하려는 device를 찾아서 umount
 
-```
-$ df -h |grep xxx
-/dev/mapper/xxx  20G  232M  19G  2%   /var/lib/kubelet/plugins/kubernetes.io/flexvolume/ibm/ibmc-block/mounts/pvc-xxx
+    ```
+    $ df -h |grep xxx
+    /dev/mapper/xxx  20G  232M  19G  2%   /var/lib/kubelet/plugins/kubernetes.io/flexvolume/ibm/ibmc-block/mounts/pvc-xxx
 
-$ umount -v /dev/mapper/xxx
-/dev/mapper/xxx umounted...
-```
+    $ umount -v /dev/mapper/xxx
+    /dev/mapper/xxx umounted...
+    ```
 
 3. 해당 Pod 삭제해 재시작하면 정상적으로 mount 됨
 
-```
-$ kubectl delete pod xxx
+    ```
+    $ kubectl delete pod xxx
 
-$ kubectl describe pod xxx
-...
-Events:
-  Type    Reason                 Age   From                     Message
-  ----    ------                 ----  ----                     -------
-  Normal  Scheduled              43m   default-scheduler        Successfully assigned xxx to 10.178.218.181
-  Normal  SuccessfulMountVolume  43m   kubelet, 10.178.218.181  MountVolume.SetUp succeeded for volume "default-token-z84t8"
-  Normal  SuccessfulMountVolume  43m   kubelet, 10.178.218.181  MountVolume.SetUp succeeded for volume "pvc-xxx"
-  ...
-  Normal  Created                42m   kubelet, 10.178.218.181  Created container
-  Normal  Started                42m   kubelet, 10.178.218.181  Started container
+    $ kubectl describe pod xxx
+    ...
+    Events:
+      Type    Reason                 Age   From                     Message
+      ----    ------                 ----  ----                     -------
+      Normal  Scheduled              43m   default-scheduler        Successfully assigned xxx to 10.178.218.181
+      Normal  SuccessfulMountVolume  43m   kubelet, 10.178.218.181  MountVolume.SetUp succeeded for volume "default-token-z84t8"
+      Normal  SuccessfulMountVolume  43m   kubelet, 10.178.218.181  MountVolume.SetUp succeeded for volume "pvc-xxx"
+      ...
+      Normal  Created                42m   kubelet, 10.178.218.181  Created container
+      Normal  Started                42m   kubelet, 10.178.218.181  Started container
 
-```
+    ```
