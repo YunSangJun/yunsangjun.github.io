@@ -10,6 +10,7 @@ categories: kubernetes
 
 이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다.<br>
 상세한 내용은 아래 링크를 참고하세요.
+
 https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 
 ### Docker Private Registry에 로그인
@@ -40,10 +41,10 @@ Kubernetes 클러스터는 docker-registry 유형의 Secret을 사용하여 컨�
 ```
 kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
 ```
-- <your-registry-server> is your Private Docker Registry FQDN.
-- <your-name> is your Docker username.
-- <your-pword> is your Docker password.
-- <your-email> is your Docker email.
+- your-registry-server : Private Docker Registry FQDN.
+- your-name : Docker username.
+- your-pword : Docker password.
+- your-email : Docker email.
 
 ### Secret 확인하기
 
