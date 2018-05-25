@@ -2,7 +2,17 @@
   
     {
 
-      "title"    : "Pull an Image from a Private Registry",
+      "title"    : "Helm chart repository 호스팅",
+      "url"      : "/blog/helm/2018/05/26/hosting-helm-chart-repository.html",
+      "category" : "helm",
+      "tags"     : "",
+      "date"     : "2018-05-26 02:44:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Docker Private Registry로 부터 이미지 가져오기",
       "url"      : "/blog/kubernetes/2018/05/25/pull-image-from-private-registry.html",
       "category" : "kubernetes",
       "tags"     : "",
@@ -32,7 +42,7 @@
   
     {
 
-      "title"    : "OAuth Proxy",
+      "title"    : "OAuth Proxy를 활용한 애플리케이션 인증 및 인가",
       "url"      : "/blog/authentication/2018/05/23/oauth-proxy.html",
       "category" : "authentication",
       "tags"     : "",
