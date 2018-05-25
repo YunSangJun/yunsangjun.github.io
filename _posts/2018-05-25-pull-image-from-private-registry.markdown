@@ -1,19 +1,17 @@
 ---
 layout: post
-title:  "Pull an Image from a Private Registry"
+title:  "Docker Private Registry로 부터 이미지 가져오기"
 author: 윤상준
 date: 2018-05-25 18:41:05 +0900
 categories: kubernetes
 ---
-
-## Docker Private Registry로 부터 이미지 가져오기
 
 이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다.<br>
 상세한 내용은 아래 링크를 참고하세요.
 
 https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 
-### Docker Private Registry에 로그인
+## Docker Private Registry에 로그인
 
 개인 이미지를 가져오려면 Registry로 인증해야합니다. 
 ```
@@ -32,7 +30,7 @@ $ cat ~/.docker/config.json
 }
 ```
 
-### 인증 토큰을 사용하여 Secret 생성하기 
+## 인증 토큰을 사용하여 Secret 생성하기 
 
 Kubernetes 클러스터는 docker-registry 유형의 Secret을 사용하여 컨테이너 레지스트리로 인증하여 개인 이미지를 가져옵니다.
 
@@ -46,7 +44,7 @@ kubectl create secret docker-registry regcred --docker-server=<your-registry-ser
 - your-pword : Docker password.
 - your-email : Docker email.
 
-### Secret 확인하기
+## Secret 확인하기
 
 `regcred` Secret 내용 조회 
 
@@ -77,7 +75,7 @@ $ echo "c3R...zE2" | base64 -d
 janedoe:xxxxxxxxxxx
 ```
 
-### Secret을 사용하여 Pod 생성하기 
+## Secret을 사용하여 Pod 생성하기 
 
 Pod yaml 생성
 
