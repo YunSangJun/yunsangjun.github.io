@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/assets/css/home.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>OAuth Proxy | SJ Blog</title>
+<meta name="generator" content="Jekyll v3.8.0" />
+<meta property="og:title" content="OAuth Proxy" />
+<meta name="author" content="윤상준" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다." />
+<meta property="og:description" content="OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다." />
+<link rel="canonical" href="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html" />
+<meta property="og:url" content="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html" />
+<meta property="og:site_name" content="SJ Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-23T02:01:05+09:00" />
+<script type="application/ld+json">
+{"description":"OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html","headline":"OAuth Proxy","dateModified":"2018-05-23T02:01:05+09:00","datePublished":"2018-05-23T02:01:05+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="SJ Blog" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">SJ Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OAuth Proxy</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-23T02:01:05+09:00" itemprop="datePublished">May 23, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">윤상준</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다.</p>
+
+<p>이 문서에서는 Keycloak Proxy를 활용하여 애플리케이션의 인증을 처리하는 방법에 대한 가이드를 제공합니다.
+아래의 “데모 애플리케이션”과 “Keycloak Proxy” 배포 따라하기를 통해 Keycloak Proxy를 활용한 인증방법을 쉽게 이해할 수 있습니다.</p>
+
+<h2 id="데모-애플리케이션-배포하기">데모 애플리케이션 배포하기</h2>
+
+<h3 id="구조">구조</h3>
+
+<h3 id="다운로드">다운로드</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/YunSangJun/keycloak-proxy-demo
+$ cd keycloak-proxy-demo
+</code></pre></div></div>
+
+<h3 id="배포">배포</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl apply -f deployment.yaml
+$ kubectl apply -f service.yaml
+</code></pre></div></div>
+
+<h3 id="배포-확인">배포 확인</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl get po,svc
+NAME                       READY     STATUS    RESTARTS   AGE
+po/demo-85cdbcc8c7-6pkbv   1/1       Running   0          10s
+
+NAME               TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+svc/demo-service   ClusterIP   172.21.189.11   &lt;none&gt;        80/TCP    10s
+</code></pre></div></div>
+
+<h3 id="접속-확인">접속 확인</h3>
+
+<p><code class="highlighter-rouge">http://127.0.0.1:8080/user</code>와 <code class="highlighter-rouge">http://127.0.0.1:8080/admin</code>엡 접속해봅니다.
+“Hello User!”와 “Hello Admin!” 메세지를 볼 수 있습니다.
+현재는 <code class="highlighter-rouge">/user</code>와 <code class="highlighter-rouge">/admin</code> endpoint에 별도의 인증없이 접속 할 수 있습니다.</p>
+
+<p>다음 과정에서는 Keycloak(OpenID Connect Provider)을 통해 인증/인가를 거친 사용자만 <code class="highlighter-rouge">/admin</code> endpoint에 접속할 수 있도록 설정해 보겠습니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl port-forward demo-85cdbcc8c7-6pkbv 8080:8080
+Forwarding from 127.0.0.1:8080 -&gt; 8080
+</code></pre></div></div>
+
+<h2 id="keycloak-proxy-배포하기">Keycloak Proxy 배포하기</h2>
+
+  </div>
+<div id="disqus_thread"></div>
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://sj-blog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a class="u-url" href="/blog/authentication/2018/05/23/oauth-proxy.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <!--h2 class="footer-heading">SJ Blog</h2-->
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yun SangJun</li><li><a class="u-email" href="mailto:chris.sj.yun@gmail.com">chris.sj.yun@gmail.com</a></li>
+            <li>subscribe <a href="/blog/feed.xml">via RSS</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yunsangjun"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yunsangjun</span></a></li><li><a href="https://twitter.com/sjyun2"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">sjyun2</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Software &amp; Cloud Engineer</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

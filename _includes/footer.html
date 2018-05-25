@@ -17,6 +17,7 @@
             </li>
             {%- if site.email -%}
             <li><a class="u-email" href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+            <li>subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></li>
             {%- endif -%}
         </ul>
       </div>
@@ -28,6 +29,7 @@
       <div class="footer-col footer-col-3">
         <p>{{- site.description | escape -}}</p>
       </div>
+
     </div>
 
   </div>
