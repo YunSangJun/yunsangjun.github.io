@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "OAuth Proxy"
+title:  "OAuth Proxy를 활용한 애플리케이션 인증 및 인가"
 author: 윤상준
 date: 2018-05-23 02:01:05 +0900
 categories: authentication
