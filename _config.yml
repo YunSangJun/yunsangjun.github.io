@@ -13,11 +13,11 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: SJ Tech Blog
+title: 윤상준의 기술 블로그
 author: Yun SangJun
 email: chris.sj.yun@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Software & Cloud Engineer
+  Software & Cloud Engineer 입니다. 
 baseurl: "/blog" # the subpath of your site, e.g. /blog
 url: "https://yunsangjun.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 disqus:

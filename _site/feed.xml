@@ -1,4 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-26T02:54:57+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">SJ Tech Blog</title><subtitle>Software &amp; Cloud Engineer</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Helm chart repository 호스팅</title><link href="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html" rel="alternate" type="text/html" title="Helm chart repository 호스팅" /><published>2018-05-26T02:44:00+09:00</published><updated>2018-05-26T02:44:00+09:00</updated><id>http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository</id><content type="html" xml:base="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html">&lt;p&gt;Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-26T11:41:25+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Docker 이미지 레이어란?</title><link href="http://localhost:4000/blog/docker/2018/05/26/docker-image-layer.html" rel="alternate" type="text/html" title="Docker 이미지 레이어란?" /><published>2018-05-26T11:37:00+09:00</published><updated>2018-05-26T11:37:00+09:00</updated><id>http://localhost:4000/blog/docker/2018/05/26/docker-image-layer</id><content type="html" xml:base="http://localhost:4000/blog/docker/2018/05/26/docker-image-layer.html">&lt;p&gt;Docker Image를 pull, push 하다보면 layer라는 용어가 나옵니다. Docker 에서 사용하는 layer 구조가 무엇이고 왜 사용할까요?&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker pull nginx
+Using default tag: latest
+latest: Pulling from library/nginx
+2a72cbf407d6: Pulling fs layer
+04b2d3302d48: Pulling fs layer
+e7f619103861: Pulling fs layer
+...
+2a72cbf407d6: Pull complete
+04b2d3302d48: Pull complete
+e7f619103861: Pull complete
+Digest: sha256:18156dcd747677b03968621b2729d46021ce83a5bc15118e5bcced925fb4ebb9
+Status: Downloaded newer image for nginx:latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;docker-image-layer-구조란&quot;&gt;Docker Image Layer 구조란?&lt;/h2&gt;
+
+&lt;p&gt;Dockerfile을 build 하면 정의된 명령어에 따라 Docker 이미지가 생성됩니다. 하나의 이미지로 보이지만 내부적으로는 여러개의 이미지가 층층히 쌓여있는 layer 구조입니다. 좀 더 쉽게 예를 들어 보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;아래 예제는 nginx image를 build하기 위한 Dockerfile입니다. step1~6까지 총 6개의 명령으로 이루어져 있습니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;Dockerfile&amp;gt;
+# step1. Base image
+FROM ubuntu:latest
+
+# step2. Install Nginx.
+RUN \
+  apt-get update &amp;amp;&amp;amp; \
+  apt-get install -y nginx
+
+# step3. Define mountable directories.
+VOLUME [&quot;/etc/nginx/sites-enabled&quot;, &quot;/etc/nginx/certs&quot;, &quot;/etc/nginx/conf.d&quot;, &quot;/var/log/nginx&quot;, &quot;/var/www/html&quot;]
+
+# step4. Define working directory.
+WORKDIR /etc/nginx
+
+# step5. Define default command.
+CMD [&quot;nginx&quot;]
+
+# step6. Expose port.
+EXPOSE 80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이 Dockerfile을 build 해보겠습니다. 아래와 같이 각 명령어 단계마다 이미지가 생성됩니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker build -t nginx .
+Sending build context to Docker daemon  2.048kB
+Step 1/6 : FROM ubuntu:latest
+...
+ ---&amp;gt; c9d990395902    # 1번 이미지
+Step 2/6 : RUN   apt-get update &amp;amp;&amp;amp;   apt-get install -y nginx
+...
+ ---&amp;gt; 90100bc32c07    # 2번 이미지
+Step 3/6 : VOLUME [&quot;/etc/nginx/sites-enabled&quot;, &quot;/etc/nginx/certs&quot;, &quot;/etc/nginx/conf.d&quot;, &quot;/var/log/nginx&quot;, &quot;/var/www/html&quot;]
+...
+ ---&amp;gt; 8ea7a4443b1e    # 3번 이미지
+Step 4/6 : WORKDIR /etc/nginx
+...
+ ---&amp;gt; 37773795f83d    # 4번 이미지
+Step 5/6 : CMD [&quot;nginx&quot;]
+...
+ ---&amp;gt; 4f8728cb93dc    # 5번 이미지
+Step 6/6 : EXPOSE 80
+...
+ ---&amp;gt; bec972ccfa66    # 6번 이미지
+Successfully built b5d127ff2140
+Successfully tagged nginx:latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;왜-사용할까요&quot;&gt;왜 사용할까요?&lt;/h2&gt;
+
+&lt;p&gt;그렇다면 이런 Image layer 구조는 왜 사용할까?
+Nginx 이미지를 기반으로 Web App을 만들었다고 가정해보자. App source를 수정할 때 마다 전체 이미지를 다시 다운로드 받는다면 매우 비효율적이라 생각된다. 하지만 Docker Image는 layer 구조로 되어있기 때문에 Base image인 nginx image layer는 다운로드 받지 않고 변경된 source layer만 받게 된다. 이런 이유로 Docker Image는 layer 구조로 설계되어 있다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Docker Image를 pull, push 하다보면 layer라는 용어가 나옵니다. Docker 에서 사용하는 layer 구조가 무엇이고 왜 사용할까요?</summary></entry><entry><title type="html">Helm chart repository 호스팅</title><link href="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html" rel="alternate" type="text/html" title="Helm chart repository 호스팅" /><published>2018-05-26T02:44:00+09:00</published><updated>2018-05-26T02:44:00+09:00</updated><id>http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository</id><content type="html" xml:base="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html">&lt;p&gt;Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.&lt;/p&gt;
 
 &lt;p&gt;kubernetes helm &lt;a href=&quot;https://github.com/kubernetes/helm/blob/master/docs/chart_repository.md&quot;&gt;가이드&lt;/a&gt;에서 지원하는 방식은 3가지 입니다.&lt;/p&gt;
 
@@ -732,119 +805,4 @@ spec:
 &lt;p&gt;https://istio.io/docs/tasks/traffic-management/request-routing.html&lt;/p&gt;
 
 &lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/02/istio-intelligent-routing-2.html&quot;&gt;Istio Intelligent Routing #2 오류 주입&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.</summary></entry><entry><title type="html">마이크로서비스 샘플앱(BookInfo) 배포하기</title><link href="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html" rel="alternate" type="text/html" title="마이크로서비스 샘플앱(BookInfo) 배포하기" /><published>2018-04-26T20:20:39+09:00</published><updated>2018-04-26T20:20:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html">&lt;p&gt;이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
-&lt;p&gt;이 가이드에서는 온라인 서점의 카탈로그 항목과 비슷한 책에 대한 정보를 표시하는 간단한 애플리케이션을 배포합니다. 이 페이지에는 책에 대한 설명, 책 세부 정보 (ISBN, 페이지 수 등) 및 몇 권의 서평이 표시됩니다.&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;Bookinfo 애플리케이션은 4개의 마이크로서비스로 나뉩니다.&lt;br /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;productpage : 세부 사항을 호출하고 마이크로서비스를 검토하여 페이지를 채웁니다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;details : 도서 정보가 들어 있습니다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;reviews : 서평이 포함되어 있습니다. 또한 ratings 마이크로서비스를 호출합니다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;ratings : 서평을 수반하는 서적 순위 정보가 포함됩니다.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;reviews 마이크로서비스에는 3가지 버전이 있습니다.&lt;br /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;버전 v1은 ratings 서비스를 호출하지 않습니다.&lt;/li&gt;
-  &lt;li&gt;버전 v2는 ratings 서비스를 호출하고 각 순위를 1 - 5 개의 검은 별로 표시합니다.&lt;/li&gt;
-  &lt;li&gt;버전 v3는 ratings 서비스를 호출하고 각 순위를 1 ~ 5 개의 빨간색 별로 표시합니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;애플리케이션의 end-to-end 아키텍처는 아래와 같습니다. 이 애플리케이션은 다양한 프로그래밍 언어로 작성되었습니다.&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/bookinfo_noistio.svg&quot; alt=&quot;BookInfo Application Without Istio&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Kubernetes에 Istio 설치하기&lt;/p&gt;
-
-    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;를 참고하여 Kubernetes에 Istio 설치합니다.&lt;br /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;bookinfo-애플리케이션&quot;&gt;BookInfo 애플리케이션&lt;/h2&gt;
-&lt;p&gt;Istio와 함께 샘플을 실행하기 위해 애플리케이션을 변경할 필요는 없습니다. 대신, Istio가 활성화 된 환경에서 서비스를 구성하고 실행하면 각각의 서비스에 Envoy 사이드카가 주입됩니다. 필요한 명령과 구성은 런타임 환경에 따라 다르지만 모든 경우의 결과는 다음과 같습니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/bookinfo_withistio.svg&quot; alt=&quot;BookInfo Application With Istio&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;모든 마이크로서비스는 Envoy 사이드카와 함께 패키지화되어 수신 및 발신 요청을 가로챕니다. Istio control plane, 라우팅, 원격 측정 수집 및 애플리케이션 전체에 대한 정책 적용을 통해 외부 제어에 필요한 후크를 제공합니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;kubernetes에서-bookinfo-애플리케이션-실행&quot;&gt;Kubernetes에서 BookInfo 애플리케이션 실행&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;BookInfo 애플리케이션 실행&lt;/p&gt;
-
-    &lt;p&gt;수동으로 사이트카 주입을 하는 경우 아래 명령어를 실행합니다.&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl apply -f &amp;lt;(istioctl kube-inject -f samples/bookinfo/kube/bookinfo.yaml)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;자동 사이드카 주입 기능이 활성화되어 있는 경우 아래 명령어를 실행합니다.&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl apply -f samples/bookinfo/kube/bookinfo.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;istioctl kube-inject 명령은 애플리케이션을 배포하기 전에 bookinfo.yaml 파일을 수동으로 수정하는 데 사용됩니다.
- 이 명령은 다이어그램에서 설명한 것처럼 네 개의 마이크로서비스를 시작하고 게이트웨이 ingress 자원을 생성합니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스 v1, v2 및 v3의 3 가지 버전이 모두 시작됩니다.&lt;br /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;BookInfo svc 확인&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl get svc
- NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
- details       ClusterIP   172.21.67.160    &amp;lt;none&amp;gt;        9080/TCP   20h
- productpage   ClusterIP   172.21.39.218    &amp;lt;none&amp;gt;        9080/TCP   20h
- ratings       ClusterIP   172.21.201.191   &amp;lt;none&amp;gt;        9080/TCP   20h
- reviews       ClusterIP   172.21.154.60    &amp;lt;none&amp;gt;        9080/TCP   20h
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;BookInfo pod 확인&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl get pods
- NAME                              READY     STATUS    RESTARTS   AGE
- details-v1-55496dcd64-qjqmb       2/2       Running   0          20h
- productpage-v1-586897968d-j2kwf   2/2       Running   0          20h
- ratings-v1-6d9f5df564-4kzlt       2/2       Running   0          20h
- reviews-v1-5985df7dd4-x22zl       2/2       Running   0          20h
- reviews-v2-856d5b976-vtlct        2/2       Running   0          20h
- reviews-v3-c4fbb98d8-5bv9j        2/2       Running   0          20h
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;BookInfo ingress 확인&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $  kubectl get ingress
- NAME      HOSTS     ADDRESS         PORTS     AGE
- gateway   *         169.x.x.x       80        20h
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;BookInfo 접속&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; export GATEWAY_ADDRESS=169.x.x.x
- http://$GATEWAY_ADDRESS/productpage
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_intel_routing_contents_norating.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
-&lt;p&gt;https://istio.io/docs/guides/bookinfo.html&lt;/p&gt;
-
-&lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/istio-intelligent-routing-1.html&quot;&gt;Istio Intelligent Routing #1 콘텐츠 기반 라우팅&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.</summary></entry></feed>
+&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/02/istio-intelligent-routing-2.html&quot;&gt;Istio Intelligent Routing #2 오류 주입&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.</summary></entry></feed>
