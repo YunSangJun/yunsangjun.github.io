@@ -2,7 +2,7 @@
 layout: post
 title:  "Helm chart repository 호스팅"
 author: 윤상준
-date: 2018-05-26 02:44:00 +0900
+date: 2018-05-26
 categories: helm
 ---
 

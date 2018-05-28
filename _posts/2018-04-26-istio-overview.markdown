@@ -2,7 +2,7 @@
 layout: post
 title:  "Istio Overview"
 author: 윤상준
-date: 2018-04-26 19:40:39 +0900
+date: 2018-04-26
 categories: istio
 ---
 

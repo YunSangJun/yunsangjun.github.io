@@ -2,7 +2,7 @@
 layout: post
 title:  "Istio Intelligent Routing #2 오류 주입"
 author: 윤상준
-date: 2018-05-02 20:11:20 +0900
+date: 2018-05-02
 categories: istio
 ---
 

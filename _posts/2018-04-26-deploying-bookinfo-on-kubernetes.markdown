@@ -2,7 +2,7 @@
 layout: post
 title:  "마이크로서비스 샘플앱(BookInfo) 배포하기"
 author: 윤상준
-date: 2018-04-26 20:20:39 +0900
+date: 2018-04-26
 categories: istio
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title:  "Kubernetes에 Istio 설치하기"
 author: 윤상준
-date: 2018-04-26 20:00:39 +0900
+date: 2018-04-26
 categories: istio
 ---
 

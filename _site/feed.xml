@@ -1,4 +1,303 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-26T11:41:25+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Docker 이미지 레이어란?</title><link href="http://localhost:4000/blog/docker/2018/05/26/docker-image-layer.html" rel="alternate" type="text/html" title="Docker 이미지 레이어란?" /><published>2018-05-26T11:37:00+09:00</published><updated>2018-05-26T11:37:00+09:00</updated><id>http://localhost:4000/blog/docker/2018/05/26/docker-image-layer</id><content type="html" xml:base="http://localhost:4000/blog/docker/2018/05/26/docker-image-layer.html">&lt;p&gt;Docker Image를 pull, push 하다보면 layer라는 용어가 나옵니다. Docker 에서 사용하는 layer 구조가 무엇이고 왜 사용할까요?&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-29T01:23:06+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. </subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Helm 설치하기</title><link href="http://localhost:4000/blog/helm/2018/05/27/installing-helm.html" rel="alternate" type="text/html" title="Helm 설치하기" /><published>2018-05-27T00:00:00+09:00</published><updated>2018-05-27T00:00:00+09:00</updated><id>http://localhost:4000/blog/helm/2018/05/27/installing-helm</id><content type="html" xml:base="http://localhost:4000/blog/helm/2018/05/27/installing-helm.html">&lt;p&gt;이 페이지는 Helm을 설치하는 방법에 대해 설명합니다.
+자세한 내용은 &lt;a href=&quot;https://docs.helm.sh/using_helm/#installing-helm&quot;&gt;Installing Helm&lt;/a&gt;을 참고하세요.&lt;/p&gt;
+
+&lt;h2 id=&quot;helm-client-바이너리-다운로드&quot;&gt;Helm client 바이너리 다운로드&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/kubernetes/helm/releases&quot;&gt;Helm release&lt;/a&gt; 바이너리를 다운로드합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;바이너리 압축 해제합니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  tar -zxvf helm-vX.X.X-OS_NAME-amd64.tgz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Helm 바이너리를 원하는 위치로 이동시킵니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  mv OS_NAME-amd64/helm /usr/local/bin/helm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;tiller-설치&quot;&gt;Tiller 설치&lt;/h2&gt;
+
+&lt;p&gt;Helm의 서버 부분 인 Tiller는 일반적으로 Kubernetes 클러스터 내부에서 실행됩니다. 그러나 개발을 위해 로컬로 실행될 수도 있고 원격 Kubernetes 클러스터와 통신하도록 구성 될 수도 있습니다.&lt;/p&gt;
+
+&lt;p&gt;Tiller를 클러스터에 설치하는 가장 쉬운 방법은 &lt;code class=&quot;highlighter-rouge&quot;&gt;helm init&lt;/code&gt;를 실행하는 것입니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;helm init&lt;/code&gt; 실행 후 Tiller가 running 상태가 될 때까지 대기합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get pods --namespace kube-system |grep tiller
+tiller-deploy-7ccf99cd64-pd7c2        1/1       Running   0          3d
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Helm client와 server의 버전을 확인합니다.
+Server의 버전이 Client의 버전과 같거나 높아야 합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ helm version
+Client: &amp;amp;version.Version{SemVer:&quot;v2.9.0&quot;, GitCommit:&quot;xxx&quot;, GitTreeState:&quot;clean&quot;}
+Server: &amp;amp;version.Version{SemVer:&quot;v2.9.1&quot;, GitCommit:&quot;xxx&quot;, GitTreeState:&quot;clean&quot;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Server를 제외한 Client만 설치하고 싶은 경우 아래와 같이 실행합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ helm init --client-only
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 Helm을 활용해 chart를 Kubernetes에 배포할 수 있습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Helm을 설치하는 방법에 대해 설명합니다. 자세한 내용은 Installing Helm을 참고하세요.</summary></entry><entry><title type="html">Ingress TLS Secret 생성하기</title><link href="http://localhost:4000/blog/kubernetes/2018/05/27/how-to-create-ingress-secret.html" rel="alternate" type="text/html" title="Ingress TLS Secret 생성하기" /><published>2018-05-27T00:00:00+09:00</published><updated>2018-05-27T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/27/how-to-create-ingress-secret</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/27/how-to-create-ingress-secret.html">&lt;p&gt;이 페이지에서는 Ingress에 TLS를 적용하기 위한 Secret을 생성하는 방법을 가이드합니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;tls-secret-생성&quot;&gt;TLS Secret 생성&lt;/h2&gt;
+
+&lt;p&gt;아래 명령을 실행하여 TLS Secret을 생성합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl create secret tls example-tls --cert example.crt --key example.key
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;또는 아래와 같이 yaml 파일 형태로 생성할 수 있습니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi secret.yaml
+apiVersion: v1
+data:
+  tls.crt: base64 encoded cert
+  tls.key: base64 encoded key
+kind: Secret
+metadata:
+  name: example-tls
+type: Opaque
+
+$ kubectl create -f secret.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;tls-secret을-ingress에-적용&quot;&gt;TLS Secret을 Ingress에 적용&lt;/h2&gt;
+
+&lt;p&gt;아래와 같이 Ingress의 secretName 속성에 example-tls을 적용합니다.
+이제 Ingress를 배포한 후 host로 접속하면 TLS가 적용된 것을 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - backend:
+          serviceName: example
+          servicePort: 80
+  tls:
+  - hosts:
+    - example.com
+    secretName: example-tls
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지에서는 Ingress에 TLS를 적용하기 위한 Secret을 생성하는 방법을 가이드합니다.</summary></entry><entry><title type="html">Helm chart를 사용하여 Jenkins를 컨테이너로 배포하기</title><link href="http://localhost:4000/blog/helm/2018/05/26/jenkins-helm-chart.html" rel="alternate" type="text/html" title="Helm chart를 사용하여 Jenkins를 컨테이너로 배포하기" /><published>2018-05-26T00:00:00+09:00</published><updated>2018-05-26T00:00:00+09:00</updated><id>http://localhost:4000/blog/helm/2018/05/26/jenkins-helm-chart</id><content type="html" xml:base="http://localhost:4000/blog/helm/2018/05/26/jenkins-helm-chart.html">&lt;p&gt;이 페이지는 Helm chart를 사용하여 Jenkins를 컨테이너로 배포하는 방법에 대해 설명합니다.
+자세한 내용은 &lt;a href=&quot;https://github.com/kubernetes/charts/tree/master/stable/jenkins&quot;&gt;Jenkins Helm Chart&lt;/a&gt;에서 참고하세요.&lt;/p&gt;
+
+&lt;h2 id=&quot;준비-사항&quot;&gt;준비 사항&lt;/h2&gt;
+
+&lt;p&gt;아래 가이드를 참고하여 Helm Client를 설치합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/blog/helm/2018/05/27/installing-helm.html&quot;&gt;Helm 설치하기&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;빠른-설치&quot;&gt;빠른 설치&lt;/h2&gt;
+
+&lt;p&gt;아래 명령을 실행하면 Kubernetes 클러스터에 Jenkins가 배포됩니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ helm install --name jenkins stable/jenkins
+NAME:   jenkins
+...
+NOTES:
+1. Get your 'admin' user password by running:
+  printf $(kubectl get secret --namespace default jenkins -o jsonpath=&quot;{.data.jenkins-admin-password}&quot; | base64 --decode);echo
+2. Get the Jenkins URL to visit by running these commands in the same shell:
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        You can watch the status of by running 'kubectl get svc --namespace default -w jenkins'
+  ...
+  echo http://$SERVICE_IP:8080/login
+
+3. Login with the password from step 1 and the username: admin
+
+For more information on running Jenkins on Kubernetes, visit:
+https://cloud.google.com/solutions/jenkins-on-container-engine
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;정상적으로 설치가 완료되었다면 &lt;code class=&quot;highlighter-rouge&quot;&gt;NOTES&lt;/code&gt;의 가이드를 참고하여 Jenkins 대시보드에 접속할 수 있습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;참고 : 기본 설정을 사용하므로 클러스터 환경에 따라 설치 중 에러가 발생할 수 있습니다.
+이런 경우 아래 가이드를 따라 사용자 설정 방식으로 배포 할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;사용자-정의-설치&quot;&gt;사용자 정의 설치&lt;/h2&gt;
+
+&lt;h3 id=&quot;설정&quot;&gt;설정&lt;/h3&gt;
+
+&lt;p&gt;사용자의 Kubernetes 클러스터 환경에 맞게 Jenkins의 서비스, 스토리지 등의 설정을 변경할 수 있습니다.
+아래 가이드를 참고하여 사용자의 환경에 맞도록 &lt;code class=&quot;highlighter-rouge&quot;&gt;values.yaml&lt;/code&gt; 파일을 작성합니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;jenkins-admin-사용자-암호&quot;&gt;Jenkins admin 사용자 암호&lt;/h4&gt;
+
+&lt;p&gt;Jenkins admin의 초기 사용자 암호입니다. 기본 설정은 랜덤한 패스워드입니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;values.yaml&amp;gt;
+Master:
+  AdminPassword: ExamplePassword
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;서비스&quot;&gt;서비스&lt;/h4&gt;
+
+&lt;p&gt;서비스는 Jenkins 대시보드를 접속을 어떤 방식으로 제공할지에 대한 설정입니다.
+기본 설정은 LoadBalancer 방식입니다. 사용자의 클러스터의 환경에 동적으로 제공되는 LoadBalancer 서비스가 있다면 사용 가능합니다.
+LoadBalancer 서비스가 없다면 아래와 같이 NodePort 또는 Ingress 방식을 사용할 수 있습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;NodePort&lt;/p&gt;
+
+    &lt;p&gt;NodePort를 사용하면 Worker Node의 Public IP를 통하여 서비스에 접근 할 수 있습니다.
+ServiceType을 NodePort로 설정하고 NodePort에 30000~32767사이의 포트 번호를 입력합니다.
+포트 번호를 입력하지 않으면 30000~32767사이의 숫자에서 랜덤하게 선택됩니다.&lt;/p&gt;
+
+    &lt;p&gt;접속 URI 예시 : http://WORKER_NODE_PUBLIC_IP:3xxxx&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;values.yaml&amp;gt;
+Master:
+  ServiceType: NodePort
+  NodePort: 30000-32767
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Ingress&lt;/p&gt;
+
+    &lt;p&gt;Ingress를 사용하면 Ingress Controller의 Public IP를 통하여 서비스에 접근 할 수 있습니다.
+ServiceType을 ClusterIP로 설정하고 HostName에 원하는 도메인을 입력합니다.(이 때 도메인이 Ingress Controller의 Public IP와 연결되어야 합니다.)
+SSL 접속을 지원하려면 TLS 설정의 secretName과 host명을 입력합니다.&lt;/p&gt;
+
+    &lt;p&gt;Ingress TLS Secret 생성 방법은 아래 가이드를 참고하세요.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/blog/kubernetes/2018/05/27/how-to-create-ingress-secret.html&quot;&gt;Ingress TLS Secret 생성하기&lt;/a&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;values.yaml&amp;gt;
+Master:
+  ServiceType: ClusterIP
+  HostName: jenkins.example.com
+  Ingress:
+    TLS:
+      - secretName: example-tls
+        hosts:
+          - jenkins.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;스토리지&quot;&gt;스토리지&lt;/h4&gt;
+
+&lt;p&gt;Jenkins는 영구적으로 저장해야 하는 데이터를 &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/jenkins_home&lt;/code&gt;에 저장합니다.
+이 데이터를 영구적으로 저장하기 위해서는 &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/jenkins_home&lt;/code&gt; 폴더를 PV(Persistent Volume)에 mount 해야합니다.
+사용자의 Cluster에서 동적으로 PV를 생성 및 관리해주는 기능이 있다면 별도의 설정이 필요없습니다.
+GKE, AWS, AKS 등의 환경에서는 Storage Class를 정의하면 PV를 생성하고 관리합니다.
+또한 미리 구성된 PVC(PersistentVolumeClaim)를 사용할 수 있습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Storage Class 사용&lt;/p&gt;
+
+    &lt;p&gt;Storage Class를 사용하여 동적으로 PV를 생성합니다.
+Storage Class 명은 아래와 같이 확인할 수 있습니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get storageclass
+NAME                       PROVISIONER         AGE
+default                    ibm.io/ibmc-file    41d
+ibmc-block-bronze          ibm.io/ibmc-block   3d
+ibmc-file-bronze           ibm.io/ibmc-file    26d
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;원하는 Storage Class 명을 입력합니다. Storage의 크기를 원하는 값으로 설정합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;values.yaml&amp;gt;
+Persistence:
+  StorageClass: &quot;default&quot;
+  Size: 8Gi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;사전 구성된 PVC 사용&lt;/p&gt;
+
+    &lt;p&gt;미리 구성된 PVC(PersistentVolumeClaim)를 사용합니다.
+미리 구성된 PVC 명은 아래와 같이 확인할 수 있습니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get pvc
+NAME          STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS        AGE
+jenkins-pvc   Bound     pvc-47aec304-5e4e-11e8-915d-82c09a00d8d2   20Gi       RWO            ibmc-block-bronze   3d
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;미리 구성된 PVC 명을 입력합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;values.yaml&amp;gt;
+Persistence:
+  ExistingClaim: &quot;jenkins-pvc&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;설치&quot;&gt;설치&lt;/h3&gt;
+
+&lt;p&gt;이제 아래 명령을 실행하여 사용자 정의에 맞게 Jenkins를 설치합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ helm install --name jenkins -f values.yaml stable/jenkins
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Helm chart를 사용하여 Jenkins를 컨테이너로 배포하는 방법에 대해 설명합니다. 자세한 내용은 Jenkins Helm Chart에서 참고하세요.</summary></entry><entry><title type="html">Helm chart repository 호스팅</title><link href="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html" rel="alternate" type="text/html" title="Helm chart repository 호스팅" /><published>2018-05-26T00:00:00+09:00</published><updated>2018-05-26T00:00:00+09:00</updated><id>http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository</id><content type="html" xml:base="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html">&lt;p&gt;Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.&lt;/p&gt;
+
+&lt;p&gt;kubernetes helm &lt;a href=&quot;https://github.com/kubernetes/helm/blob/master/docs/chart_repository.md&quot;&gt;가이드&lt;/a&gt;에서 지원하는 방식은 3가지 입니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Github Pages&lt;/li&gt;
+  &lt;li&gt;Object Storage(GCS, AWS S3)&lt;/li&gt;
+  &lt;li&gt;Ordinary Web Servers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;github-pages&quot;&gt;Github Pages&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Github에 Repository 생성 및 docs 폴더 생성&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https://github.com/YunSangJun/sj-charts&quot;&gt;샘플 코드&lt;/a&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; Chart Repository
+     | ㅡ docs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Github Page 설정&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Repository -&amp;gt; Settings -&amp;gt; Github Pages&lt;/code&gt; 메뉴 클릭&lt;/p&gt;
+
+    &lt;p&gt;Source를 &lt;code class=&quot;highlighter-rouge&quot;&gt;/docs&lt;/code&gt; 로 지정. 지정 후 아래와 같은 site 주소 확인&lt;/p&gt;
+
+    &lt;p&gt;https://yunsangjun.github.io/sj-charts&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Helm Package 생성&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; # helm create mychart
+ # helm package mychart
+ # mv mychart-0.1.0.tgz docs
+ # helm repo index docs --url https://yunsangjun.github.io/sj-charts
+ # git add --all
+ # git commit -m 'init'
+ # git push origin master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Helm repository에 추가&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; # helm repo add mychart https://yunsangjun.github.io/sj-charts
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.</summary></entry><entry><title type="html">Docker 이미지 레이어란?</title><link href="http://localhost:4000/blog/docker/2018/05/26/docker-image-layer.html" rel="alternate" type="text/html" title="Docker 이미지 레이어란?" /><published>2018-05-26T00:00:00+09:00</published><updated>2018-05-26T00:00:00+09:00</updated><id>http://localhost:4000/blog/docker/2018/05/26/docker-image-layer</id><content type="html" xml:base="http://localhost:4000/blog/docker/2018/05/26/docker-image-layer.html">&lt;p&gt;Docker Image를 pull, push 하다보면 layer라는 용어가 나옵니다. Docker 에서 사용하는 layer 구조가 무엇이고 왜 사용할까요?&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker pull nginx
 Using default tag: latest
@@ -71,56 +370,7 @@ Successfully tagged nginx:latest
 &lt;h2 id=&quot;왜-사용할까요&quot;&gt;왜 사용할까요?&lt;/h2&gt;
 
 &lt;p&gt;그렇다면 이런 Image layer 구조는 왜 사용할까?
-Nginx 이미지를 기반으로 Web App을 만들었다고 가정해보자. App source를 수정할 때 마다 전체 이미지를 다시 다운로드 받는다면 매우 비효율적이라 생각된다. 하지만 Docker Image는 layer 구조로 되어있기 때문에 Base image인 nginx image layer는 다운로드 받지 않고 변경된 source layer만 받게 된다. 이런 이유로 Docker Image는 layer 구조로 설계되어 있다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Docker Image를 pull, push 하다보면 layer라는 용어가 나옵니다. Docker 에서 사용하는 layer 구조가 무엇이고 왜 사용할까요?</summary></entry><entry><title type="html">Helm chart repository 호스팅</title><link href="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html" rel="alternate" type="text/html" title="Helm chart repository 호스팅" /><published>2018-05-26T02:44:00+09:00</published><updated>2018-05-26T02:44:00+09:00</updated><id>http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository</id><content type="html" xml:base="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html">&lt;p&gt;Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.&lt;/p&gt;
-
-&lt;p&gt;kubernetes helm &lt;a href=&quot;https://github.com/kubernetes/helm/blob/master/docs/chart_repository.md&quot;&gt;가이드&lt;/a&gt;에서 지원하는 방식은 3가지 입니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Github Pages&lt;/li&gt;
-  &lt;li&gt;Object Storage(GCS, AWS S3)&lt;/li&gt;
-  &lt;li&gt;Ordinary Web Servers&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;github-pages&quot;&gt;Github Pages&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Github에 Repository 생성 및 docs 폴더 생성&lt;/p&gt;
-
-    &lt;p&gt;&lt;a href=&quot;https://github.com/YunSangJun/sj-charts&quot;&gt;샘플 코드&lt;/a&gt;&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; Chart Repository
-     | ㅡ docs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Github Page 설정&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Repository -&amp;gt; Settings -&amp;gt; Github Pages&lt;/code&gt; 메뉴 클릭&lt;/p&gt;
-
-    &lt;p&gt;Source를 &lt;code class=&quot;highlighter-rouge&quot;&gt;/docs&lt;/code&gt; 로 지정. 지정 후 아래와 같은 site 주소 확인&lt;/p&gt;
-
-    &lt;p&gt;https://yunsangjun.github.io/sj-charts&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Helm Package 생성&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; # helm create mychart
- # helm package mychart
- # mv mychart-0.1.0.tgz docs
- # helm repo index docs --url https://yunsangjun.github.io/sj-charts
- # git add --all
- # git commit -m 'init'
- # git push origin master
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Helm repository에 추가&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; # helm repo add mychart https://yunsangjun.github.io/sj-charts
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.</summary></entry><entry><title type="html">Docker Private Registry로 부터 이미지 가져오기</title><link href="http://localhost:4000/blog/kubernetes/2018/05/25/pull-image-from-private-registry.html" rel="alternate" type="text/html" title="Docker Private Registry로 부터 이미지 가져오기" /><published>2018-05-25T18:41:05+09:00</published><updated>2018-05-25T18:41:05+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/25/pull-image-from-private-registry</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/25/pull-image-from-private-registry.html">&lt;p&gt;이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다.&lt;br /&gt;
+Nginx 이미지를 기반으로 Web App을 만들었다고 가정해보자. App source를 수정할 때 마다 전체 이미지를 다시 다운로드 받는다면 매우 비효율적이라 생각된다. 하지만 Docker Image는 layer 구조로 되어있기 때문에 Base image인 nginx image layer는 다운로드 받지 않고 변경된 source layer만 받게 된다. 이런 이유로 Docker Image는 layer 구조로 설계되어 있다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Docker Image를 pull, push 하다보면 layer라는 용어가 나옵니다. Docker 에서 사용하는 layer 구조가 무엇이고 왜 사용할까요?</summary></entry><entry><title type="html">Docker Private Registry로 부터 이미지 가져오기</title><link href="http://localhost:4000/blog/kubernetes/2018/05/25/pull-image-from-private-registry.html" rel="alternate" type="text/html" title="Docker Private Registry로 부터 이미지 가져오기" /><published>2018-05-25T00:00:00+09:00</published><updated>2018-05-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/25/pull-image-from-private-registry</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/25/pull-image-from-private-registry.html">&lt;p&gt;이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다.&lt;br /&gt;
 상세한 내용은 아래 링크를 참고하세요.&lt;/p&gt;
 
 &lt;p&gt;https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/&lt;/p&gt;
@@ -205,12 +455,12 @@ spec:
 &lt;p&gt;Pod 배포. 정상적으로 완료했다면 이미지를 Docker Private Registry로 부터 가져오고 Pod가 Running 상태로 변경됩니다.&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl create -f my-private-reg-pod.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다. 상세한 내용은 아래 링크를 참고하세요.</summary></entry><entry><title type="html">KubeCon &amp;amp; CloudNativeCon Europe 2018</title><link href="http://localhost:4000/blog/kubernetes/2018/05/25/kubecon-2018.html" rel="alternate" type="text/html" title="KubeCon &amp; CloudNativeCon Europe 2018" /><published>2018-05-25T01:45:05+09:00</published><updated>2018-05-25T01:45:05+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/25/kubecon-2018</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/25/kubecon-2018.html">&lt;h2 id=&quot;jenkins-x-easy-cicd-for-kubernetes---james-strachan-cloudbees&quot;&gt;Jenkins X: Easy CI/CD for Kubernetes - James Strachan, CloudBees&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다. 상세한 내용은 아래 링크를 참고하세요.</summary></entry><entry><title type="html">KubeCon &amp;amp; CloudNativeCon Europe 2018</title><link href="http://localhost:4000/blog/kubernetes/2018/05/25/kubecon-2018.html" rel="alternate" type="text/html" title="KubeCon &amp; CloudNativeCon Europe 2018" /><published>2018-05-25T00:00:00+09:00</published><updated>2018-05-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/25/kubecon-2018</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/25/kubecon-2018.html">&lt;h2 id=&quot;jenkins-x-easy-cicd-for-kubernetes---james-strachan-cloudbees&quot;&gt;Jenkins X: Easy CI/CD for Kubernetes - James Strachan, CloudBees&lt;/h2&gt;
 
 &lt;h3 id=&quot;link&quot;&gt;Link&lt;/h3&gt;
 &lt;p&gt;https://www.youtube.com/watch?v=uHe7R_iZSLU&lt;/p&gt;
 
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;</content><author><name>윤상준</name></author><summary type="html">Jenkins X: Easy CI/CD for Kubernetes - James Strachan, CloudBees</summary></entry><entry><title type="html">CloudFoundry Summit in 2018 Boston</title><link href="http://localhost:4000/blog/cloudfoundry/2018/05/25/cloudfoundry-summit-2018-boston.html" rel="alternate" type="text/html" title="CloudFoundry Summit in 2018 Boston" /><published>2018-05-25T01:45:05+09:00</published><updated>2018-05-25T01:45:05+09:00</updated><id>http://localhost:4000/blog/cloudfoundry/2018/05/25/cloudfoundry-summit-2018-boston</id><content type="html" xml:base="http://localhost:4000/blog/cloudfoundry/2018/05/25/cloudfoundry-summit-2018-boston.html">&lt;h2 id=&quot;cf3---putting-a-kubernetes-behind-cf---julz-friedman-andrew-edgar--julian-skupnjak-ibm&quot;&gt;CF^3 - Putting a Kubernetes Behind CF - Julz Friedman, Andrew Edgar &amp;amp; Julian Skupnjak, IBM&lt;/h2&gt;
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;</content><author><name>윤상준</name></author><summary type="html">Jenkins X: Easy CI/CD for Kubernetes - James Strachan, CloudBees</summary></entry><entry><title type="html">CloudFoundry Summit in 2018 Boston</title><link href="http://localhost:4000/blog/cloudfoundry/2018/05/25/cloudfoundry-summit-2018-boston.html" rel="alternate" type="text/html" title="CloudFoundry Summit in 2018 Boston" /><published>2018-05-25T00:00:00+09:00</published><updated>2018-05-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloudfoundry/2018/05/25/cloudfoundry-summit-2018-boston</id><content type="html" xml:base="http://localhost:4000/blog/cloudfoundry/2018/05/25/cloudfoundry-summit-2018-boston.html">&lt;h2 id=&quot;cf3---putting-a-kubernetes-behind-cf---julz-friedman-andrew-edgar--julian-skupnjak-ibm&quot;&gt;CF^3 - Putting a Kubernetes Behind CF - Julz Friedman, Andrew Edgar &amp;amp; Julian Skupnjak, IBM&lt;/h2&gt;
 
 &lt;h3 id=&quot;link&quot;&gt;Link&lt;/h3&gt;
 &lt;p&gt;https://www.youtube.com/watch?v=9l3GgW95GmQ&amp;amp;list=PLhuMOCWn4P9hJD3wsstF8gJIxOnJ_CTot&amp;amp;index=17&lt;/p&gt;
@@ -224,7 +474,7 @@ spec:
   2. Sync : CF로 배포한 앱을 Kubernetes에 맞게 변환. Staged app을 Docker image로 변환.
   3. Registry : CF droplet에 기반한 OCI(Open Container Initiative) registry?
   4. St8ge : Kubernetes에 staging 실행. Buildpack 탐색 및 다운로드. Droplet 업로드&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>윤상준</name></author><summary type="html">CF^3 - Putting a Kubernetes Behind CF - Julz Friedman, Andrew Edgar &amp;amp; Julian Skupnjak, IBM</summary></entry><entry><title type="html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</title><link href="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html" rel="alternate" type="text/html" title="OAuth Proxy를 활용한 애플리케이션 인증 및 인가" /><published>2018-05-23T02:01:05+09:00</published><updated>2018-05-23T02:01:05+09:00</updated><id>http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy</id><content type="html" xml:base="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html">&lt;p&gt;OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>윤상준</name></author><summary type="html">CF^3 - Putting a Kubernetes Behind CF - Julz Friedman, Andrew Edgar &amp;amp; Julian Skupnjak, IBM</summary></entry><entry><title type="html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</title><link href="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html" rel="alternate" type="text/html" title="OAuth Proxy를 활용한 애플리케이션 인증 및 인가" /><published>2018-05-23T00:00:00+09:00</published><updated>2018-05-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy</id><content type="html" xml:base="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html">&lt;p&gt;OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다.&lt;/p&gt;
 
 &lt;p&gt;이 문서에서는 Keycloak Proxy를 활용하여 애플리케이션의 인증을 처리하는 방법에 대한 가이드를 제공합니다.
 아래의 “데모 애플리케이션”과 “Keycloak Proxy” 배포 따라하기를 통해 Keycloak Proxy를 활용한 인증방법을 쉽게 이해할 수 있습니다.&lt;/p&gt;
@@ -267,7 +517,7 @@ svc/demo-service   ClusterIP   172.21.189.11   &amp;lt;none&amp;gt;        80/TC
 Forwarding from 127.0.0.1:8080 -&amp;gt; 8080
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;keycloak-proxy-배포하기&quot;&gt;Keycloak Proxy 배포하기&lt;/h2&gt;</content><author><name>윤상준</name></author><summary type="html">OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다.</summary></entry><entry><title type="html">MountVolume.SetUp failed for volume pvc-xxx</title><link href="http://localhost:4000/blog/kubernetes/2018/05/16/volume-mount-failed.html" rel="alternate" type="text/html" title="MountVolume.SetUp failed for volume pvc-xxx" /><published>2018-05-16T21:20:05+09:00</published><updated>2018-05-16T21:20:05+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/16/volume-mount-failed</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/16/volume-mount-failed.html">&lt;h2 id=&quot;issue&quot;&gt;Issue&lt;/h2&gt;
+&lt;h2 id=&quot;keycloak-proxy-배포하기&quot;&gt;Keycloak Proxy 배포하기&lt;/h2&gt;</content><author><name>윤상준</name></author><summary type="html">OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다.</summary></entry><entry><title type="html">MountVolume.SetUp failed for volume pvc-xxx</title><link href="http://localhost:4000/blog/kubernetes/2018/05/16/volume-mount-failed.html" rel="alternate" type="text/html" title="MountVolume.SetUp failed for volume pvc-xxx" /><published>2018-05-16T00:00:00+09:00</published><updated>2018-05-16T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/16/volume-mount-failed</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/16/volume-mount-failed.html">&lt;h2 id=&quot;issue&quot;&gt;Issue&lt;/h2&gt;
 
 &lt;p&gt;Pod가 STATUS가 ContainerCreating 상태임.&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get pod xxx
@@ -329,480 +579,4 @@ Events:
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">Issue</summary></entry><entry><title type="html">Istio Intelligent Routing #3 가중치 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #3 가중치 기반 라우팅" /><published>2018-05-07T15:20:05+09:00</published><updated>2018-05-07T15:20:05+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/07/istio-intelligent-routing-3.html">&lt;p&gt;이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Kubernetes에 Istio 설치하기&lt;/p&gt;
-
-    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;를 참고하여 Kubernetes에 Istio 설치합니다.&lt;br /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/p&gt;
-
-    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html&quot;&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/a&gt;를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.&lt;br /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;가중치-기반-라우팅&quot;&gt;가중치 기반 라우팅&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;모든 마이크로서비스 대해 기본 버전을 v1으로 적용합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;아래 명령어를 통해 route rule을 조회할 수 있습니다.&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerules -o yaml
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: details-default
-   namespace: default
-   ...
- spec:
-   destination:
-     name: details
-   precedence: 1
-   route:
-   - labels:
-       version: v1
- ---
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: productpage-default
-   namespace: default
-   ...
- spec:
-   destination:
-     name: productpage
-   precedence: 1
-   route:
-   - labels:
-       version: v1
- ---
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: ratings-default
-   namespace: default
-   ...
- spec:
-   destination:
-     name: ratings
-   precedence: 1
-   route:
-   - labels:
-       version: v1
- ---
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: reviews-default
-   namespace: default
-   ...
- spec:
-   destination:
-     name: reviews
-   precedence: 1
-   route:
-   - labels:
-       version: v1
- ---
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;브라우저에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;http://$GATEWAY_ADDRESS/productpage&lt;/code&gt; 페이지를 열어 v1이 reviews 서비스의 기본 버전인지 확인합니다.&lt;/p&gt;
-
-    &lt;p&gt;Bookinfo 애플리케이션의 productpage가 표시되어야합니다. v1은 ratings 서비스에 액세스하지 않으므로 productpage에 별표가 표시되지 않습니다.&lt;/p&gt;
-
-    &lt;p&gt;참고 : 이전에 콘텐츠 기반 라우팅 작업을 실행 한 경우 테스트 사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;으로 로그 아웃하거나 생성 된 테스트 규칙을 삭제해야 합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl delete routerule reviews-test-v2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;먼저 트래픽을 reviews:v1과 reviews:v3에 50:50 비율로 전송합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl replace -f samples/bookinfo/kube/route-rule-reviews-50-v3.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;아래 명령어를 통해 route rule을 조회할 수 있습니다.&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerule reviews-default -o yaml
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: reviews-default
-   namespace: default
- spec:
-   destination:
-     name: reviews
-   precedence: 1
-   route:
-   - labels:
-       version: v1
-     weight: 50
-   - labels:
-       version: v3
-     weight: 50
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;브라우저에서 productpage를 새로 고침하면 빨간색 별표가 약 50%의 비율로 표시됩니다.&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_intel_routing_contents_red_rating.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;이번에는 트래픽을 reviews:v1과 reviews:v3에 20:80 비율로 전송합니다.&lt;/p&gt;
-
-    &lt;p&gt;아래와 같이 route rule을 수정합니다.&lt;/p&gt;
-
-    &lt;p&gt;참고 : istioctl CLI에는 edit 명령어가 없으므로 kubectl 명령어를 사용합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl edit routerule reviews-default
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: reviews-default
-   namespace: default
- spec:
-   destination:
-     name: reviews
-   precedence: 1
-   route:
-   - labels:
-       version: v1
-     weight: 20
-   - labels:
-       version: v3
-     weight: 80
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;브라우저에서 productpage를 새로 고침하면 빨간색 별표가 약 80%의 비율로 표시됩니다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;reviews 마이크로서비스의 버전 v3가 안정적이라고 판단되면 트래픽의 100%를 reviews:v3에 라우팅 할 수 있습니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl replace -f samples/bookinfo/kube/route-rule-reviews-v3.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;이제 아무 사용자로 제품 페이지에 로그인 할 수 있으며 항상 빨간색 별표가 표시됩니다.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;이해하기&quot;&gt;이해하기&lt;/h2&gt;
-&lt;p&gt;이 예제에서는 Istio의 가중치 기반 라우팅 기능을 사용하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스로의 트래픽을 이전 버전에서 새 버전으로 마이그레이션했습니다. 이는 인스턴스 scaling을 사용하여 트래픽을 관리하는 컨테이너 오케스트레이션 플랫폼의 배포 기능을 사용하는 버전 마이그레이션과 매우 다릅니다. Istio를 사용하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스의 두 버전간의 트래픽 분산에 영향을 미치지 않고 독립적으로 확장 및 축소 할 수 있습니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
-&lt;p&gt;https://istio.io/docs/tasks/traffic-management/traffic-shifting.html&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.</summary></entry><entry><title type="html">Istio Intelligent Routing #2 오류 주입</title><link href="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #2 오류 주입" /><published>2018-05-02T20:11:20+09:00</published><updated>2018-05-02T20:11:20+09:00</updated><id>http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/05/02/istio-intelligent-routing-2.html">&lt;p&gt;이 문서는 지연을 주입하고 애플리케이션의 복원력을 테스트하는 방법을 보여줍니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Kubernetes에 Istio 설치하기&lt;/p&gt;
-
-    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;를 참고하여 Kubernetes에 Istio 설치합니다.&lt;br /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/p&gt;
-
-    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html&quot;&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/a&gt;를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.&lt;br /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;애플리케이션의 버전 라우팅 초기화하기&lt;/p&gt;
-
-    &lt;p&gt;아래 명령을 실행하여 버전 라우팅을 초기화합니다. 이미 생성한 라우팅이 있으면 &lt;code class=&quot;highlighter-rouge&quot;&gt;create&lt;/code&gt; 대신 &lt;code class=&quot;highlighter-rouge&quot;&gt;replace&lt;/code&gt; 명령을 사용합니다.&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
- istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;http-지연을-사용한-오류-주입&quot;&gt;HTTP 지연을 사용한 오류 주입&lt;/h2&gt;
-&lt;p&gt;Bookinfo 마이크로서비스의 복원력을 테스트하기 위해, &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v2&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;ratings&lt;/code&gt; 마이크로서비스 사이에 7s의 지연을 주입합니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v2&lt;/code&gt; 서비스는 &lt;code class=&quot;highlighter-rouge&quot;&gt;ratings&lt;/code&gt; 서비스로의 요청에 대해 10s의 timeout을 갖기 때문에, 그 요청에 에러가 발생하지 않을 것으로 예상할 수 있습니다.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;의 트래픽을 지연시키는 오류 주입 규칙을 생성합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;생성한 규칙 확인&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerule ratings-test-delay -o yaml
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: ratings-test-delay
-   namespace: default
-   ...
- spec:
-   destination:
-     name: ratings
-   httpFault:
-     delay:
-       fixedDelay: 7.000s
-       percent: 100
-   match:
-     request:
-       headers:
-         cookie:
-           regex: ^(.*?;)?(user=jason)(;.*)?$
-   precedence: 2
-   route:
-   - labels:
-       version: v1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;모든 pods에 규칙이 전파되도록 몇 초간 대기합니다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;애플리케이션의 동작 확인&lt;/p&gt;
-
-    &lt;p&gt;사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;으로 로그인합니다. 애플리케이션의 프론트 페이지가 지연을 올바르게 처리하도록 설정되어 있으면, 약 7초 내로 로드될 것으로 예상됩니다.
- 웹 페이지 응답 시간을 보려면, IE, Chrome 또는 Firefox (일반적으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl + Shift + I&lt;/code&gt; 또는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Alt + Cmd + I&lt;/code&gt; 키 조합)의 개발자 도구 메뉴를 열고 네트워크 탭을 클릭 한 다음 &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt;를 다시 로드하십시오.&lt;br /&gt;
- 약 6 초 후에 웹 페이지가 로드됩니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 섹션에 &lt;b&gt;“죄송합니다. 현재 이 책에 대한 제품 리뷰를 사용할 수 없습니다.”&lt;/b&gt;라고 표시 될 것입니다.&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_fault_injection_delay_error.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;이해하기&quot;&gt;이해하기&lt;/h2&gt;
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스에 에러가 난 이유는 Bookinfo 애플리케이션에 버그가 있기 때문입니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt; 서비스 간의 timeout(3s + 1 retry = 6s total)은 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;ratings&lt;/code&gt; 서비스 사이의 timeout(10s)보다 작습니다. 이런 버그는 서로 다른 팀이 마이크로서비스를 독립적으로 개발하는 환경에서 발생할 수 있습니다. Istio의 &lt;b&gt;오류 주입&lt;/b&gt; 규칙은 사용자에게 영향을 주지 않고 이런 예외를 식별하는 데 도움을 줍니다.&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;이 예제에서는 에러가 사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;에게만 영향을 주도록 제한하고 있습니다. 다른 사용자로 로그인하면 지연이 발생하지 않습니다.&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;버그 수정: 일반적으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt; timeout 늘리거나 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;ratings&lt;/code&gt; 서비스 간의 timeout을 줄여 문제를 해결합니다.&lt;br /&gt;
-아래와 같이 지연을 2.8초로 변경하여 문제가 해결되는지 확인합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl edit routerule ratings-test-delay
-apiVersion: config.istio.io/v1alpha2
-kind: RouteRule
-metadata:
-  creationTimestamp: null
-  name: ratings-test-delay
-  ...
-spec:
-  destination:
-    name: ratings
-  httpFault:
-    delay:
-      fixedDelay: 2.800s
-      percent: 100
-  match:
-    request:
-      headers:
-        cookie:
-          regex: ^(.*?;)?(user=jason)(;.*)?$
-  precedence: 2
-  route:
-  - labels:
-      version: v1
----
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_fault_injection_delay_fixed.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;http-중단을-사용한-오류-주입&quot;&gt;HTTP 중단을 사용한 오류 주입&lt;/h2&gt;
-&lt;p&gt;다른 복원력 테스트 방법으로써 HTTP 중단을 소개합니다. 지연을 통한 방법과 달리 페이지가 즉시 로드되고 ‘ratings 서비스 사용할 수 없음’이라는 메시지가 표시됩니다.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;지연을 사용한 오류 주입 규칙을 삭제합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl delete -f samples/bookinfo/kube/route-rule-ratings-test-delay.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;에게 HTTP 중단을 보내기 위한 오류 주입 규칙을 생성합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-ratings-test-abort.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;생성한 규칙 확인&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerules ratings-test-abort -o yaml
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: ratings-test-abort
-   namespace: default
-   ...
- spec:
-   destination:
-     name: ratings
-   httpFault:
-     abort:
-       httpStatus: 500
-       percent: 100
-   match:
-     request:
-       headers:
-         cookie:
-           regex: ^(.*?;)?(user=jason)(;.*)?$
-   precedence: 2
-   route:
-   - labels:
-       version: v1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;애플리케이션의 동작 확인
-사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;으로 로그인합니다. 규칙이 모든 pods에 전파되면 “ratings 서비스 사용할 수 없음”이라는 메시지와 함께 페이지가 표시됩니다. 사용자 &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;에서 로그 아웃하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt; 페이지에 ratings v1이 정상적으로 표시됩니다.&lt;/p&gt;
-
-    &lt;p&gt;HTTP 중단을 사용한 오류 주입 상태
- &lt;img src=&quot;/blog/assets/images/istio_fault_injection_aborted.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-    &lt;p&gt;ratings v1이 정상적으로 표시 상태
- &lt;img src=&quot;/blog/assets/images/istio_fault_injection_not_aborted.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
-&lt;p&gt;https://istio.io/docs/tasks/traffic-management/fault-injection.html&lt;/p&gt;
-
-&lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/07/istio-intelligent-routing-3.html&quot;&gt;Istio Intelligent Routing #3 가중치 기반 라우팅&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 지연을 주입하고 애플리케이션의 복원력을 테스트하는 방법을 보여줍니다.</summary></entry><entry><title type="html">Istio Intelligent Routing #1 콘텐츠 기반 라우팅</title><link href="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html" rel="alternate" type="text/html" title="Istio Intelligent Routing #1 콘텐츠 기반 라우팅" /><published>2018-04-26T20:46:39+09:00</published><updated>2018-04-26T20:46:39+09:00</updated><id>http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1</id><content type="html" xml:base="http://localhost:4000/blog/istio/2018/04/26/istio-intelligent-routing-1.html">&lt;p&gt;이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Kubernetes에 Istio 설치하기&lt;/p&gt;
-
-    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html&quot;&gt;Kubernetes에 Istio 설치하기&lt;/a&gt;를 참고하여 Kubernetes에 Istio 설치합니다.&lt;br /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/p&gt;
-
-    &lt;p&gt;&lt;a href=&quot;/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html&quot;&gt;마이크로서비스 샘플앱(BookInfo) 배포하기&lt;/a&gt;를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.&lt;br /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;콘텐츠-기반-라우팅&quot;&gt;콘텐츠 기반 라우팅&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;모든 마이크로서비스에 대해 기본버전을 v1으로 적용합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-all-v1.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;참고: istioctl은 kubectl로 대체할 수 있습니다. 하지만 kubectl은 현재 유효성 검사를 하지 않습니다.&lt;/p&gt;
-
-    &lt;p&gt;아래 명령어를 통해 route rule을 조회할 수 있습니다.&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerules -o yaml
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: details-default
-   namespace: default
-   ...
- spec:
-   destination:
-     name: details
-   precedence: 1
-   route:
-   - labels:
-       version: v1
- ---
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: productpage-default
-   namespace: default
-   ...
- spec:
-   destination:
-     name: productpage
-   precedence: 1
-   route:
-   - labels:
-       version: v1
- ---
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: ratings-default
-   namespace: default
-   ...
- spec:
-   destination:
-     name: ratings
-   precedence: 1
-   route:
-   - labels:
-       version: v1
- ---
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   name: reviews-default
-   namespace: default
-   ...
- spec:
-   destination:
-     name: reviews
-   precedence: 1
-   route:
-   - labels:
-       version: v1
- ---
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;BookInfo app 접속&lt;/p&gt;
-
-    &lt;p&gt;http://$GATEWAY_ADDRESS/productpage &lt;br /&gt;
- Bookinfo application의 &lt;code class=&quot;highlighter-rouge&quot;&gt;productpage&lt;/code&gt;를 볼수 있습니다.&lt;br /&gt;
- &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v1&lt;/code&gt; 인스턴스 에는 rating stars가 없으므로 표시되지 않습니다.&lt;br /&gt;&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_intel_routing_contents_norating.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;특정 user로 접속&lt;/p&gt;
-
-    &lt;p&gt;아래 명령어를 실행하면 user &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;이 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v2&lt;/code&gt; 인스턴스로 접속되도록 설정할 수 있습니다.&lt;br /&gt;&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl create -f samples/bookinfo/kube/route-rule-reviews-test-v2.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;설정 확인&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ istioctl get routerule reviews-test-v2 -o yaml
- apiVersion: config.istio.io/v1alpha2
- kind: RouteRule
- metadata:
-   creationTimestamp: null
-   name: reviews-test-v2
-   namespace: bookinfo
-   resourceVersion: &quot;517883&quot;
- spec:
-   destination:
-     name: reviews
-   match:
-     request:
-       headers:
-         cookie:
-           regex: ^(.*?;)?(user=jason)(;.*)?$
-   precedence: 2
-   route:
-   - labels:
-       version: v2
- ---
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;productpage web page에서 user &lt;code class=&quot;highlighter-rouge&quot;&gt;jason&lt;/code&gt;으로 접속&lt;/p&gt;
-
-    &lt;p&gt;이제 ratings (1-5 stars)를 볼 수 있습니다. 로그인하지 않으면 &lt;code class=&quot;highlighter-rouge&quot;&gt;reviews:v1&lt;/code&gt; 인스턴스로 접속됩니다.&lt;br /&gt;&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/istio_intel_routing_contents_rating.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;참고-자료&quot;&gt;참고 자료&lt;/h2&gt;
-&lt;p&gt;https://istio.io/docs/tasks/traffic-management/request-routing.html&lt;/p&gt;
-
-&lt;h2 id=&quot;다음-포스트&quot;&gt;다음 포스트&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;/blog/istio/2018/05/02/istio-intelligent-routing-2.html&quot;&gt;Istio Intelligent Routing #2 오류 주입&lt;/a&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">Issue</summary></entry></feed>

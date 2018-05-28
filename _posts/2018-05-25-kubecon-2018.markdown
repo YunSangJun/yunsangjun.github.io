@@ -2,17 +2,13 @@
 layout: post
 title:  "KubeCon & CloudNativeCon Europe 2018"
 author: 윤상준
-date: 2018-05-25 01:45:05 +0900
+date: 2018-05-25
 categories: kubernetes
 ---
 
-## Jenkins X: Easy CI/CD for Kubernetes - James Strachan, CloudBees 
+## Jenkins X: Easy CI/CD for Kubernetes - James Strachan, CloudBees
 
 ### Link
 https://www.youtube.com/watch?v=uHe7R_iZSLU
 
 ### Summary
-
-
-
-

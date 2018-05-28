@@ -2,7 +2,7 @@
 layout: post
 title:  "Github Page를 활용해 블로그 만들기"
 author: 윤상준
-date: 2018-04-06 14:46:39 +0900
+date: 2018-04-06
 categories: etc
 ---
 

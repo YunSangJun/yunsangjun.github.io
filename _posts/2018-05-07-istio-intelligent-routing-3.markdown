@@ -2,7 +2,7 @@
 layout: post
 title:  "Istio Intelligent Routing #3 가중치 기반 라우팅"
 author: 윤상준
-date: 2018-05-07 15:20:05 +0900
+date: 2018-05-07
 categories: istio
 ---
 
