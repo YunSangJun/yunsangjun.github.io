@@ -1,4 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-29T01:23:06+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. </subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Helm 설치하기</title><link href="http://localhost:4000/blog/helm/2018/05/27/installing-helm.html" rel="alternate" type="text/html" title="Helm 설치하기" /><published>2018-05-27T00:00:00+09:00</published><updated>2018-05-27T00:00:00+09:00</updated><id>http://localhost:4000/blog/helm/2018/05/27/installing-helm</id><content type="html" xml:base="http://localhost:4000/blog/helm/2018/05/27/installing-helm.html">&lt;p&gt;이 페이지는 Helm을 설치하는 방법에 대해 설명합니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-05-29T14:48:41+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. </subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Cannot find module ‘webpack/lib/node/NodeTemplatePlugin’</title><link href="http://localhost:4000/blog/angular/2018/05/29/angular-cannot-find-module.html" rel="alternate" type="text/html" title="Cannot find module 'webpack/lib/node/NodeTemplatePlugin'" /><published>2018-05-29T00:00:00+09:00</published><updated>2018-05-29T00:00:00+09:00</updated><id>http://localhost:4000/blog/angular/2018/05/29/angular-cannot-find-module</id><content type="html" xml:base="http://localhost:4000/blog/angular/2018/05/29/angular-cannot-find-module.html">&lt;p&gt;Angular build 시 아래와 같은 에러가 나는 경우가 있습니다.
+npm5에 도입된 &lt;code class=&quot;highlighter-rouge&quot;&gt;package-lock.json&lt;/code&gt;을 삭제하지 않고 &lt;code class=&quot;highlighter-rouge&quot;&gt;npm install&lt;/code&gt;을 한 경우 발생합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yarn run xxx
+yarn run v1.7.0
+$ ng build --prod --aot --progress=false --output-path rootfs/dist
+Cannot find module 'webpack/lib/node/NodeTemplatePlugin'
+Error: Cannot find module 'webpack/lib/node/NodeTemplatePlugin'
+    at Function.Module._resolveFilename (module.js:547:15)
+    at Function.Module._load (module.js:474:25)
+    at Module.require (module.js:596:17)
+    at require (internal/module.js:11:18)
+    at Object.&amp;lt;anonymous&amp;gt; (/Users/sangjunyun/git/zcp-catalog-ui/node_modules/html-webpack-plugin/lib/compiler.js:11:26)
+    at Module._compile (module.js:652:30)
+    at Object.Module._extensions..js (module.js:663:10)
+    at Module.load (module.js:565:32)
+    at tryModuleLoad (module.js:505:12)
+    at Function.Module._load (module.js:497:3)
+    at Module.require (module.js:596:17)
+    at require (internal/module.js:11:18)
+    at Object.&amp;lt;anonymous&amp;gt; (/Users/sangjunyun/git/zcp-catalog-ui/node_modules/html-webpack-plugin/index.js:7:21)
+    at Module._compile (module.js:652:30)
+    at Object.Module._extensions..js (module.js:663:10)
+    at Module.load (module.js:565:32)
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+make: *** [compile-aot] Error 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;아래 명령어를 실행해 &lt;code class=&quot;highlighter-rouge&quot;&gt;node_modules&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt; 그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;package-lock.json&lt;/code&gt;을 삭제합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rm -rf node_modules dist package-lock.json
+$ npm cache clean
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 &lt;code class=&quot;highlighter-rouge&quot;&gt;npm install&lt;/code&gt; 명령을 실행해 node_modules을 다시 설치합니다.
+이후 Angular build를 다시하면 정상적으로 실행됩니다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Angular build 시 아래와 같은 에러가 나는 경우가 있습니다. npm5에 도입된 package-lock.json을 삭제하지 않고 npm install을 한 경우 발생합니다.</summary></entry><entry><title type="html">Helm 설치하기</title><link href="http://localhost:4000/blog/helm/2018/05/27/installing-helm.html" rel="alternate" type="text/html" title="Helm 설치하기" /><published>2018-05-27T00:00:00+09:00</published><updated>2018-05-27T00:00:00+09:00</updated><id>http://localhost:4000/blog/helm/2018/05/27/installing-helm</id><content type="html" xml:base="http://localhost:4000/blog/helm/2018/05/27/installing-helm.html">&lt;p&gt;이 페이지는 Helm을 설치하는 방법에 대해 설명합니다.
 자세한 내용은 &lt;a href=&quot;https://docs.helm.sh/using_helm/#installing-helm&quot;&gt;Installing Helm&lt;/a&gt;을 참고하세요.&lt;/p&gt;
 
 &lt;h2 id=&quot;helm-client-바이너리-다운로드&quot;&gt;Helm client 바이너리 다운로드&lt;/h2&gt;
@@ -517,66 +553,4 @@ svc/demo-service   ClusterIP   172.21.189.11   &amp;lt;none&amp;gt;        80/TC
 Forwarding from 127.0.0.1:8080 -&amp;gt; 8080
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;keycloak-proxy-배포하기&quot;&gt;Keycloak Proxy 배포하기&lt;/h2&gt;</content><author><name>윤상준</name></author><summary type="html">OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다.</summary></entry><entry><title type="html">MountVolume.SetUp failed for volume pvc-xxx</title><link href="http://localhost:4000/blog/kubernetes/2018/05/16/volume-mount-failed.html" rel="alternate" type="text/html" title="MountVolume.SetUp failed for volume pvc-xxx" /><published>2018-05-16T00:00:00+09:00</published><updated>2018-05-16T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/16/volume-mount-failed</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/16/volume-mount-failed.html">&lt;h2 id=&quot;issue&quot;&gt;Issue&lt;/h2&gt;
-
-&lt;p&gt;Pod가 STATUS가 ContainerCreating 상태임.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get pod xxx
-NAME   READY    STATUS              RESTARTS   AGE       IP        
-xxx    0/1      ContainerCreating   0          1m        &amp;lt;none&amp;gt;  
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Describe 명령어로 상태를 확인.
-Pod가 mount 하려는 pvc의 device가 이미 mount 되어 있음. Pod를 비정상 종료되면서 umount가 안된것으로 보임.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl describe pod xxx
-...
-Events:
-  Type     Reason                 Age   From                     Message
-  ----     ------                 ----  ----                     -------
-  Normal   Scheduled              1m    default-scheduler        Successfully assigned xxx to 10.178.218.181
-  Normal   SuccessfulMountVolume  1m    kubelet, 10.178.218.181  MountVolume.SetUp succeeded for volume &quot;default-token-z84t8&quot;
-  Warning  FailedMount            13s   kubelet, 10.178.218.181  MountVolume.SetUp failed for volume &quot;pvc-xxx&quot; : mount command failed, status: Failure, reason: Error while mounting the volume &amp;amp;errors.errorString{s:&quot;RWO check has failed. DevicePath /var/lib/kubelet/plugins/kubernetes.io/flexvolume/ibm/ibmc-block/mounts/pvc-xxx is already mounted on mountpath /var/lib/kubelet/pods/496dc423-4da7-11e8-915d-82c09a00d8d2/volumes/ibm~ibmc-block/pvc-xxx &quot;}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;해당 Pod가 실행중인 Node에 접속&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl get pod xxx -o wide
- NAME  READY     STATUS              RESTARTS   AGE       IP        NODE
- xxx   0/1       ContainerCreating   0          1m        &amp;lt;none&amp;gt;    10.178.218.181
-
- $ ssh user@10.178.218.181
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;해당 Pod가 mount 하려는 device를 찾아서 umount&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ df -h |grep xxx
- /dev/mapper/xxx  20G  232M  19G  2%   /var/lib/kubelet/plugins/kubernetes.io/flexvolume/ibm/ibmc-block/mounts/pvc-xxx
-
- $ umount -v /dev/mapper/xxx
- /dev/mapper/xxx umounted...
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;해당 Pod 삭제해 재시작하면 정상적으로 mount 됨&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl delete pod xxx
-
- $ kubectl describe pod xxx
- ...
- Events:
-   Type    Reason                 Age   From                     Message
-   ----    ------                 ----  ----                     -------
-   Normal  Scheduled              43m   default-scheduler        Successfully assigned xxx to 10.178.218.181
-   Normal  SuccessfulMountVolume  43m   kubelet, 10.178.218.181  MountVolume.SetUp succeeded for volume &quot;default-token-z84t8&quot;
-   Normal  SuccessfulMountVolume  43m   kubelet, 10.178.218.181  MountVolume.SetUp succeeded for volume &quot;pvc-xxx&quot;
-   ...
-   Normal  Created                42m   kubelet, 10.178.218.181  Created container
-   Normal  Started                42m   kubelet, 10.178.218.181  Started container
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">Issue</summary></entry></feed>
+&lt;h2 id=&quot;keycloak-proxy-배포하기&quot;&gt;Keycloak Proxy 배포하기&lt;/h2&gt;</content><author><name>윤상준</name></author><summary type="html">OpenID Connect Provider와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 하지만 애플리케이션에서 OpenID Connect Provider와 연계하기 위한 플러그인을 제공하지 않거나 소스 코드를 수정할 수 없는 경우가 있습니다.(예 : Kibana). 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 이런 애플리케이션의 인증/인가를 처리할 수 있습니다.</summary></entry></feed>
