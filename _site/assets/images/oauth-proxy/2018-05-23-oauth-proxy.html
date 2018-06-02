@@ -10,15 +10,15 @@
 <meta property="og:title" content="OAuth Proxy를 활용한 애플리케이션 인증 및 인가" />
 <meta name="author" content="윤상준" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="OIDC(OpenID Connect identity providers)와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 자체 개발한 애플리케이션의 경우 OIDC와 연동하기 위한 인증 기능을 개발하면 됩니다. 하지만 오픈소스를 사용하는 경우 해당 오픈소스에서 OIDC와의 연동기능을 제공하지 않으면 오픈소스의 코드를 수정해야합니다(예 : Kibana). 하지만 오픈소스의 코드를 수정하면 업스트림과의 일관성을 유지해야하는 부분이 부담스러울수 있습니다. 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 애플리케이션의 인증/인가를 처리할 수 있습니다." />
-<meta property="og:description" content="OIDC(OpenID Connect identity providers)와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 자체 개발한 애플리케이션의 경우 OIDC와 연동하기 위한 인증 기능을 개발하면 됩니다. 하지만 오픈소스를 사용하는 경우 해당 오픈소스에서 OIDC와의 연동기능을 제공하지 않으면 오픈소스의 코드를 수정해야합니다(예 : Kibana). 하지만 오픈소스의 코드를 수정하면 업스트림과의 일관성을 유지해야하는 부분이 부담스러울수 있습니다. 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 애플리케이션의 인증/인가를 처리할 수 있습니다." />
-<link rel="canonical" href="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html" />
-<meta property="og:url" content="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html" />
+<meta name="description" content="Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다." />
+<meta property="og:description" content="Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다." />
+<link rel="canonical" href="http://localhost:4000/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html" />
+<meta property="og:url" content="http://localhost:4000/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html" />
 <meta property="og:site_name" content="윤상준의 기술 블로그" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-05-23T00:00:00+09:00" />
 <script type="application/ld+json">
-{"description":"OIDC(OpenID Connect identity providers)와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 자체 개발한 애플리케이션의 경우 OIDC와 연동하기 위한 인증 기능을 개발하면 됩니다. 하지만 오픈소스를 사용하는 경우 해당 오픈소스에서 OIDC와의 연동기능을 제공하지 않으면 오픈소스의 코드를 수정해야합니다(예 : Kibana). 하지만 오픈소스의 코드를 수정하면 업스트림과의 일관성을 유지해야하는 부분이 부담스러울수 있습니다. 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 애플리케이션의 인증/인가를 처리할 수 있습니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html","headline":"OAuth Proxy를 활용한 애플리케이션 인증 및 인가","dateModified":"2018-05-23T00:00:00+09:00","datePublished":"2018-05-23T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html"},"@context":"http://schema.org"}</script>
+{"description":"Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html","headline":"OAuth Proxy를 활용한 애플리케이션 인증 및 인가","dateModified":"2018-05-23T00:00:00+09:00","datePublished":"2018-05-23T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
 </head>
@@ -83,22 +83,22 @@
 <p>전제 조건 : 이 데모 애플리케이션에서는 Keycloak Proxy가 <code class="highlighter-rouge">/admin</code> endpoint에 대해서만 권한을 체크하도록 설정했습니다.</p>
 
 <ul>
-  <li>
-    <p>Keycloak Proxy는 <code class="highlighter-rouge">/user</code> endpoint에 대한 클라이언트 요청을 허용합니다.</p>
-
-    <p><img src="/blog/assets/images/oauth-proxy/keycloak_proxy_flow_user_allow.png" alt="Keycloak Proxy Flow Allow" /></p>
-  </li>
-  <li>
-    <p>Keycloak Proxy는 클라이언트가 admin 권한을 가지고 있지 않다면 <code class="highlighter-rouge">/admin</code> endpoint에 대한 클라이언트 요청을 거부합니다.</p>
-
-    <p><img src="/blog/assets/images/oauth-proxy/keycloak_proxy_flow_admin_deny.png" alt="Keycloak Proxy Flow Deny" /></p>
-  </li>
-  <li>
-    <p>Keycloak Proxy는 클라이언트가 admin 권한을 가지고 있다면 <code class="highlighter-rouge">/admin</code> endpoint에 대한 클라이언트 요청을 허용합니다.</p>
-
-    <p><img src="/blog/assets/images/oauth-proxy/keycloak_proxy_flow_admin_allow.png" alt="Keycloak Proxy Flow Deny" /></p>
-  </li>
+  <li>Keycloak Proxy는 <code class="highlighter-rouge">/user</code> endpoint에 대한 클라이언트 요청을 허용합니다.</li>
 </ul>
+
+<p><img src="/blog/assets/images/keycloak_proxy_flow_user_allow.png" alt="Keycloak Proxy Flow Allow" /></p>
+
+<ul>
+  <li>Keycloak Proxy는 클라이언트가 admin 권한을 가지고 있지 않다면 <code class="highlighter-rouge">/admin</code> endpoint에 대한 클라이언트 요청을 거부합니다.</li>
+</ul>
+
+<p><img src="/blog/assets/images/keycloak_proxy_flow_admin_deny.png" alt="Keycloak Proxy Flow Deny" /></p>
+
+<ul>
+  <li>Keycloak Proxy는 클라이언트가 admin 권한을 가지고 있다면 <code class="highlighter-rouge">/admin</code> endpoint에 대한 클라이언트 요청을 허용합니다.</li>
+</ul>
+
+<p><img src="/blog/assets/images/keycloak_proxy_flow_admin_allow.png" alt="Keycloak Proxy Flow Deny" /></p>
 
 <h3 id="다운로드">다운로드</h3>
 
@@ -140,7 +140,7 @@ Forwarding from 127.0.0.1:8080 -&gt; 8080
 “Hello User!”와 “Hello Admin!” 메세지를 볼 수 있습니다.
 현재는 <code class="highlighter-rouge">/user</code>와 <code class="highlighter-rouge">/admin</code> endpoint에 별도의 인증없이 접속 할 수 있습니다.</p>
 
-<p>다음 과정에서는 Keycloak Proxy를 배포하고 이를 Keycloak과 연계하여 admin 권한을 가진 사용자만 <code class="highlighter-rouge">/admin</code> endpoint에 접속할 수 있도록 설정해보겠습니다.</p>
+<p>다음 과정에서는 Keycloak Proxy를 배포하고 이를 Keycloak(OpenID Connect Provider)과 연계하여 admin 권한을 가진 사용자만 <code class="highlighter-rouge">/admin</code> endpoint에 접속할 수 있도록 설정해보겠습니다.</p>
 
 <h2 id="keycloak-proxy-배포하기">Keycloak Proxy 배포하기</h2>
 
@@ -149,73 +149,72 @@ Forwarding from 127.0.0.1:8080 -&gt; 8080
 <p>Keycloak Proxy에 대한 자세한 설명은 <a href="https://github.com/kubernetes/charts/tree/master/incubator/keycloak-proxy">Keycloak Proxy Helm Chart</a>를 참고하세요.</p>
 
 <ol>
-  <li>
-    <p><code class="highlighter-rouge">values.yaml</code> 작성하기</p>
-
-    <p>아래와 같이 <code class="highlighter-rouge">values.yaml</code>을 작성합니다.</p>
-
-    <p>참고: 사전 준비에서 Keycloak 관리자 대시보드에서 Realm, Client, Role을 생성했습니다. 이 정보를 아래 <code class="highlighter-rouge">configmap</code> 속성에 작성해야합니다.
- 이 페이지에서는 <code class="highlighter-rouge">NodePort</code>를 사용해 서비스를 외부에 노출시켰습니다. <code class="highlighter-rouge">LoadBalancer</code>나 <code class="highlighter-rouge">Ingress</code>를 사용할 수도 있습니다.</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> service:
-   type: NodePort
-   nodePort: 32589
-   port: 80
-
- configmap:
-   targetUrl: http://demo-service
-   realm: demo
-   realmPublicKey: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsLa2YmPyakziINoUgRLrEHLCKcyz62LhLU4JQsbJXMa1Zj4u/bU5D4dau1WkF94ivKV1osvqJqtQ4jCJYfRYrhCYeYOZWB7YFxELj+zMyP72Gxqg/YfWXKrzVnI5MYdZNx52dWAvBVDsDrxiZzJ0Xc92qCdKnEbvpK50XCh15KjWSjucbcJPwGX6kclLCmX0V47ziSo83FjH3ddFP81Kmza3on569Xi0QAAx3g/ZgPgZOSuF9OWwh3aMTwkfx9DlGeU5pY7uqvjuM9v33g0tdpOEelRAqu0aH/HEFXk9Mn74U1GQU/drflQVWEbv+9YvnUJN4cGt0oqmwQYU+Ix4qwIDAQAB"
-   authServerUrl: http://url-to-keycloak.example.com/auth
-   resource: demo
-   secret: 2b2c17f0-245e-4978-a663-9a02a268a8f4
-   pattern: /admin
-   rolesAllowed: admin
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>Keycloak Proxy 배포하기</p>
-
-    <p>아래 명령을 실행하여 Keycloak Proxy를 배포합니다.</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ helm install --name keycloak-proxy -f values.yaml incubator/keycloak-proxy
- NAME:   keycloak-proxy
- LAST DEPLOYED: Wed May 16 01:17:25 2018
- STATUS: DEPLOYED
-
- RESOURCES:
- ==&gt; v1beta1/Deployment
- NAME            DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
- keycloak-proxy  1        1        1           0          0s
-
- ==&gt; v1/Pod(related)
- NAME                             READY  STATUS             RESTARTS  AGE
- keycloak-proxy-67df99bbd5-ckfx7  0/1    ContainerCreating  0         0s
-
- ==&gt; v1/ConfigMap
- NAME                      DATA  AGE
- keycloak-proxy-configmap  1     0s
-
- ==&gt; v1/Service
- NAME                    TYPE      CLUSTER-IP     EXTERNAL-IP  PORT(S)       AGE
- keycloak-proxy-service  NodePort  172.21.215.70  &lt;none&gt;       80:32589/TCP  0s
-
-
- NOTES:
- 1. Keycloak Proxy can be accessed:
-
-    * Within your cluster, at the following DNS name at port 80:
-
-      keycloak-proxy.demo.svc.cluster.local
-
-    * From outside the cluster, run these commands in the same shell:
-
-      export NODE_PORT=$(kubectl get --namespace demo -o jsonpath="{.spec.ports[0].nodePort}" services keycloak-proxy-service)
-      export NODE_IP=$(kubectl get nodes --namespace demo -o jsonpath="{.items[0].status.addresses[0].address}")
-      echo http://$NODE_IP:$NODE_PORT
-</code></pre></div>    </div>
-  </li>
+  <li><code class="highlighter-rouge">values.yaml</code> 작성하기</li>
 </ol>
+
+<p>아래와 같이 <code class="highlighter-rouge">values.yaml</code>을 작성합니다.</p>
+
+<p>참고: 사전 준비에서 Keycloak 관리자 대시보드에서 Realm, Client, Role을 생성했습니다. 이 정보를 아래 <code class="highlighter-rouge">configmap</code> 속성에 작성해야합니다.
+이 페이지에서는 <code class="highlighter-rouge">NodePort</code>를 사용해 서비스를 외부에 노출시켰습니다. <code class="highlighter-rouge">LoadBalancer</code>나 <code class="highlighter-rouge">Ingress</code>를 사용할 수도 있습니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service:
+  type: NodePort
+  nodePort: 32589
+  port: 80
+
+configmap:
+  targetUrl: http://demo-service
+  realm: demo
+  realmPublicKey: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsLa2YmPyakziINoUgRLrEHLCKcyz62LhLU4JQsbJXMa1Zj4u/bU5D4dau1WkF94ivKV1osvqJqtQ4jCJYfRYrhCYeYOZWB7YFxELj+zMyP72Gxqg/YfWXKrzVnI5MYdZNx52dWAvBVDsDrxiZzJ0Xc92qCdKnEbvpK50XCh15KjWSjucbcJPwGX6kclLCmX0V47ziSo83FjH3ddFP81Kmza3on569Xi0QAAx3g/ZgPgZOSuF9OWwh3aMTwkfx9DlGeU5pY7uqvjuM9v33g0tdpOEelRAqu0aH/HEFXk9Mn74U1GQU/drflQVWEbv+9YvnUJN4cGt0oqmwQYU+Ix4qwIDAQAB"
+  authServerUrl: http://url-to-keycloak.example.com/auth
+  resource: demo
+  secret: 2b2c17f0-245e-4978-a663-9a02a268a8f4
+  pattern: /admin
+  rolesAllowed: admin
+</code></pre></div></div>
+
+<ol>
+  <li>Keycloak Proxy 배포하기</li>
+</ol>
+
+<p>아래 명령을 실행하여 Keycloak Proxy를 배포합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ helm install --name keycloak-proxy -f values.yaml incubator/keycloak-proxy
+NAME:   keycloak-proxy
+LAST DEPLOYED: Wed May 16 01:17:25 2018
+STATUS: DEPLOYED
+
+RESOURCES:
+==&gt; v1beta1/Deployment
+NAME            DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
+keycloak-proxy  1        1        1           0          0s
+
+==&gt; v1/Pod(related)
+NAME                             READY  STATUS             RESTARTS  AGE
+keycloak-proxy-67df99bbd5-ckfx7  0/1    ContainerCreating  0         0s
+
+==&gt; v1/ConfigMap
+NAME                      DATA  AGE
+keycloak-proxy-configmap  1     0s
+
+==&gt; v1/Service
+NAME                    TYPE      CLUSTER-IP     EXTERNAL-IP  PORT(S)       AGE
+keycloak-proxy-service  NodePort  172.21.215.70  &lt;none&gt;       80:32589/TCP  0s
+
+
+NOTES:
+1. Keycloak Proxy can be accessed:
+
+   * Within your cluster, at the following DNS name at port 80:
+
+     keycloak-proxy.demo.svc.cluster.local
+
+   * From outside the cluster, run these commands in the same shell:
+
+     export NODE_PORT=$(kubectl get --namespace demo -o jsonpath="{.spec.ports[0].nodePort}" services keycloak-proxy-service)
+     export NODE_IP=$(kubectl get nodes --namespace demo -o jsonpath="{.items[0].status.addresses[0].address}")
+     echo http://$NODE_IP:$NODE_PORT
+</code></pre></div></div>
 
 <h2 id="무엇이-일어났는지-확인하기">무엇이 일어났는지 확인하기</h2>
 
@@ -225,35 +224,34 @@ Forwarding from 127.0.0.1:8080 -&gt; 8080
   <li>
     <p><code class="highlighter-rouge">http://$NODE_IP:$NODE_PORT/user</code> 접속</p>
 
-    <p>먼저 <code class="highlighter-rouge">/user</code> endpoint에 접속해봅니다. 이전과 마찬가지로 인증없이 접근이 가능합니다.
- Keycloak Proxy 배포 시 <code class="highlighter-rouge">pattern</code> 설정에 <code class="highlighter-rouge">/admin</code> 패턴만 설정했기 때문에 <code class="highlighter-rouge">/user</code> endpoint는 bypass 합니다.</p>
+    <p>먼저 <code class="highlighter-rouge">/user</code> endpoint에 접속해봅니다. 이전과 마찬가지로 인증없이 접근이 가능합니다. Keycloak Proxy 배포 시 <code class="highlighter-rouge">pattern</code> 설정에 <code class="highlighter-rouge">/admin</code> 패턴만 설정했기 때문에 <code class="highlighter-rouge">/user</code> endpoint는 bypass 합니다.</p>
 
-    <p><img src="/blog/assets/images/oauth-proxy/page_user.png" alt="Authentication and Authorization" /></p>
+    <p><img src="./img/page_user.png" alt="Authentication and Authorization" /></p>
   </li>
   <li>
-    <p><code class="highlighter-rouge">http://$NODE_IP:$NODE_PORT/admin</code> 접속</p>
+    <p>Connect to <code class="highlighter-rouge">http://$NODE_IP:$NODE_PORT/admin</code></p>
 
-    <p><code class="highlighter-rouge">admin</code> endpoint에 접속해봅니다. Keycloak Proxy는 클라이언트를 Keycloak 로그인 페이지로 redirect 시킵니다.
- Keycloak Proxy 배포 시 <code class="highlighter-rouge">pattern</code> 설정에 <code class="highlighter-rouge">/admin</code> 패턴을 체크하도록 설정했기 때문입니다.</p>
+    <p>Keycloak Proxy will redirect to Keycloak login page because Keycloak Proxy check authentication and authorization about <code class="highlighter-rouge">/admin</code> endpoint.
+ <img src="./img/login1.png" alt="Authentication and Authorization" /></p>
 
-    <p><img src="/blog/assets/images/oauth-proxy/login1.png" alt="Authentication and Authorization" /></p>
+    <p>If you don’t have a Keycloak account, create user. Click “Register” button and insert user information such as below.
+ <img src="./img/add_user.png" alt="Authentication and Authorization" /></p>
 
-    <p>Keycloak 계정이 없다면 “Register” 버튼을 클릭하여 계정을 생성합니다.
- <img src="/blog/assets/images/oauth-proxy/add_user.png" alt="Authentication and Authorization" /></p>
+    <p>Login with the user.
+ <img src="./img/login2.png" alt="Authentication and Authorization" /></p>
 
-    <p>Keycloak 계정으로 로그인합니다.
- <img src="/blog/assets/images/oauth-proxy/login2.png" alt="Authentication and Authorization" /></p>
+    <p>If you success to login, now you become valid user.
+ However, you will may get a “HTTP 403 error” because you don’t have authorization about <code class="highlighter-rouge">/admin</code> endpoint.
+ <img src="./img/page_admin_error.png" alt="Authentication and Authorization" /></p>
+  </li>
+  <li>
+    <p>Map “admin” role to user account</p>
 
-    <p>이제 로그인에 성공했다면 제어권이 다시 Keycloak Proxy로 넘어갑니다.
- 만약 로그인한 계정이 admin 권한을 가지고 있지 않다면 “HTTP 403” 에러가 발생 할 수 있습니다.
- <img src="/blog/assets/images/oauth-proxy/page_admin_error.png" alt="Authentication and Authorization" /></p>
+    <p>Select “admin” role in “Available Roles” and click “Add selected” button.
+ <img src="./img/role_mapping.png" alt="Authentication and Authorization" /></p>
 
-    <p>Keycloak 관리자 대시보드에 접속한 후 User 관리메뉴를 클릭합니다.
- 로그인한 사용자 계정을 선택한 후 admin 권한을 사용자에게 부여합니다.
- <img src="/blog/assets/images/oauth-proxy/role_mapping.png" alt="Authentication and Authorization" /></p>
-
-    <p>이제 다시 접속해보면 아래와 같이 <code class="highlighter-rouge">/admin</code> endpoint에 정상적으로 접근할 수 있습니다.
- <img src="/blog/assets/images/oauth-proxy/page_admin_success.png" alt="Authentication and Authorization" /></p>
+    <p>Now, you have an authorization about <code class="highlighter-rouge">/admin</code> endpoint so you can access to <code class="highlighter-rouge">/admin</code> endpoint.
+ <img src="./img/page_admin_success.png" alt="Authentication and Authorization" /></p>
   </li>
 </ol>
 
@@ -277,7 +275,7 @@ Forwarding from 127.0.0.1:8080 -&gt; 8080
   })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a class="u-url" href="/blog/authentication/2018/05/23/oauth-proxy.html" hidden></a>
+<a class="u-url" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html" hidden></a>
 </article>
 
       </div>
