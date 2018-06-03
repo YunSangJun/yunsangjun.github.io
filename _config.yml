@@ -42,7 +42,7 @@ github_username: yunsangjun
 
 # Build settings
 markdown: kramdown
-future: true
+future: false
 plugins:
   - jekyll-feed
   - jekyll-paginate
