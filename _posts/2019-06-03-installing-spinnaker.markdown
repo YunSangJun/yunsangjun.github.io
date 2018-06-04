@@ -190,13 +190,12 @@ Minio는 Self 호스팅 할 수있는 S3 호환 Object Storage입니다. Spinnak
 #### 저장 용량 설정 수정
 
 Minio가 버전 객체를 지원하지 않는다면 Spinnaker에서 버전 객체를 비활성화해야합니다. 
-~ / .hal / $ DEPLOYMENT / profiles / front50-local.yml에 다음 행을 추가하십시오.
+아래와 같이 설정합니다. $DEPLOYMENT는 일반적으로 default입니다. 자세한 내용은 [여기](https://www.spinnaker.io/reference/halyard/#deployments)를 참조하십시오.
 
 ```
+$ vi ~/.hal/$DEPLOYMENT/profiles/front50-local.yml
 spinnaker.s3.versioning: false
 ```
-
-$ DEPLOYMENT는 일반적으로 default입니다. 자세한 내용은 [여기](https://www.spinnaker.io/reference/halyard/#deployments)를 참조하십시오.
 
 아래 명령을 실행합니다.
 
