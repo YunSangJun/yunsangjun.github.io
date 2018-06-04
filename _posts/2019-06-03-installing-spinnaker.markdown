@@ -187,27 +187,35 @@ Minio는 Self 호스팅 할 수있는 S3 호환 Object Storage입니다. Spinnak
 
 [Minio 홈페이지](https://www.minio.io/)에 있는 가이드를 따라 Minio를 설치합니다. 
 
-#### 저장 용량 설정 수정
-
-Minio가 버전 객체를 지원하지 않는다면 Spinnaker에서 버전 객체를 비활성화해야합니다. 
-아래와 같이 설정합니다. $DEPLOYMENT는 일반적으로 default입니다. 자세한 내용은 [여기](https://www.spinnaker.io/reference/halyard/#deployments)를 참조하십시오.
+#### 스토리지 설정
 
 ```
-$ vi ~/.hal/$DEPLOYMENT/profiles/front50-local.yml
-spinnaker.s3.versioning: false
-```
+$ export ENDPOINT=S3_ENDPOINT
+$ export MINIO_ACCESS_KEY=S3_ACCESS_KEY_ID
 
-아래 명령을 실행합니다.
-
-```
-# The next two lines should be run inside the docker container only
-chcon -R --reference /root/.bashrc /root/.hal/
-ls -lZa /root # Make sure the SELinux context is the same for all files/folders
-
-echo $MINIO_SECRET_KEY | hal config storage s3 edit --endpoint $ENDPOINT \
+$ hal config storage s3 edit --endpoint $ENDPOINT \
     --access-key-id $MINIO_ACCESS_KEY \
-    --secret-access-key # will be read on STDIN to avoid polluting your
-                        # ~/.bash_history with a secret
+    --secret-access-key 
+Your AWS Secret Key.: 
++ Get current deployment
+  Success
++ Get persistent store
+  Success
+Generated bucket name: spin-e994b7ef-2c80-48bf-935c-d1e784417dc2
++ Edit persistent store
+  Success
+Problems in default.persistentStorage:
+- WARNING Your deployment will most likely fail until you configure
+  and enable a persistent store.
++ Successfully edited persistent store "s3". 
 
-hal config storage edit --type s3
+$ hal config storage edit --type s3
++ Get current deployment
+  Success
++ Get persistent storage settings
+  Success
++ Edit persistent storage settings
+  Success
++ Successfully edited persistent storage.
 ```
+
