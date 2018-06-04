@@ -16,18 +16,18 @@ Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 
 
 1. [Docker CE](https://docs.docker.com/engine/installation/)를 설치
 
-2. 설치 환경에 로컬 Halyard 설정 디렉토리를 생성
+2. 로컬 환경에 Halyard 설정 디렉토리를 생성
 
     ```
-    mkdir ~/.hal
+    $ mkdir ~/.hal
     ```
 
-3. Docker 컨테이너에서 Halyard를 실행
+3. Halyard Docker 컨테이너 실행
 
     아래 명령을 실행하여 Halyard Docker 컨테이너를 생성합니다. 이 명령은 Halyard 설정 디렉토리를 마운트합니다.
 
     ```
-    docker run -p 8084:8084 -p 9000:9000 \
+    $ docker run -p 8084:8084 -p 9000:9000 \
         --name halyard --rm \
         -v ~/.hal:/home/spinnaker/.hal \
         -v ~/.kube:/home/spinnaker/.kube \
@@ -40,7 +40,7 @@ Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 
     아래 명령을 실행하여 Halyard Docker 컨테이너에 접속합니다.
 
     ```
-    docker exec -it halyard bash
+    $ docker exec -it halyard bash
     ```
 
 5. 자동 완성
@@ -48,7 +48,7 @@ Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 
     아래 명령을 실행하여 자동완성을 설정합니다.
 
     ```
-    source <(hal --print-bash-completion)
+    $ source <(hal --print-bash-completion)
     ```
 
     `hal` 명령어에 대한 자세한 내용은 [Halyard command Reference](https://www.spinnaker.io/reference/halyard/commands)를 참고하세요.
@@ -100,17 +100,17 @@ Spinnaker를 통해 애플리케이션을 배포할 Cloud 공급자를 선택합
 이제 계정을 추가합니다. 먼저, 공급자가 활성화 되어 있는지 확인합니다.
 
 ```
-hal config provider kubernetes enable
+$ hal config provider kubernetes enable
 ```
 
 그리고 계정을 추가합니다.
 
 ```
-hal config provider kubernetes account add my-k8s-v2-account \
+$ hal config provider kubernetes account add my-k8s-v2-account \
     --provider-version v2 \
     --context $(kubectl config current-context)
-    
-hal config features edit --artifacts true
+
+$ hal config features edit --artifacts true
 ```
 
 #### 추가 설정
@@ -147,7 +147,7 @@ Spinnaker를 설치하기 위해 `4 cores`와 `8GB of RAM`을 권장합니다.
 아래 명령을 실행합니다. `$ACCOUNT`는 공급자 선택에서 설정한 생성한 계정입니다.
 
 ```
-hal config deploy edit --type distributed --account-name $ACCOUNT
+$ hal config deploy edit --type distributed --account-name $ACCOUNT
 ```
 
 ## 스토리지 선택하기
@@ -175,9 +175,20 @@ Minio는 Self 호스팅 할 수있는 S3 호환 Object Storage입니다. Spinnak
 
 #### 사전 준비
 
-[Minio 홈페이지](https://www.minio.io/)에 있는 가이드를 따라 Minio를 설치합니다. 
+[Minio 홈페이지](https://www.minio.io/)에 있는 가이드를 따라 Minio를 설치합니다.
 
 #### 스토리지 설정
+
+Minio가 버전 객체를 지원하지 않으므로 Spinnaker에서 버전 객체를 비활성화합니다.
+
+```
+$ vi ~/.hal/$DEPLOYMENT/profiles/front50-local.yml:
+spinnaker.s3.versioning: false
+```
+
+$DEPLOYMENT 일반적으로 `default`입니다.
+
+아래 명령을 실행해 S3를 저장소 유형으로 선택합니다.
 
 ```
 $ export ENDPOINT=S3_ENDPOINT
@@ -185,28 +196,10 @@ $ export MINIO_ACCESS_KEY=S3_ACCESS_KEY_ID
 
 $ hal config storage s3 edit --endpoint $ENDPOINT \
     --access-key-id $MINIO_ACCESS_KEY \
-    --secret-access-key 
-Your AWS Secret Key.: 
-+ Get current deployment
-  Success
-+ Get persistent store
-  Success
-Generated bucket name: spin-e994b7ef-2c80-48bf-935c-d1e784417dc2
-+ Edit persistent store
-  Success
-Problems in default.persistentStorage:
-- WARNING Your deployment will most likely fail until you configure
-  and enable a persistent store.
-+ Successfully edited persistent store "s3". 
+    --secret-access-key
+  Your AWS Secret Key.:
 
 $ hal config storage edit --type s3
-+ Get current deployment
-  Success
-+ Get persistent storage settings
-  Success
-+ Edit persistent storage settings
-  Success
-+ Successfully edited persistent storage.
 ```
 
 ## Spinnaker 설치
@@ -214,45 +207,63 @@ $ hal config storage edit --type s3
 설치 가능한 버전을 조회합니다.
 
 ```
-hal version list
-+ Get current deployment
-  Success
-+ Get Spinnaker version
-  Success
-+ Get released versions
-  Success
-+ You are on version "", and the following are available:
- - 1.5.4 (Atypical):
-   Changelog: https://gist.github.com/spinnaker-release/6b9fd632caeaefd32246074998af8498
-   Published: Wed Jan 10 18:46:49 UTC 2018
-   (Requires Halyard >= 0.40.0)
- - 1.6.1 (GLOW):
-   Changelog: https://gist.github.com/spinnaker-release/f1cd6232151b70492ebdcbb557a209fc
-   Published: Wed Apr 04 19:20:54 UTC 2018
-   (Requires Halyard >= 0.41.0)
- - 1.7.6 (Ozark):
-   Changelog: https://gist.github.com/spinnaker-release/5d3af465f07eaca64f4383167877897d
-   Published: Tue May 29 16:26:20 UTC 2018
-   (Requires Halyard >= 1.0.0)
+$ hal version list
+  + Get current deployment
+    Success
+  + Get Spinnaker version
+    Success
+  + Get released versions
+    Success
+  + You are on version "", and the following are available:
+   - 1.5.4 (Atypical):
+     Changelog: https://gist.github.com/spinnaker-release/6b9fd632caeaefd32246074998af8498
+     Published: Wed Jan 10 18:46:49 UTC 2018
+     (Requires Halyard >= 0.40.0)
+   - 1.6.1 (GLOW):
+     Changelog: https://gist.github.com/spinnaker-release/f1cd6232151b70492ebdcbb557a209fc
+     Published: Wed Apr 04 19:20:54 UTC 2018
+     (Requires Halyard >= 0.41.0)
+   - 1.7.6 (Ozark):
+     Changelog: https://gist.github.com/spinnaker-release/5d3af465f07eaca64f4383167877897d
+     Published: Tue May 29 16:26:20 UTC 2018
+     (Requires Halyard >= 1.0.0)
 ```
 
 원하는 버전을 선택합니다.
 
 ```
-hal config version edit --version $VERSION
+$ hal config version edit --version $VERSION
 ```
 
 ingress에서 사용할 도메인을 입력합니다.
 
 ```
-hal config security ui edit --override-base-url http://spinnaker.zcp-dev.jp-tok.containers.mybluemix.net
-hal config security api edit --override-base-url http://spinnaker-api.zcp-dev.jp-tok.containers.mybluemix.net
+$ hal config security ui edit --override-base-url http://spinnaker.zcp-dev.jp-tok.containers.mybluemix.net
+$ hal config security api edit --override-base-url http://spinnaker-api.zcp-dev.jp-tok.containers.mybluemix.net
 ```
 
 이제 Spinnaker를 배포합니다.
 
 ```
-hal deploy apply
+$ hal deploy apply
 ```
 
+## Trouble Shooting
 
+- `Service: Amazon S3; Status Code: 400; Error Code: InvalidLocationConstraint`
+
+    아래와 같은 에러 발생 시 S3에서 bucket을 수동으로 생성 후 halyard config에서 새로 생성한 bucket명으로 수정한 후 다시 배포해봅니다.
+
+    ```
+    Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.netflix.spinnaker.front50.model.S3StorageService]: Factory method 's3StorageService' threw exception; nested exception is com.amazonaws.services.s3.model.AmazonS3Exception: Container storage location with specified provisioning code not available (Service: Amazon S3; Status Code: 400; Error Code: InvalidLocationConstraint; Request ID: d08c26ee-34ba-4e62-83bc-5d9a26b23947; S3 Extended Request ID: null), S3 Extended Request ID: null
+    ```
+
+    ```
+    $ vi ~/.hal/config
+    - name: default
+      persistentStorage:
+        s3:
+          bucket: example-bucket
+
+    $ hal deploy apply      
+    ```
