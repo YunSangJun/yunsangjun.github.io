@@ -30,6 +30,7 @@ Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 
     docker run -p 8084:8084 -p 9000:9000 \
         --name halyard --rm \
         -v ~/.hal:/home/spinnaker/.hal \
+        -v ~/.kube:/home/spinnaker/.kube \
         -it \
         gcr.io/spinnaker-marketplace/halyard:stable
     ```
@@ -42,9 +43,9 @@ Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 
     docker exec -it halyard bash
     ```
 
-5. 명령 완료
+5. 자동 완성
 
-    아래 명령을 실행하여 명령을 완료합니다.
+    아래 명령을 실행하여 자동완성을 설정합니다.
 
     ```
     source <(hal --print-bash-completion)
@@ -87,16 +88,8 @@ Spinnaker를 통해 애플리케이션을 배포할 Cloud 공급자를 선택합
 
     kubeconfig를 사용하면 Spinnaker가 관리 할 것으로 예상되는 모든 리소스에 대한 읽기/쓰기 권한을 가질 수 있습니다. Kubernetes 클러스터 관리자에게 요청할 수 있습니다.
 
-    kubeconfig가 준비되었다면 아래와 같이 Halyard Docker 컨테이너에 kubeconfig를 복사합니다.
-    ```
-    spinnaker@xxx:~$ mkdir ~/.kube
-    local-machine:~$ exit
-    local-machine:~$ docker cp ~/.kube/config halyard:/home/spinnaker/.kube
-    local-machine:~$ docker exec -it halyard bash
-    spinnaker@xxx:~$ export KUBECONFIG=$KUBECONFIG:~/.kube/config
-    spinnaker@xxx:~$ kubectl config current-context
-    xxx
-    ```
+    이 페이지에서는 Docker 컨테이너에서 Halyard를 실행시 로컬환경의 `~/.kube` 폴더를 Docker 컨테이너의 `/home/spinnaker/.kube`에 mount 했습니다.
+    로컬환경의 `~/.kube` 폴더 하위에 kubeconfig를 생성하면됩니다.
 
 - kubectl
 
@@ -246,4 +239,16 @@ hal version list
    (Requires Halyard >= 1.0.0)
 ```
 
-원하는 
+원하는 버전을 선택합니다.
+
+```
+hal config version edit --version $VERSION
+```
+
+이제 Spinnaker를 배포합니다.
+
+```
+hal deploy apply
+```
+
+
