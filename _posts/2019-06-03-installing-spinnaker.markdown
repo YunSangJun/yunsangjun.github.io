@@ -251,6 +251,43 @@ $ hal config security api edit --override-base-url http://spinnaker-api.zcp-dev.
 $ hal deploy apply
 ```
 
+## Spinnaker expose
+
+Spinnaker에 접속하기 위해서 ingress를 통해 서비스를 노출시켜보겠습니다.
+
+먼저 `ingress.yaml`을 작성합니다.
+
+```
+$ vi ingress.yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: spinnaker
+spec:
+  rules:
+  - host: spinnaker.example.com
+    http:
+      paths:
+      - backend:
+          serviceName: spin-deck
+          servicePort: 9000
+  - host: spinnaker-api.example.com
+    http:
+      paths:
+      - backend:
+          serviceName: spin-gate
+          servicePort: 8084
+```
+
+아래 명령어를 통해 ingress를 배포합니다.
+
+```
+$ kubectl apply -f ingress.yaml
+```
+
+이제 `spinnaker.example.com`에 접속해 Spinnaker 대시보드가 사용할 수 있습니다.
+
+
 ## Trouble Shooting
 
 - `Service: Amazon S3; Status Code: 400; Error Code: InvalidLocationConstraint`
