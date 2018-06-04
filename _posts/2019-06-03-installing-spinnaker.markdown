@@ -175,7 +175,9 @@ Minio는 Self 호스팅 할 수있는 S3 호환 Object Storage입니다. Spinnak
 
 #### 사전 준비
 
-[Minio 홈페이지](https://www.minio.io/)에 있는 가이드를 따라 Minio를 설치합니다.
+1. [Minio 홈페이지](https://www.minio.io/)에 있는 가이드를 따라 Minio를 설치합니다.
+
+2. S3에 Bucket을 생성합니다. 이 Bucket 명을 아래 스토리지 설정에서 사용합니다.
 
 #### 스토리지 설정
 
@@ -196,6 +198,7 @@ $ export MINIO_ACCESS_KEY=S3_ACCESS_KEY_ID
 
 $ hal config storage s3 edit --endpoint $ENDPOINT \
     --access-key-id $MINIO_ACCESS_KEY \
+    --bucket BUCKET_NAME
     --secret-access-key
   Your AWS Secret Key.:
 
