@@ -219,3 +219,31 @@ $ hal config storage edit --type s3
 + Successfully edited persistent storage.
 ```
 
+## Spinnaker 설치
+
+설치 가능한 버전을 조회합니다.
+
+```
+hal version list
++ Get current deployment
+  Success
++ Get Spinnaker version
+  Success
++ Get released versions
+  Success
++ You are on version "", and the following are available:
+ - 1.5.4 (Atypical):
+   Changelog: https://gist.github.com/spinnaker-release/6b9fd632caeaefd32246074998af8498
+   Published: Wed Jan 10 18:46:49 UTC 2018
+   (Requires Halyard >= 0.40.0)
+ - 1.6.1 (GLOW):
+   Changelog: https://gist.github.com/spinnaker-release/f1cd6232151b70492ebdcbb557a209fc
+   Published: Wed Apr 04 19:20:54 UTC 2018
+   (Requires Halyard >= 0.41.0)
+ - 1.7.6 (Ozark):
+   Changelog: https://gist.github.com/spinnaker-release/5d3af465f07eaca64f4383167877897d
+   Published: Tue May 29 16:26:20 UTC 2018
+   (Requires Halyard >= 1.0.0)
+```
+
+원하는 
