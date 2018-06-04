@@ -174,3 +174,41 @@ Spinnaker는 아래와 같은 스토리지를 지원합니다. 어떤 옵션을 
 - S3
 
 참고: Redis는 운영환경에서는 권장하지 않습니다.
+
+이 페이지에서는 Minio를 사용해서 Self 호스팅하는 S3와 연동하는 방식으로 진행해보겠습니다.
+
+### Minio
+
+Minio의 데이터를 잃으면 Spinnaker 애플리케이션 메타 데이터 및 파이프 라인이 모두 손실됩니다.
+
+Minio는 Self 호스팅 할 수있는 S3 호환 Object Storage입니다. Spinnaker 데이터를 호스팅하기 위해 클라우드 제공 업체에 의존하고 싶지 않을 때 권장되는 영구 저장소 솔루션입니다.
+
+#### 사전 준비
+
+[Minio 홈페이지](https://www.minio.io/)에 있는 가이드를 따라 Minio를 설치합니다. 
+
+#### 저장 용량 설정 수정
+
+Minio가 버전 객체를 지원하지 않는다면 Spinnaker에서 버전 객체를 비활성화해야합니다. 
+~ / .hal / $ DEPLOYMENT / profiles / front50-local.yml에 다음 행을 추가하십시오.
+
+```
+spinnaker.s3.versioning: false
+```
+
+$ DEPLOYMENT는 일반적으로 default입니다. 자세한 내용은 [여기](https://www.spinnaker.io/reference/halyard/#deployments)를 참조하십시오.
+
+아래 명령을 실행합니다.
+
+```
+# The next two lines should be run inside the docker container only
+chcon -R --reference /root/.bashrc /root/.hal/
+ls -lZa /root # Make sure the SELinux context is the same for all files/folders
+
+echo $MINIO_SECRET_KEY | hal config storage s3 edit --endpoint $ENDPOINT \
+    --access-key-id $MINIO_ACCESS_KEY \
+    --secret-access-key # will be read on STDIN to avoid polluting your
+                        # ~/.bash_history with a secret
+
+hal config storage edit --type s3
+```
