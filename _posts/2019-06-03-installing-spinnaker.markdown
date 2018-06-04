@@ -109,10 +109,7 @@ hal config provider kubernetes enable
 hal config provider kubernetes account add my-k8s-v2-account \
     --provider-version v2 \
     --context $(kubectl config current-context)
-```
-
-마지막으로 아래 명령이 실행합니다.
-```
+    
 hal config features edit --artifacts true
 ```
 
@@ -243,6 +240,13 @@ hal version list
 
 ```
 hal config version edit --version $VERSION
+```
+
+ingress에서 사용할 도메인을 입력합니다.
+
+```
+hal config security ui edit --override-base-url http://spinnaker.zcp-dev.jp-tok.containers.mybluemix.net
+hal config security api edit --override-base-url http://spinnaker-api.zcp-dev.jp-tok.containers.mybluemix.net
 ```
 
 이제 Spinnaker를 배포합니다.
