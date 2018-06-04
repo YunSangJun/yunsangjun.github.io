@@ -24,7 +24,7 @@ Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 
 
 3. Halyard Docker 컨테이너 실행
 
-    아래 명령을 실행하여 Halyard Docker 컨테이너를 생성합니다. 이 명령은 Halyard 설정 디렉토리를 마운트합니다.
+    아래 명령을 실행하여 Halyard Docker 컨테이너를 생성합니다. 이 명령은 Halyard 설정 및 kubeconfig 디렉토리를 마운트합니다.
 
     ```
     $ docker run -p 8084:8084 -p 9000:9000 \
