@@ -2,7 +2,7 @@
 layout: post
 title:  "Spinnaker 설치하기"
 author: 윤상준
-date: 2019-06-03
+date: 2018-06-03
 categories: spinnaker
 ---
 

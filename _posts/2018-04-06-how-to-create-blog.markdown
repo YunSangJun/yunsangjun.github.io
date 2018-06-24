@@ -25,13 +25,13 @@ Github Site > Add Repository > Owner와 Repository Name을 입력 후 생성<br 
 생성한 repository를 clone 받고 README 파일을 push 합니다.
 
 ```
-git clone https://github.com/yunsangjun/blog.git
+git clone https://github.com/xxx/blog.git
 cd blog
 echo "# blog" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
-git remote add origin https://github.com/yunsangjun/blog.git
+git remote add origin https://github.com/xxx/blog.git
 git push -u origin master
 ```
 

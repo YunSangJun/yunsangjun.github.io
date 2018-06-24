@@ -2,6 +2,26 @@
   
     {
 
+      "title"    : "Pod에 타임존 설정하기",
+      "url"      : "/blog/kubernetes/2018/06/24/setup-timezone-to-pod.html",
+      "category" : "kubernetes",
+      "tags"     : "",
+      "date"     : "2018-06-24 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Spinnaker 설치하기",
+      "url"      : "/blog/spinnaker/2018/06/03/installing-spinnaker.html",
+      "category" : "spinnaker",
+      "tags"     : "",
+      "date"     : "2018-06-03 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "Cannot find module &#39;webpack/lib/node/NodeTemplatePlugin&#39;",
       "url"      : "/blog/angular/2018/05/29/angular-cannot-find-module.html",
       "category" : "angular",
