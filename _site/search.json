@@ -2,6 +2,16 @@
   
     {
 
+      "title"    : "Cronjob 사용하기",
+      "url"      : "/blog/kubernetes/2018/06/25/how-to-use-cronjob.html",
+      "category" : "kubernetes",
+      "tags"     : "",
+      "date"     : "2018-06-25 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "Pod에 타임존 설정하기",
       "url"      : "/blog/kubernetes/2018/06/24/setup-timezone-to-pod.html",
       "category" : "kubernetes",

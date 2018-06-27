@@ -1,4 +1,88 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-06-24T16:42:59+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Pod에 타임존 설정하기</title><link href="http://localhost:4000/blog/kubernetes/2018/06/24/setup-timezone-to-pod.html" rel="alternate" type="text/html" title="Pod에 타임존 설정하기" /><published>2018-06-24T00:00:00+09:00</published><updated>2018-06-24T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/06/24/setup-timezone-to-pod</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/06/24/setup-timezone-to-pod.html">&lt;p&gt;이 페이지는 Pod에 타임존을 설정하는 방법에 대해 설명합니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-06-24T23:40:37+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Cronjob 사용하기</title><link href="http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob.html" rel="alternate" type="text/html" title="Cronjob 사용하기" /><published>2018-06-25T00:00:00+09:00</published><updated>2018-06-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob.html">&lt;p&gt;이 페이지는 Kubernetes 상에서 CronJob을 사용하는 방법에 대해 설명합니다.&lt;/p&gt;
+
+&lt;p&gt;Unix 계열의 서버 환경에서 &lt;a href=&quot;https://ko.wikipedia.org/wiki/Cron&quot;&gt;Cron&lt;/a&gt;을 사용해 정기적인 배치 작업을 수행하는데 활용합니다.&lt;/p&gt;
+
+&lt;p&gt;하지만 Kubernetes 환경에서는 서버(Pod)가 언제든지 삭제되고 다시 생성 될 수 있습니다.
+이 경우 설정한 Cron 설정도 초기화됩니다.&lt;/p&gt;
+
+&lt;p&gt;Kubernetes 상에서는 CronJob을 활용하여 정기적인 배치 작업에 활용할 수 있습니다.
+CronJob은 실행 시점에만 Pod를 생성해 자원을 사용하므로 매우 효율적입니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;cronjob-배포하기&quot;&gt;CronJob 배포하기&lt;/h2&gt;
+
+&lt;p&gt;샘플 CronJob을 Kubernetes 클러스터에 배포합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi cronjob.yaml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: sample-cron
+spec:
+  schedule: '*/35 * * * *'
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: busybox
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            args:
+            - /bin/sh
+            - -c
+            - date; echo &quot;CronJob has been excuted successfully.&quot;
+          restartPolicy: OnFailure
+
+$ kubectl apply -f cronjob.yaml
+cronjob &quot;sample-cron&quot; created
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;CronJob에서는 Job을 생성하기 위한 jobTemplate spec 정의가 필요합니다.
+또한 Job에는 Pod를 생성하기 위한 Pod spec 정의가 필요합니다.&lt;/p&gt;
+
+&lt;p&gt;CronJob에서는 &lt;a href=&quot;https://en.wikipedia.org/wiki/Cron#Overview&quot;&gt;Unix standard crontab format&lt;/a&gt;으로 schedule을 정의합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;첫 번째 값은 분을 의미합니다.(0~59 사이)&lt;/li&gt;
+  &lt;li&gt;두 번째 값은 시간을 의미합니다.(0~23 사이)&lt;/li&gt;
+  &lt;li&gt;세 번째 값은 일을 의미합니다.(1~31 사이)&lt;/li&gt;
+  &lt;li&gt;네 번째 값은 월을 의미합니다.(1~12 사이)&lt;/li&gt;
+  &lt;li&gt;다섯 번째 값은 주를 의미합니다.(0~6 사이)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;스케줄에는 &lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt; wildcard를 사용할 수 있습니다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;*/35 * * * *&lt;/code&gt;는 매달, 매일 35분에 반복적으로 CronJob을 실행한다는 의미입니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;cronjob-확인하기&quot;&gt;CronJob 확인하기&lt;/h2&gt;
+
+&lt;p&gt;아래 명령어를 실행하여 등록한 CronJob을 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get cronjob
+NAME          SCHEDULE       SUSPEND   ACTIVE    LAST SCHEDULE   AGE
+sample-cron   */35 * * * *   False     0         &amp;lt;none&amp;gt;          4s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Schedule에 설정한 시간이 되면 아래와 같이 Job이 실행됩니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get jobs
+NAME                     DESIRED   SUCCESSFUL   AGE
+sample-cron-1529850900   1         1            24s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Job이 실행되면 Pod를 생성하고 정해진 작업을 수행합니다.
+Job이 생성한 Pod는 아래와 같이 조회할 수 있습니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get po -a
+NAME                           READY     STATUS      RESTARTS   AGE
+sample-cron-1529850900-5hfzn   0/1       Completed   0          41s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Pod의 로그를 조회해 수행한 작업 내용을 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl logs -f sample-cron-1529850900-5hfzn
+Sun Jun 24 14:35:06 UTC 2018
+CronJob has been excuted successfully.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Kubernetes 상에서 CronJob을 사용하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Pod에 타임존 설정하기</title><link href="http://localhost:4000/blog/kubernetes/2018/06/24/setup-timezone-to-pod.html" rel="alternate" type="text/html" title="Pod에 타임존 설정하기" /><published>2018-06-24T00:00:00+09:00</published><updated>2018-06-24T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/06/24/setup-timezone-to-pod</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/06/24/setup-timezone-to-pod.html">&lt;p&gt;이 페이지는 Pod에 타임존을 설정하는 방법에 대해 설명합니다.&lt;/p&gt;
 
 &lt;p&gt;클라우드 환경에서는 기본 타임존이 UTC로 설정되어 있는 경우가 많습니다.&lt;/p&gt;
 
@@ -887,9 +971,4 @@ spec:
 &lt;p&gt;Pod 배포. 정상적으로 완료했다면 이미지를 Docker Private Registry로 부터 가져오고 Pod가 Running 상태로 변경됩니다.&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl create -f my-private-reg-pod.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다. 상세한 내용은 아래 링크를 참고하세요.</summary></entry><entry><title type="html">KubeCon &amp;amp; CloudNativeCon Europe 2018</title><link href="http://localhost:4000/blog/kubernetes/2018/05/25/kubecon-2018.html" rel="alternate" type="text/html" title="KubeCon &amp; CloudNativeCon Europe 2018" /><published>2018-05-25T00:00:00+09:00</published><updated>2018-05-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/25/kubecon-2018</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/25/kubecon-2018.html">&lt;h2 id=&quot;jenkins-x-easy-cicd-for-kubernetes---james-strachan-cloudbees&quot;&gt;Jenkins X: Easy CI/CD for Kubernetes - James Strachan, CloudBees&lt;/h2&gt;
-
-&lt;h3 id=&quot;link&quot;&gt;Link&lt;/h3&gt;
-&lt;p&gt;https://www.youtube.com/watch?v=uHe7R_iZSLU&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;</content><author><name>윤상준</name></author><summary type="html">Jenkins X: Easy CI/CD for Kubernetes - James Strachan, CloudBees</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다. 상세한 내용은 아래 링크를 참고하세요.</summary></entry></feed>
