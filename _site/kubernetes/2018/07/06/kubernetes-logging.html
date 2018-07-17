@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/assets/css/home.css">
+  <link rel="stylesheet" href="/blog/assets/css/category.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Kubernetes 스터디 #7 Logging | 윤상준의 기술 블로그</title>
+<meta name="generator" content="Jekyll v3.8.0" />
+<meta property="og:title" content="Kubernetes 스터디 #7 Logging" />
+<meta name="author" content="윤상준" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Cloud Native 환경에서 Logging Architecture의 변화" />
+<meta property="og:description" content="Cloud Native 환경에서 Logging Architecture의 변화" />
+<link rel="canonical" href="http://localhost:4000/blog/kubernetes/2018/07/06/kubernetes-logging.html" />
+<meta property="og:url" content="http://localhost:4000/blog/kubernetes/2018/07/06/kubernetes-logging.html" />
+<meta property="og:site_name" content="윤상준의 기술 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-06T00:00:00+09:00" />
+<script type="application/ld+json">
+{"description":"Cloud Native 환경에서 Logging Architecture의 변화","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/kubernetes/2018/07/06/kubernetes-logging.html","headline":"Kubernetes 스터디 #7 Logging","dateModified":"2018-07-06T00:00:00+09:00","datePublished":"2018-07-06T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/kubernetes/2018/07/06/kubernetes-logging.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">윤상준의 기술 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/blog/categories">Categories</a>
+        </div>
+
+        <!--div class="trigger"><a class="page-link" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</a><a class="page-link" href="/blog/categories/">Categories</a></div-->
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubernetes 스터디 #7 Logging</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-06T00:00:00+09:00" itemprop="datePublished">Jul 6, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">윤상준</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="cloud-native-환경에서-logging-architecture의-변화">Cloud Native 환경에서 Logging Architecture의 변화</h2>
+
+<h3 id="legacy">Legacy</h3>
+
+<p><img src="/blog/assets/images/kubernetes/logging/logging-legacy.png" alt="" /></p>
+
+<ul>
+  <li>고사양의 서버에 Application을 크게 운영</li>
+  <li>Log를 Application이 실행 중인 서버 내부에 저장</li>
+  <li>개발자/운영자는 서버 내부에 접속해 Log를 확인</li>
+</ul>
+
+<h3 id="cloud-native">Cloud Native</h3>
+
+<p><img src="/blog/assets/images/kubernetes/logging/logging-cloud-native.png" alt="" /></p>
+
+<ul>
+  <li>Application을 작게 운영하고 필요할 때 마다 확장</li>
+  <li>다중 인스턴스의 로그를 효율적으로 검색하기 위해 외부 Log 시스템에 저장</li>
+  <li>개발자/운영자는 서버에 직접 접속하지 않고 외부 Log Backend에서 로그 확인</li>
+</ul>
+
+<h2 id="cloud-native-logging-architecture">Cloud Native Logging Architecture</h2>
+
+<h3 id="overview">Overview</h3>
+
+<h4 id="daemonset-pattern">DaemonSet Pattern</h4>
+
+<p><img src="/blog/assets/images/kubernetes/logging/logging-daemonset.png" alt="" /></p>
+
+<ul>
+  <li>App Console Log가 각 Node의 Storage에 자동 저장</li>
+  <li>각 Node의 Agent가 Log를 Aggregator로 전달</li>
+  <li>Log data를 전/후 처리 후 Backend로 전달</li>
+</ul>
+
+<h4 id="sidecar-pattern">Sidecar Pattern</h4>
+
+<p><img src="/blog/assets/images/kubernetes/logging/logging-sidecar.png" alt="" /></p>
+
+<ul>
+  <li>App Log를 Pod의 Storage에 파일로 저장(Log4j 등 사용)</li>
+  <li>Pod의 Agent가 Log data를 전/후 처리 후 Backend로 전달</li>
+</ul>
+
+<h3 id="daemonset-pattern-상세-architecture">DaemonSet Pattern 상세 Architecture</h3>
+
+<p><img src="/blog/assets/images/kubernetes/logging/logging-daemonset-detail.png" alt="" /></p>
+
+<ul>
+  <li>App Console Log가 각 Node의 Storage에 자동 저장</li>
+  <li>Fluentbit가 각 Node의 Log 수집해 FluentD로 전달</li>
+  <li>FluentD가 수집한 Log를 전/후 처리 후 ElasticSearch로 전달</li>
+  <li>Log raw data를 S3와 같은 저장소에 동시 전달 가능(Log Data 백업 활용)</li>
+  <li>Kibana를 통해 ES의 Log data 검색/분석 및 시각화</li>
+</ul>
+
+<h3 id="sidecar-pattern-상세-architecture">Sidecar Pattern 상세 Architecture</h3>
+
+<p><img src="/blog/assets/images/kubernetes/logging/logging-sidecar-detail.png" alt="" /></p>
+
+<ul>
+  <li>App Log를 Pod의 Storage에 파일로 저장(Log4j 등 사용)</li>
+  <li>Fluentbit가 저장된 Log를 전/후 처리 후 ElasticSearch로 전달.</li>
+  <li>Log raw data를 S3와 같은 저장소에 동시 전달 가능(Log Data 백업 활용)</li>
+  <li>Kibana를 통해 ES의 Log data 검색/분석 및 시각화</li>
+</ul>
+
+<h2 id="logging-실습">Logging 실습</h2>
+
+<h3 id="sidecar-pattern-1">Sidecar Pattern</h3>
+
+<h4 id="demo-application-download-및-build">Demo Application Download 및 Build</h4>
+
+<ul>
+  <li>
+    <p>Demo Application Download</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/YunSangJun/logging-demo
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Maven build</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mvn clean package
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Docker build</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker build -t logging-demo .
+
+$ docker images
+REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
+logging-demo                            latest              1444f50dcadc        9 seconds ago       117M
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Application 실행 및 Web Browser에서 localhost:8080 접속.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker run -p 8080:8080 logging-demo
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Docker Container에 접속하여 log file 확인</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+79e28edfbb12        logging-demo        "java -Djava.securit…"   4 minutes ago       Up 4 minutes        0.0.0.0:8080-&gt;8080/tcp   gifted_ride
+
+$ docker exec -it 79e28edfbb12 sh
+/ # tail -f logs/spring-boot-logging.log
+....
+2018-07-16 17:31:40.153 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - FrameworkServlet 'dispatcherServlet': initialization completed in 86 ms
+2018-07-16 17:31:40.315 [http-nio-8080-exec-1] INFO  com.example.demo.HomeRestController - logback example - info level
+2018-07-16 17:31:40.316 [http-nio-8080-exec-1] WARN  com.example.demo.HomeRestController - logback example - warn level
+2018-07-16 17:31:40.318 [http-nio-8080-exec-1] ERROR com.example.demo.HomeRestController - logback example - error level
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="deom-application-구조">Deom Application 구조</h4>
+
+<p>Logback 설정해 <code class="highlighter-rouge">/logs</code> directory 하위에 log message를 file로 저장</p>
+
+<ul>
+  <li>
+    <p>Log message 출력하는 HomeRestController</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">com</span><span class="p">.</span><span class="n">example</span><span class="p">.</span><span class="n">demo</span><span class="p">;</span>
+
+<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">slf4j</span><span class="p">.</span><span class="n">Logger</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">slf4j</span><span class="p">.</span><span class="n">LoggerFactory</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">springframework</span><span class="p">.</span><span class="n">web</span><span class="p">.</span><span class="n">bind</span><span class="p">.</span><span class="n">annotation</span><span class="p">.</span><span class="n">RequestMapping</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">springframework</span><span class="p">.</span><span class="n">web</span><span class="p">.</span><span class="n">bind</span><span class="p">.</span><span class="n">annotation</span><span class="p">.</span><span class="n">RequestMethod</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">springframework</span><span class="p">.</span><span class="n">web</span><span class="p">.</span><span class="n">bind</span><span class="p">.</span><span class="n">annotation</span><span class="p">.</span><span class="n">RestController</span><span class="p">;</span>
+
+<span class="p">@</span><span class="n">RestController</span>
+<span class="k">public</span> <span class="n">class</span> <span class="n">HomeRestController</span> <span class="p">{</span>
+
+    <span class="n">private</span> <span class="n">final</span> <span class="n">Logger</span> <span class="n">logger</span> <span class="p">=</span> <span class="n">LoggerFactory</span><span class="p">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">this</span><span class="p">.</span><span class="nf">getClass</span><span class="p">());</span>
+
+    <span class="p">@</span><span class="n">RequestMapping</span><span class="p">(</span><span class="n">value</span> <span class="p">=</span> <span class="s2">"/"</span><span class="p">,</span> <span class="n">method</span> <span class="p">=</span> <span class="n">RequestMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">)</span>
+    <span class="k">public</span> <span class="k">String</span> <span class="n">getHome</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="n">logger</span><span class="p">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"logback example - debug level"</span><span class="p">);</span>
+        <span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"logback example - info level"</span><span class="p">);</span>
+        <span class="n">logger</span><span class="p">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"logback example - warn level"</span><span class="p">);</span>
+        <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"logback example - error level"</span><span class="p">);</span>
+
+        <span class="n">return</span> <span class="s2">"Hello World!"</span><span class="p">;</span>
+    <span class="p">}</span>    
+
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Logback 설정</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;logback-spring.xml&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;configuration&gt;
+
+    &lt;!-- Send debug messages to System.out --&gt;
+    &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;
+        &lt;!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder --&gt;
+        &lt;encoder&gt;
+            &lt;pattern&gt;%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n&lt;/pattern&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+
+    &lt;!-- Send debug message to file --&gt;
+    &lt;appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"&gt;
+        &lt;file&gt;logs/spring-boot-logging.log&lt;/file&gt;
+
+        &lt;encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"&gt;
+            &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
+        &lt;/encoder&gt;
+
+        &lt;rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"&gt;
+            &lt;fileNamePattern&gt;logs/spring-boot-logging.%d{yyyy-MM-dd}_%i.log&lt;/fileNamePattern&gt;
+
+            &lt;!-- each file should be at most 10MB, keep 30 days worth of history --&gt;
+            &lt;maxHistory&gt;30&lt;/maxHistory&gt;
+            &lt;timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"&gt;
+                &lt;maxFileSize&gt;10MB&lt;/maxFileSize&gt;
+            &lt;/timeBasedFileNamingAndTriggeringPolicy&gt;
+        &lt;/rollingPolicy&gt;
+    &lt;/appender&gt;
+
+    &lt;root level="INFO"&gt;
+        &lt;appender-ref ref="STDOUT" /&gt;
+        &lt;appender-ref ref="FILE" /&gt;
+    &lt;/root&gt;
+&lt;/configuration&gt;
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="demo-application-및-fluentbit-배포">Demo Application 및 Fluentbit 배포</h4>
+
+<ul>
+  <li>
+    <p>Fluentbit Configmap에 Elasticsearch의 정보 설정</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ vi configmap.yaml
+...
+  - name: fluent-bit
+    env:
+     - name: FLUENT_ELASTICSEARCH_HOST
+       value: "elasticsearch.kube-system.svc.cluster.local"
+     - name: FLUENT_ELASTICSEARCH_PORT
+       value: "9200"
+</code></pre></div>    </div>
+
+    <ul>
+      <li>FLUENT_ELASTICSEARCH_HOST의 value : Elasticsearch의 endpoint. IP or Domain or Service</li>
+      <li>FLUENT_ELASTICSEARCH_PORT의 value : Elasticsearch의 port</li>
+    </ul>
+  </li>
+  <li>
+    <p>Fluentbit Configmap 배포</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl apply -f configmap.yaml
+
+$ kubectl get cm
+NAME                 DATA      AGE
+fluent-bit-config    4         1m
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Demo Application Deployment yaml의 docker image 정보 수정(default 그대로 사용해도 무관)</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ vi deployment.yaml
+...
+  spec:
+      containers:
+      - name: logging-demo
+        image: yunsangjun/logging-demo:latest
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Demo Application 및 Fluentbit Kubernetes Deployment 배포</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl apply -f deployment.yaml
+
+$ kubectl get deploy
+NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+logging-demo       1         1         1            1           1m
+
+$ kubectl get po
+NAME                             READY     STATUS     RESTARTS   AGE
+logging-demo-6c659fb7cb-zndhs    2/2       Running    0          1m
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Demo Application에 Port Forwarding 설정 &gt; Web browser에서 localhost:8080으로 접속</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl port-forward logging-demo-6c659fb7cb-zndhs 8080:8080
+Forwarding from 127.0.0.1:8080 -&gt; 8080
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Demo Application 및 Fluentbit Container에 접속해 Log file 확인</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl exec -it logging-demo-6c659fb7cb-zndhs -c logging-demo sh
+/ # tail -f /logs/spring-boot-logging.log
+2018-07-17 07:47:59.751 [http-nio-8080-exec-5] INFO  com.example.demo.HomeRestController - logback example - info level
+
+$ kubectl exec -it logging-demo-6c659fb7cb-zndhs -c fluent-bit sh
+# tail -f /var/logs/spring-boot-logging.log
+2018-07-17 07:47:59.751 [http-nio-8080-exec-5] INFO  com.example.demo.HomeRestController - logback example - info level
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="kibana-index-pattern-설정-및-log-message-검색">Kibana Index Pattern 설정 및 Log message 검색</h4>
+
+<ul>
+  <li>
+    <p>Kibana 접속 &gt; Left 메뉴 &gt; Management 메뉴 선택 &gt; Kibana Index Patterns 선택</p>
+
+    <p><img src="/blog/assets/images/kubernetes/logging/logging-kibana-index-01.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Index name or pattern input box에 fluentbit 입력 후 Time Filter field name combo box에 @timestamp 선택</p>
+
+    <p><img src="/blog/assets/images/kubernetes/logging/logging-kibana-index-02.png" alt="" /></p>
+  </li>
+  <li>
+    <p>정상적으로 생성 시 아래와 같은 모습</p>
+
+    <p><img src="/blog/assets/images/kubernetes/logging/logging-kibana-index-03.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Left 메뉴 &gt; Discover 메뉴 선택 &gt; Demo Application의 Log message 검색 됨</p>
+
+    <p><img src="/blog/assets/images/kubernetes/logging/logging-kibana-search.png" alt="" /></p>
+  </li>
+</ul>
+
+  </div>
+<div id="disqus_thread"></div>
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://sj-blog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a class="u-url" href="/blog/kubernetes/2018/07/06/kubernetes-logging.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <!--h2 class="footer-heading">윤상준의 기술 블로그</h2-->
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yun SangJun</li><li><a class="u-email" href="mailto:chris.sj.yun@gmail.com">chris.sj.yun@gmail.com</a></li>
+            <li>subscribe <a href="/blog/feed.xml">via RSS</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yunsangjun"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yunsangjun</span></a></li><li><a href="https://twitter.com/sjyun2"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">sjyun2</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -2,6 +2,26 @@
   
     {
 
+      "title"    : "Kubernetes 스터디 #7 Logging",
+      "url"      : "/blog/kubernetes/2018/07/06/kubernetes-logging.html",
+      "category" : "Kubernetes",
+      "tags"     : "",
+      "date"     : "2018-07-06 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Terraform 사용하기",
+      "url"      : "/blog/terraform/2018/06/29/terraform.html",
+      "category" : "terraform",
+      "tags"     : "",
+      "date"     : "2018-06-29 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "Cronjob 사용하기",
       "url"      : "/blog/kubernetes/2018/06/25/how-to-use-cronjob.html",
       "category" : "kubernetes",

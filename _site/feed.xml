@@ -1,4 +1,510 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-06-24T23:40:37+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Cronjob 사용하기</title><link href="http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob.html" rel="alternate" type="text/html" title="Cronjob 사용하기" /><published>2018-06-25T00:00:00+09:00</published><updated>2018-06-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob.html">&lt;p&gt;이 페이지는 Kubernetes 상에서 CronJob을 사용하는 방법에 대해 설명합니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-07-18T08:23:18+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Kubernetes 스터디 #7 Logging</title><link href="http://localhost:4000/blog/kubernetes/2018/07/06/kubernetes-logging.html" rel="alternate" type="text/html" title="Kubernetes 스터디 #7 Logging" /><published>2018-07-06T00:00:00+09:00</published><updated>2018-07-06T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/07/06/kubernetes-logging</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/07/06/kubernetes-logging.html">&lt;h2 id=&quot;cloud-native-환경에서-logging-architecture의-변화&quot;&gt;Cloud Native 환경에서 Logging Architecture의 변화&lt;/h2&gt;
+
+&lt;h3 id=&quot;legacy&quot;&gt;Legacy&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-legacy.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;고사양의 서버에 Application을 크게 운영&lt;/li&gt;
+  &lt;li&gt;Log를 Application이 실행 중인 서버 내부에 저장&lt;/li&gt;
+  &lt;li&gt;개발자/운영자는 서버 내부에 접속해 Log를 확인&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;cloud-native&quot;&gt;Cloud Native&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-cloud-native.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Application을 작게 운영하고 필요할 때 마다 확장&lt;/li&gt;
+  &lt;li&gt;다중 인스턴스의 로그를 효율적으로 검색하기 위해 외부 Log 시스템에 저장&lt;/li&gt;
+  &lt;li&gt;개발자/운영자는 서버에 직접 접속하지 않고 외부 Log Backend에서 로그 확인&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;cloud-native-logging-architecture&quot;&gt;Cloud Native Logging Architecture&lt;/h2&gt;
+
+&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
+
+&lt;h4 id=&quot;daemonset-pattern&quot;&gt;DaemonSet Pattern&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-daemonset.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;App Console Log가 각 Node의 Storage에 자동 저장&lt;/li&gt;
+  &lt;li&gt;각 Node의 Agent가 Log를 Aggregator로 전달&lt;/li&gt;
+  &lt;li&gt;Log data를 전/후 처리 후 Backend로 전달&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;sidecar-pattern&quot;&gt;Sidecar Pattern&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-sidecar.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;App Log를 Pod의 Storage에 파일로 저장(Log4j 등 사용)&lt;/li&gt;
+  &lt;li&gt;Pod의 Agent가 Log data를 전/후 처리 후 Backend로 전달&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;daemonset-pattern-상세-architecture&quot;&gt;DaemonSet Pattern 상세 Architecture&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-daemonset-detail.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;App Console Log가 각 Node의 Storage에 자동 저장&lt;/li&gt;
+  &lt;li&gt;Fluentbit가 각 Node의 Log 수집해 FluentD로 전달&lt;/li&gt;
+  &lt;li&gt;FluentD가 수집한 Log를 전/후 처리 후 ElasticSearch로 전달&lt;/li&gt;
+  &lt;li&gt;Log raw data를 S3와 같은 저장소에 동시 전달 가능(Log Data 백업 활용)&lt;/li&gt;
+  &lt;li&gt;Kibana를 통해 ES의 Log data 검색/분석 및 시각화&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;sidecar-pattern-상세-architecture&quot;&gt;Sidecar Pattern 상세 Architecture&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-sidecar-detail.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;App Log를 Pod의 Storage에 파일로 저장(Log4j 등 사용)&lt;/li&gt;
+  &lt;li&gt;Fluentbit가 저장된 Log를 전/후 처리 후 ElasticSearch로 전달.&lt;/li&gt;
+  &lt;li&gt;Log raw data를 S3와 같은 저장소에 동시 전달 가능(Log Data 백업 활용)&lt;/li&gt;
+  &lt;li&gt;Kibana를 통해 ES의 Log data 검색/분석 및 시각화&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;logging-실습&quot;&gt;Logging 실습&lt;/h2&gt;
+
+&lt;h3 id=&quot;sidecar-pattern-1&quot;&gt;Sidecar Pattern&lt;/h3&gt;
+
+&lt;h4 id=&quot;demo-application-download-및-build&quot;&gt;Demo Application Download 및 Build&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Demo Application Download&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git clone https://github.com/YunSangJun/logging-demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Maven build&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ mvn clean package
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Docker build&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker build -t logging-demo .
+
+$ docker images
+REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
+logging-demo                            latest              1444f50dcadc        9 seconds ago       117M
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Application 실행 및 Web Browser에서 localhost:8080 접속.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker run -p 8080:8080 logging-demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Docker Container에 접속하여 log file 확인&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+79e28edfbb12        logging-demo        &quot;java -Djava.securit…&quot;   4 minutes ago       Up 4 minutes        0.0.0.0:8080-&amp;gt;8080/tcp   gifted_ride
+
+$ docker exec -it 79e28edfbb12 sh
+/ # tail -f logs/spring-boot-logging.log
+....
+2018-07-16 17:31:40.153 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - FrameworkServlet 'dispatcherServlet': initialization completed in 86 ms
+2018-07-16 17:31:40.315 [http-nio-8080-exec-1] INFO  com.example.demo.HomeRestController - logback example - info level
+2018-07-16 17:31:40.316 [http-nio-8080-exec-1] WARN  com.example.demo.HomeRestController - logback example - warn level
+2018-07-16 17:31:40.318 [http-nio-8080-exec-1] ERROR com.example.demo.HomeRestController - logback example - error level
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;deom-application-구조&quot;&gt;Deom Application 구조&lt;/h4&gt;
+
+&lt;p&gt;Logback 설정해 &lt;code class=&quot;highlighter-rouge&quot;&gt;/logs&lt;/code&gt; directory 하위에 log message를 file로 저장&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Log message 출력하는 HomeRestController&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;demo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;slf4j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;slf4j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LoggerFactory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;springframework&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestMapping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;springframework&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;org&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;springframework&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RestController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RestController&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HomeRestController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Logger&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoggerFactory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;getClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestMapping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RequestMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getHome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;logback example - debug level&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;logback example - info level&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;warn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;logback example - warn level&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;logback example - error level&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hello World!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;    
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Logback 설정&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;logback-spring.xml&amp;gt;
+&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;
+&amp;lt;configuration&amp;gt;
+
+    &amp;lt;!-- Send debug messages to System.out --&amp;gt;
+    &amp;lt;appender name=&quot;STDOUT&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&amp;gt;
+        &amp;lt;!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder --&amp;gt;
+        &amp;lt;encoder&amp;gt;
+            &amp;lt;pattern&amp;gt;%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n&amp;lt;/pattern&amp;gt;
+        &amp;lt;/encoder&amp;gt;
+    &amp;lt;/appender&amp;gt;
+
+    &amp;lt;!-- Send debug message to file --&amp;gt;
+    &amp;lt;appender name=&quot;FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&amp;gt;
+        &amp;lt;file&amp;gt;logs/spring-boot-logging.log&amp;lt;/file&amp;gt;
+
+        &amp;lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&amp;gt;
+            &amp;lt;pattern&amp;gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n&amp;lt;/pattern&amp;gt;
+        &amp;lt;/encoder&amp;gt;
+
+        &amp;lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&amp;gt;
+            &amp;lt;fileNamePattern&amp;gt;logs/spring-boot-logging.%d{yyyy-MM-dd}_%i.log&amp;lt;/fileNamePattern&amp;gt;
+
+            &amp;lt;!-- each file should be at most 10MB, keep 30 days worth of history --&amp;gt;
+            &amp;lt;maxHistory&amp;gt;30&amp;lt;/maxHistory&amp;gt;
+            &amp;lt;timeBasedFileNamingAndTriggeringPolicy class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;&amp;gt;
+                &amp;lt;maxFileSize&amp;gt;10MB&amp;lt;/maxFileSize&amp;gt;
+            &amp;lt;/timeBasedFileNamingAndTriggeringPolicy&amp;gt;
+        &amp;lt;/rollingPolicy&amp;gt;
+    &amp;lt;/appender&amp;gt;
+
+    &amp;lt;root level=&quot;INFO&quot;&amp;gt;
+        &amp;lt;appender-ref ref=&quot;STDOUT&quot; /&amp;gt;
+        &amp;lt;appender-ref ref=&quot;FILE&quot; /&amp;gt;
+    &amp;lt;/root&amp;gt;
+&amp;lt;/configuration&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;demo-application-및-fluentbit-배포&quot;&gt;Demo Application 및 Fluentbit 배포&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Fluentbit Configmap에 Elasticsearch의 정보 설정&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi configmap.yaml
+...
+  - name: fluent-bit
+    env:
+     - name: FLUENT_ELASTICSEARCH_HOST
+       value: &quot;elasticsearch.kube-system.svc.cluster.local&quot;
+     - name: FLUENT_ELASTICSEARCH_PORT
+       value: &quot;9200&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;FLUENT_ELASTICSEARCH_HOST의 value : Elasticsearch의 endpoint. IP or Domain or Service&lt;/li&gt;
+      &lt;li&gt;FLUENT_ELASTICSEARCH_PORT의 value : Elasticsearch의 port&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Fluentbit Configmap 배포&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl apply -f configmap.yaml
+
+$ kubectl get cm
+NAME                 DATA      AGE
+fluent-bit-config    4         1m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Demo Application Deployment yaml의 docker image 정보 수정(default 그대로 사용해도 무관)&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi deployment.yaml
+...
+  spec:
+      containers:
+      - name: logging-demo
+        image: yunsangjun/logging-demo:latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Demo Application 및 Fluentbit Kubernetes Deployment 배포&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl apply -f deployment.yaml
+
+$ kubectl get deploy
+NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+logging-demo       1         1         1            1           1m
+
+$ kubectl get po
+NAME                             READY     STATUS     RESTARTS   AGE
+logging-demo-6c659fb7cb-zndhs    2/2       Running    0          1m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Demo Application에 Port Forwarding 설정 &amp;gt; Web browser에서 localhost:8080으로 접속&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl port-forward logging-demo-6c659fb7cb-zndhs 8080:8080
+Forwarding from 127.0.0.1:8080 -&amp;gt; 8080
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Demo Application 및 Fluentbit Container에 접속해 Log file 확인&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl exec -it logging-demo-6c659fb7cb-zndhs -c logging-demo sh
+/ # tail -f /logs/spring-boot-logging.log
+2018-07-17 07:47:59.751 [http-nio-8080-exec-5] INFO  com.example.demo.HomeRestController - logback example - info level
+
+$ kubectl exec -it logging-demo-6c659fb7cb-zndhs -c fluent-bit sh
+# tail -f /var/logs/spring-boot-logging.log
+2018-07-17 07:47:59.751 [http-nio-8080-exec-5] INFO  com.example.demo.HomeRestController - logback example - info level
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;kibana-index-pattern-설정-및-log-message-검색&quot;&gt;Kibana Index Pattern 설정 및 Log message 검색&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kibana 접속 &amp;gt; Left 메뉴 &amp;gt; Management 메뉴 선택 &amp;gt; Kibana Index Patterns 선택&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-kibana-index-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Index name or pattern input box에 fluentbit 입력 후 Time Filter field name combo box에 @timestamp 선택&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-kibana-index-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;정상적으로 생성 시 아래와 같은 모습&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-kibana-index-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Left 메뉴 &amp;gt; Discover 메뉴 선택 &amp;gt; Demo Application의 Log message 검색 됨&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/logging/logging-kibana-search.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>윤상준</name></author><summary type="html">Cloud Native 환경에서 Logging Architecture의 변화</summary></entry><entry><title type="html">Terraform 사용하기</title><link href="http://localhost:4000/blog/terraform/2018/06/29/terraform.html" rel="alternate" type="text/html" title="Terraform 사용하기" /><published>2018-06-29T00:00:00+09:00</published><updated>2018-06-29T00:00:00+09:00</updated><id>http://localhost:4000/blog/terraform/2018/06/29/terraform</id><content type="html" xml:base="http://localhost:4000/blog/terraform/2018/06/29/terraform.html">&lt;p&gt;Terraform은 인프라를 코드로 관리할 수 있도록 지원하는 오픈소스 프로젝트입니다.&lt;/p&gt;
+
+&lt;p&gt;멀티 클라우드를 사용하는 것이 최근 트렌드입니다. 그만큼 다양하고 복잡한 클라우드 자원을 효율적으로 관리하는 것이 중요합니다.&lt;/p&gt;
+
+&lt;p&gt;Terraform은 AWS, GCP, Microsoft Azure, OpenStack 등의 멀티 클라우드를 지원하므로 이를 활용해 코드로 인프라 자원을 효율적으로 관리할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;참고:&lt;a href=&quot;https://www.terraform.io/docs/providers/index.html&quot;&gt;Terraform 지원 provider&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;이 페이지에서는 terraform을 사용하여 IBM Cloud에 가상머신을 생성, 삭제하는 방법에 대해 설명합니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;준비하기&quot;&gt;준비하기&lt;/h2&gt;
+
+&lt;p&gt;아래 가이드를 참고하여 Terraform 및 softlayer 플러그인을 설치합니다.&lt;/p&gt;
+
+&lt;p&gt;이 페이지에서는 아래와 같은 버전을 기준으로 작성했습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Terraform : v0.11.7&lt;/li&gt;
+  &lt;li&gt;softlayer 플러그인 : 1.5.0&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;terraform-설치&quot;&gt;Terraform 설치&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;아래 페이지에서 OS별 바이너리 다운로드&lt;/p&gt;
+
+    &lt;p&gt;https://www.terraform.io/downloads.html&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;OSX&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  mv terraform /usr/local/bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;softlayer-플러그인-다운로드&quot;&gt;softlayer 플러그인 다운로드&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;아래 페이지에서 OS별 바이너리 다운로드&lt;/p&gt;
+
+    &lt;p&gt;https://github.com/softlayer/terraform-provider-softlayer/releases&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;아래와 같이 플러그인 경로 설정&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  # vi ~/.terraformrc
+  providers {
+      softlayer = &quot;/path/to/bin/terraform-provider-softlayer&quot;
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;softlayer-포탈에서-ssh-key-생성&quot;&gt;Softlayer 포탈에서 ssh key 생성&lt;/h3&gt;
+
+&lt;p&gt;Terraform을 이용하여 VM을 생성할 때 사용할 ssh key를 설정하는 방법입니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;디바이스 &amp;gt; 관리 &amp;gt; SSH 키 선택 &amp;gt; 추가 탭 클릭&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;퍼블릭 키 및 라벨 입력 후 추가 버튼 클릭(이 페이지에서는 ssh key 이름을 sl_key로 가정)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Terraform &lt;code class=&quot;highlighter-rouge&quot;&gt;main.tf&lt;/code&gt;에 위 키를 정의해서 VM 생성시 활용합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  data &quot;softlayer_ssh_key&quot; &quot;public_key&quot; {
+      label = &quot;sl_key&quot;
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;자원-정의&quot;&gt;자원 정의&lt;/h2&gt;
+
+&lt;p&gt;디렉토리를 생성하고 생성할 자원에 대한 정의를 합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;자원 정의&lt;/p&gt;
+
+    &lt;p&gt;계정, ssh key, VM 등의 자원에 대해 정의합니다.&lt;/p&gt;
+
+    &lt;p&gt;자주 사용하는 값들은 변수화 해서 &lt;code class=&quot;highlighter-rouge&quot;&gt;vars.tf&lt;/code&gt;에 정의합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  $ vi main.tf
+
+  //계정 정보
+  provider &quot;softlayer&quot; {
+    username = &quot;${var.username}&quot;
+    api_key  = &quot;${var.api_key}&quot;
+  }
+
+  //VM에서 사용할 ssh key
+  data &quot;softlayer_ssh_key&quot; &quot;public_key&quot; {
+      label = &quot;sl_key&quot;
+  }
+
+  //VM 정의
+  resource &quot;softlayer_virtual_guest&quot; &quot;sample_vm&quot; {
+    count                = &quot;${var.sample_vm_count}&quot;                           //VM 개수
+    os_reference_code    = &quot;${var.os}&quot;                                        //OS 타입
+    public_vlan_id       = &quot;${var.public_vlan_id}&quot;                            //Public VLAN ID
+    private_vlan_id      = &quot;${var.private_vlan_id}&quot;                           //Private VLAN ID
+    domain               = &quot;${var.domain}&quot;                                    //VM의 도메인 명
+    dedicated_acct_host_only = &quot;${var.dedicated_host}&quot;                        //Dedicated VM 생성 여부
+    hostname             = &quot;${var.sample_vm_hostname}-0${count.index+1}&quot;      //VM의 호스트 명
+    ssh_key_ids          = [&quot;${data.softlayer_ssh_key.public_key.id}&quot;]        //VM에서 사용할 ssh key
+    datacenter           = &quot;${var.datacenter}&quot;                                //데이터센터 명
+    disks                = [100,250]                                          //디스크 크기. SAN 타입[Primary Disk, Second Disk, ...]
+    local_disk           = &quot;${var.local_disk}&quot;                                //로컬 디스크 사용여부
+    hourly_billing       = &quot;${var.hourly_billing}&quot;                            //시간 단위 과금 사용여부
+    private_network_only = &quot;${var.private_network_only}&quot;                      //VM 생성 시 사설 네트워크만 사용할지 여부. true일 경우 public_vlan_id 주석 처리 필요
+    network_speed        = 1000                                               //VM 네트워크 속도. Shared VM 타입은 100Mbps가 최대
+    cores                = 2                                                  //VM CPU Core 수
+    memory               = 4096                                               //VM Memory 수
+    notes                = &quot;${var.notes}&quot;                                     //VM에 대한 태크 명
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;환경 변수 정의&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;main.tf&lt;/code&gt;에서 사용하는 환경 변수를 정의합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  $ vi vars.tf
+
+  variable username {}        //환경변수로 입력받기 위해 템플릿만 선언
+
+  variable api_key {}         //환경변수로 입력받기 위해 템플릿만 선언
+
+  variable datacenter {
+      default = &quot;seo01&quot;
+  }
+
+  variable domain {
+      default = &quot;example.com&quot;
+  }
+
+  variable dedicated_host {
+      default = &quot;false&quot;
+  }
+
+  variable os {
+      default = &quot;CENTOS_7_64&quot;
+  }
+
+  variable hourly_billing {
+      default = &quot;true&quot;
+  }
+
+  variable private_network_only {
+      default = &quot;false&quot;
+  }
+
+  variable local_disk {
+      default = &quot;false&quot;
+  }
+
+  variable public_vlan_id {
+      default = xxx
+  }
+
+  variable private_vlan_id {
+      default = xxx
+  }
+
+  variable sample_vm_hostname {
+      default = &quot;sample&quot;
+  }
+
+  variable sample_vm_count {
+      default = 1
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;ibm-account-정보-export&quot;&gt;IBM Account 정보 export&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export IBM_ACCOUNT=xxx
+export API_KEY=xxx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;초기화&quot;&gt;초기화&lt;/h2&gt;
+
+&lt;p&gt;아래 명령 실행해 초기화&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;terraform init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;자원-생성&quot;&gt;자원 생성&lt;/h2&gt;
+
+&lt;p&gt;아래 명령 실행해 자원 생성&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;terraform apply -var &quot;username=$IBM_ACCOUNT&quot; -var &quot;api_key=$API_KEY&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;자원-삭제&quot;&gt;자원 삭제&lt;/h2&gt;
+
+&lt;p&gt;아래 명령 실행해 자원 삭제&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;terraform destroy -var &quot;username=$IBM_ACCOUNT&quot; -var &quot;api_key=$API_KEY&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">Terraform은 인프라를 코드로 관리할 수 있도록 지원하는 오픈소스 프로젝트입니다.</summary></entry><entry><title type="html">Cronjob 사용하기</title><link href="http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob.html" rel="alternate" type="text/html" title="Cronjob 사용하기" /><published>2018-06-25T00:00:00+09:00</published><updated>2018-06-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob.html">&lt;p&gt;이 페이지는 Kubernetes 상에서 CronJob을 사용하는 방법에 대해 설명합니다.&lt;/p&gt;
 
 &lt;p&gt;Unix 계열의 서버 환경에서 &lt;a href=&quot;https://ko.wikipedia.org/wiki/Cron&quot;&gt;Cron&lt;/a&gt;을 사용해 정기적인 배치 작업을 수행하는데 활용합니다.&lt;/p&gt;
 
@@ -813,162 +1319,4 @@ Persistence:
     &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; # helm repo add mychart https://yunsangjun.github.io/sj-charts
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.</summary></entry><entry><title type="html">Docker 이미지 레이어란?</title><link href="http://localhost:4000/blog/docker/2018/05/26/docker-image-layer.html" rel="alternate" type="text/html" title="Docker 이미지 레이어란?" /><published>2018-05-26T00:00:00+09:00</published><updated>2018-05-26T00:00:00+09:00</updated><id>http://localhost:4000/blog/docker/2018/05/26/docker-image-layer</id><content type="html" xml:base="http://localhost:4000/blog/docker/2018/05/26/docker-image-layer.html">&lt;p&gt;Docker Image를 pull, push 하다보면 layer라는 용어가 나옵니다. Docker 에서 사용하는 layer 구조가 무엇이고 왜 사용할까요?&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker pull nginx
-Using default tag: latest
-latest: Pulling from library/nginx
-2a72cbf407d6: Pulling fs layer
-04b2d3302d48: Pulling fs layer
-e7f619103861: Pulling fs layer
-...
-2a72cbf407d6: Pull complete
-04b2d3302d48: Pull complete
-e7f619103861: Pull complete
-Digest: sha256:18156dcd747677b03968621b2729d46021ce83a5bc15118e5bcced925fb4ebb9
-Status: Downloaded newer image for nginx:latest
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;docker-image-layer-구조란&quot;&gt;Docker Image Layer 구조란?&lt;/h2&gt;
-
-&lt;p&gt;Dockerfile을 build 하면 정의된 명령어에 따라 Docker 이미지가 생성됩니다. 하나의 이미지로 보이지만 내부적으로는 여러개의 이미지가 층층히 쌓여있는 layer 구조입니다. 좀 더 쉽게 예를 들어 보겠습니다.&lt;/p&gt;
-
-&lt;p&gt;아래 예제는 nginx image를 build하기 위한 Dockerfile입니다. step1~6까지 총 6개의 명령으로 이루어져 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;Dockerfile&amp;gt;
-# step1. Base image
-FROM ubuntu:latest
-
-# step2. Install Nginx.
-RUN \
-  apt-get update &amp;amp;&amp;amp; \
-  apt-get install -y nginx
-
-# step3. Define mountable directories.
-VOLUME [&quot;/etc/nginx/sites-enabled&quot;, &quot;/etc/nginx/certs&quot;, &quot;/etc/nginx/conf.d&quot;, &quot;/var/log/nginx&quot;, &quot;/var/www/html&quot;]
-
-# step4. Define working directory.
-WORKDIR /etc/nginx
-
-# step5. Define default command.
-CMD [&quot;nginx&quot;]
-
-# step6. Expose port.
-EXPOSE 80
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;이 Dockerfile을 build 해보겠습니다. 아래와 같이 각 명령어 단계마다 이미지가 생성됩니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker build -t nginx .
-Sending build context to Docker daemon  2.048kB
-Step 1/6 : FROM ubuntu:latest
-...
- ---&amp;gt; c9d990395902    # 1번 이미지
-Step 2/6 : RUN   apt-get update &amp;amp;&amp;amp;   apt-get install -y nginx
-...
- ---&amp;gt; 90100bc32c07    # 2번 이미지
-Step 3/6 : VOLUME [&quot;/etc/nginx/sites-enabled&quot;, &quot;/etc/nginx/certs&quot;, &quot;/etc/nginx/conf.d&quot;, &quot;/var/log/nginx&quot;, &quot;/var/www/html&quot;]
-...
- ---&amp;gt; 8ea7a4443b1e    # 3번 이미지
-Step 4/6 : WORKDIR /etc/nginx
-...
- ---&amp;gt; 37773795f83d    # 4번 이미지
-Step 5/6 : CMD [&quot;nginx&quot;]
-...
- ---&amp;gt; 4f8728cb93dc    # 5번 이미지
-Step 6/6 : EXPOSE 80
-...
- ---&amp;gt; bec972ccfa66    # 6번 이미지
-Successfully built b5d127ff2140
-Successfully tagged nginx:latest
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;왜-사용할까요&quot;&gt;왜 사용할까요?&lt;/h2&gt;
-
-&lt;p&gt;그렇다면 이런 Image layer 구조는 왜 사용할까?
-Nginx 이미지를 기반으로 Web App을 만들었다고 가정해보자. App source를 수정할 때 마다 전체 이미지를 다시 다운로드 받는다면 매우 비효율적이라 생각된다. 하지만 Docker Image는 layer 구조로 되어있기 때문에 Base image인 nginx image layer는 다운로드 받지 않고 변경된 source layer만 받게 된다. 이런 이유로 Docker Image는 layer 구조로 설계되어 있다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Docker Image를 pull, push 하다보면 layer라는 용어가 나옵니다. Docker 에서 사용하는 layer 구조가 무엇이고 왜 사용할까요?</summary></entry><entry><title type="html">Docker Private Registry로 부터 이미지 가져오기</title><link href="http://localhost:4000/blog/kubernetes/2018/05/25/pull-image-from-private-registry.html" rel="alternate" type="text/html" title="Docker Private Registry로 부터 이미지 가져오기" /><published>2018-05-25T00:00:00+09:00</published><updated>2018-05-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/25/pull-image-from-private-registry</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/25/pull-image-from-private-registry.html">&lt;p&gt;이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다.&lt;br /&gt;
-상세한 내용은 아래 링크를 참고하세요.&lt;/p&gt;
-
-&lt;p&gt;https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/&lt;/p&gt;
-
-&lt;h2 id=&quot;docker-private-registry에-로그인&quot;&gt;Docker Private Registry에 로그인&lt;/h2&gt;
-
-&lt;p&gt;개인 이미지를 가져오려면 Registry로 인증해야합니다.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker login YOUR_REPOSITORY_URI
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;config.json&lt;/code&gt; 파일을 조회합니다. 해당 Repository에 대한 인증 토큰 정보가 출력됩니다.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cat ~/.docker/config.json
-{
-    &quot;auths&quot;: {
-        &quot;YOUR_REPOSITORY_URI&quot;: {
-            &quot;auth&quot;: &quot;c3R...zE2&quot;
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;인증-토큰을-사용하여-secret-생성하기&quot;&gt;인증 토큰을 사용하여 Secret 생성하기&lt;/h2&gt;
-
-&lt;p&gt;Kubernetes 클러스터는 docker-registry 유형의 Secret을 사용하여 컨테이너 레지스트리로 인증하여 개인 이미지를 가져옵니다.&lt;/p&gt;
-
-&lt;p&gt;이 Secret 만들어서 이름을 regcred로 지정하십시오.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create secret docker-registry regcred --docker-server=&amp;lt;your-registry-server&amp;gt; --docker-username=&amp;lt;your-name&amp;gt; --docker-password=&amp;lt;your-pword&amp;gt; --docker-email=&amp;lt;your-email&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;your-registry-server : Private Docker Registry FQDN.&lt;/li&gt;
-  &lt;li&gt;your-name : Docker username.&lt;/li&gt;
-  &lt;li&gt;your-pword : Docker password.&lt;/li&gt;
-  &lt;li&gt;your-email : Docker email.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;secret-확인하기&quot;&gt;Secret 확인하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;regcred&lt;/code&gt; Secret 내용 조회&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get secret regcred --output=yaml
-apiVersion: v1
-data:
-  .dockercfg: eyJodHRwczovL2luZGV4L ... J0QUl6RTIifX0=
-kind: Secret
-metadata:
-  ...
-  name: regcred
-  ...
-type: kubernetes.io/dockercfg
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.dockercfg&lt;/code&gt; 정보 Decode&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get secret regcred --output=&quot;jsonpath={.data.\.dockercfg}&quot; | base64 --decode
-{&quot;auths&quot;:{&quot;yourprivateregistry.com&quot;:{&quot;username&quot;:&quot;janedoe&quot;,&quot;password&quot;:&quot;xxxxxxxxxxx&quot;,&quot;email&quot;:&quot;jdoe@example.com&quot;,&quot;auth&quot;:&quot;c3R...zE2&quot;}}}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;인증 토큰 조회&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ echo &quot;c3R...zE2&quot; | base64 -d
-janedoe:xxxxxxxxxxx
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;secret을-사용하여-pod-생성하기&quot;&gt;Secret을 사용하여 Pod 생성하기&lt;/h2&gt;
-
-&lt;p&gt;Pod yaml 생성&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi my-private-reg-pod.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: private-reg
-spec:
-  containers:
-  - name: private-reg-container
-    image: &amp;lt;your-private-image&amp;gt;
-  imagePullSecrets:
-  - name: regcred
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Pod 배포. 정상적으로 완료했다면 이미지를 Docker Private Registry로 부터 가져오고 Pod가 Running 상태로 변경됩니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl create -f my-private-reg-pod.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다. 상세한 내용은 아래 링크를 참고하세요.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.</summary></entry></feed>
