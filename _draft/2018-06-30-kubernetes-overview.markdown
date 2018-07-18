@@ -3,7 +3,7 @@ layout: post
 title:  "Kubernetes 스터디 #1 Overview"
 author: 윤상준
 date: 2018-06-30
-categories: Kubernetes
+categories: kubernetes
 ---
 
 ## Kubernetes 란?

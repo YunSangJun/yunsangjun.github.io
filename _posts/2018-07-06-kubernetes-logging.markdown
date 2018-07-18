@@ -3,7 +3,7 @@ layout: post
 title:  "Kubernetes 스터디 #7 Logging"
 author: 윤상준
 date: 2018-07-06
-categories: Kubernetes
+categories: kubernetes
 ---
 
 ## Cloud Native 환경에서 Logging Architecture의 변화
@@ -275,3 +275,7 @@ Logback 설정해 `/logs` directory 하위에 log message를 file로 저장
 - Left 메뉴 > Discover 메뉴 선택 > Demo Application의 Log message 검색 됨
 
   ![](/blog/assets/images/kubernetes/logging/logging-kibana-search.png)
+
+지금까지 Kubernetes 환경에서 Logging Architecture에 대해 살펴봤습니다.
+
+Log message 전/후처리에 대한 상세한 내용은 향후 추가로 작성예정입니다.
