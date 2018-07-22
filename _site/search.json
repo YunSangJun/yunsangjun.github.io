@@ -2,6 +2,16 @@
   
     {
 
+      "title"    : "Kubernetes 스터디 #8 Monitoring",
+      "url"      : "/blog/kubernetes/2018/07/20/kubernetes-monitoring.html",
+      "category" : "kubernetes",
+      "tags"     : "",
+      "date"     : "2018-07-20 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "Kubernetes 스터디 #7 Logging",
       "url"      : "/blog/kubernetes/2018/07/06/kubernetes-logging.html",
       "category" : "kubernetes",
