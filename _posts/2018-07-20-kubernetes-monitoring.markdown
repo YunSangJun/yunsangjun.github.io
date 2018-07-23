@@ -249,6 +249,8 @@ Prometheus와 Grafana 설치에 대한 가이드는 추후 작성 예정입니�
 
 - `Upload .json File` 버튼 선택
 
+  다운로드 받은 `spring-boot-monitoring-demo` 프로젝트 > `jmx-exporter` > `jmx-exporter-tomcat-grafana-dashboard.json` 파일 import
+
   ![](/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-02.png)
 
 - Options > prometheus combo box > 원하는 data source 선택 > `Import` 버튼 선택
