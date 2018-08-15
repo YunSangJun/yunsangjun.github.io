@@ -7,12 +7,60 @@ categories: spinnaker
 ---
 
 이 페이지는 Spinnaker를 설치하는 방법에 대해 설명합니다.
-자세한 내용은 [Set up Spinnaker](https://www.spinnaker.io/setup/)을 참고하세요.
 
-## Halyard 설치하기
+자세한 내용은 Spinnaker 공식 가이드 문서의 [Set up Spinnaker](https://www.spinnaker.io/setup/)을 참고하세요.
+
+## 1.Halyard 설치하기
 
 Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 서비스 배포 및 업데이트를 포함하여 Spinnaker 배포의 수명주기를 관리합니다.
 운영가능한 Spinnaker를 설치 및 업데이트하기 위해 Halyard가 필요합니다. Halyard없이 Spinnaker를 설치할 수는 있지만 권장하지 않습니다.
+
+### Debian/Ubuntu and macOS 환경
+
+Halyard는 아래 환경을 지원합니다.
+
+- Ubuntu 14.04 or 16.04 (Ubuntu 16.04 requires Spinnaker 1.6.0 or later)
+- Debian 8 or 9
+- macOS (tested on 10.13 High Sierra only)
+
+1. Halyard 최신버전 다운로드
+
+    - For Debian/Ubuntu:
+
+      ```
+      $ curl -O https://raw.githubusercontent.com/spinnaker/halyard/master/install/debian/InstallHalyard.sh
+      ```
+
+    - For macOS:
+
+      ```
+      $ curl -O https://raw.githubusercontent.com/spinnaker/halyard/master/install/macos/InstallHalyard.sh
+      ```
+
+2. 설치
+
+    설치 중에 자동 완성 여부 및 bash RC 경로 물어보면 엔터키 입력(기본값으로 설정)
+
+    ```
+    $ sudo bash InstallHalyard.sh
+    ...
+    Would you like to configure halyard to use bash auto-completion? [default=Y]:
+    Where is your bash RC? [default=/home/withdtlabs/.bashrc]:
+    ```
+
+3. 설치 확인
+
+    ```
+    $ hal -v
+    ```
+
+4. 자동 완성 설정
+
+    ```
+    $ . ~/.bashrc
+    ```
+
+### Docker 환경
 
 1. [Docker CE](https://docs.docker.com/engine/installation/)를 설치
 
@@ -43,7 +91,7 @@ Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 
     $ docker exec -it halyard bash
     ```
 
-5. 자동 완성
+5. 자동 완성 설정
 
     아래 명령을 실행하여 자동완성을 설정합니다.
 
@@ -51,9 +99,13 @@ Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 
     $ source <(hal --print-bash-completion)
     ```
 
-    `hal` 명령어에 대한 자세한 내용은 [Halyard command Reference](https://www.spinnaker.io/reference/halyard/commands)를 참고하세요.
 
-## Cloud 공급자 선택하기
+
+`hal` 명령어에 대한 자세한 내용은 [Halyard command Reference](https://www.spinnaker.io/reference/halyard/commands)를 참고하세요.
+
+
+
+## 2.Cloud 공급자 선택하기
 
 Spinnaker를 통해 애플리케이션을 배포할 Cloud 공급자를 선택합니다.
 
@@ -88,9 +140,6 @@ Spinnaker를 통해 애플리케이션을 배포할 Cloud 공급자를 선택합
 
     kubeconfig를 사용하면 Spinnaker가 관리 할 것으로 예상되는 모든 리소스에 대한 읽기/쓰기 권한을 가질 수 있습니다. Kubernetes 클러스터 관리자에게 요청할 수 있습니다.
 
-    이 페이지에서는 Docker 컨테이너에서 Halyard를 실행시 로컬환경의 `~/.kube` 폴더를 Docker 컨테이너의 `/home/spinnaker/.kube`에 mount 했습니다.
-    로컬환경의 `~/.kube` 폴더 하위에 kubeconfig를 생성하면됩니다.
-
 - kubectl
 
     Spinnaker는 kubectl을 사용하여 모든 API 액세스를 관리합니다. Spinnaker와 함께 설치됩니다.
@@ -117,18 +166,17 @@ $ hal config features edit --artifacts true
 
 추가 설정에 대한 내용은 [Halyard Reference](https://www.spinnaker.io/reference/halyard/commands#hal-config-provider-kubernetes-account-add)를 참고하세요.
 
-## 설치환경 선택하기
+## 3.설치 환경 선택하기
 
-Halyard가 Spinnaker를 어디에 설치할지 선택합니다.
+Halyard가 Spinnaker를 어떤 방식으로 설치할지 선택합니다.
 
 - 분산 설치
 
-Halyard가 Spinnaker’s 마이크로서비스를 분산 설치합니다. 운영환경으로 설치 시 권장합니다.
+Halyard가 Spinnaker’s 마이크로서비스를 분산 설치합니다. 운영 환경으로 설치 시 권장합니다.
 
 - 로컬 설치
 
 하나의 머신에 설치됩니다. 소규모 배포에 적합합니다.
- of Debian packages Spinnaker is deployed on a single machine. This is good for smaller deployments.
 
 - github에서 설치
 
@@ -150,7 +198,7 @@ Spinnaker를 설치하기 위해 `4 cores`와 `8GB of RAM`을 권장합니다.
 $ hal config deploy edit --type distributed --account-name $ACCOUNT
 ```
 
-## 스토리지 선택하기
+## 4.스토리지 선택하기
 
 Spinnaker에는 애플리케이션 설정 및 파이프 라인 설정을 유지하기 위해 외부 저장소가 필요합니다.
 
@@ -165,7 +213,65 @@ Spinnaker는 아래와 같은 스토리지를 지원합니다. 어떤 옵션을 
 
 참고: Redis는 운영환경에서는 권장하지 않습니다.
 
-이 페이지에서는 Minio를 사용해서 Self 호스팅하는 S3와 연동하는 방식으로 진행해보겠습니다.
+### Google Cloud Storage
+
+#### 사전 준비
+
+- Google Cloud Platform(GCP) 프로젝트 생성
+
+- [gcloud](https://cloud.google.com/sdk/downloads) 설치
+
+#### Credential 다운로드
+
+Spinnaker는 GCP에 인증하기 위해 `roles/storage.admin` 역할이 활성화된 서비스 계정이 필요합니다.
+
+계정이 없다면 아래와 같이 생성합니다.
+
+```
+SERVICE_ACCOUNT_NAME=spinnaker-gcs-account
+SERVICE_ACCOUNT_DEST=~/.gcp/gcs-account.json
+
+gcloud iam service-accounts create \
+    $SERVICE_ACCOUNT_NAME \
+    --display-name $SERVICE_ACCOUNT_NAME
+
+SA_EMAIL=$(gcloud iam service-accounts list \
+    --filter="displayName:$SERVICE_ACCOUNT_NAME" \
+    --format='value(email)')
+
+PROJECT=$(gcloud info --format='value(config.project)')
+
+gcloud projects add-iam-policy-binding $PROJECT \
+    --role roles/storage.admin --member serviceAccount:$SA_EMAIL
+
+mkdir -p $(dirname $SERVICE_ACCOUNT_DEST)
+
+gcloud iam service-accounts keys create $SERVICE_ACCOUNT_DEST \
+    --iam-account $SA_EMAIL
+```
+
+#### 스토리지 설정
+
+Halyard는 버킷을 설정하지 않았거나 설정한 버킷이 없으면 새로운 bucket을 생성합니다.
+
+아래는 기본 버킷 설정 예제입니다.
+
+```
+PROJECT=$(gcloud info --format='value(config.project)')
+# see https://cloud.google.com/storage/docs/bucket-locations
+BUCKET_LOCATION=us
+SERVICE_ACCOUNT_DEST=# 전 단계의 설정 참고
+
+hal config storage gcs edit --project $PROJECT \
+    --bucket-location $BUCKET_LOCATION \
+    --json-path $SERVICE_ACCOUNT_DEST
+```
+
+스토리지를 GCS로 설정합니다.
+
+```
+hal config storage edit --type gcs
+```
 
 ### Minio
 
@@ -205,7 +311,9 @@ $ hal config storage s3 edit --endpoint $ENDPOINT \
 $ hal config storage edit --type s3
 ```
 
-## Spinnaker 설치
+## 5.Spinnaker 설치
+
+### 버전 선택
 
 설치 가능한 버전을 조회합니다.
 
@@ -238,12 +346,7 @@ $ hal version list
 $ hal config version edit --version $VERSION
 ```
 
-ingress에서 사용할 도메인을 입력합니다.
-
-```
-$ hal config security ui edit --override-base-url http://spinnaker.zcp-dev.jp-tok.containers.mybluemix.net
-$ hal config security api edit --override-base-url http://spinnaker-api.zcp-dev.jp-tok.containers.mybluemix.net
-```
+### 설치
 
 이제 Spinnaker를 배포합니다.
 
@@ -251,42 +354,15 @@ $ hal config security api edit --override-base-url http://spinnaker-api.zcp-dev.
 $ hal deploy apply
 ```
 
-## Spinnaker expose
+### Spinnaker 대시보드 접속
 
-Spinnaker에 접속하기 위해서 ingress를 통해 서비스를 노출시켜보겠습니다.
-
-먼저 `ingress.yaml`을 작성합니다.
+아래 명령어를 실행합니다.
 
 ```
-$ vi ingress.yaml
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: spinnaker
-spec:
-  rules:
-  - host: spinnaker.example.com
-    http:
-      paths:
-      - backend:
-          serviceName: spin-deck
-          servicePort: 9000
-  - host: spinnaker-api.example.com
-    http:
-      paths:
-      - backend:
-          serviceName: spin-gate
-          servicePort: 8084
+$ hal deploy connect
 ```
 
-아래 명령어를 통해 ingress를 배포합니다.
-
-```
-$ kubectl apply -f ingress.yaml
-```
-
-이제 `spinnaker.example.com`에 접속해 Spinnaker 대시보드를 사용할 수 있습니다.
-
+웹 브라우저에서 `localhost:9000` 에 접속합니다.
 
 ## Trouble Shooting
 
