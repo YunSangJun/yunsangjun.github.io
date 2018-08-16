@@ -191,7 +191,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-javaagent:/jmx_pr
   <li>
     <p>Docker build</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker build -t spinrg-boot-monitoring-demo .
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker build -t spring-boot-monitoring-demo .
 
 $ docker images
 REPOSITORY                        TAG                 IMAGE ID          CREATED            SIZE
@@ -331,6 +331,8 @@ jvm_gc_collection_seconds_sum{gc="PS MarkSweep",} 0.262
   </li>
   <li>
     <p><code class="highlighter-rouge">Upload .json File</code> 버튼 선택</p>
+
+    <p>다운로드 받은 <code class="highlighter-rouge">spring-boot-monitoring-demo</code> 프로젝트 &gt; <code class="highlighter-rouge">jmx-exporter</code> &gt; <code class="highlighter-rouge">jmx-exporter-tomcat-grafana-dashboard.json</code> 파일 import</p>
 
     <p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-02.png" alt="" /></p>
   </li>
