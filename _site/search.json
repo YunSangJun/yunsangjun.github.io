@@ -2,6 +2,16 @@
   
     {
 
+      "title"    : "Spinnaker 추가 설정 #1 도메인 주소를 통한 대시보드 접속",
+      "url"      : "/blog/spinnaker/2018/08/15/using-spinnaker-1.html",
+      "category" : "spinnaker",
+      "tags"     : "",
+      "date"     : "2018-08-15 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "Kubernetes 스터디 #8 Monitoring",
       "url"      : "/blog/kubernetes/2018/07/20/kubernetes-monitoring.html",
       "category" : "kubernetes",

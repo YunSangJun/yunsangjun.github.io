@@ -10,15 +10,15 @@
 <meta property="og:title" content="Helm chart repository 호스팅" />
 <meta name="author" content="윤상준" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다." />
-<meta property="og:description" content="Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다." />
+<meta name="description" content="내가 만든 Helm chart를 다른 사용자에게 공유하기 위해서는 Helm repository가 필요합니다." />
+<meta property="og:description" content="내가 만든 Helm chart를 다른 사용자에게 공유하기 위해서는 Helm repository가 필요합니다." />
 <link rel="canonical" href="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html" />
 <meta property="og:url" content="http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html" />
 <meta property="og:site_name" content="윤상준의 기술 블로그" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-05-26T00:00:00+09:00" />
 <script type="application/ld+json">
-{"description":"Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html","headline":"Helm chart repository 호스팅","dateModified":"2018-05-26T00:00:00+09:00","datePublished":"2018-05-26T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html"},"@context":"http://schema.org"}</script>
+{"description":"내가 만든 Helm chart를 다른 사용자에게 공유하기 위해서는 Helm repository가 필요합니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html","headline":"Helm chart repository 호스팅","dateModified":"2018-05-26T00:00:00+09:00","datePublished":"2018-05-26T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/helm/2018/05/26/hosting-helm-chart-repository.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
 </head>
@@ -53,56 +53,106 @@
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>Helm chart를 개발한 후 외부에서 helm cli를 통해 다운로드 및 설치 하려면 Helm chart repository를 만들어야 합니다.</p>
+    <p>내가 만든 Helm chart를 다른 사용자에게 공유하기 위해서는 Helm repository가 필요합니다.</p>
 
-<p>kubernetes helm <a href="https://github.com/kubernetes/helm/blob/master/docs/chart_repository.md">가이드</a>에서 지원하는 방식은 3가지 입니다.</p>
+<p>Official repository(https://github.com/helm/charts)에 Contribution하는 방법과 자체 repository를 사용하는 두 가지 방식 있습니다.</p>
+
+<p>자체 repository는 크게 3가지 형태로 지원합니다.(웹 서버 기능 필요)</p>
 
 <ul>
   <li>Github Pages</li>
-  <li>Object Storage(GCS, AWS S3)</li>
-  <li>Ordinary Web Servers</li>
+  <li>Object Storage(GCS, AWS S3, ICOS 등)</li>
+  <li>Ordinary Web Servers(Nginx, Apache)</li>
 </ul>
+
+<p>자세한 내용은 <a href="https://github.com/kubernetes/helm/blob/master/docs/chart_repository.md">The Chart Repository Guide</a>를 참고하세요.</p>
 
 <h2 id="github-pages">Github Pages</h2>
 
+<p>Github Pages를 사용하는 방식은 쉽고 무료로 사용할 수 있습니다.
+Github Pages는 웹 서버 기능을 지원합니다.</p>
+
 <ol>
   <li>
-    <p>Github에 Repository 생성 및 docs 폴더 생성</p>
+    <p>Github에 Repository 생성</p>
 
-    <p><a href="https://github.com/YunSangJun/sj-charts">샘플 코드</a></p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Chart Repository
-     | ㅡ docs
-</code></pre></div>    </div>
+    <p>이 페이지에서는 <code class="highlighter-rouge">my-charts</code>라고 생성하겠습니다.</p>
   </li>
   <li>
     <p>Github Page 설정</p>
 
-    <p><code class="highlighter-rouge">Repository -&gt; Settings -&gt; Github Pages</code> 메뉴 클릭</p>
+    <p><code class="highlighter-rouge">Repository -&gt; Settings -&gt; Github Pages &gt; Source &gt; master branch 선택 &gt; Save 선택</code></p>
 
-    <p>Source를 <code class="highlighter-rouge">/docs</code> 로 지정. 지정 후 아래와 같은 site 주소 확인</p>
-
-    <p>https://yunsangjun.github.io/sj-charts</p>
+    <p>설정 완료 후 나타나는 <code class="highlighter-rouge">https://example.github.io/my-charts/</code> 주소가 웹 서버 주소입니다.</p>
   </li>
   <li>
-    <p>Helm Package 생성</p>
+    <p>git repository checkout 및 stable 디렉토리 생성</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # helm create mychart
- # helm package mychart
- # mv mychart-0.1.0.tgz docs
- # helm repo index docs --url https://yunsangjun.github.io/sj-charts
- # git add --all
- # git commit -m 'init'
- # git push origin master
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ git checkout  https://github.com/example/my-charts.git
+ $ cd my-charts &amp; mkdir stable
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>Helm repository에 추가</p>
+    <p><code class="highlighter-rouge">demo</code> helm chart 생성 및 package</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # helm repo add mychart https://yunsangjun.github.io/sj-charts
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ helm create demo
+ Creating demo
+
+ # helm package demo
+ Successfully packaged chart and saved it to: PATH/demo-0.1.0.tgz
 </code></pre></div>    </div>
+  </li>
+  <li>
+    <p>helm 파일을 stable 디렉토리에 복사(앞에서 생성한 demo-0.1.0.tgz 사용)</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # mv demo-0.1.0.tgz stable
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Index 파일 생성</p>
+
+    <p>stable 디렉토리 하위에 index.yaml 파일이 생성됩니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ helm repo index [INDEX_FILE_PATH] --url [CHART_REPO_URL]
+ $ helm repo index stable --url https://example.github.io/my-charts/stable
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>변경사항 git에 commit</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ git add --all &amp; git commit -m 'init' &amp; git push origin master
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>웹 서버 주소에 접속해 index 파일 확인</p>
+
+    <p>https://example.github.io/my-charts/stable/index.yaml</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> apiVersion: v1
+ entries:
+   demo:
+   - apiVersion: v1
+     appVersion: "1.0"
+     created: 2018-10-03T12:14:26.693334507+09:00
+     description: A Helm chart for Kubernetes
+     digest: c677efc778b455ad3b9d53c03d37cf0002d067ac80da35d0921672a77f3c9bc3
+     name: demo
+     urls:
+     - https://example.github.io/my-charts/stable/demo-0.1.0.tgz
+     version: 0.1.0
+ generated: 2018-10-03T12:14:26.690034532+09:00
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Index 파일의 helm chart 패키지 다운로드 확인</p>
+
+    <p>https://example.github.io/my-charts/stable/demo-0.1.0.tgz</p>
   </li>
 </ol>
+
+<ul>
+  <li><a href="https://github.com/YunSangJun/my-charts">Sample Repository 참고</a></li>
+</ul>
 
   </div>
 <div id="disqus_thread"></div>

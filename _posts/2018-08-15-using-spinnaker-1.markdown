@@ -1,18 +1,14 @@
 ---
 layout: post
-title:  "Spinnaker 활용하기 #1 고급 설정"
+title:  "Spinnaker 추가 설정 #1 도메인 주소를 통한 대시보드 접속"
 author: 윤상준
 date: 2018-08-15
 categories: spinnaker
 ---
 
-이 페이지는 Spinnaker의 고급 설정 방법에 대해 설명합니다.
+## 도메인 주소를 통한 대시보드 접속하기
 
-자세한 내용은 Spinnaker 공식 가이드 문서의 [Configure Everything Else](https://www.spinnaker.io/setup/other_config/)을 참고하세요.
-
-## 외부 환경에서 Spinnaker 대시보드 접속하기
-
-로컬 환경이 아닌 외부에서 Spinnaker에 접속하기 위해서 추가 설정이 필요합니다.
+로컬 환경이 아닌 외부에서 도메인 주소를 통해 Spinnaker에 접속하기 위해서 추가 설정이 필요합니다.
 
 이 페이지에서는 Kubernetes provider를 기준으로 설명하겠습니다.
 Kubernetes 환경에서는 외부에 서비스를 노출시키기 위해 Ingress를 사용합니다.
@@ -61,3 +57,5 @@ $ kubectl apply -f ingress.yaml
 ```
 
 이제 `spinnaker.example.com`에 접속해 Spinnaker 대시보드를 사용할 수 있습니다.
+
+![](/blog/assets/images/spinnaker/spinnaker-dashboard.png)
