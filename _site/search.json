@@ -2,8 +2,58 @@
   
     {
 
-      "title"    : "Spinnaker 추가 설정 #1 도메인 주소를 통한 대시보드 접속",
-      "url"      : "/blog/spinnaker/2018/08/15/using-spinnaker-1.html",
+      "title"    : "Spinnaker 활용 #6 Helm chart 배포",
+      "url"      : "/blog/spinnaker/2018/10/14/using-spinnaker-6.html",
+      "category" : "spinnaker",
+      "tags"     : "",
+      "date"     : "2018-10-14 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Spinnaker 설정 #5 Artifact 설정",
+      "url"      : "/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html",
+      "category" : "spinnaker",
+      "tags"     : "",
+      "date"     : "2018-10-11 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Spinnaker 설정 #4 GitHub Webhooks 설정",
+      "url"      : "/blog/spinnaker/2018/09/10/configuration-spinnaker-4.html",
+      "category" : "spinnaker",
+      "tags"     : "",
+      "date"     : "2018-09-10 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Spinnaker 설정 #3 CI 시스템 연계",
+      "url"      : "/blog/spinnaker/2018/08/18/configuration-spinnaker-3.html",
+      "category" : "spinnaker",
+      "tags"     : "",
+      "date"     : "2018-08-18 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Spinnaker 설정 #2 사용자 인증/인가",
+      "url"      : "/blog/spinnaker/2018/08/16/configuration-spinnaker-2.html",
+      "category" : "spinnaker",
+      "tags"     : "",
+      "date"     : "2018-08-16 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Spinnaker 설정 #1 도메인 주소를 통한 대시보드 접속",
+      "url"      : "/blog/spinnaker/2018/08/15/configuration-spinnaker-1.html",
       "category" : "spinnaker",
       "tags"     : "",
       "date"     : "2018-08-15 00:00:00 +0900"

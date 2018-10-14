@@ -1,4 +1,498 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-10-03T16:28:08+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Spinnaker 추가 설정 #1 도메인 주소를 통한 대시보드 접속</title><link href="http://localhost:4000/blog/spinnaker/2018/08/15/using-spinnaker-1.html" rel="alternate" type="text/html" title="Spinnaker 추가 설정 #1 도메인 주소를 통한 대시보드 접속" /><published>2018-08-15T00:00:00+09:00</published><updated>2018-08-15T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/08/15/using-spinnaker-1</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/08/15/using-spinnaker-1.html">&lt;h2 id=&quot;도메인-주소를-통한-대시보드-접속하기&quot;&gt;도메인 주소를 통한 대시보드 접속하기&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-10-15T03:23:24+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Spinnaker 활용 #6 Helm chart 배포</title><link href="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html" rel="alternate" type="text/html" title="Spinnaker 활용 #6 Helm chart 배포" /><published>2018-10-14T00:00:00+09:00</published><updated>2018-10-14T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html">&lt;p&gt;이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.&lt;/p&gt;
+
+&lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/guides/user/kubernetes-v2/deploy-helm/&quot;&gt;Deploy Helm Charts&lt;/a&gt;를 참고하세요.&lt;/p&gt;
+
+&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
+
+&lt;h3 id=&quot;github-계정-생성-및-저장소-fork&quot;&gt;GitHub 계정 생성 및 저장소 fork&lt;/h3&gt;
+
+&lt;p&gt;GitHub 계정을 생성하고 아래 저장소를 fork 합니다.&lt;/p&gt;
+
+&lt;p&gt;https://github.com/YunSangJun/my-charts&lt;/p&gt;
+
+&lt;h3 id=&quot;github-webhook-설정&quot;&gt;GitHub Webhook 설정&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;/blog/spinnaker/2018/09/10/configuration-spinnaker-4.html&quot;&gt;GitHub Webhooks 설정하기&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;github-artifact-설정&quot;&gt;GitHub Artifact 설정&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html&quot;&gt;GitHub Artifact 설정하기&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;application-생성&quot;&gt;Application 생성&lt;/h2&gt;
+
+&lt;p&gt;Spinnaker top menu &amp;gt; Applications &amp;gt; 우측 Actions dropbox &amp;gt; Create Application을 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 내용 입력 후 Create 버튼을 선택합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Name : helm-chart-demo&lt;/li&gt;
+  &lt;li&gt;Owner Email : 애플리케이션 소유자의 이메일&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-new-application.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;pipeline-생성&quot;&gt;Pipeline 생성&lt;/h2&gt;
+
+&lt;p&gt;Application top &amp;gt; PIPELINES &amp;gt; Configure a new pipeline을 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 내용 입력 후 Create 버튼을 선택합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Type : Pipeline&lt;/li&gt;
+  &lt;li&gt;Pipeline Name : Deploy helm chart&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-new-pipeline.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;pipeline-설정&quot;&gt;Pipeline 설정&lt;/h2&gt;
+
+&lt;h3 id=&quot;automated-triggers&quot;&gt;Automated Triggers&lt;/h3&gt;
+
+&lt;p&gt;Pipeline configuration &amp;gt; Automated Triggers &amp;gt; Add Trigger를 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-pipeline-main.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Type : Git&lt;/li&gt;
+  &lt;li&gt;Repo Type : github&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Organization or User : GitHub 조직명 또는 사용자 명.&lt;/p&gt;
+
+    &lt;p&gt;예) https://github.com/YunSangJun/my-charts &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;YunSangJun&lt;/code&gt;이 사용자 명&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Project :  my-charts&lt;/li&gt;
+  &lt;li&gt;Branch : master&lt;/li&gt;
+  &lt;li&gt;Secret : &lt;a href=&quot;/blog/spinnaker/2018/09/10/configuration-spinnaker-4.html&quot;&gt;GitHub Webhooks 설정하기&lt;/a&gt;에서 입력한 secret&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-automated-trigger.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;expected-artifacts&quot;&gt;Expected Artifacts&lt;/h3&gt;
+
+&lt;p&gt;Pipeline configuration &amp;gt; Expected Artifacts &amp;gt; Add Artifact를 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Match against : GitHub&lt;/li&gt;
+  &lt;li&gt;File path : stable/demo-0.1.0.tgz&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-expected-artifacts.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;bake-manifest&quot;&gt;Bake Manifest&lt;/h3&gt;
+
+&lt;p&gt;Helm chart로 부터 Kubernetes manifest를 생성하는 stage를 구성합니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;stage-추가&quot;&gt;Stage 추가&lt;/h4&gt;
+
+&lt;p&gt;Pipeline &amp;gt; Configuration &amp;gt; Add stage를 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-pipeline-main-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Type : Bake(Manifest)&lt;/li&gt;
+  &lt;li&gt;Stage Name : Bake manifest for IBM&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-bake-ibm-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;stage-설정&quot;&gt;Stage 설정&lt;/h4&gt;
+
+&lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Render Engine : HELM2&lt;/li&gt;
+  &lt;li&gt;Name : demo&lt;/li&gt;
+  &lt;li&gt;Namespace : demo&lt;/li&gt;
+  &lt;li&gt;Expected Artifact : stable/demo-0.1.0.tgz&lt;/li&gt;
+  &lt;li&gt;Artifact Account : &lt;a href=&quot;/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html&quot;&gt;GitHub Artifact 설정하기&lt;/a&gt;에서 추가한 GitHub 계정&lt;/li&gt;
+  &lt;li&gt;Overrides :
+    &lt;ul&gt;
+      &lt;li&gt;Key : ingress.enabled, Value : true&lt;/li&gt;
+      &lt;li&gt;Key : ingress.hosts[0], Value : 애플리케이션 호스트 명 입력(예: demo.ibm.example.com)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-bake-ibm-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;produces-artifacts&quot;&gt;Produces Artifacts&lt;/h4&gt;
+
+&lt;p&gt;Bake Manifest 설정을 완료하면 Produces Artifacts에 생성되는 Kubernetes Manifest에 대한 설정이
+자동으로 설정됩니다.&lt;/p&gt;
+
+&lt;p&gt;이 설정을 다음 단계인 Deploy Manifest에서 사용합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-bake-produces-artifacts.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;multi-cloudcluster&quot;&gt;Multi cloud/cluster&lt;/h4&gt;
+
+&lt;p&gt;추가로 다른 클라우드의 클러스터에 추가로 Helm chart를 배포해야 하는 경우 위와 같은 stage를 동일하게 추가하고 설정합니다.&lt;/p&gt;
+
+&lt;p&gt;이 페이지에서는 같은 Helm chart이지만 ingress의 host명을 다르게 해서 배포하도록 설정해보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;Pipeline &amp;gt; Configuration &amp;gt; Add stage를 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-pipeline-main-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Type : Bake(Manifest)&lt;/li&gt;
+  &lt;li&gt;Stage Name : Bake manifest for GCP&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-bake-gcp-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Render Engine : HELM2&lt;/li&gt;
+  &lt;li&gt;Name : demo&lt;/li&gt;
+  &lt;li&gt;Namespace : demo&lt;/li&gt;
+  &lt;li&gt;Expected Artifact : stable/demo-0.1.0.tgz&lt;/li&gt;
+  &lt;li&gt;Artifact Account : &lt;a href=&quot;/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html&quot;&gt;GitHub Artifact 설정하기&lt;/a&gt;에서 추가한 GitHub 계정&lt;/li&gt;
+  &lt;li&gt;Overrides :
+    &lt;ul&gt;
+      &lt;li&gt;Key : ingress.enabled, Value : true&lt;/li&gt;
+      &lt;li&gt;Key : ingress.hosts[0], Value : 애플리케이션 호스트 명 입력(예: demo.gcp.example.com)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-bake-gcp-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;deploy-manifest&quot;&gt;Deploy Manifest&lt;/h3&gt;
+
+&lt;p&gt;생성한 Kubernetes manifest를 배포하는 stage를 구성합니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;stage-추가-1&quot;&gt;Stage 추가&lt;/h4&gt;
+
+&lt;p&gt;Pipeline &amp;gt; Bake manifest IBM &amp;gt; Add stage를 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-pipeline-main-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Type : Deploy(Manifest)&lt;/li&gt;
+  &lt;li&gt;Stage Name : Deploy to IBM&lt;/li&gt;
+  &lt;li&gt;Depends On : Bake manifest for IBM&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-deploy-to-ibm-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;stage-설정-1&quot;&gt;Stage 설정&lt;/h4&gt;
+
+&lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Account : IBM Kubernetes Account&lt;/li&gt;
+  &lt;li&gt;Manifest Source : Artifact&lt;/li&gt;
+  &lt;li&gt;Expected Artifact : b64 name:demo, type:embedded/base64(Bake Manifest에서 생성한 Kubernetes manifest)&lt;/li&gt;
+  &lt;li&gt;Artifact Account : embedded-artifact&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-deploy-to-ibm-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;multi-cloudcluster-1&quot;&gt;Multi cloud/cluster&lt;/h4&gt;
+
+&lt;p&gt;추가로 다른 클라우드의 클러스터에 추가로 Helm chart를 배포해야 하는 경우 위와 같은 stage 동일하게 추가하고 설정합니다.&lt;/p&gt;
+
+&lt;p&gt;Pipeline &amp;gt; Bake manifest GCP &amp;gt; Add stage를 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-pipeline-main-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Type : Deploy(Manifest)&lt;/li&gt;
+  &lt;li&gt;Stage Name : Deploy to GCP&lt;/li&gt;
+  &lt;li&gt;Depends On : Bake manifest for GCP&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-deploy-to-gcp-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Account : GCP Kubernetes Account&lt;/li&gt;
+  &lt;li&gt;Manifest Source : Artifact&lt;/li&gt;
+  &lt;li&gt;Expected Artifact : b64 name:demo, type:embedded/base64(Bake Manifest에서 생성한 Kubernetes manifest)&lt;/li&gt;
+  &lt;li&gt;Artifact Account : embedded-artifact&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-deploy-to-gcp-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;helm-chart-배포&quot;&gt;Helm chart 배포&lt;/h2&gt;
+
+&lt;p&gt;Helm chart를 생성 또는 업데이트하여 이벤트를 발생시킵니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/Organization_Or_User/my-charts
+cd my-charts
+helm package demo
+mv demo-0.1.0.tgz stable
+helm repo index stable --url https://yunsangjun.github.io/my-charts/stable
+git add --all
+git push
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;결과-확인&quot;&gt;결과 확인&lt;/h2&gt;
+
+&lt;p&gt;GitHub 저장소의 stable/demo-0.1.0.tgz에 변경사항이 있으면 Pipeline이 실행됩니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-pipeline-result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Pipeline status가 성공적으로 완료되면(SUCCEEDED) 서버자원이 생성된 것을 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-deploy-result-server.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Service와 Ingress도 생성된 것을 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-deploy-result-loadbalancer.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Spinnaker 설정 #5 Artifact 설정</title><link href="http://localhost:4000/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html" rel="alternate" type="text/html" title="Spinnaker 설정 #5 Artifact 설정" /><published>2018-10-11T00:00:00+09:00</published><updated>2018-10-11T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/11/configuration-spinnaker-5</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html">&lt;p&gt;이 페이지는 Spinnaker에 Artifact account를 설정하는 방법에 대해 설명합니다.&lt;/p&gt;
+
+&lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/setup/artifacts/&quot;&gt;Configure Artifacts&lt;/a&gt;을 참고하세요.&lt;/p&gt;
+
+&lt;h2 id=&quot;github-artifact-account-설정&quot;&gt;GitHub artifact account 설정&lt;/h2&gt;
+
+&lt;p&gt;Spinnaker에서는 GitHub 저장소에서 배포할 리소스를 가져올 수 있습니다.
+이를 Artifact라고 부릅니다.&lt;/p&gt;
+
+&lt;p&gt;아래 가이드를 따라서 Spinnaker에 GitHub artifact account를 설정할 수 있습니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h3&gt;
+
+&lt;h4 id=&quot;credentials-다운로드&quot;&gt;credentials 다운로드&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/settings/tokens&quot;&gt;Personal access tokens&lt;/a&gt; 페이지에서 토크을 생성합니다.&lt;/p&gt;
+
+&lt;p&gt;이때 필요한 scope는 &lt;code class=&quot;highlighter-rouge&quot;&gt;repo&lt;/code&gt; scope 입니다.&lt;/p&gt;
+
+&lt;p&gt;Halyard에서 토큰을 읽을 수 있도록 아래와 같이 설정합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export TOKEN=EXAMPLE_TOKEN
+export TOKEN_FILE=EXAMPLE_TOKEN_FILE
+echo $TOKEN &amp;gt; $TOKEN_FILE
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;artifact-설정-편집&quot;&gt;Artifact 설정 편집&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ARTIFACT_ACCOUNT_NAME&lt;/code&gt;에 GitHub artifact 계정을 설정합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export ARTIFACT_ACCOUNT_NAME=my-github-artifact-account
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;artifact 설정을 활성화합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hal config features edit --artifacts true
+hal config artifact github enable
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;artifact 계정을 설정합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hal config artifact github account add $ARTIFACT_ACCOUNT_NAME \
+    --token-file $TOKEN_FILE
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;변경 사항을 반영합니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hal deploy apply
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Spinnaker에 Artifact account를 설정하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Spinnaker 설정 #4 GitHub Webhooks 설정</title><link href="http://localhost:4000/blog/spinnaker/2018/09/10/configuration-spinnaker-4.html" rel="alternate" type="text/html" title="Spinnaker 설정 #4 GitHub Webhooks 설정" /><published>2018-09-10T00:00:00+09:00</published><updated>2018-09-10T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/09/10/configuration-spinnaker-4</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/09/10/configuration-spinnaker-4.html">&lt;p&gt;이 페이지는 Spinnaker에 GitHub Webhook을 설정하는 방법에 대해 설명합니다.&lt;/p&gt;
+
+&lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/setup/triggers/github/&quot;&gt;Configuring GitHub Webhooks&lt;/a&gt;을 참고하세요.&lt;/p&gt;
+
+&lt;h2 id=&quot;github-webhook-설정&quot;&gt;GitHub Webhook 설정&lt;/h2&gt;
+
+&lt;p&gt;Spinnaker는 GitHub 저장소의 변경사항을 감지할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;이를 위해서는 Webhook 설정이 필요합니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h3&gt;
+
+&lt;p&gt;아래와 같이 &lt;code class=&quot;highlighter-rouge&quot;&gt;services.gate.baseUrl&lt;/code&gt;을 확인합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cat ~/.hal/default/staging/spinnaker.yml
+services:
+...
+gate:
+  ...
+  baseUrl: http://spinnaker-api.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;webhook-설정&quot;&gt;Webhook 설정&lt;/h3&gt;
+
+&lt;p&gt;Repository &amp;gt; Settings &amp;gt; Webhooks &amp;gt; Add Webhook 선택&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 정보를 입력한 후 &lt;code class=&quot;highlighter-rouge&quot;&gt;Add webhook&lt;/code&gt; 버튼을 선택합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Payload URL은 위에서 확인한 &lt;code class=&quot;highlighter-rouge&quot;&gt;services.gate.baseUrl&lt;/code&gt; + &lt;code class=&quot;highlighter-rouge&quot;&gt;/webhooks/git/github&lt;/code&gt; 입니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-webhook.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 GitHub 저장소에 push event가 발생하면 Spinnaker에서 이벤트를 수신하게됩니다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Spinnaker에 GitHub Webhook을 설정하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Spinnaker 설정 #3 CI 시스템 연계</title><link href="http://localhost:4000/blog/spinnaker/2018/08/18/configuration-spinnaker-3.html" rel="alternate" type="text/html" title="Spinnaker 설정 #3 CI 시스템 연계" /><published>2018-08-18T00:00:00+09:00</published><updated>2018-08-18T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/08/18/configuration-spinnaker-3</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/08/18/configuration-spinnaker-3.html">&lt;p&gt;이 페이지는 Spinnaker와 CI 시스템을 연계하는 방법에 대해 설명합니다.&lt;/p&gt;
+
+&lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/setup/ci/jenkins/&quot;&gt;Add Your CI system&lt;/a&gt;을 참고하세요.&lt;/p&gt;
+
+&lt;h2 id=&quot;jenkins&quot;&gt;Jenkins&lt;/h2&gt;
+
+&lt;h3 id=&quot;jenkins-master-추가&quot;&gt;Jenkins master 추가&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jenkins 활성화&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; hal config ci jenkins enable
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jenkins master 추가&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; export BASEURL=http://jenkins.example.com
+ export USERNAME=example
+ export USERNAME=example
+
+ echo $PASSWORD | hal config ci jenkins master add my-jenkins-master \
+     --address $BASEURL \
+     --username $USERNAME \
+     --password
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;적용&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; hal deploy apply
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;csrf-protection-설정&quot;&gt;CSRF protection 설정&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;참고: Jenkins CSRF protection in Igor is only supported for Jenkins 2.x.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;csrf 활성화&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; hal config ci jenkins master edit MASTER --csrf true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;적용&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; hal deploy apply
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jenkins에서 CSRF protection 활성화&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;Manage Jenkins &amp;gt; Configure Global Security, &lt;code class=&quot;highlighter-rouge&quot;&gt;Prevent Cross Site Request Forgery exploits&lt;/code&gt; 선택&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Crumb Algorithm, &lt;code class=&quot;highlighter-rouge&quot;&gt;Default Crumb Issuer&lt;/code&gt; 선택&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Spinnaker와 CI 시스템을 연계하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Spinnaker 설정 #2 사용자 인증/인가</title><link href="http://localhost:4000/blog/spinnaker/2018/08/16/configuration-spinnaker-2.html" rel="alternate" type="text/html" title="Spinnaker 설정 #2 사용자 인증/인가" /><published>2018-08-16T00:00:00+09:00</published><updated>2018-08-16T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/08/16/configuration-spinnaker-2</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/08/16/configuration-spinnaker-2.html">&lt;p&gt;이 페이지는 Spinnaker에 사용자 인증/인가 기능을 설정하는 방법에 대해 설명합니다.&lt;/p&gt;
+
+&lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/setup/security/&quot;&gt;Security&lt;/a&gt;을 참고하세요.&lt;/p&gt;
+
+&lt;h2 id=&quot;인증authentication&quot;&gt;인증(Authentication)&lt;/h2&gt;
+
+&lt;h3 id=&quot;oauth&quot;&gt;OAuth&lt;/h3&gt;
+
+&lt;p&gt;OAuth는 인터넷 사용자들이 비밀번호를 제공하지 않고 웹사이트 상의 자신들의 정보에 대해 접근 권한을 부여할 수 있는 수단으로서 사용되는 표준입니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;oauth-제공자&quot;&gt;OAuth 제공자&lt;/h3&gt;
+
+&lt;p&gt;편의을 위해 아래와 같은 OAuth 제공자들을 built-in으로 제공합니다. Cliet ID와 Secret 설정을 통해 간편하게 구성할 수 있습니다.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Provider&lt;/td&gt;
+      &lt;td&gt;Halyard value&lt;/td&gt;
+      &lt;td&gt;Provider-Specific Docs&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Google Apps for Work / G Suite&lt;/td&gt;
+      &lt;td&gt;google&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.spinnaker.io/setup/security/authentication/oauth/providers/google/&quot;&gt;Google Apps for Work / G Suite&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;GitHub&lt;/td&gt;
+      &lt;td&gt;github&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://help.github.com/articles/authorizing-oauth-apps/&quot;&gt;GitHub Teams&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Azure&lt;/td&gt;
+      &lt;td&gt;azure&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-protocols-oauth-code&quot;&gt;Azure&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;이 페이지에서는 GitHub를 기준으로 설명하겠습니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h3&gt;
+
+&lt;p&gt;GitHub에서 OAuth App을 생성합니다.&lt;/p&gt;
+
+&lt;p&gt;Github &amp;gt; Settings &amp;gt; Developer settings &amp;gt; OAuth Apps &amp;gt; New OAuth App 선택&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 정보를 입력합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-create-oauthapp.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Homepage 및 Callback URL은 &lt;a href=&quot;/blog/spinnaker/2018/08/15/configuration-spinnaker-1.html&quot;&gt;도메인 주소를 통한 대시보드 접속&lt;/a&gt; 가이드의 Spinnaker ui, api 설정
+정보입니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;oauth-provider-및-client-정보-설정&quot;&gt;OAuth Provider 및 Client 정보 설정&lt;/h3&gt;
+
+&lt;p&gt;아래와 같이 Client ID, Secret과 OAuth Provider를 설정합니다.&lt;/p&gt;
+
+&lt;p&gt;CLIENT_ID, CLIENT_SECRET은 위에서 생성한 OAuth App 정보에서 얻을 수 있습니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CLIENT_ID=myClientId
+CLIENT_SECRET=myClientSecret
+PROVIDER=github
+
+hal config security authn oauth2 edit \
+  --client-id $CLIENT_ID \
+  --client-secret $CLIENT_SECRET \
+  --provider $PROVIDER
+
+hal config security authn oauth2 enable
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;적용&quot;&gt;적용&lt;/h3&gt;
+
+&lt;p&gt;Spinnaker를 다시 배포합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ hal deploy apply
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;접속&quot;&gt;접속&lt;/h3&gt;
+
+&lt;p&gt;웹 브라우저에서 Spinnaker ui 주소로 접속합니다.&lt;/p&gt;
+
+&lt;p&gt;예) http://spinnaker.example.com&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 Github 로그인 페이지로 redirect 됩니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-oauth-login.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이제 GitHub 계정으로 로그인하면 Spinnaker ui 주소록 접속되는 것을 확인 할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-dashboard.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Spinnaker에 사용자 인증/인가 기능을 설정하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Spinnaker 설정 #1 도메인 주소를 통한 대시보드 접속</title><link href="http://localhost:4000/blog/spinnaker/2018/08/15/configuration-spinnaker-1.html" rel="alternate" type="text/html" title="Spinnaker 설정 #1 도메인 주소를 통한 대시보드 접속" /><published>2018-08-15T00:00:00+09:00</published><updated>2018-08-15T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/08/15/configuration-spinnaker-1</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/08/15/configuration-spinnaker-1.html">&lt;h2 id=&quot;도메인-주소를-통한-대시보드-접속하기&quot;&gt;도메인 주소를 통한 대시보드 접속하기&lt;/h2&gt;
 
 &lt;p&gt;로컬 환경이 아닌 외부에서 도메인 주소를 통해 Spinnaker에 접속하기 위해서 추가 설정이 필요합니다.&lt;/p&gt;
 
@@ -956,616 +1450,4 @@ sample-cron-1529850900-5hfzn   0/1       Completed   0          41s
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl logs -f sample-cron-1529850900-5hfzn
 Sun Jun 24 14:35:06 UTC 2018
 CronJob has been excuted successfully.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Kubernetes 상에서 CronJob을 사용하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Pod에 타임존 설정하기</title><link href="http://localhost:4000/blog/kubernetes/2018/06/24/setup-timezone-to-pod.html" rel="alternate" type="text/html" title="Pod에 타임존 설정하기" /><published>2018-06-24T00:00:00+09:00</published><updated>2018-06-24T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/06/24/setup-timezone-to-pod</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/06/24/setup-timezone-to-pod.html">&lt;p&gt;이 페이지는 Pod에 타임존을 설정하는 방법에 대해 설명합니다.&lt;/p&gt;
-
-&lt;p&gt;클라우드 환경에서는 기본 타임존이 UTC로 설정되어 있는 경우가 많습니다.&lt;/p&gt;
-
-&lt;p&gt;Kubernetes 클러스터의 경우에도 호스트의 타임존이 UTC로 설정되어 있으면 Pod의 타임존 또한 UTC로 설정됩니다.&lt;/p&gt;
-
-&lt;p&gt;아래의 가이드를 참고하여 특정 Pod의 타임존을 변경할 수 있습니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;준비하기&quot;&gt;준비하기&lt;/h2&gt;
-
-&lt;p&gt;먼저 테스트를 위한 샘플앱을 Kubernetes 클러스터에 배포합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl run nginx --image=nginx --port=80
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;현재-타임존-확인&quot;&gt;현재 타임존 확인&lt;/h2&gt;
-
-&lt;p&gt;아래 명령을 실행하여 현재 Pod의 타임존을 확인합니다.&lt;/p&gt;
-
-&lt;p&gt;현재 타임존이 UTC로 설정되어 있는 것을 확인할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get po
-NAME                     READY     STATUS    RESTARTS   AGE
-nginx-7587c6fdb6-wl962   1/1       Running   0          11s
-
-$ kubectl exec nginx-7587c6fdb6-wl962 -it -- date
-Sun Jun 24 07:30:17 UTC 2018
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Pod의 로그 또한 UTC 시간을 기준으로 조회되는 것을 확인할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl logs -f nginx-7587c6fdb6-wl962
-127.0.0.1 - - [24/Jun/2018:07:30:34 +0000] &quot;GET / HTTP/1.1&quot; 304 0 &quot;-&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36&quot; &quot;-&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;타임존-변경&quot;&gt;타임존 변경&lt;/h2&gt;
-
-&lt;p&gt;아래와 같이 타임존을 변경하기 위해 deployment 리소스를 편집합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get deploy
-NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-nginx     1         1         1            1           2m
-
-$ kubectl edit deploy nginx
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: nginx
-spec:
-  ...
-  template:
-    ...
-    spec:
-      containers:
-      ...
-        volumeMounts:
-        - mountPath: /etc/localtime
-          name: timezone-config
-      volumes:
-      - hostPath:
-          path: /usr/share/zoneinfo/Asia/Seoul
-        name: timezone-config
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;변경된-타임존-확인&quot;&gt;변경된 타임존 확인&lt;/h2&gt;
-
-&lt;p&gt;아래 명령을 실행하여 변경된 Pod의 타임존을 확인합니다.&lt;/p&gt;
-
-&lt;p&gt;타임존이 KST로 변경된 것을 확인할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get po
-NAME                    READY     STATUS    RESTARTS   AGE
-nginx-7c8fc894b-m6cw9   1/1       Running   0          1m
-
-$ kubectl exec nginx-7c8fc894b-m6cw9 -it -- date
-Sun Jun 24 16:35:31 KST 2018
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Pod의 로그 또한 KST 시간을 기준으로 조회되는 것을 확인할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl logs -f nginx-7c8fc894b-m6cw9
-127.0.0.1 - - [24/Jun/2018:16:37:04 +0900] &quot;GET / HTTP/1.1&quot; 304 0 &quot;-&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36&quot; &quot;-&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Pod에 타임존을 설정하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Spinnaker 설치하기</title><link href="http://localhost:4000/blog/spinnaker/2018/06/03/installing-spinnaker.html" rel="alternate" type="text/html" title="Spinnaker 설치하기" /><published>2018-06-03T00:00:00+09:00</published><updated>2018-06-03T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/06/03/installing-spinnaker</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/06/03/installing-spinnaker.html">&lt;p&gt;이 페이지는 Spinnaker를 설치하는 방법에 대해 설명합니다.&lt;/p&gt;
-
-&lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/setup/&quot;&gt;Set up Spinnaker&lt;/a&gt;을 참고하세요.&lt;/p&gt;
-
-&lt;h2 id=&quot;1halyard-설치하기&quot;&gt;1.Halyard 설치하기&lt;/h2&gt;
-
-&lt;p&gt;Halyard는 배포 구성 작성 및 유효성 검사, Spinnaker의 마이크로 서비스 배포 및 업데이트를 포함하여 Spinnaker 배포의 수명주기를 관리합니다.
-운영가능한 Spinnaker를 설치 및 업데이트하기 위해 Halyard가 필요합니다. Halyard없이 Spinnaker를 설치할 수는 있지만 권장하지 않습니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;debianubuntu-and-macos-환경&quot;&gt;Debian/Ubuntu and macOS 환경&lt;/h3&gt;
-
-&lt;p&gt;Halyard는 아래 환경을 지원합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Ubuntu 14.04 or 16.04 (Ubuntu 16.04 requires Spinnaker 1.6.0 or later)&lt;/li&gt;
-  &lt;li&gt;Debian 8 or 9&lt;/li&gt;
-  &lt;li&gt;macOS (tested on 10.13 High Sierra only)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Halyard 최신버전 다운로드&lt;/p&gt;
-
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;For Debian/Ubuntu:&lt;/p&gt;
-
-        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ curl -O https://raw.githubusercontent.com/spinnaker/halyard/master/install/debian/InstallHalyard.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;For macOS:&lt;/p&gt;
-
-        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ curl -O https://raw.githubusercontent.com/spinnaker/halyard/master/install/macos/InstallHalyard.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;설치&lt;/p&gt;
-
-    &lt;p&gt;설치 중에 자동 완성 여부 및 bash RC 경로 물어보면 엔터키 입력(기본값으로 설정)&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ sudo bash InstallHalyard.sh
- ...
- Would you like to configure halyard to use bash auto-completion? [default=Y]:
- Where is your bash RC? [default=/home/withdtlabs/.bashrc]:
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;설치 확인&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ hal -v
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;자동 완성 설정&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ . ~/.bashrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;docker-환경&quot;&gt;Docker 환경&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/installation/&quot;&gt;Docker CE&lt;/a&gt;를 설치&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;로컬 환경에 Halyard 설정 디렉토리를 생성&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ mkdir ~/.hal
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Halyard Docker 컨테이너 실행&lt;/p&gt;
-
-    &lt;p&gt;아래 명령을 실행하여 Halyard Docker 컨테이너를 생성합니다. 이 명령은 Halyard 설정 및 kubeconfig 디렉토리를 마운트합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ docker run -p 8084:8084 -p 9000:9000 \
-     --name halyard --rm \
-     -v ~/.hal:/home/spinnaker/.hal \
-     -v ~/.kube:/home/spinnaker/.kube \
-     -it \
-     gcr.io/spinnaker-marketplace/halyard:stable
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Halyard에 접속&lt;/p&gt;
-
-    &lt;p&gt;아래 명령을 실행하여 Halyard Docker 컨테이너에 접속합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ docker exec -it halyard bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;자동 완성 설정&lt;/p&gt;
-
-    &lt;p&gt;아래 명령을 실행하여 자동완성을 설정합니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ source &amp;lt;(hal --print-bash-completion)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hal&lt;/code&gt; 명령어에 대한 자세한 내용은 &lt;a href=&quot;https://www.spinnaker.io/reference/halyard/commands&quot;&gt;Halyard command Reference&lt;/a&gt;를 참고하세요.&lt;/p&gt;
-
-&lt;h2 id=&quot;2cloud-공급자-선택하기&quot;&gt;2.Cloud 공급자 선택하기&lt;/h2&gt;
-
-&lt;p&gt;Spinnaker를 통해 애플리케이션을 배포할 Cloud 공급자를 선택합니다.&lt;/p&gt;
-
-&lt;p&gt;아래와 같은 Cloud 공급자를 지원합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;App Engine&lt;/li&gt;
-  &lt;li&gt;Amazon Web Services&lt;/li&gt;
-  &lt;li&gt;Amazon Web Services - ECS&lt;/li&gt;
-  &lt;li&gt;Azure&lt;/li&gt;
-  &lt;li&gt;DC/OS&lt;/li&gt;
-  &lt;li&gt;Google Compute Engine&lt;/li&gt;
-  &lt;li&gt;Kubernetes (legacy)&lt;/li&gt;
-  &lt;li&gt;Kubernetes V2 (manifest based)&lt;/li&gt;
-  &lt;li&gt;Openstack&lt;/li&gt;
-  &lt;li&gt;Oracle&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;이 페이지에서는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Kubernetes V2&lt;/code&gt;를 선택해 Spinnaker를 설치해보겠습니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;kubernetes-v2-공급자&quot;&gt;Kubernetes V2 공급자&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Kubernetes V2&lt;/code&gt;는 Spinnaker 1.6의 알파 기능을 포함하고 있으므로 &lt;code class=&quot;highlighter-rouge&quot;&gt;Kubernetes (legacy)&lt;/code&gt;에 비해 불안정할 수 있습니다.&lt;/p&gt;
-
-&lt;h4 id=&quot;계정&quot;&gt;계정&lt;/h4&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Kubernetes V2&lt;/code&gt;의 경우 Spinnaker 계정이 Kubernetes Cluster에 대해 인증 할 수 있는 자격 증명에 매핑됩니다. V1 공급자와 달리 V2에서는 Docker Registry Accounts가 필요하지 않습니다.&lt;/p&gt;
-
-&lt;h4 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h4&gt;
-
-&lt;p&gt;아래 두 가지 사항이 필요합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;kubeconfig&lt;/p&gt;
-
-    &lt;p&gt;kubeconfig를 사용하면 Spinnaker가 관리 할 것으로 예상되는 모든 리소스에 대한 읽기/쓰기 권한을 가질 수 있습니다. Kubernetes 클러스터 관리자에게 요청할 수 있습니다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;kubectl&lt;/p&gt;
-
-    &lt;p&gt;Spinnaker는 kubectl을 사용하여 모든 API 액세스를 관리합니다. Spinnaker와 함께 설치됩니다.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;계정-추가&quot;&gt;계정 추가&lt;/h4&gt;
-
-&lt;p&gt;이제 계정을 추가합니다. 먼저, 공급자가 활성화 되어 있는지 확인합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ hal config provider kubernetes enable
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;그리고 계정을 추가합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ hal config provider kubernetes account add my-k8s-v2-account \
-    --provider-version v2 \
-    --context $(kubectl config current-context)
-
-$ hal config features edit --artifacts true
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;추가-설정&quot;&gt;추가 설정&lt;/h4&gt;
-
-&lt;p&gt;추가 설정에 대한 내용은 &lt;a href=&quot;https://www.spinnaker.io/reference/halyard/commands#hal-config-provider-kubernetes-account-add&quot;&gt;Halyard Reference&lt;/a&gt;를 참고하세요.&lt;/p&gt;
-
-&lt;h2 id=&quot;3설치-환경-선택하기&quot;&gt;3.설치 환경 선택하기&lt;/h2&gt;
-
-&lt;p&gt;Halyard가 Spinnaker를 어떤 방식으로 설치할지 선택합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;분산 설치&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Halyard가 Spinnaker’s 마이크로서비스를 분산 설치합니다. 운영 환경으로 설치 시 권장합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;로컬 설치&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;하나의 머신에 설치됩니다. 소규모 배포에 적합합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;github에서 설치&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Spinnaker 프로젝트에 기여하는 개발자에게 적합합니다.&lt;/p&gt;
-
-&lt;p&gt;이 페이지에서는 분산 설치 방식으로 진행해보겠습니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;분산-설치&quot;&gt;분산 설치&lt;/h3&gt;
-
-&lt;p&gt;분산 설치는 리소스가 많은 개발 조직 및 Spinnaker 업데이트 중 다운 타임을 없어야 하는 경우에 적합합니다.&lt;/p&gt;
-
-&lt;p&gt;Spinnaker는 원격 클라우드에 배포되며 각 마이크로 서비스는 독립적으로 배포됩니다. Halyard는 Spinnaker 마이크로 서비스를 무중단으로 업데이트합니다.&lt;/p&gt;
-
-&lt;p&gt;Spinnaker를 설치하기 위해 &lt;code class=&quot;highlighter-rouge&quot;&gt;4 cores&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;8GB of RAM&lt;/code&gt;을 권장합니다.&lt;/p&gt;
-
-&lt;p&gt;아래 명령을 실행합니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;$ACCOUNT&lt;/code&gt;는 공급자 선택에서 설정한 생성한 계정입니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ hal config deploy edit --type distributed --account-name $ACCOUNT
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;4스토리지-선택하기&quot;&gt;4.스토리지 선택하기&lt;/h2&gt;
-
-&lt;p&gt;Spinnaker에는 애플리케이션 설정 및 파이프 라인 설정을 유지하기 위해 외부 저장소가 필요합니다.&lt;/p&gt;
-
-&lt;p&gt;Spinnaker는 아래와 같은 스토리지를 지원합니다. 어떤 옵션을 선택해도 Cloud 공급자 선택에 영향을 미치지 않습니다.
-예를 들어, Google Cloud Storage를 저장소 소스로 사용할 수 있지만 여전히 Microsoft Azure에 배포 할 수 있습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Azure Storage&lt;/li&gt;
-  &lt;li&gt;Google Cloud Storage&lt;/li&gt;
-  &lt;li&gt;Minio&lt;/li&gt;
-  &lt;li&gt;Redis&lt;/li&gt;
-  &lt;li&gt;S3&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;참고: Redis는 운영환경에서는 권장하지 않습니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;google-cloud-storage&quot;&gt;Google Cloud Storage&lt;/h3&gt;
-
-&lt;h4 id=&quot;사전-준비-1&quot;&gt;사전 준비&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Google Cloud Platform(GCP) 프로젝트 생성&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://cloud.google.com/sdk/downloads&quot;&gt;gcloud&lt;/a&gt; 설치&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;credential-다운로드&quot;&gt;Credential 다운로드&lt;/h4&gt;
-
-&lt;p&gt;Spinnaker는 GCP에 인증하기 위해 &lt;code class=&quot;highlighter-rouge&quot;&gt;roles/storage.admin&lt;/code&gt; 역할이 활성화된 서비스 계정이 필요합니다.&lt;/p&gt;
-
-&lt;p&gt;계정이 없다면 아래와 같이 생성합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;SERVICE_ACCOUNT_NAME=spinnaker-gcs-account
-SERVICE_ACCOUNT_DEST=~/.gcp/gcs-account.json
-
-gcloud iam service-accounts create \
-    $SERVICE_ACCOUNT_NAME \
-    --display-name $SERVICE_ACCOUNT_NAME
-
-SA_EMAIL=$(gcloud iam service-accounts list \
-    --filter=&quot;displayName:$SERVICE_ACCOUNT_NAME&quot; \
-    --format='value(email)')
-
-PROJECT=$(gcloud info --format='value(config.project)')
-
-gcloud projects add-iam-policy-binding $PROJECT \
-    --role roles/storage.admin --member serviceAccount:$SA_EMAIL
-
-mkdir -p $(dirname $SERVICE_ACCOUNT_DEST)
-
-gcloud iam service-accounts keys create $SERVICE_ACCOUNT_DEST \
-    --iam-account $SA_EMAIL
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;스토리지-설정&quot;&gt;스토리지 설정&lt;/h4&gt;
-
-&lt;p&gt;Halyard는 버킷을 설정하지 않았거나 설정한 버킷이 없으면 새로운 bucket을 생성합니다.&lt;/p&gt;
-
-&lt;p&gt;아래는 기본 버킷 설정 예제입니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PROJECT=$(gcloud info --format='value(config.project)')
-# see https://cloud.google.com/storage/docs/bucket-locations
-BUCKET_LOCATION=us
-SERVICE_ACCOUNT_DEST=# 전 단계의 설정 참고
-
-hal config storage gcs edit --project $PROJECT \
-    --bucket-location $BUCKET_LOCATION \
-    --json-path $SERVICE_ACCOUNT_DEST
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;스토리지를 GCS로 설정합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hal config storage edit --type gcs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;minio&quot;&gt;Minio&lt;/h3&gt;
-
-&lt;p&gt;Minio의 데이터를 잃으면 Spinnaker 애플리케이션 메타 데이터 및 파이프 라인이 모두 손실됩니다.&lt;/p&gt;
-
-&lt;p&gt;Minio는 Self 호스팅 할 수있는 S3 호환 Object Storage입니다. Spinnaker 데이터를 호스팅하기 위해 클라우드 제공 업체에 의존하고 싶지 않을 때 권장되는 영구 저장소 솔루션입니다.&lt;/p&gt;
-
-&lt;h4 id=&quot;사전-준비-2&quot;&gt;사전 준비&lt;/h4&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://www.minio.io/&quot;&gt;Minio 홈페이지&lt;/a&gt;에 있는 가이드를 따라 Minio를 설치합니다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;S3에 Bucket을 생성합니다. 이 Bucket 명을 아래 스토리지 설정에서 사용합니다.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;스토리지-설정-1&quot;&gt;스토리지 설정&lt;/h4&gt;
-
-&lt;p&gt;Minio가 버전 객체를 지원하지 않으므로 Spinnaker에서 버전 객체를 비활성화합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi ~/.hal/$DEPLOYMENT/profiles/front50-local.yml:
-spinnaker.s3.versioning: false
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;$DEPLOYMENT 일반적으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;default&lt;/code&gt;입니다.&lt;/p&gt;
-
-&lt;p&gt;아래 명령을 실행해 S3를 저장소 유형으로 선택합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ export ENDPOINT=S3_ENDPOINT
-$ export MINIO_ACCESS_KEY=S3_ACCESS_KEY_ID
-
-$ hal config storage s3 edit --endpoint $ENDPOINT \
-    --access-key-id $MINIO_ACCESS_KEY \
-    --bucket BUCKET_NAME
-    --secret-access-key
-  Your AWS Secret Key.:
-
-$ hal config storage edit --type s3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;5spinnaker-설치&quot;&gt;5.Spinnaker 설치&lt;/h2&gt;
-
-&lt;h3 id=&quot;버전-선택&quot;&gt;버전 선택&lt;/h3&gt;
-
-&lt;p&gt;설치 가능한 버전을 조회합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ hal version list
-  + Get current deployment
-    Success
-  + Get Spinnaker version
-    Success
-  + Get released versions
-    Success
-  + You are on version &quot;&quot;, and the following are available:
-   - 1.5.4 (Atypical):
-     Changelog: https://gist.github.com/spinnaker-release/6b9fd632caeaefd32246074998af8498
-     Published: Wed Jan 10 18:46:49 UTC 2018
-     (Requires Halyard &amp;gt;= 0.40.0)
-   - 1.6.1 (GLOW):
-     Changelog: https://gist.github.com/spinnaker-release/f1cd6232151b70492ebdcbb557a209fc
-     Published: Wed Apr 04 19:20:54 UTC 2018
-     (Requires Halyard &amp;gt;= 0.41.0)
-   - 1.7.6 (Ozark):
-     Changelog: https://gist.github.com/spinnaker-release/5d3af465f07eaca64f4383167877897d
-     Published: Tue May 29 16:26:20 UTC 2018
-     (Requires Halyard &amp;gt;= 1.0.0)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;원하는 버전을 선택합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ hal config version edit --version $VERSION
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;설치&quot;&gt;설치&lt;/h3&gt;
-
-&lt;p&gt;이제 Spinnaker를 배포합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ hal deploy apply
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;spinnaker-대시보드-접속&quot;&gt;Spinnaker 대시보드 접속&lt;/h3&gt;
-
-&lt;p&gt;아래 명령어를 실행합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ hal deploy connect
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;웹 브라우저에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:9000&lt;/code&gt; 에 접속합니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;trouble-shooting&quot;&gt;Trouble Shooting&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Service: Amazon S3; Status Code: 400; Error Code: InvalidLocationConstraint&lt;/code&gt;&lt;/p&gt;
-
-    &lt;p&gt;아래와 같은 에러 발생 시 S3에서 bucket을 수동으로 생성 후 halyard config에서 새로 생성한 bucket명으로 수정한 후 다시 배포해봅니다.&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.netflix.spinnaker.front50.model.S3StorageService]: Factory method 's3StorageService' threw exception; nested exception is com.amazonaws.services.s3.model.AmazonS3Exception: Container storage location with specified provisioning code not available (Service: Amazon S3; Status Code: 400; Error Code: InvalidLocationConstraint; Request ID: d08c26ee-34ba-4e62-83bc-5d9a26b23947; S3 Extended Request ID: null), S3 Extended Request ID: null
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  $ vi ~/.hal/config
-  - name: default
-    persistentStorage:
-      s3:
-        bucket: example-bucket
-
-  $ hal deploy apply      
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Spinnaker를 설치하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Cannot find module ‘webpack/lib/node/NodeTemplatePlugin’</title><link href="http://localhost:4000/blog/angular/2018/05/29/angular-cannot-find-module.html" rel="alternate" type="text/html" title="Cannot find module 'webpack/lib/node/NodeTemplatePlugin'" /><published>2018-05-29T00:00:00+09:00</published><updated>2018-05-29T00:00:00+09:00</updated><id>http://localhost:4000/blog/angular/2018/05/29/angular-cannot-find-module</id><content type="html" xml:base="http://localhost:4000/blog/angular/2018/05/29/angular-cannot-find-module.html">&lt;p&gt;Angular build 시 아래와 같은 에러가 나는 경우가 있습니다.
-npm5에 도입된 &lt;code class=&quot;highlighter-rouge&quot;&gt;package-lock.json&lt;/code&gt;을 삭제하지 않고 &lt;code class=&quot;highlighter-rouge&quot;&gt;npm install&lt;/code&gt;을 한 경우 발생합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yarn run xxx
-yarn run v1.7.0
-$ ng build --prod --aot --progress=false --output-path rootfs/dist
-Cannot find module 'webpack/lib/node/NodeTemplatePlugin'
-Error: Cannot find module 'webpack/lib/node/NodeTemplatePlugin'
-    at Function.Module._resolveFilename (module.js:547:15)
-    at Function.Module._load (module.js:474:25)
-    at Module.require (module.js:596:17)
-    at require (internal/module.js:11:18)
-    at Object.&amp;lt;anonymous&amp;gt; (/Users/sangjunyun/git/zcp-catalog-ui/node_modules/html-webpack-plugin/lib/compiler.js:11:26)
-    at Module._compile (module.js:652:30)
-    at Object.Module._extensions..js (module.js:663:10)
-    at Module.load (module.js:565:32)
-    at tryModuleLoad (module.js:505:12)
-    at Function.Module._load (module.js:497:3)
-    at Module.require (module.js:596:17)
-    at require (internal/module.js:11:18)
-    at Object.&amp;lt;anonymous&amp;gt; (/Users/sangjunyun/git/zcp-catalog-ui/node_modules/html-webpack-plugin/index.js:7:21)
-    at Module._compile (module.js:652:30)
-    at Object.Module._extensions..js (module.js:663:10)
-    at Module.load (module.js:565:32)
-error Command failed with exit code 1.
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
-make: *** [compile-aot] Error 1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;아래 명령어를 실행해 &lt;code class=&quot;highlighter-rouge&quot;&gt;node_modules&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt; 그리고 &lt;code class=&quot;highlighter-rouge&quot;&gt;package-lock.json&lt;/code&gt;을 삭제합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rm -rf node_modules dist package-lock.json
-$ npm cache clean
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;이제 &lt;code class=&quot;highlighter-rouge&quot;&gt;npm install&lt;/code&gt; 명령을 실행해 node_modules을 다시 설치합니다.
-이후 Angular build를 다시하면 정상적으로 실행됩니다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">Angular build 시 아래와 같은 에러가 나는 경우가 있습니다. npm5에 도입된 package-lock.json을 삭제하지 않고 npm install을 한 경우 발생합니다.</summary></entry><entry><title type="html">Helm 설치하기</title><link href="http://localhost:4000/blog/helm/2018/05/27/installing-helm.html" rel="alternate" type="text/html" title="Helm 설치하기" /><published>2018-05-27T00:00:00+09:00</published><updated>2018-05-27T00:00:00+09:00</updated><id>http://localhost:4000/blog/helm/2018/05/27/installing-helm</id><content type="html" xml:base="http://localhost:4000/blog/helm/2018/05/27/installing-helm.html">&lt;p&gt;이 페이지는 Helm을 설치하는 방법에 대해 설명합니다.
-자세한 내용은 &lt;a href=&quot;https://docs.helm.sh/using_helm/#installing-helm&quot;&gt;Installing Helm&lt;/a&gt;을 참고하세요.&lt;/p&gt;
-
-&lt;h2 id=&quot;helm-client-바이너리-다운로드&quot;&gt;Helm client 바이너리 다운로드&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://github.com/kubernetes/helm/releases&quot;&gt;Helm release&lt;/a&gt; 바이너리를 다운로드합니다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;바이너리 압축 해제합니다.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  tar -zxvf helm-vX.X.X-OS_NAME-amd64.tgz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Helm 바이너리를 원하는 위치로 이동시킵니다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  mv OS_NAME-amd64/helm /usr/local/bin/helm
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;tiller-설치&quot;&gt;Tiller 설치&lt;/h2&gt;
-
-&lt;p&gt;Helm의 서버 부분 인 Tiller는 일반적으로 Kubernetes 클러스터 내부에서 실행됩니다. 그러나 개발을 위해 로컬로 실행될 수도 있고 원격 Kubernetes 클러스터와 통신하도록 구성 될 수도 있습니다.&lt;/p&gt;
-
-&lt;p&gt;Tiller를 클러스터에 설치하는 가장 쉬운 방법은 &lt;code class=&quot;highlighter-rouge&quot;&gt;helm init&lt;/code&gt;를 실행하는 것입니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;helm init&lt;/code&gt; 실행 후 Tiller가 running 상태가 될 때까지 대기합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get pods --namespace kube-system |grep tiller
-tiller-deploy-7ccf99cd64-pd7c2        1/1       Running   0          3d
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Helm client와 server의 버전을 확인합니다.
-Server의 버전이 Client의 버전과 같거나 높아야 합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ helm version
-Client: &amp;amp;version.Version{SemVer:&quot;v2.9.0&quot;, GitCommit:&quot;xxx&quot;, GitTreeState:&quot;clean&quot;}
-Server: &amp;amp;version.Version{SemVer:&quot;v2.9.1&quot;, GitCommit:&quot;xxx&quot;, GitTreeState:&quot;clean&quot;}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Server를 제외한 Client만 설치하고 싶은 경우 아래와 같이 실행합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ helm init --client-only
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;이제 Helm을 활용해 chart를 Kubernetes에 배포할 수 있습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Helm을 설치하는 방법에 대해 설명합니다. 자세한 내용은 Installing Helm을 참고하세요.</summary></entry><entry><title type="html">Ingress TLS Secret 생성하기</title><link href="http://localhost:4000/blog/kubernetes/2018/05/27/how-to-create-ingress-secret.html" rel="alternate" type="text/html" title="Ingress TLS Secret 생성하기" /><published>2018-05-27T00:00:00+09:00</published><updated>2018-05-27T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/05/27/how-to-create-ingress-secret</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/05/27/how-to-create-ingress-secret.html">&lt;p&gt;이 페이지에서는 Ingress에 TLS를 적용하기 위한 Secret을 생성하는 방법을 가이드합니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;tls-secret-생성&quot;&gt;TLS Secret 생성&lt;/h2&gt;
-
-&lt;p&gt;아래 명령을 실행하여 TLS Secret을 생성합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl create secret tls example-tls --cert example.crt --key example.key
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;또는 아래와 같이 yaml 파일 형태로 생성할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi secret.yaml
-apiVersion: v1
-data:
-  tls.crt: base64 encoded cert
-  tls.key: base64 encoded key
-kind: Secret
-metadata:
-  name: example-tls
-type: Opaque
-
-$ kubectl create -f secret.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;tls-secret을-ingress에-적용&quot;&gt;TLS Secret을 Ingress에 적용&lt;/h2&gt;
-
-&lt;p&gt;아래와 같이 Ingress의 secretName 속성에 example-tls을 적용합니다.
-이제 Ingress를 배포한 후 host로 접속하면 TLS가 적용된 것을 확인할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: example-ingress
-spec:
-  rules:
-  - host: example.com
-    http:
-      paths:
-      - backend:
-          serviceName: example
-          servicePort: 80
-  tls:
-  - hosts:
-    - example.com
-    secretName: example-tls
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지에서는 Ingress에 TLS를 적용하기 위한 Secret을 생성하는 방법을 가이드합니다.</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Kubernetes 상에서 CronJob을 사용하는 방법에 대해 설명합니다.</summary></entry></feed>

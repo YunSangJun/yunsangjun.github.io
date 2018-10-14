@@ -383,3 +383,73 @@ $ hal deploy connect
 
     $ hal deploy apply      
     ```
+
+## 6.Spinnaker 업그레이드
+
+### 버전 조회
+
+현재 버전(1.8.5)과 업그레이드 가능한 버전을 조회합니다.
+
+```
+$ hal version list
++ Get current deployment
+  Success
++ Get Spinnaker version
+  Success
++ Get released versions
+  Success
++ You are on version "1.8.5", and the following are available:
+ - 1.7.8 (Ozark):
+   Changelog: https://gist.github.com/spinnaker-release/75f98544672a4fc490d451c14688318e
+   Published: Wed Aug 29 19:09:57 UTC 2018
+   (Requires Halyard >= 1.0.0)
+ - 1.8.7 (Dark):
+   Changelog: https://gist.github.com/spinnaker-release/ebb5e45e84de5b4381b422e3c8679b5a
+   Published: Fri Sep 28 17:58:52 UTC 2018
+   (Requires Halyard >= 1.0.0)
+ - 1.9.5 (Bright):
+   Changelog: https://gist.github.com/spinnaker-release/d24a2c737db49dda644169cf5fe6d56e
+   Published: Mon Oct 01 17:15:37 UTC 2018
+   (Requires Halyard >= 1.0.0)
+```
+
+### 버전 설정
+
+업그레이드 하기 원하는 버전을 설정합니다.
+
+```
+$ hal config version edit --version 1.9.5
++ Get current deployment
+  Success
++ Edit Spinnaker version
+  Success
+Problems in halconfig:
+        oauthScopes: []
+- WARNING There is a newer version of Halyard available (1.11.0),
+  please update when possible
+? Run 'sudo update-halyard' to upgrade
++ Spinnaker has been configured to update/install version "1.9.5".
+  Deploy this version of Spinnaker with `hal deploy apply`.
+```
+
+### 적용
+
+변경사항을 반영합니다.
+
+```
+$ hal deploy apply
++ Get current deployment
+  Success
++ Prep deployment
+  Success
+Problems in halconfig:
+- WARNING There is a newer version of Halyard available (1.11.0),
+  please update when possible
+? Run 'sudo update-halyard' to upgrade
++ Preparation complete... deploying Spinnaker
++ Get current deployment
+  Success
++ Apply deployment
+  Success
++ Run `hal deploy connect` to connect to Spinnaker.
+```

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Spinnaker 추가 설정하기 #3 CI 시스템 연계"
+title:  "Spinnaker 설정 #3 CI 시스템 연계"
 author: 윤상준
 date: 2018-08-18
 categories: spinnaker
@@ -10,11 +10,9 @@ categories: spinnaker
 
 자세한 내용은 Spinnaker 공식 가이드 문서의 [Add Your CI system](https://www.spinnaker.io/setup/ci/jenkins/)을 참고하세요.
 
-## CI 시스템 연계
+## Jenkins
 
-### Jenkins
-
-#### Jenkins master 추가
+### Jenkins master 추가
 
 1. Jenkins 활성화
 
@@ -41,7 +39,7 @@ categories: spinnaker
     hal deploy apply
     ```
 
-#### CSRF protection 설정
+### CSRF protection 설정
 
 * 참고: Jenkins CSRF protection in Igor is only supported for Jenkins 2.x.
 
