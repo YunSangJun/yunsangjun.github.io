@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-10-15T12:41:10+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Spinnaker 활용 #6 Helm chart 배포</title><link href="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html" rel="alternate" type="text/html" title="Spinnaker 활용 #6 Helm chart 배포" /><published>2018-10-14T00:00:00+09:00</published><updated>2018-10-14T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html">&lt;p&gt;이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-10-15T13:14:02+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Spinnaker 활용 #6 Helm chart 배포</title><link href="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html" rel="alternate" type="text/html" title="Spinnaker 활용 #6 Helm chart 배포" /><published>2018-10-14T00:00:00+09:00</published><updated>2018-10-14T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html">&lt;p&gt;이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.&lt;/p&gt;
 
 &lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/guides/user/kubernetes-v2/deploy-helm/&quot;&gt;Deploy Helm Charts&lt;/a&gt;를 참고하세요.&lt;/p&gt;
 
@@ -50,7 +50,7 @@
 
 &lt;p&gt;Pipeline configuration &amp;gt; Automated Triggers &amp;gt; Add Trigger를 선택합니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-pipeline-main.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-pipeline-main-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;아래와 같이 내용을 입력하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;Save Changes&lt;/code&gt; 버튼을 선택해 변경사항을 저장합니다.&lt;/p&gt;
 
@@ -235,7 +235,7 @@
 cd my-charts
 helm package demo
 mv demo-0.1.0.tgz stable
-helm repo index stable --url https://yunsangjun.github.io/my-charts/stable
+helm repo index stable --url https://Organization_Or_User.github.io/my-charts/stable
 git add --all
 git push
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
