@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-10-15T03:23:24+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Spinnaker 활용 #6 Helm chart 배포</title><link href="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html" rel="alternate" type="text/html" title="Spinnaker 활용 #6 Helm chart 배포" /><published>2018-10-14T00:00:00+09:00</published><updated>2018-10-14T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html">&lt;p&gt;이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-10-15T12:41:10+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Spinnaker 활용 #6 Helm chart 배포</title><link href="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html" rel="alternate" type="text/html" title="Spinnaker 활용 #6 Helm chart 배포" /><published>2018-10-14T00:00:00+09:00</published><updated>2018-10-14T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html">&lt;p&gt;이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.&lt;/p&gt;
 
 &lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/guides/user/kubernetes-v2/deploy-helm/&quot;&gt;Deploy Helm Charts&lt;/a&gt;를 참고하세요.&lt;/p&gt;
 
@@ -252,7 +252,18 @@ git push
 
 &lt;p&gt;Service와 Ingress도 생성된 것을 확인할 수 있습니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-deploy-result-loadbalancer.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Spinnaker 설정 #5 Artifact 설정</title><link href="http://localhost:4000/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html" rel="alternate" type="text/html" title="Spinnaker 설정 #5 Artifact 설정" /><published>2018-10-11T00:00:00+09:00</published><updated>2018-10-11T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/11/configuration-spinnaker-5</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html">&lt;p&gt;이 페이지는 Spinnaker에 Artifact account를 설정하는 방법에 대해 설명합니다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/spinnaker/spinnaker-deploy-result-loadbalancer.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Multi cloud/cluster에 배포한 경우 ingress host 주소가 다른 것을 확인 할 수 있습니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get ing -n demo
+NAME      HOSTS                    ADDRESS          PORTS     AGE
+demo      demo.ibm.example.com     169.xx.xxx.xxx   80        12h
+
+$ kubectl get ing -n demo
+NAME      HOSTS                    ADDRESS          PORTS     AGE
+demo      demo.gcp.example.com     35.xx.xxx.xxx   80        12h
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.</summary></entry><entry><title type="html">Spinnaker 설정 #5 Artifact 설정</title><link href="http://localhost:4000/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html" rel="alternate" type="text/html" title="Spinnaker 설정 #5 Artifact 설정" /><published>2018-10-11T00:00:00+09:00</published><updated>2018-10-11T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/11/configuration-spinnaker-5</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html">&lt;p&gt;이 페이지는 Spinnaker에 Artifact account를 설정하는 방법에 대해 설명합니다.&lt;/p&gt;
 
 &lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/setup/artifacts/&quot;&gt;Configure Artifacts&lt;/a&gt;을 참고하세요.&lt;/p&gt;
 
