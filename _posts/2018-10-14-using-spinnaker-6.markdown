@@ -54,7 +54,7 @@ Application top > PIPELINES > Configure a new pipeline을 선택합니다.
 
 Pipeline configuration > Automated Triggers > Add Trigger를 선택합니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-pipeline-main.png)
+![](/blog/assets/images/spinnaker/spinnaker-pipeline-main-01.png)
 
 아래와 같이 내용을 입력하고 `Save Changes` 버튼을 선택해 변경사항을 저장합니다.
 
@@ -212,7 +212,7 @@ git clone https://github.com/Organization_Or_User/my-charts
 cd my-charts
 helm package demo
 mv demo-0.1.0.tgz stable
-helm repo index stable --url https://yunsangjun.github.io/my-charts/stable
+helm repo index stable --url https://Organization_Or_User.github.io/my-charts/stable
 git add --all
 git push
 ```
@@ -230,3 +230,15 @@ Pipeline status가 성공적으로 완료되면(SUCCEEDED) 서버자원이 생�
 Service와 Ingress도 생성된 것을 확인할 수 있습니다.
 
 ![](/blog/assets/images/spinnaker/spinnaker-deploy-result-loadbalancer.png)
+
+Multi cloud/cluster에 배포한 경우 ingress host 주소가 다른 것을 확인 할 수 있습니다.
+
+```
+$ kubectl get ing -n demo
+NAME      HOSTS                    ADDRESS          PORTS     AGE
+demo      demo.ibm.example.com     169.xx.xxx.xxx   80        12h
+
+$ kubectl get ing -n demo
+NAME      HOSTS                    ADDRESS          PORTS     AGE
+demo      demo.gcp.example.com     35.xx.xxx.xxx   80        12h
+```

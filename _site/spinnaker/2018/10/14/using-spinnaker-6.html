@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="/blog/assets/css/home.css">
   <link rel="stylesheet" href="/blog/assets/css/category.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
 <title>Spinnaker 활용 #6 Helm chart 배포 | 윤상준의 기술 블로그</title>
-<meta name="generator" content="Jekyll v3.8.0" />
+<meta name="generator" content="Jekyll v3.7.3" />
 <meta property="og:title" content="Spinnaker 활용 #6 Helm chart 배포" />
 <meta name="author" content="윤상준" />
 <meta property="og:locale" content="en_US" />
@@ -105,7 +105,7 @@
 
 <p>Pipeline configuration &gt; Automated Triggers &gt; Add Trigger를 선택합니다.</p>
 
-<p><img src="/blog/assets/images/spinnaker/spinnaker-pipeline-main.png" alt="" /></p>
+<p><img src="/blog/assets/images/spinnaker/spinnaker-pipeline-main-01.png" alt="" /></p>
 
 <p>아래와 같이 내용을 입력하고 <code class="highlighter-rouge">Save Changes</code> 버튼을 선택해 변경사항을 저장합니다.</p>
 
@@ -290,7 +290,7 @@
 cd my-charts
 helm package demo
 mv demo-0.1.0.tgz stable
-helm repo index stable --url https://yunsangjun.github.io/my-charts/stable
+helm repo index stable --url https://Organization_Or_User.github.io/my-charts/stable
 git add --all
 git push
 </code></pre></div></div>
@@ -308,6 +308,17 @@ git push
 <p>Service와 Ingress도 생성된 것을 확인할 수 있습니다.</p>
 
 <p><img src="/blog/assets/images/spinnaker/spinnaker-deploy-result-loadbalancer.png" alt="" /></p>
+
+<p>Multi cloud/cluster에 배포한 경우 ingress host 주소가 다른 것을 확인 할 수 있습니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl get ing -n demo
+NAME      HOSTS                    ADDRESS          PORTS     AGE
+demo      demo.ibm.example.com     169.xx.xxx.xxx   80        12h
+
+$ kubectl get ing -n demo
+NAME      HOSTS                    ADDRESS          PORTS     AGE
+demo      demo.gcp.example.com     35.xx.xxx.xxx   80        12h
+</code></pre></div></div>
 
   </div>
 <div id="disqus_thread"></div>
