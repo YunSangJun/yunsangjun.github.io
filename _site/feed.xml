@@ -1,4 +1,132 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-10-15T13:37:38+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Spinnaker 활용 #6 Helm chart 배포</title><link href="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html" rel="alternate" type="text/html" title="Spinnaker 활용 #6 Helm chart 배포" /><published>2018-10-14T00:00:00+09:00</published><updated>2018-10-14T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html">&lt;p&gt;이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-11-06T00:13:35+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Route 53을 활용하여 GSLB 구성하기</title><link href="http://localhost:4000/blog/cloud/2018/11/04/gslb.html" rel="alternate" type="text/html" title="Route 53을 활용하여 GSLB 구성하기" /><published>2018-11-04T00:00:00+09:00</published><updated>2018-11-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2018/11/04/gslb</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2018/11/04/gslb.html">&lt;p&gt;애플리케이션의 고 가용성(High Availability)을 달성하기 위해 서로 다른 Data Center, Cloud에
+애플리케이션을 배치할 수 있습니다. 이 경우 각각의 환경의 Load Balancer에 대해 로드밸런싱을 할 수 있는 GSLB가 필요합니다.&lt;/p&gt;
+
+&lt;p&gt;이 페이지에서는 AWS의 Route 53을 활용하여 GSLB(Global Server Load Balancing)를 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;구성하기&quot;&gt;구성하기&lt;/h2&gt;
+
+&lt;p&gt;AWS의 Route 53 서비스에 접속합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/route53_main.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;health-check-생성하기&quot;&gt;Health Check 생성하기&lt;/h3&gt;
+
+&lt;p&gt;먼저 Master, Slave 애플리케이션에 대한 health check를 추가하겠습니다.
+(서로 다른 Data Center, Cloud에 배치된 애플리케이션을 Master와 Slave로 구분하도록 하겠습니다.)&lt;/p&gt;
+
+&lt;p&gt;Route 53 서비스 main &amp;gt; Left menu &amp;gt; Health checks &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Create health check&lt;/code&gt;를 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 Master 애플리케이션에 대한 health check 설정을 입력합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/health-check-master.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;마찬가지로 Slave 애플리케이션에 대한 health check 설정을 입력합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/health-check-slave.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;host-zone-생성하기&quot;&gt;Host Zone 생성하기&lt;/h3&gt;
+
+&lt;p&gt;Route 53 서비스 main &amp;gt; Left menu &amp;gt; Hosted zones &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Create Hosted Zone&lt;/code&gt;을 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 Hosted Zone의 정보를 입력합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/create-hosted-zone.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Domain Name : dr.example.com(&lt;code class=&quot;highlighter-rouge&quot;&gt;*.example.com&lt;/code&gt; 도메인을 소유하고 있고 하위 도메인
+&lt;code class=&quot;highlighter-rouge&quot;&gt;dr.example.com&lt;/code&gt;을 GSLB 구성에 사용합니다.)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;record-set-생성하기&quot;&gt;Record Set 생성하기&lt;/h3&gt;
+
+&lt;p&gt;Route 53 서비스 main &amp;gt; Left menu &amp;gt; Hosted zones &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Create Record Set&lt;/code&gt;을 선택합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/create-recordset-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Master(Primary)에 대한 Record Set을 아래와 같이 설정합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Value : Master 애플리케이션 Endpoint가 가르키는 IP Address&lt;/li&gt;
+  &lt;li&gt;Health Check to Associate : 앞에서 생성한 Master의 health check name 선택&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/create-recordset-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Slave(Secondary)에 대한 Record Set을 아래와 같이 설정합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Value : Slave 애플리케이션 Endpoint가 가르키는 IP Address&lt;/li&gt;
+  &lt;li&gt;Health Check to Associate : 앞에서 생성한 Slave의 health check name 선택&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/create-recordset-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 Master(Primary)와 Slave(Secondary)에 대한 Record Set이 설정되었습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/create-recordset-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;도메인-설정하기&quot;&gt;도메인 설정하기&lt;/h3&gt;
+
+&lt;p&gt;도메인 제공자의 관리 페이지에서 아래와 같이 설정합니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CNAME 설정&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;demo.example.com&lt;/code&gt;에 대한 canonical name을 &lt;code class=&quot;highlighter-rouge&quot;&gt;demo.dr.example.com&lt;/code&gt;로 설정&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Name Server 설정&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dr.example.com&lt;/code&gt;에 대한 Name Server를 위에서 생성한 Host Zone의 Name Server로 설정합니다.&lt;/p&gt;
+
+    &lt;p&gt;위에서는 &lt;code class=&quot;highlighter-rouge&quot;&gt;ns-1064.awsdns-05.org&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;ns-609.awsdns-12.net&lt;/code&gt;을 뜻합니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;동작-확인&quot;&gt;동작 확인&lt;/h3&gt;
+
+&lt;p&gt;이제 Master 애플리케이션의 접속이 정상인 경우와 비정상일 때 GSLB가 어떻게 동작하는지 확인해보겠습니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;master-애플리케이션의-접속이-정상인-경우&quot;&gt;Master 애플리케이션의 접속이 정상인 경우&lt;/h4&gt;
+
+&lt;p&gt;Master 애플리케이션의 접속이 정상인 경우 &lt;code class=&quot;highlighter-rouge&quot;&gt;demo.example.com&lt;/code&gt; 도메인에 대한 주소를 확인해보면 &lt;code class=&quot;highlighter-rouge&quot;&gt;169.x.x.1&lt;/code&gt; 즉, Master 애플리케이션의
+IP 주소가 반환됩니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ nslookup demo.example.com
+Server:     x.x.x.x
+Address:    x.x.x.x
+
+Non-authoritative answer:
+demo.example.com canonical name = demo.dr.example.com.
+Name:   demo.dr.example.com.
+Address: 169.x.x.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;좀 더 상세한 흐름을 그림으로 표현해보면 아래와 같습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/workflow-master-up.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;master-애플리케이션의-접속이-비정상인-경우&quot;&gt;Master 애플리케이션의 접속이 비정상인 경우&lt;/h4&gt;
+
+&lt;p&gt;이제 Master 애플리케이션을 강제로 종료해 접속이 되지 않도록 변경해보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;Master 애플리케이션의 접속이 비정상인 경우 &lt;code class=&quot;highlighter-rouge&quot;&gt;demo.example.com&lt;/code&gt; 도메인에 대한 주소를 확인해보면 &lt;code class=&quot;highlighter-rouge&quot;&gt;169.x.x.2&lt;/code&gt; 즉, Slave 애플리케이션의
+IP 주소가 반환됩니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ nslookup demo.example.com
+Server:     x.x.x.x
+Address:    x.x.x.x
+
+Non-authoritative answer:
+demo.example.com canonical name = demo.dr.example.com.
+Name:   demo.dr.example.com.
+Address: 169.x.x.2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;좀 더 상세한 흐름을 그림으로 표현해보면 아래와 같습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/gslb/workflow-master-down.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>윤상준</name></author><summary type="html">애플리케이션의 고 가용성(High Availability)을 달성하기 위해 서로 다른 Data Center, Cloud에 애플리케이션을 배치할 수 있습니다. 이 경우 각각의 환경의 Load Balancer에 대해 로드밸런싱을 할 수 있는 GSLB가 필요합니다.</summary></entry><entry><title type="html">Spinnaker 활용 #6 Helm chart 배포</title><link href="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html" rel="alternate" type="text/html" title="Spinnaker 활용 #6 Helm chart 배포" /><published>2018-10-14T00:00:00+09:00</published><updated>2018-10-14T00:00:00+09:00</updated><id>http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6</id><content type="html" xml:base="http://localhost:4000/blog/spinnaker/2018/10/14/using-spinnaker-6.html">&lt;p&gt;이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.&lt;/p&gt;
 
 &lt;p&gt;자세한 내용은 Spinnaker 공식 가이드 문서의 &lt;a href=&quot;https://www.spinnaker.io/guides/user/kubernetes-v2/deploy-helm/&quot;&gt;Deploy Helm Charts&lt;/a&gt;를 참고하세요.&lt;/p&gt;
 
@@ -1377,88 +1505,4 @@ export API_KEY=xxx
 &lt;p&gt;아래 명령 실행해 자원 삭제&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;terraform destroy -var &quot;username=$IBM_ACCOUNT&quot; -var &quot;api_key=$API_KEY&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">Terraform은 인프라를 코드로 관리할 수 있도록 지원하는 오픈소스 프로젝트입니다.</summary></entry><entry><title type="html">Cronjob 사용하기</title><link href="http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob.html" rel="alternate" type="text/html" title="Cronjob 사용하기" /><published>2018-06-25T00:00:00+09:00</published><updated>2018-06-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2018/06/25/how-to-use-cronjob.html">&lt;p&gt;이 페이지는 Kubernetes 상에서 CronJob을 사용하는 방법에 대해 설명합니다.&lt;/p&gt;
-
-&lt;p&gt;Unix 계열의 서버 환경에서 &lt;a href=&quot;https://ko.wikipedia.org/wiki/Cron&quot;&gt;Cron&lt;/a&gt;을 사용해 정기적인 배치 작업을 수행하는데 활용합니다.&lt;/p&gt;
-
-&lt;p&gt;하지만 Kubernetes 환경에서는 서버(Pod)가 언제든지 삭제되고 다시 생성 될 수 있습니다.
-이 경우 설정한 Cron 설정도 초기화됩니다.&lt;/p&gt;
-
-&lt;p&gt;Kubernetes 상에서는 CronJob을 활용하여 정기적인 배치 작업에 활용할 수 있습니다.
-CronJob은 실행 시점에만 Pod를 생성해 자원을 사용하므로 매우 효율적입니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;cronjob-배포하기&quot;&gt;CronJob 배포하기&lt;/h2&gt;
-
-&lt;p&gt;샘플 CronJob을 Kubernetes 클러스터에 배포합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi cronjob.yaml
-apiVersion: batch/v1beta1
-kind: CronJob
-metadata:
-  name: sample-cron
-spec:
-  schedule: '*/35 * * * *'
-  jobTemplate:
-    spec:
-      template:
-        spec:
-          containers:
-          - name: busybox
-            image: busybox
-            imagePullPolicy: IfNotPresent
-            args:
-            - /bin/sh
-            - -c
-            - date; echo &quot;CronJob has been excuted successfully.&quot;
-          restartPolicy: OnFailure
-
-$ kubectl apply -f cronjob.yaml
-cronjob &quot;sample-cron&quot; created
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;CronJob에서는 Job을 생성하기 위한 jobTemplate spec 정의가 필요합니다.
-또한 Job에는 Pod를 생성하기 위한 Pod spec 정의가 필요합니다.&lt;/p&gt;
-
-&lt;p&gt;CronJob에서는 &lt;a href=&quot;https://en.wikipedia.org/wiki/Cron#Overview&quot;&gt;Unix standard crontab format&lt;/a&gt;으로 schedule을 정의합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;첫 번째 값은 분을 의미합니다.(0~59 사이)&lt;/li&gt;
-  &lt;li&gt;두 번째 값은 시간을 의미합니다.(0~23 사이)&lt;/li&gt;
-  &lt;li&gt;세 번째 값은 일을 의미합니다.(1~31 사이)&lt;/li&gt;
-  &lt;li&gt;네 번째 값은 월을 의미합니다.(1~12 사이)&lt;/li&gt;
-  &lt;li&gt;다섯 번째 값은 주를 의미합니다.(0~6 사이)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;스케줄에는 &lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt; wildcard를 사용할 수 있습니다.
-&lt;code class=&quot;highlighter-rouge&quot;&gt;*/35 * * * *&lt;/code&gt;는 매달, 매일 35분에 반복적으로 CronJob을 실행한다는 의미입니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;cronjob-확인하기&quot;&gt;CronJob 확인하기&lt;/h2&gt;
-
-&lt;p&gt;아래 명령어를 실행하여 등록한 CronJob을 확인할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get cronjob
-NAME          SCHEDULE       SUSPEND   ACTIVE    LAST SCHEDULE   AGE
-sample-cron   */35 * * * *   False     0         &amp;lt;none&amp;gt;          4s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Schedule에 설정한 시간이 되면 아래와 같이 Job이 실행됩니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get jobs
-NAME                     DESIRED   SUCCESSFUL   AGE
-sample-cron-1529850900   1         1            24s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Job이 실행되면 Pod를 생성하고 정해진 작업을 수행합니다.
-Job이 생성한 Pod는 아래와 같이 조회할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl get po -a
-NAME                           READY     STATUS      RESTARTS   AGE
-sample-cron-1529850900-5hfzn   0/1       Completed   0          41s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Pod의 로그를 조회해 수행한 작업 내용을 확인할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl logs -f sample-cron-1529850900-5hfzn
-Sun Jun 24 14:35:06 UTC 2018
-CronJob has been excuted successfully.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">이 페이지는 Kubernetes 상에서 CronJob을 사용하는 방법에 대해 설명합니다.</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><summary type="html">Terraform은 인프라를 코드로 관리할 수 있도록 지원하는 오픈소스 프로젝트입니다.</summary></entry></feed>
