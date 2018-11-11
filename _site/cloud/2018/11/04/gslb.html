@@ -4,7 +4,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/blog/assets/css/home.css">
-  <link rel="stylesheet" href="/blog/assets/css/category.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
+  <link rel="stylesheet" href="/blog/assets/css/category.css">
+  <link rel="stylesheet" href="/blog/assets/css/tag.css">
+  <link rel="stylesheet" href="/blog/assets/main.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
 <title>Route 53을 활용하여 GSLB 구성하기 | 윤상준의 기술 블로그</title>
 <meta name="generator" content="Jekyll v3.8.0" />
 <meta property="og:title" content="Route 53을 활용하여 GSLB 구성하기" />
@@ -20,7 +22,13 @@
 <script type="application/ld+json">
 {"description":"애플리케이션의 고 가용성(High Availability)을 달성하기 위해 서로 다른 Data Center, Cloud에 애플리케이션을 배치할 수 있습니다. 이 경우 각각의 환경의 Load Balancer에 대해 로드밸런싱을 할 수 있는 GSLB가 필요합니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/cloud/2018/11/04/gslb.html","headline":"Route 53을 활용하여 GSLB 구성하기","dateModified":"2018-11-04T00:00:00+09:00","datePublished":"2018-11-04T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/cloud/2018/11/04/gslb.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/blog/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
+
+  <meta property="article:tag" content="gslb" >
+  
+  <meta property="article:tag" content="aws" >
+  
+  <meta property="article:tag" content="route53" >
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
 </head>
 <body><header class="site-header" role="banner">
 
@@ -36,9 +44,10 @@
 
         <div class="trigger">
             <a class="page-link" href="/blog/categories">Categories</a>
+            <a class="page-link" href="/blog/tags">Tags</a>
         </div>
 
-        <!--div class="trigger"><a class="page-link" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</a><a class="page-link" href="/blog/categories/">Categories</a></div-->
+        <!--div class="trigger"><a class="page-link" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</a><a class="page-link" href="/blog/categories/">Categories</a><a class="page-link" href="/blog/tags/">Tags</a></div-->
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -50,6 +59,20 @@
     <p class="post-meta">
       <time class="dt-published" datetime="2018-11-04T00:00:00+09:00" itemprop="datePublished">Nov 4, 2018
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">윤상준</span></span></p>
+      
+<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<div class="post-tags">
+  
+  
+  <a href="/blog/tags/#gslb">gslb</a>,
+  
+  <a href="/blog/tags/#aws">aws</a>,
+  
+  <a href="/blog/tags/#route53">route53</a>
+  
+</div>
+<br/>
+
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">

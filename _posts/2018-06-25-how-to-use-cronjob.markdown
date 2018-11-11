@@ -4,6 +4,10 @@ title:  "Cronjob 사용하기"
 author: 윤상준
 date: 2018-06-25
 categories: kubernetes
+tags:
+- kubernetes
+- container
+- cronjob
 ---
 
 이 페이지는 Kubernetes 상에서 CronJob을 사용하는 방법에 대해 설명합니다.

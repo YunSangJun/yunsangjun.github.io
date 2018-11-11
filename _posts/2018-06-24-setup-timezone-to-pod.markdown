@@ -4,6 +4,10 @@ title:  "Pod에 타임존 설정하기"
 author: 윤상준
 date: 2018-06-24
 categories: kubernetes
+tags:
+- kubernetes
+- container
+- timezone
 ---
 
 이 페이지는 Pod에 타임존을 설정하는 방법에 대해 설명합니다.

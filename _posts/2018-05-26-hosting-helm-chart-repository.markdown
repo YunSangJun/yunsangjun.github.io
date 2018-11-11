@@ -4,6 +4,12 @@ title:  "Helm chart repository 호스팅"
 author: 윤상준
 date: 2018-05-26
 categories: helm
+tags:
+- helm
+- chart
+- repository
+- kubernetes
+- container
 ---
 
 내가 만든 Helm chart를 다른 사용자에게 공유하기 위해서는 Helm repository가 필요합니다.

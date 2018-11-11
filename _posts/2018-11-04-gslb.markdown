@@ -4,6 +4,10 @@ title:  "Route 53을 활용하여 GSLB 구성하기"
 author: 윤상준
 date: 2018-11-04
 categories: cloud
+tags:
+- gslb
+- aws
+- route53
 ---
 
 애플리케이션의 고 가용성(High Availability)을 달성하기 위해 서로 다른 Data Center, Cloud에

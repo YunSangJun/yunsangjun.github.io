@@ -322,38 +322,6 @@
     </url>
   
     <url>
-      <loc>http://localhost:4000/kubernetes/2018/05/25/kubecon-2018.html</loc>
-      
-        <lastmod>2018-05-25T00:00:00+09:00</lastmod>
-      
-
-      
-        <changefreq>weekly</changefreq>
-      
-
-      
-          <priority>0.5</priority>
-      
-
-    </url>
-  
-    <url>
-      <loc>http://localhost:4000/cloudfoundry/2018/05/25/cloudfoundry-summit-2018-boston.html</loc>
-      
-        <lastmod>2018-05-25T00:00:00+09:00</lastmod>
-      
-
-      
-        <changefreq>weekly</changefreq>
-      
-
-      
-          <priority>0.5</priority>
-      
-
-    </url>
-  
-    <url>
       <loc>http://localhost:4000/authentication/2018/05/23/oauth-proxy.html</loc>
       
         <lastmod>2018-05-23T00:00:00+09:00</lastmod>

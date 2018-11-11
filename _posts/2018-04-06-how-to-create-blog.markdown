@@ -4,6 +4,10 @@ title:  "Github Page를 활용해 블로그 만들기"
 author: 윤상준
 date: 2018-04-06
 categories: etc
+tags:
+- blog
+- githubpage
+- jekyll
 ---
 
 Github는 소스코드 형상관리 도구인 Git을 사용하는 프로젝트를 지원하는 웹 호스팅 서비스입니다.<br />

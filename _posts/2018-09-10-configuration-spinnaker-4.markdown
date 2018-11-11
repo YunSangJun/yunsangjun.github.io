@@ -4,6 +4,11 @@ title:  "Spinnaker 설정 #4 GitHub Webhooks 설정"
 author: 윤상준
 date: 2018-09-10
 categories: spinnaker
+tags:
+- spinnaker
+- kubernetes
+- cicd
+- devops
 ---
 
 이 페이지는 Spinnaker에 GitHub Webhook을 설정하는 방법에 대해 설명합니다.

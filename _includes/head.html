@@ -4,8 +4,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{ "/assets/css/home.css" | relative_url }}">
   <link rel="stylesheet" href="{{ "/assets/css/category.css" | relative_url }}">
-  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/css/tag.css" | relative_url }}">
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  {%- seo -%}
+  {% for tag in page.tags %}
+  <meta property="article:tag" content="{{ tag }}" >
+  {% endfor %}
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
     {%- include google-analytics.html -%}

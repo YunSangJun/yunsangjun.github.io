@@ -4,6 +4,11 @@ title:  "Spinnaker 설정 #1 도메인 주소를 통한 대시보드 접속"
 author: 윤상준
 date: 2018-08-15
 categories: spinnaker
+tags:
+- spinnaker
+- kubernetes
+- cicd
+- devops
 ---
 
 ## 도메인 주소를 통한 대시보드 접속하기

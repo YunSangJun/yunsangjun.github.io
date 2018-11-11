@@ -46,6 +46,7 @@ future: true
 plugins:
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-seo-tag
 #show_excerpts: true
 theme: minima
 

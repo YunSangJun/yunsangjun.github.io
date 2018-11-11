@@ -4,6 +4,11 @@ title:  "Spinnaker 설정 #3 CI 시스템 연계"
 author: 윤상준
 date: 2018-08-18
 categories: spinnaker
+tags:
+- spinnaker
+- kubernetes
+- cicd
+- devops
 ---
 
 이 페이지는 Spinnaker와 CI 시스템을 연계하는 방법에 대해 설명합니다.

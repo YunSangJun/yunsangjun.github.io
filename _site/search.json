@@ -5,7 +5,7 @@
       "title"    : "Route 53을 활용하여 GSLB 구성하기",
       "url"      : "/blog/cloud/2018/11/04/gslb.html",
       "category" : "cloud",
-      "tags"     : "",
+      "tags"     : "gslb, aws, route53",
       "date"     : "2018-11-04 00:00:00 +0900"
 
     } ,
@@ -15,7 +15,7 @@
       "title"    : "Spinnaker 활용 #6 Helm chart 배포",
       "url"      : "/blog/spinnaker/2018/10/14/using-spinnaker-6.html",
       "category" : "spinnaker",
-      "tags"     : "",
+      "tags"     : "spinnaker, kubernetes, cicd, devops",
       "date"     : "2018-10-14 00:00:00 +0900"
 
     } ,
@@ -25,7 +25,7 @@
       "title"    : "Spinnaker 설정 #5 Artifact 설정",
       "url"      : "/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html",
       "category" : "spinnaker",
-      "tags"     : "",
+      "tags"     : "spinnaker, kubernetes, cicd, devops",
       "date"     : "2018-10-11 00:00:00 +0900"
 
     } ,
@@ -35,7 +35,7 @@
       "title"    : "Spinnaker 설정 #4 GitHub Webhooks 설정",
       "url"      : "/blog/spinnaker/2018/09/10/configuration-spinnaker-4.html",
       "category" : "spinnaker",
-      "tags"     : "",
+      "tags"     : "spinnaker, kubernetes, cicd, devops",
       "date"     : "2018-09-10 00:00:00 +0900"
 
     } ,
@@ -45,7 +45,7 @@
       "title"    : "Spinnaker 설정 #3 CI 시스템 연계",
       "url"      : "/blog/spinnaker/2018/08/18/configuration-spinnaker-3.html",
       "category" : "spinnaker",
-      "tags"     : "",
+      "tags"     : "spinnaker, kubernetes, cicd, devops",
       "date"     : "2018-08-18 00:00:00 +0900"
 
     } ,
@@ -55,7 +55,7 @@
       "title"    : "Spinnaker 설정 #2 사용자 인증/인가",
       "url"      : "/blog/spinnaker/2018/08/16/configuration-spinnaker-2.html",
       "category" : "spinnaker",
-      "tags"     : "",
+      "tags"     : "spinnaker, kubernetes, cicd, devops",
       "date"     : "2018-08-16 00:00:00 +0900"
 
     } ,
@@ -65,7 +65,7 @@
       "title"    : "Spinnaker 설정 #1 도메인 주소를 통한 대시보드 접속",
       "url"      : "/blog/spinnaker/2018/08/15/configuration-spinnaker-1.html",
       "category" : "spinnaker",
-      "tags"     : "",
+      "tags"     : "spinnaker, kubernetes, cicd, devops",
       "date"     : "2018-08-15 00:00:00 +0900"
 
     } ,
@@ -75,7 +75,7 @@
       "title"    : "Kubernetes 스터디 #8 Monitoring",
       "url"      : "/blog/kubernetes/2018/07/20/kubernetes-monitoring.html",
       "category" : "kubernetes",
-      "tags"     : "",
+      "tags"     : "kubernetes, container, monitoring, prometheus, jmx, exporter, grafana, devops",
       "date"     : "2018-07-20 00:00:00 +0900"
 
     } ,
@@ -85,7 +85,7 @@
       "title"    : "Kubernetes 스터디 #7 Logging",
       "url"      : "/blog/kubernetes/2018/07/06/kubernetes-logging.html",
       "category" : "kubernetes",
-      "tags"     : "",
+      "tags"     : "kubernetes, container, logging, sidecar, fluentbit, fluentd, elasticsearch, kibana, s3",
       "date"     : "2018-07-06 00:00:00 +0900"
 
     } ,
@@ -95,7 +95,7 @@
       "title"    : "Terraform 사용하기",
       "url"      : "/blog/terraform/2018/06/29/terraform.html",
       "category" : "terraform",
-      "tags"     : "",
+      "tags"     : "terraform, iac, infrastructure, devops",
       "date"     : "2018-06-29 00:00:00 +0900"
 
     } ,
@@ -105,7 +105,7 @@
       "title"    : "Cronjob 사용하기",
       "url"      : "/blog/kubernetes/2018/06/25/how-to-use-cronjob.html",
       "category" : "kubernetes",
-      "tags"     : "",
+      "tags"     : "kubernetes, container, cronjob",
       "date"     : "2018-06-25 00:00:00 +0900"
 
     } ,
@@ -115,7 +115,7 @@
       "title"    : "Pod에 타임존 설정하기",
       "url"      : "/blog/kubernetes/2018/06/24/setup-timezone-to-pod.html",
       "category" : "kubernetes",
-      "tags"     : "",
+      "tags"     : "kubernetes, container, timezone",
       "date"     : "2018-06-24 00:00:00 +0900"
 
     } ,
@@ -125,7 +125,7 @@
       "title"    : "Spinnaker 설치하기",
       "url"      : "/blog/spinnaker/2018/06/03/installing-spinnaker.html",
       "category" : "spinnaker",
-      "tags"     : "",
+      "tags"     : "spinnaker, kubernetes, cicd, devops",
       "date"     : "2018-06-03 00:00:00 +0900"
 
     } ,
@@ -135,7 +135,7 @@
       "title"    : "Cannot find module &#39;webpack/lib/node/NodeTemplatePlugin&#39;",
       "url"      : "/blog/angular/2018/05/29/angular-cannot-find-module.html",
       "category" : "angular",
-      "tags"     : "",
+      "tags"     : "angular, npm",
       "date"     : "2018-05-29 00:00:00 +0900"
 
     } ,
@@ -145,7 +145,7 @@
       "title"    : "Helm 설치하기",
       "url"      : "/blog/helm/2018/05/27/installing-helm.html",
       "category" : "helm",
-      "tags"     : "",
+      "tags"     : "helm, chart, kubernetes, container",
       "date"     : "2018-05-27 00:00:00 +0900"
 
     } ,
@@ -155,7 +155,7 @@
       "title"    : "Ingress TLS Secret 생성하기",
       "url"      : "/blog/kubernetes/2018/05/27/how-to-create-ingress-secret.html",
       "category" : "kubernetes",
-      "tags"     : "",
+      "tags"     : "kubernetes, container, ingress, https, tls, secret",
       "date"     : "2018-05-27 00:00:00 +0900"
 
     } ,
@@ -165,7 +165,7 @@
       "title"    : "Helm chart를 사용하여 Jenkins를 컨테이너로 배포하기",
       "url"      : "/blog/helm/2018/05/26/jenkins-helm-chart.html",
       "category" : "helm",
-      "tags"     : "",
+      "tags"     : "helm, chart, kubernetes, container, jenkins, cicd, devops",
       "date"     : "2018-05-26 00:00:00 +0900"
 
     } ,
@@ -175,7 +175,7 @@
       "title"    : "Helm chart repository 호스팅",
       "url"      : "/blog/helm/2018/05/26/hosting-helm-chart-repository.html",
       "category" : "helm",
-      "tags"     : "",
+      "tags"     : "helm, chart, repository, kubernetes, container",
       "date"     : "2018-05-26 00:00:00 +0900"
 
     } ,
@@ -185,7 +185,7 @@
       "title"    : "Docker 이미지 레이어란?",
       "url"      : "/blog/docker/2018/05/26/docker-image-layer.html",
       "category" : "docker",
-      "tags"     : "",
+      "tags"     : "container, docker, image, layer",
       "date"     : "2018-05-26 00:00:00 +0900"
 
     } ,
@@ -195,27 +195,7 @@
       "title"    : "Docker Private Registry로 부터 이미지 가져오기",
       "url"      : "/blog/kubernetes/2018/05/25/pull-image-from-private-registry.html",
       "category" : "kubernetes",
-      "tags"     : "",
-      "date"     : "2018-05-25 00:00:00 +0900"
-
-    } ,
-  
-    {
-
-      "title"    : "KubeCon &amp; CloudNativeCon Europe 2018",
-      "url"      : "/blog/kubernetes/2018/05/25/kubecon-2018.html",
-      "category" : "kubernetes",
-      "tags"     : "",
-      "date"     : "2018-05-25 00:00:00 +0900"
-
-    } ,
-  
-    {
-
-      "title"    : "CloudFoundry Summit in 2018 Boston",
-      "url"      : "/blog/cloudfoundry/2018/05/25/cloudfoundry-summit-2018-boston.html",
-      "category" : "cloudfoundry",
-      "tags"     : "",
+      "tags"     : "kubernetes, container, docker, image, secret",
       "date"     : "2018-05-25 00:00:00 +0900"
 
     } ,
@@ -225,7 +205,7 @@
       "title"    : "OAuth Proxy를 활용한 애플리케이션 인증 및 인가",
       "url"      : "/blog/authentication/2018/05/23/oauth-proxy.html",
       "category" : "authentication",
-      "tags"     : "",
+      "tags"     : "oauth, proxy, authentication, authorization, keycloak, oidc, helm, chart, kubernetes",
       "date"     : "2018-05-23 00:00:00 +0900"
 
     } ,
@@ -235,7 +215,7 @@
       "title"    : "MountVolume.SetUp failed for volume pvc-xxx",
       "url"      : "/blog/kubernetes/2018/05/16/volume-mount-failed.html",
       "category" : "kubernetes",
-      "tags"     : "",
+      "tags"     : "kubernetes, container, docker, pvc, volume, storage, mount",
       "date"     : "2018-05-16 00:00:00 +0900"
 
     } ,
@@ -245,7 +225,7 @@
       "title"    : "Istio Intelligent Routing #3 가중치 기반 라우팅",
       "url"      : "/blog/istio/2018/05/07/istio-intelligent-routing-3.html",
       "category" : "istio",
-      "tags"     : "",
+      "tags"     : "istio, servicemesh, microservice, envoy, loadbalancing, canary, abtest, kubernetes",
       "date"     : "2018-05-07 00:00:00 +0900"
 
     } ,
@@ -255,7 +235,7 @@
       "title"    : "Istio Intelligent Routing #2 오류 주입",
       "url"      : "/blog/istio/2018/05/02/istio-intelligent-routing-2.html",
       "category" : "istio",
-      "tags"     : "",
+      "tags"     : "istio, servicemesh, microservice, envoy, loadbalancing, canary, abtest, kubernetes",
       "date"     : "2018-05-02 00:00:00 +0900"
 
     } ,
@@ -265,7 +245,7 @@
       "title"    : "Istio Overview",
       "url"      : "/blog/istio/2018/04/26/istio-overview.html",
       "category" : "istio",
-      "tags"     : "",
+      "tags"     : "istio, servicemesh, microservice, envoy, loadbalancing, canary, abtest, kubernetes",
       "date"     : "2018-04-26 00:00:00 +0900"
 
     } ,
@@ -275,7 +255,7 @@
       "title"    : "Istio Intelligent Routing #1 콘텐츠 기반 라우팅",
       "url"      : "/blog/istio/2018/04/26/istio-intelligent-routing-1.html",
       "category" : "istio",
-      "tags"     : "",
+      "tags"     : "istio, servicemesh, microservice, envoy, loadbalancing, canary, abtest, kubernetes",
       "date"     : "2018-04-26 00:00:00 +0900"
 
     } ,
@@ -285,7 +265,7 @@
       "title"    : "Kubernetes에 Istio 설치하기",
       "url"      : "/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html",
       "category" : "istio",
-      "tags"     : "",
+      "tags"     : "istio, servicemesh, microservice, envoy, loadbalancing, canary, abtest, kubernetes",
       "date"     : "2018-04-26 00:00:00 +0900"
 
     } ,
@@ -295,7 +275,7 @@
       "title"    : "마이크로서비스 샘플앱(BookInfo) 배포하기",
       "url"      : "/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html",
       "category" : "istio",
-      "tags"     : "",
+      "tags"     : "istio, servicemesh, microservice, envoy, loadbalancing, canary, abtest, kubernetes",
       "date"     : "2018-04-26 00:00:00 +0900"
 
     } ,
@@ -305,7 +285,7 @@
       "title"    : "Github Page를 활용해 블로그 만들기",
       "url"      : "/blog/etc/2018/04/06/how-to-create-blog.html",
       "category" : "etc",
-      "tags"     : "",
+      "tags"     : "blog, githubpage, jekyll",
       "date"     : "2018-04-06 00:00:00 +0900"
 
     } 

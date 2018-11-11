@@ -4,6 +4,15 @@ title:  "Istio Intelligent Routing #1 콘텐츠 기반 라우팅"
 author: 윤상준
 date: 2018-04-26
 categories: istio
+tags:
+- istio
+- servicemesh
+- microservice
+- envoy
+- loadbalancing
+- canary
+- abtest
+- kubernetes
 ---
 
 이 문서는 가중치 및 HTTP 헤더를 기반으로 동적 요청 라우팅을 구성하는 방법을 보여줍니다.

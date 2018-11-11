@@ -4,6 +4,11 @@ title:  "Spinnaker 설치하기"
 author: 윤상준
 date: 2018-06-03
 categories: spinnaker
+tags:
+- spinnaker
+- kubernetes
+- cicd
+- devops
 ---
 
 이 페이지는 Spinnaker를 설치하는 방법에 대해 설명합니다.

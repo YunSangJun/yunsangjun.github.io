@@ -4,6 +4,11 @@ title:  "Docker 이미지 레이어란?"
 author: 윤상준
 date: 2018-05-26
 categories: docker
+tags:
+- container
+- docker
+- image
+- layer
 ---
 
 Docker Image를 pull, push 하다보면 layer라는 용어가 나옵니다. Docker 에서 사용하는 layer 구조가 무엇이고 왜 사용할까요?

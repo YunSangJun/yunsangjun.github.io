@@ -4,6 +4,15 @@ title:  "Kubernetes에 Istio 설치하기"
 author: 윤상준
 date: 2018-04-26
 categories: istio
+tags:
+- istio
+- servicemesh
+- microservice
+- envoy
+- loadbalancing
+- canary
+- abtest
+- kubernetes
 ---
 
 이 문서를 따라 Kubernetes에 Istio 설치 할 수 있습니다.

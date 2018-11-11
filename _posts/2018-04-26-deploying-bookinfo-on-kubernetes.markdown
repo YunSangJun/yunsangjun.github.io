@@ -4,6 +4,15 @@ title:  "마이크로서비스 샘플앱(BookInfo) 배포하기"
 author: 윤상준
 date: 2018-04-26
 categories: istio
+tags:
+- istio
+- servicemesh
+- microservice
+- envoy
+- loadbalancing
+- canary
+- abtest
+- kubernetes
 ---
 
 이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.

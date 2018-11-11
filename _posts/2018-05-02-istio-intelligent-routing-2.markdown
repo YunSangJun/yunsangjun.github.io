@@ -4,6 +4,15 @@ title:  "Istio Intelligent Routing #2 오류 주입"
 author: 윤상준
 date: 2018-05-02
 categories: istio
+tags:
+- istio
+- servicemesh
+- microservice
+- envoy
+- loadbalancing
+- canary
+- abtest
+- kubernetes
 ---
 
 이 문서는 지연을 주입하고 애플리케이션의 복원력을 테스트하는 방법을 보여줍니다.

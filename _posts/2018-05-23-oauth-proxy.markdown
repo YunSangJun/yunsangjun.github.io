@@ -4,6 +4,16 @@ title:  "OAuth Proxy를 활용한 애플리케이션 인증 및 인가"
 author: 윤상준
 date: 2018-05-23
 categories: authentication
+tags:
+- oauth
+- proxy
+- authentication
+- authorization
+- keycloak
+- oidc
+- helm
+- chart
+- kubernetes
 ---
 
 OIDC(OpenID Connect identity providers)와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 자체 개발한 애플리케이션의 경우 OIDC와 연동하기 위한 인증 기능을 개발하면 됩니다. 하지만 오픈소스를 사용하는 경우 해당 오픈소스에서 OIDC와의 연동기능을 제공하지 않으면 오픈소스의 코드를 수정해야합니다(예 : Kibana). 하지만 오픈소스의 코드를 수정하면 업스트림과의 일관성을 유지해야하는 부분이 부담스러울수 있습니다. 이 경우 [Keycloak Proxy](https://github.com/kubernetes/charts/tree/master/incubator/keycloak-proxy)와 같은 OAuth Proxy를 사용하여 애플리케이션의 인증/인가를 처리할 수 있습니다.

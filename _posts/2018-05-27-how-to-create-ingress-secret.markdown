@@ -4,6 +4,13 @@ title:  "Ingress TLS Secret 생성하기"
 author: 윤상준
 date: 2018-05-27
 categories: kubernetes
+tags:
+- kubernetes
+- container
+- ingress
+- https
+- tls
+- secret
 ---
 
 이 페이지에서는 Ingress에 TLS를 적용하기 위한 Secret을 생성하는 방법을 가이드합니다.

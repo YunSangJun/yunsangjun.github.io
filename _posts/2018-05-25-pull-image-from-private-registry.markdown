@@ -4,6 +4,12 @@ title:  "Docker Private Registry로 부터 이미지 가져오기"
 author: 윤상준
 date: 2018-05-25
 categories: kubernetes
+tags:
+- kubernetes
+- container
+- docker
+- image
+- secret
 ---
 
 이 페이지는 Secret을 사용하여 Private Docker Registry에서 이미지를 가져오는 Pod를 만드는 방법을 보여줍니다.<br>

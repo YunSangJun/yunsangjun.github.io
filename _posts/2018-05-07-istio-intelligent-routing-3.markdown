@@ -4,6 +4,15 @@ title:  "Istio Intelligent Routing #3 가중치 기반 라우팅"
 author: 윤상준
 date: 2018-05-07
 categories: istio
+tags:
+- istio
+- servicemesh
+- microservice
+- envoy
+- loadbalancing
+- canary
+- abtest
+- kubernetes
 ---
 
 이 문서는 서비스의 이전 버전에서 새 버전으로 트래픽을 점진적으로 마이그레이션하는 방법을 보여줍니다.

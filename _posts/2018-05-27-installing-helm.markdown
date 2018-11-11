@@ -4,6 +4,11 @@ title:  "Helm 설치하기"
 author: 윤상준
 date: 2018-05-27
 categories: helm
+tags:
+- helm
+- chart
+- kubernetes
+- container
 ---
 
 이 페이지는 Helm을 설치하는 방법에 대해 설명합니다.

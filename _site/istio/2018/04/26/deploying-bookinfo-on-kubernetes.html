@@ -4,7 +4,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/blog/assets/css/home.css">
-  <link rel="stylesheet" href="/blog/assets/css/category.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
+  <link rel="stylesheet" href="/blog/assets/css/category.css">
+  <link rel="stylesheet" href="/blog/assets/css/tag.css">
+  <link rel="stylesheet" href="/blog/assets/main.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
 <title>마이크로서비스 샘플앱(BookInfo) 배포하기 | 윤상준의 기술 블로그</title>
 <meta name="generator" content="Jekyll v3.8.0" />
 <meta property="og:title" content="마이크로서비스 샘플앱(BookInfo) 배포하기" />
@@ -20,7 +22,23 @@
 <script type="application/ld+json">
 {"description":"이 문서에서는 Istio 서비스 매시의 다양한 기능을 시연하는데 사용할 4개의 마이크로서비스 샘플 애플리케이션을 배포합니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html","headline":"마이크로서비스 샘플앱(BookInfo) 배포하기","dateModified":"2018-04-26T00:00:00+09:00","datePublished":"2018-04-26T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/blog/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
+
+  <meta property="article:tag" content="istio" >
+  
+  <meta property="article:tag" content="servicemesh" >
+  
+  <meta property="article:tag" content="microservice" >
+  
+  <meta property="article:tag" content="envoy" >
+  
+  <meta property="article:tag" content="loadbalancing" >
+  
+  <meta property="article:tag" content="canary" >
+  
+  <meta property="article:tag" content="abtest" >
+  
+  <meta property="article:tag" content="kubernetes" >
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
 </head>
 <body><header class="site-header" role="banner">
 
@@ -36,9 +54,10 @@
 
         <div class="trigger">
             <a class="page-link" href="/blog/categories">Categories</a>
+            <a class="page-link" href="/blog/tags">Tags</a>
         </div>
 
-        <!--div class="trigger"><a class="page-link" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</a><a class="page-link" href="/blog/categories/">Categories</a></div-->
+        <!--div class="trigger"><a class="page-link" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</a><a class="page-link" href="/blog/categories/">Categories</a><a class="page-link" href="/blog/tags/">Tags</a></div-->
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -50,6 +69,30 @@
     <p class="post-meta">
       <time class="dt-published" datetime="2018-04-26T00:00:00+09:00" itemprop="datePublished">Apr 26, 2018
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">윤상준</span></span></p>
+      
+<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<div class="post-tags">
+  
+  
+  <a href="/blog/tags/#istio">istio</a>,
+  
+  <a href="/blog/tags/#servicemesh">servicemesh</a>,
+  
+  <a href="/blog/tags/#microservice">microservice</a>,
+  
+  <a href="/blog/tags/#envoy">envoy</a>,
+  
+  <a href="/blog/tags/#loadbalancing">loadbalancing</a>,
+  
+  <a href="/blog/tags/#canary">canary</a>,
+  
+  <a href="/blog/tags/#abtest">abtest</a>,
+  
+  <a href="/blog/tags/#kubernetes">kubernetes</a>
+  
+</div>
+<br/>
+
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">

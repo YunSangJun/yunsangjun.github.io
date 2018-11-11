@@ -4,6 +4,11 @@ title:  "Spinnaker 설정 #2 사용자 인증/인가"
 author: 윤상준
 date: 2018-08-16
 categories: spinnaker
+tags:
+- spinnaker
+- kubernetes
+- cicd
+- devops
 ---
 
 이 페이지는 Spinnaker에 사용자 인증/인가 기능을 설정하는 방법에 대해 설명합니다.

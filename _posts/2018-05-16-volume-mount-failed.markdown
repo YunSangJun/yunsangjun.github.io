@@ -4,6 +4,14 @@ title:  "MountVolume.SetUp failed for volume pvc-xxx"
 author: 윤상준
 date: 2018-05-16
 categories: kubernetes
+tags:
+- kubernetes
+- container
+- docker
+- pvc
+- volume
+- storage
+- mount
 ---
 
 ## Issue

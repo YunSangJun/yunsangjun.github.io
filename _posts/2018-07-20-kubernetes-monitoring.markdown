@@ -4,6 +4,15 @@ title:  "Kubernetes 스터디 #8 Monitoring"
 author: 윤상준
 date: 2018-07-20
 categories: kubernetes
+tags:
+- kubernetes
+- container
+- monitoring
+- prometheus
+- jmx
+- exporter
+- grafana
+- devops
 ---
 
 ## Container 환경에서 떠오르는 도전 과제

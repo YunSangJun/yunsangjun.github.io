@@ -4,6 +4,16 @@ title:  "Kubernetes 스터디 #7 Logging"
 author: 윤상준
 date: 2018-07-06
 categories: kubernetes
+tags:
+- kubernetes
+- container
+- logging
+- sidecar
+- fluentbit
+- fluentd
+- elasticsearch
+- kibana
+- s3
 ---
 
 ## Cloud Native 환경에서 Logging Architecture의 변화

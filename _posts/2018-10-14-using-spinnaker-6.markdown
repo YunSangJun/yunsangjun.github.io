@@ -4,6 +4,11 @@ title:  "Spinnaker 활용 #6 Helm chart 배포"
 author: 윤상준
 date: 2018-10-14
 categories: spinnaker
+tags:
+- spinnaker
+- kubernetes
+- cicd
+- devops
 ---
 
 이 페이지는 Spinnaker에서 Helm chart를 배포하는 방법에 대해 설명합니다.

@@ -4,6 +4,11 @@ title:  "Terraform 사용하기"
 author: 윤상준
 date: 2018-06-29
 categories: terraform
+tags:
+- terraform
+- iac
+- infrastructure
+- devops
 ---
 
 Terraform은 인프라를 코드로 관리할 수 있도록 지원하는 오픈소스 프로젝트입니다.
