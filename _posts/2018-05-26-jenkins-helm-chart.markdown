@@ -48,8 +48,8 @@ https://cloud.google.com/solutions/jenkins-on-container-engine
 
 정상적으로 설치가 완료되었다면 `NOTES`의 가이드를 참고하여 Jenkins 대시보드에 접속할 수 있습니다.
 
-<p class="tip-title">Note</p>
-<p class="tip-content">
+<p class="warning-title">경고</p>
+<p class="warning-content">
 기본 설정을 사용하므로 클러스터 환경에 따라 설치 중 에러가 발생할 수 있습니다.
 이런 경우 아래 가이드를 따라 사용자 설정 방식으로 배포 할 수 있습니다.
 </p>

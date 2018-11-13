@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-11-13T16:30:04+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Route 53을 활용하여 GSLB 구성하기</title><link href="http://localhost:4000/blog/cloud/2018/11/04/gslb.html" rel="alternate" type="text/html" title="Route 53을 활용하여 GSLB 구성하기" /><published>2018-11-04T00:00:00+09:00</published><updated>2018-11-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2018/11/04/gslb</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2018/11/04/gslb.html">&lt;p&gt;애플리케이션의 고 가용성(High Availability)을 달성하기 위해 서로 다른 Data Center, Cloud에
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2018-11-14T02:29:14+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Route 53을 활용하여 GSLB 구성하기</title><link href="http://localhost:4000/blog/cloud/2018/11/04/gslb.html" rel="alternate" type="text/html" title="Route 53을 활용하여 GSLB 구성하기" /><published>2018-11-04T00:00:00+09:00</published><updated>2018-11-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2018/11/04/gslb</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2018/11/04/gslb.html">&lt;p&gt;애플리케이션의 고 가용성(High Availability)을 달성하기 위해 서로 다른 Data Center, Cloud에
 애플리케이션을 배치할 수 있습니다. 이 경우 각각의 환경의 Load Balancer에 대해 로드밸런싱을 할 수 있는 GSLB가 필요합니다.&lt;/p&gt;
 
 &lt;p&gt;이 페이지에서는 AWS의 Route 53을 활용하여 GSLB(Global Server Load Balancing)를 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
@@ -509,7 +509,7 @@ gate:
 
 &lt;h3 id=&quot;csrf-protection-설정&quot;&gt;CSRF protection 설정&lt;/h3&gt;
 
-&lt;p class=&quot;tip-title&quot;&gt;Note&lt;/p&gt;
+&lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
 &lt;p class=&quot;tip-content&quot;&gt;
 Jenkins CSRF protection in Igor is only supported for Jenkins 2.x.
 &lt;/p&gt;
@@ -758,7 +758,7 @@ spec:
 
 &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/monitoring/monitoring-exercise.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p class=&quot;tip-title&quot;&gt;Note&lt;/p&gt;
+&lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
 &lt;p class=&quot;tip-content&quot;&gt;
 이 실습은 Kubernetes cluster를 위한 Prometheus와 Grafana가 설치되어 있다는 전제하에 작성했습니다.
 Prometheus와 Grafana 설치에 대한 가이드는 추후 작성 예정입니다.

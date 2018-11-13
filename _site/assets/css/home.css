@@ -59,7 +59,6 @@ h4 {
 }
 
 .tip-title {
-    background: #6ab0de;
     font-weight: bold;
     display: block;
     color: #fff;
@@ -68,8 +67,33 @@ h4 {
     margin-bottom: 12px;
 }
 
+.tip-title:before {
+    content: "\2756";
+}
+
 .tip-content {
-    background: #dff2ff;
+    background: #6ab0de45;
+    line-height: 24px;
+    margin: -12px 0 12px 0;
+    padding: 6px 12px;
+    font-size: 16px;
+}
+
+.warning-title {
+    font-weight: bold;
+    display: block;
+    color: #fff;
+    background: #f0b37e;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+}
+
+.warning-title:before {
+    content: "\2756";
+}
+
+.warning-content {
+    background: #fce9c1;
     line-height: 24px;
     margin: -12px 0 12px 0;
     padding: 6px 12px;
