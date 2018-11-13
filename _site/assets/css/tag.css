@@ -20,6 +20,8 @@
 }
 .post-tags {
   float: left;
+  margin: 0 10px 0 0;
+  padding: 5px 0 0 0;
 }
 .tag-img {
   width: 23px;

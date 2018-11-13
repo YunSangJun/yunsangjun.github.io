@@ -83,8 +83,11 @@ Container 환경을 운영 환경으로 고려하기 시작하면서 운영을 �
 
 ![](/blog/assets/images/kubernetes/monitoring/monitoring-exercise.png)
 
-* 참고 : 이 실습은 Kubernetes cluster를 위한 Prometheus와 Grafana가 설치되어 있다는 전제하에 작성했습니다.
+<p class="tip-title">Note</p>
+<p class="tip-content">
+이 실습은 Kubernetes cluster를 위한 Prometheus와 Grafana가 설치되어 있다는 전제하에 작성했습니다.
 Prometheus와 Grafana 설치에 대한 가이드는 추후 작성 예정입니다.
+</p>
 
 ### Demo Application Download 및 Build
 

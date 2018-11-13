@@ -46,7 +46,10 @@ tags:
 
 ### CSRF protection 설정
 
-* 참고: Jenkins CSRF protection in Igor is only supported for Jenkins 2.x.
+<p class="tip-title">Note</p>
+<p class="tip-content">
+Jenkins CSRF protection in Igor is only supported for Jenkins 2.x.
+</p>
 
 1. csrf 활성화
 

@@ -216,7 +216,10 @@ Spinnaker는 아래와 같은 스토리지를 지원합니다. 어떤 옵션을 
 - Redis
 - S3
 
-참고: Redis는 운영환경에서는 권장하지 않습니다.
+<p class="tip-title">Note</p>
+<p class="tip-content">
+Redis는 운영환경에서는 권장하지 않습니다.
+</p>
 
 ### Google Cloud Storage
 

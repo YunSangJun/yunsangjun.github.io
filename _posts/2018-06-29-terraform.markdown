@@ -17,7 +17,7 @@ Terraform은 인프라를 코드로 관리할 수 있도록 지원하는 오픈�
 
 Terraform은 AWS, GCP, Microsoft Azure, OpenStack 등의 멀티 클라우드를 지원하므로 이를 활용해 코드로 인프라 자원을 효율적으로 관리할 수 있습니다.
 
-참고:[Terraform 지원 provider](https://www.terraform.io/docs/providers/index.html)
+* [Terraform 지원 provider](https://www.terraform.io/docs/providers/index.html)
 
 이 페이지에서는 terraform을 사용하여 IBM Cloud에 가상머신을 생성, 삭제하는 방법에 대해 설명합니다.
 

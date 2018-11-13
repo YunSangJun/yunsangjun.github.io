@@ -57,3 +57,21 @@ h4 {
     font-weight: bold;
     border-bottom: 1px solid #eaecef;
 }
+
+.tip-title {
+    background: #6ab0de;
+    font-weight: bold;
+    display: block;
+    color: #fff;
+    background: #6ab0de;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+}
+
+.tip-content {
+    background: #dff2ff;
+    line-height: 24px;
+    margin: -12px 0 12px 0;
+    padding: 6px 12px;
+    font-size: 16px;
+}
