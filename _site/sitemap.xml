@@ -2,9 +2,233 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
     <url>
+      <loc>http://localhost:4000/cloud/2019/06/20/aws-cicd02.html</loc>
+      
+        <lastmod>2019-06-20T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/cloud/2019/06/19/aws-cicd01.html</loc>
+      
+        <lastmod>2019-06-19T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/solidity/2018/11/14/solidity-programming-control.html</loc>
+      
+        <lastmod>2018-11-14T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/solidity/2018/11/13/solidity-programming-mutability.html</loc>
+      
+        <lastmod>2018-11-13T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/solidity/2018/11/12/solidity-programming-visibility.html</loc>
+      
+        <lastmod>2018-11-12T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/solidity/2018/11/12/solidity-programming-function.html</loc>
+      
+        <lastmod>2018-11-12T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/solidity/2018/11/07/solidity-programming-type.html</loc>
+      
+        <lastmod>2018-11-07T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/solidity/2018/11/07/solidity-programming-contract.html</loc>
+      
+        <lastmod>2018-11-07T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/solidity/2018/11/06/solidity-programming-layout.html</loc>
+      
+        <lastmod>2018-11-06T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/solidity/2018/11/06/solidity-programming-getting-started.html</loc>
+      
+        <lastmod>2018-11-06T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
       <loc>http://localhost:4000/cloud/2018/11/04/gslb.html</loc>
       
         <lastmod>2018-11-04T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/ethereum/2018/11/02/ethereum-study04-json-rpc-api.html</loc>
+      
+        <lastmod>2018-11-02T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/ethereum/2018/11/01/ethereum-study03-transaction.html</loc>
+      
+        <lastmod>2018-11-01T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/ethereum/2018/10/31/ethereum-study02-create-account-and-mining.html</loc>
+      
+        <lastmod>2018-10-31T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/ethereum/2018/10/31/ethereum-study01-setup-environment.html</loc>
+      
+        <lastmod>2018-10-31T00:00:00+09:00</lastmod>
       
 
       

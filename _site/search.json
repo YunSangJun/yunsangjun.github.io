@@ -2,11 +2,151 @@
   
     {
 
+      "title"    : "AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit",
+      "url"      : "/blog/cloud/2019/06/20/aws-cicd02.html",
+      "category" : "cloud",
+      "tags"     : "aws, cicd, devops, awscodecommit",
+      "date"     : "2019-06-20 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "AWS에서 CI/CD 환경 구성 #1 - Overview",
+      "url"      : "/blog/cloud/2019/06/19/aws-cicd01.html",
+      "category" : "cloud",
+      "tags"     : "aws, cicd, devops, awscodecommit, awscodebuild, awscodedeploy, awscodepipeline, awsecs, awsecr, awssns, awslambda",
+      "date"     : "2019-06-19 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Solidity Programming #8 제어문",
+      "url"      : "/blog/solidity/2018/11/14/solidity-programming-control.html",
+      "category" : "solidity",
+      "tags"     : "ethereum, solidity, smartcontract",
+      "date"     : "2018-11-14 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Solidity Programming #7 가변성(Mutability)",
+      "url"      : "/blog/solidity/2018/11/13/solidity-programming-mutability.html",
+      "category" : "solidity",
+      "tags"     : "ethereum, solidity, smartcontract",
+      "date"     : "2018-11-13 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Solidity Programming #6 가시성(Visibility)",
+      "url"      : "/blog/solidity/2018/11/12/solidity-programming-visibility.html",
+      "category" : "solidity",
+      "tags"     : "ethereum, solidity, smartcontract",
+      "date"     : "2018-11-12 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Solidity Programming #5 함수 호출",
+      "url"      : "/blog/solidity/2018/11/12/solidity-programming-function.html",
+      "category" : "solidity",
+      "tags"     : "ethereum, solidity, smartcontract",
+      "date"     : "2018-11-12 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Solidity Programming #4 자료형",
+      "url"      : "/blog/solidity/2018/11/07/solidity-programming-type.html",
+      "category" : "solidity",
+      "tags"     : "ethereum, solidity, smartcontract",
+      "date"     : "2018-11-07 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Solidity Programming #3 Contract의 구조",
+      "url"      : "/blog/solidity/2018/11/07/solidity-programming-contract.html",
+      "category" : "solidity",
+      "tags"     : "ethereum, solidity, smartcontract",
+      "date"     : "2018-11-07 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Solidity Programming #2 소스코드 레이아웃",
+      "url"      : "/blog/solidity/2018/11/06/solidity-programming-layout.html",
+      "category" : "solidity",
+      "tags"     : "ethereum, solidity, smartcontract",
+      "date"     : "2018-11-06 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "Solidity Programming #1 Getting started",
+      "url"      : "/blog/solidity/2018/11/06/solidity-programming-getting-started.html",
+      "category" : "solidity",
+      "tags"     : "ethereum, geth, smartcontract, dapp, mining",
+      "date"     : "2018-11-06 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "Route 53을 활용하여 GSLB 구성하기",
       "url"      : "/blog/cloud/2018/11/04/gslb.html",
       "category" : "cloud",
       "tags"     : "gslb, aws, route53",
       "date"     : "2018-11-04 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "이더리움 스터디 #4 JSON RPC(remote procedure call) API",
+      "url"      : "/blog/ethereum/2018/11/02/ethereum-study04-json-rpc-api.html",
+      "category" : "ethereum",
+      "tags"     : "ethereum, geth, smartcontract, dapp, mining",
+      "date"     : "2018-11-02 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "이더리움 스터디 #3 송금(Transaction)",
+      "url"      : "/blog/ethereum/2018/11/01/ethereum-study03-transaction.html",
+      "category" : "ethereum",
+      "tags"     : "ethereum, geth, smartcontract, dapp, mining",
+      "date"     : "2018-11-01 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "이더리움 스터디 #2 계정 생성 및 채굴(Mining)",
+      "url"      : "/blog/ethereum/2018/10/31/ethereum-study02-create-account-and-mining.html",
+      "category" : "ethereum",
+      "tags"     : "ethereum, geth, smartcontract, dapp, mining",
+      "date"     : "2018-10-31 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "이더리움 스터디 #1 환경 구성",
+      "url"      : "/blog/ethereum/2018/10/31/ethereum-study01-setup-environment.html",
+      "category" : "ethereum",
+      "tags"     : "ethereum, geth, smartcontract, dapp, mining",
+      "date"     : "2018-10-31 00:00:00 +0900"
 
     } ,
   
