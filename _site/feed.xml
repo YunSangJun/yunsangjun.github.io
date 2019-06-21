@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-06-21T13:08:53+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit</title><link href="http://localhost:4000/blog/cloud/2019/06/20/aws-cicd02.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit" /><published>2019-06-20T00:00:00+09:00</published><updated>2019-06-20T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/20/aws-cicd02</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/20/aws-cicd02.html">&lt;p&gt;AWS에서 CodeCommit 서비스를 활용하여 형상 관리를 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-06-21T17:27:13+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit</title><link href="http://localhost:4000/blog/cloud/2019/06/20/aws-cicd02.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit" /><published>2019-06-20T00:00:00+09:00</published><updated>2019-06-20T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/20/aws-cicd02</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/20/aws-cicd02.html">&lt;p&gt;AWS에서 CodeCommit 서비스를 활용하여 형상 관리를 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
@@ -62,12 +62,10 @@
 
 &lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;AWS CodeCommit Console에 접속 &amp;gt; 왼쪽 메뉴 &amp;gt; 소스 &amp;gt; 시작하기를 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/aws-cicd02-01.png&quot; alt=&quot;&quot; width=&quot;40%&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;AWS CodeCommit Console에 접속 &amp;gt; 왼쪽 메뉴 &amp;gt; 소스 &amp;gt; 리포지토리 선택&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;페이지의 &lt;code class=&quot;highlighter-rouge&quot;&gt;리포지토리 생성&lt;/code&gt; 버튼을 선택&lt;/p&gt;
+    &lt;p&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;리포지토리 생성&lt;/code&gt; 버튼을 선택&lt;/p&gt;
 
     &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/aws-cicd02-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
@@ -150,7 +148,7 @@
 
     &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/aws-cicd02-14.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodecommit" /><summary type="html">AWS에서 CodeCommit 서비스를 활용하여 형상 관리를 구성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #1 - Overview</title><link href="http://localhost:4000/blog/cloud/2019/06/19/aws-cicd01.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #1 - Overview" /><published>2019-06-19T00:00:00+09:00</published><updated>2019-06-19T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/19/aws-cicd01</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/19/aws-cicd01.html">&lt;p&gt;AWS에서 CI/CD 환경을 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
+&lt;/ol&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodecommit" /><summary type="html">AWS에서 CodeCommit 서비스를 활용하여 형상 관리를 구성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #1 - Overview</title><link href="http://localhost:4000/blog/cloud/2019/06/18/aws-cicd01.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #1 - Overview" /><published>2019-06-18T00:00:00+09:00</published><updated>2019-06-18T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/18/aws-cicd01</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/18/aws-cicd01.html">&lt;p&gt;AWS에서 CI/CD 환경을 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
 
 &lt;p&gt;이 문서에서는 아래와 같은 AWS의 서비스를 활용하여 CI/CD 환경을 구성합니다. 
 에플리케이션을 서버는 ECS(Elastic Container Service) Fargate를 활용하겠습니다.&lt;/p&gt;

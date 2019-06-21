@@ -13,10 +13,10 @@
     {
 
       "title"    : "AWS에서 CI/CD 환경 구성 #1 - Overview",
-      "url"      : "/blog/cloud/2019/06/19/aws-cicd01.html",
+      "url"      : "/blog/cloud/2019/06/18/aws-cicd01.html",
       "category" : "cloud",
       "tags"     : "aws, cicd, devops, awscodecommit, awscodebuild, awscodedeploy, awscodepipeline, awsecs, awsecr, awssns, awslambda",
-      "date"     : "2019-06-19 00:00:00 +0900"
+      "date"     : "2019-06-18 00:00:00 +0900"
 
     } ,
   
