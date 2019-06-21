@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/assets/css/home.css">
+  <link rel="stylesheet" href="/blog/assets/css/category.css">
+  <link rel="stylesheet" href="/blog/assets/css/tag.css">
+  <link rel="stylesheet" href="/blog/assets/main.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>이더리움 스터디 #2 계정 생성 및 채굴(Mining) | 윤상준의 기술 블로그</title>
+<meta name="generator" content="Jekyll v3.7.3" />
+<meta property="og:title" content="이더리움 스터디 #2 계정 생성 및 채굴(Mining)" />
+<meta name="author" content="윤상준" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="이 페이지에서는 이더리움 환경에서 Smart Contract와 DApp을 개발하기 위한 계정 생성하는 방법을 알아보겠습니다." />
+<meta property="og:description" content="이 페이지에서는 이더리움 환경에서 Smart Contract와 DApp을 개발하기 위한 계정 생성하는 방법을 알아보겠습니다." />
+<link rel="canonical" href="http://localhost:4000/blog/ethereum/2018/10/31/ethereum-study02-create-account-and-mining.html" />
+<meta property="og:url" content="http://localhost:4000/blog/ethereum/2018/10/31/ethereum-study02-create-account-and-mining.html" />
+<meta property="og:site_name" content="윤상준의 기술 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-31T00:00:00+09:00" />
+<script type="application/ld+json">
+{"description":"이 페이지에서는 이더리움 환경에서 Smart Contract와 DApp을 개발하기 위한 계정 생성하는 방법을 알아보겠습니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/ethereum/2018/10/31/ethereum-study02-create-account-and-mining.html","headline":"이더리움 스터디 #2 계정 생성 및 채굴(Mining)","dateModified":"2018-10-31T00:00:00+09:00","datePublished":"2018-10-31T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/ethereum/2018/10/31/ethereum-study02-create-account-and-mining.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <meta property="article:tag" content="ethereum" >
+  
+  <meta property="article:tag" content="geth" >
+  
+  <meta property="article:tag" content="smartcontract" >
+  
+  <meta property="article:tag" content="dapp" >
+  
+  <meta property="article:tag" content="mining" >
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">윤상준의 기술 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/blog/categories">Categories</a>
+            <a class="page-link" href="/blog/tags">Tags</a>
+        </div>
+
+        <!--div class="trigger"><a class="page-link" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</a><a class="page-link" href="/blog/categories/">Categories</a><a class="page-link" href="/blog/tags/">Tags</a></div-->
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">이더리움 스터디 #2 계정 생성 및 채굴(Mining)</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-10-31T00:00:00+09:00" itemprop="datePublished">Oct 31, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">윤상준</span></span></p>
+      
+<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<div class="post-tags">
+  
+  
+  <a href="/blog/tags/#ethereum">ethereum</a>,
+  
+  <a href="/blog/tags/#geth">geth</a>,
+  
+  <a href="/blog/tags/#smartcontract">smartcontract</a>,
+  
+  <a href="/blog/tags/#dapp">dapp</a>,
+  
+  <a href="/blog/tags/#mining">mining</a>
+  
+</div>
+<br/>
+
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>이 페이지에서는 이더리움 환경에서 Smart Contract와 DApp을 개발하기 위한 계정 생성하는 방법을 알아보겠습니다.</p>
+
+<h2 id="계정-생성하기">계정 생성하기</h2>
+
+<p>Geth console에서 <code class="highlighter-rouge">user1</code> 계정을 생성합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; personal.newAccount("user1")
+"0x0dc9e7c16d3d685ae4bd67c21c7d25cfebaace8d"
+</code></pre></div></div>
+
+<p>계정을 조회합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; eth.accounts
+["0x0dc9e7c16d3d685ae4bd67c21c7d25cfebaace8d"]
+</code></pre></div></div>
+
+<p>메인 계정을 조회합니다. 채굴을 하면 보상이 메인 계정에 쌓이게됩니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; eth.coinbase
+"0x0dc9e7c16d3d685ae4bd67c21c7d25cfebaace8d"
+</code></pre></div></div>
+
+<h2 id="채굴하기mining">채굴하기(Mining)</h2>
+
+<p>계정의 잔고를 확인합니다. 현재는 잔고가 0입니다. 채굴을 해서 잔고가 늘어나는 것을 확인해보겠습니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; eth.getBalance(eth.coinbase)
+0
+</code></pre></div></div>
+
+<p>채굴을 하기전에 채굴이 잘 되고 있는지 확인하기 위해 로그를 확인하는 방법을 설명하겠습니다.</p>
+
+<p>앞에서 Geth console을 실행할 때 아래와 같이 로그를 파일로 저장하도록 설정했습니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>geth --networkid 8484 --nodiscover --maxpeers 0 --datadir node1 console 2&gt;&gt; node1/geth.log
+Welcome to the Geth JavaScript console!
+</code></pre></div></div>
+
+<p>새로운 터미널을 열고 tail 명령으로 해당 로그를 실시간 조회합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tail -f node1/geth.log
+...
+INFO [10-31|02:30:49] Disk storage enabled for ethash caches   dir=/Users/sangjunyun/ethereum/node1/geth/ethash count=3
+INFO [10-31|02:30:49] Disk storage enabled for ethash DAGs     dir=/Users/sangjunyun/.ethash                    count=2
+INFO [10-31|02:30:49] Initialising Ethereum protocol           versions="[63 62]" network=8484
+INFO [10-31|02:30:49] Loaded most recent local header          number=0 hash=e56eca…30a326 td=5
+INFO [10-31|02:30:49] Loaded most recent local full block      number=0 hash=e56eca…30a326 td=5
+INFO [10-31|02:30:49] Loaded most recent local fast block      number=0 hash=e56eca…30a326 td=5
+INFO [10-31|02:30:49] Regenerated local transaction journal    transactions=0 accounts=0
+INFO [10-31|02:30:49] Starting P2P networking
+INFO [10-31|02:30:49] RLPx listener up                         self="enode://84c6667d7d04d32884b8c7439734822b341473e12048e4fd82e8f86b8e98d55a8ece1f35d402ca98faf8edbb0e44005856701cc0bbbee4d7048e208ebd769406@[::]:30303?discport=0"
+INFO [10-31|02:30:49] IPC endpoint opened: /Users/sangjunyun/ethereum/node1/geth.ipc
+</code></pre></div></div>
+
+<p>다시 Geth console로 돌아와서 채굴을 시작합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; miner.start()
+null
+</code></pre></div></div>
+
+<p>채굴이 시작되면 <code class="highlighter-rouge">geth.log</code>에 실시간으로 로그가 출력됩니다.</p>
+
+<p><code class="highlighter-rouge">Generating DAG in progress</code> 메세지가 일정 시간 출력되다가 <code class="highlighter-rouge">mined potential block</code> 메세지가 출력되면
+채굴이 시작됩니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tail -f node1/geth.log
+...
+INFO [10-31|02:54:49] Updated mining threads                   threads=0
+INFO [10-31|02:54:49] Transaction pool price threshold updated price=18000000000
+INFO [10-31|02:54:49] Starting mining operation
+INFO [10-31|02:54:49] Commit new mining work                   number=1 txs=0 uncles=0 elapsed=296.949µs
+INFO [10-31|02:54:53] Generating DAG in progress               epoch=0 percentage=0 elapsed=2.333s
+...
+INFO [10-31|02:58:38] Generating DAG in progress               epoch=0 percentage=99 elapsed=3m48.053s
+INFO [10-31|03:00:27] Successfully sealed new block            number=1 hash=bae3db…201918
+INFO [10-31|03:00:27] 🔨 mined potential block                  number=1 hash=bae3db…201918
+INFO [10-31|03:00:27] Commit new mining work                   number=2 txs=0 uncles=0 elapsed=25.996ms
+INFO [10-31|03:00:30] Generating DAG in progress               epoch=1 percentage=24 elapsed=1m38.527s
+INFO [10-31|03:00:31] Successfully sealed new block            number=2 hash=4db296…447bfe
+...
+</code></pre></div></div>
+
+<p>Geth console에서 잔고를 다시 조회합니다.
+<code class="highlighter-rouge">web3.fromWei</code> 명령을 사용하면 <code class="highlighter-rouge">ether</code> 단위로 잔고를 조회할 수 있습니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; eth.getBalance(eth.accounts[0])
+50000000000000000000
+&gt; web3.fromWei(eth.getBalance(eth.coinbase), "ether")
+50
+</code></pre></div></div>
+
+<p>Block이 몇개 생성되었는지 조회해봅니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; eth.blockNumber
+19
+</code></pre></div></div>
+
+<p>잔고가 어느정도 쌓였다면 채굴을 중지합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; miner.stop()
+true
+</code></pre></div></div>
+
+  </div>
+<div id="disqus_thread"></div>
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://sj-blog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a class="u-url" href="/blog/ethereum/2018/10/31/ethereum-study02-create-account-and-mining.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <!--h2 class="footer-heading">윤상준의 기술 블로그</h2-->
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yun SangJun</li><li><a class="u-email" href="mailto:chris.sj.yun@gmail.com">chris.sj.yun@gmail.com</a></li>
+            <li>subscribe <a href="/blog/feed.xml">via RSS</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yunsangjun"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yunsangjun</span></a></li><li><a href="https://twitter.com/sjyun2"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">sjyun2</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
