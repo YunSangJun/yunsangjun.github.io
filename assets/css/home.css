@@ -58,6 +58,17 @@ h4 {
     border-bottom: 1px solid #eaecef;
 }
 
+h5 {
+    //color: #ad4868 !important;
+    margin: 10px 0 10px !important;
+    font-size: 18px;
+    font-family: inherit;
+    font-style: normal;
+    text-transform: none;
+    font-weight: bold;
+    //border-bottom: 1px solid #eaecef;
+}
+
 .tip-title {
     font-weight: bold;
     display: block;

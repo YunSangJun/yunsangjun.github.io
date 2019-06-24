@@ -2,6 +2,16 @@
   
     {
 
+      "title"    : "AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild",
+      "url"      : "/blog/cloud/2019/06/21/aws-cicd03.html",
+      "category" : "cloud",
+      "tags"     : "aws, cicd, devops, awscodebuild",
+      "date"     : "2019-06-21 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit",
       "url"      : "/blog/cloud/2019/06/20/aws-cicd02.html",
       "category" : "cloud",
