@@ -1,0 +1,72 @@
+---
+layout: post
+title:  "AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기"
+author: 윤상준
+date: 2019-06-23
+categories: cloud
+tags:
+- aws
+- container
+- awsecs
+- awsecsfargate
+---
+
+AWS에서 ECS(Elastic Container Service)를 구성하기 위해 필요한 사전 준비와 ECS 클러스터를 생성하는 방법을 알아보겠습니다.
+
+## 사전 준비
+
+ECS에 애플리케이션을 배포하기 위해서 소스코드를 Docker 이미지로 빌드하고 이를 Docker Registry에 저장해야합니다.
+또한 애플리케이션을 다중 컨테이너에 배포한 경우 로드밸런싱을 활용하여 트래픽을 분산해야합니다.
+
+이 문서에서는 아래와 같은 구성을 활용하여 ECS를 구성하고 애플리케이션을 배포하겠습니다.
+
+- 샘플 애플리케이션: [spring-petclinic](https://github.com/spring-projects/spring-petclinic)
+- 형상 관리: CodeCommit
+- 코드 빌드: CodeBuild
+- 이미지 저장소: ECR(Elastic Container Registry)
+- 로드밸런싱 : ELB(Elastic Load Balancing)
+
+<p class="tip-title">참고</p>
+<p class="tip-content">
+ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면 이 과정을 넘어가도됩니다.
+</p>
+
+### 애플리케이션 준비
+
+아래 문서를 참고하여 형상 관리 저장소에 샘플 애플리케이션을 저장합니다.
+
+[AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit](/blog/cloud/2019/06/20/aws-cicd02.html)
+
+### 코드 빌드 및 이미지 저장
+
+다음으로 아래 문서를 참고하여 코드를 빌드하고 이를 이미지 저장소에 저장합니다.
+
+[AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild](/blog/cloud/2019/06/21/aws-cicd03.html)
+
+이 단계를 완료하면 아래와 같이 이미지 저장소 주소를 복사합니다.
+이 주소는 ECS 환경에 애플리케이션을 배포할 때 사용합니다.
+
+![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-ecr-01.png){: width="70%"}
+
+
+## ECS Cluster 생성
+
+- ECS Console에 접속 > 왼쪽 메뉴 > Amazon ECS > 클러스터 선택 
+
+- 메인 화면 > `클러스터 생성` 버튼 선택
+![](/blog/assets/images/cloud/aws/ecs/aws-ecs-01.png)
+
+- 클러스터 템플릿 선택 > `네트워킹 전용(AWS Fargate 제공)` 선택
+
+    ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-02.png)
+
+    <p class="tip-title">참고</p>
+    <p class="tip-content">
+    ECS Fargate는 ECS 서비스를 위한 EC2 인스턴스를 생성하지 않는 완전 관리형 컨테이너 서비스입니다.
+    </p>
+
+- 클러스터 구성 > 클러스터 이름 `cicd-demo` 입력 > `생성` 버튼 선택
+![](/blog/assets/images/cloud/aws/ecs/aws-ecs-03.png)
+
+다음으로 [AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)](/blog/cloud/2019/06/23/aws-ecs-02.html)
+문서에서 작업 정의(ECS Task)를 구성하는 방법을 살펴보겠습니다.

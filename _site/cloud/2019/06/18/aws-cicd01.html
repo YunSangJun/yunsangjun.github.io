@@ -118,7 +118,7 @@
   <li>빌드: CodeBuild. 애플리케이션 빌드 및 패키징(Maven, NPM 등), Docker 이미지 빌드 및 ECR(Elastic Container Registry)에 Push</li>
   <li>배포: CodeDeploy. Rolling Update 또는 Blue/Green 방식의 배포 지원함</li>
   <li>파이프라인:  CodePipeline. CodeCommit, CodeBuild, CodeDeploy를 파이프라인으로 관리</li>
-  <li>Docker Registry: ECR(Elastic Container Registry)</li>
+  <li>이미지 저장소: ECR(Elastic Container Registry)</li>
   <li>애플리케이션 서버: ECS(Elastic Container Service) Fargate. Fargate는 ECS용 EC2가 없는 완전 관리형 컨테이너 서비스</li>
   <li>알림: SNS(Simple Notification Service), Lambda를 활용</li>
 </ul>
@@ -130,11 +130,11 @@
   <li>CodeCommit에서 코드 변화를 감지하고 CloudWathch를 통해 CodeBuild에 이벤트를 전달합니다.</li>
   <li>CodeBuild에서 애플리케이션 빌드 및 패키징을, Docker 이미지를 빌드, 그리고 빌드한 이미지를 ECR에 Push합니다. Build가 완료되면 CodeDeploy로 이벤트를 전달합니다.</li>
   <li>CodeDeploy에서 빌드된 이미지를 활용하여 ECS에 Rolling Update 또는 Blue/Green 방식으로 배포합니다.</li>
-  <li>CodePipeline의 대시보드를 활용해서 위 과정의 상태를 조회할 수 있습니다.</li>
+  <li>CodePipeline의 대시보드를 활용해서 코드를 통합, 빌드하고 배포하는 파이프라인을 구성할 수 있습니다.</li>
   <li>CodeDeploy에 SNS, Lambda를 연동해서 Slack등의 Chat 서비스로 배포 과정을 전달할 수 있습니다.</li>
 </ul>
 
-<p><img src="/blog/assets/images/cloud/aws/aws-cicd01.png" alt="" /></p>
+<p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd01.png" alt="" /></p>
 
 <p>다음으로 <a href="/blog/cloud/2019/06/20/aws-cicd02.html">AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit</a>
 문서에서 형상 관리 서비스인 CodeCommit을 구성하는 방법을 살펴보겠습니다.</p>

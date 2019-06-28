@@ -2,6 +2,46 @@
   
     {
 
+      "title"    : "AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기",
+      "url"      : "/blog/cloud/2019/06/23/aws-ecs-03.html",
+      "category" : "cloud",
+      "tags"     : "aws, container, awsecs, awsecsservice, awsecsfargate",
+      "date"     : "2019-06-23 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)",
+      "url"      : "/blog/cloud/2019/06/23/aws-ecs-02.html",
+      "category" : "cloud",
+      "tags"     : "aws, container, awsecs, awsecstask, awsecsfargate",
+      "date"     : "2019-06-23 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기",
+      "url"      : "/blog/cloud/2019/06/23/aws-ecs-01.html",
+      "category" : "cloud",
+      "tags"     : "aws, container, awsecs, awsecsfargate",
+      "date"     : "2019-06-23 00:00:00 +0900"
+
+    } ,
+  
+    {
+
+      "title"    : "AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline",
+      "url"      : "/blog/cloud/2019/06/22/aws-cicd04.html",
+      "category" : "cloud",
+      "tags"     : "aws, cicd, devops, awscodedeploy, awscodepipeline",
+      "date"     : "2019-06-22 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild",
       "url"      : "/blog/cloud/2019/06/21/aws-cicd03.html",
       "category" : "cloud",

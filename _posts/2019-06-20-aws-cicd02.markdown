@@ -29,15 +29,15 @@ IAM 사용자가 CodeCommit 서비스에 접근할 수 있도록 권한을 생�
 
 2. 메인 화면 > 권한 탭 > `권한 추가` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-06.png){: width="60%"}
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-06.png){: width="60%"}
 
 3. 권한 부여 방식에서 `기존 정책 직접 연결` 선택 > 권한 리스트에서 `AWSCodeCommitFullAccess` 선택 > `다음 검토` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-07.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-07.png)
 
 4. 권한 요약을 리뷰 > `권한 추가` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-08.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-08.png)
 
 ### Git 자격 증명 생성
 
@@ -47,15 +47,15 @@ Git 클라이언트 툴을 사용해 CodeCommit에 접속하기 위해 자격 �
 
 2. 메인 화면 > 보안 자격 증명 탭 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-09.png){: width="60%"}
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-09.png){: width="60%"}
 
 3. 페이지 하단으로 이동 > AWS CodeCommit에 대한 HTTPS Git 자격 증명 > `생성` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-10.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-10.png)
 
 4. 팝업 화면의 사용자 이름, 비밀번호를 복사해서 보관 > `닫기` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-11.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-11.png)
 
 ## 저장소(Repository) 생성
 
@@ -63,15 +63,15 @@ Git 클라이언트 툴을 사용해 CodeCommit에 접속하기 위해 자격 �
 
 - 메인 화면 > `리포지토리 생성` 버튼을 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-02.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-02.png)
 
 - 리포지토리 이름을 `cicd-demo`로 입력 > `생성` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-03.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-03.png)
 
 - 저장소 생성 완료
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-04.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-04.png)
 
 ## 저장소(Repository) 사용
 
@@ -81,7 +81,7 @@ Git 클라이언트 툴을 사용해 CodeCommit에 접속하기 위해 자격 �
 
 1. CodeCommit 콘솔 > 저장소의 복제 명령어 복사
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-12.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-12.png)
 
 2. 로컬 환경의 터미널 > 복사한 명령어를 실행
 
@@ -104,7 +104,7 @@ Git 클라이언트 툴을 사용해 CodeCommit에 접속하기 위해 자격 �
 
     웹 브라우저에서 [spring-petclinic](https://github.com/spring-projects/spring-petclinic) 프로젝트에 접속한 후 아래와 같이 소스코드를 다운로드 합니다.
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-13.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-13.png)
 
 2. `spring-petclinic-master.zip` 프로젝트의 압축 해제 > `cicd-demo` 폴더로 복사
 
@@ -130,7 +130,7 @@ Git 클라이언트 툴을 사용해 CodeCommit에 접속하기 위해 자격 �
 
     이제 CodeCommit 콘솔에 접속해보면 저장소에 Commit한 소스코드를 확인할 수 있습니다.
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd02-14.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd02-14.png)
 
 다음으로 [AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild](/blog/cloud/2019/06/21/aws-cicd03.html)
 문서에서 코드 빌드 서비스인 CodeBuild를 구성하는 방법을 살펴보겠습니다.

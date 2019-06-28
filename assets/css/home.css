@@ -110,3 +110,7 @@ h5 {
     padding: 6px 12px;
     font-size: 16px;
 }
+
+img {
+    border: 1px solid #80808033;
+}

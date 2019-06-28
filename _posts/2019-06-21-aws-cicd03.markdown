@@ -19,13 +19,13 @@ AWS에서 CodeBuild 서비스를 활용하여 소스코드를 빌드하는 방�
 
 - ECR Console에 접속 > 메인 화면 > `리포지토리 생성` 버튼 선택 
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-00-00.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-00.png)
 
 - 리포지토리 이름 `cicd-demo` 입력 > `리포지토리 생성` 버튼 선택
 
     생성한 `cicd-demo` 리포지토리를 CodeBuild 서비스에서 사용합니다.
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-00-01.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-01.png)
 
 ### IAM 정책 생성 
 
@@ -35,38 +35,36 @@ CodeBuild에서 ECR에 접근하기 위한 정책을 생성합니다.
 
 - 메인 화면 > `정책 생성` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-00-02.png){: width="30%"}
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-02.png){: width="30%"}
 
 
-- 정색 생성 화면 > JSON 탭 선택 > 정책 내용 입력(아래 코드 참고) > `정책 검토` 버튼 선택 
+- 정책 생성 화면 > JSON 탭 선택 > 정책 내용 입력(아래 코드 참고) > `정책 검토` 버튼 선택 
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-00-03.png)
+    ```
+    {
+        "Statement": [
+            {
+                "Action": [
+                    "ecr:BatchCheckLayerAvailability",
+                    "ecr:CompleteLayerUpload",
+                    "ecr:GetAuthorizationToken",
+                    "ecr:InitiateLayerUpload",
+                    "ecr:PutImage",
+                    "ecr:UploadLayerPart"
+                ],
+                "Resource": "*",
+                "Effect": "Allow"
+            }
+        ],
+        "Version": "2012-10-17"
+    }
+    ```
 
-    * 정책 내용
-
-        ```
-        {
-            "Statement": [
-                {
-                    "Action": [
-                        "ecr:BatchCheckLayerAvailability",
-                        "ecr:CompleteLayerUpload",
-                        "ecr:GetAuthorizationToken",
-                        "ecr:InitiateLayerUpload",
-                        "ecr:PutImage",
-                        "ecr:UploadLayerPart"
-                    ],
-                    "Resource": "*",
-                    "Effect": "Allow"
-                }
-            ],
-            "Version": "2012-10-17"
-        }
-        ```
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-03.png)
 
 - 정책 이름을 `CodeBuildECRPolicy-cicd-demo-ap-northeast-2`로 입력 > `정책 생성` 버튼 선택 
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-00-04.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-04.png)
 
 ### BuildSpec 파일 생성
 
@@ -75,7 +73,7 @@ CodeBuild 서비스를 통하여 소스코드를 빌드하기 위해서 소스�
 아래와 같은 `buildspec.yml` 파일을 CodeCommit에 생성한 `cicd-demo` 저장소 root에 생성합니다.
 
 ```
-<buildspec.yaml>
+<buildspec.yml>
 version: 0.2 
  
 phases: 
@@ -104,10 +102,11 @@ cache:
     - '/root/.m2/**/*' 
 ```
 
-- install : Java SDK, Docker CLI를 설치
-- pre_build : ECR 서비스에 로그인
-- build : Maven 및 Docker 빌드
-- post_build : Docker 이미지를 ECR에 push
+- phase.install : Java SDK, Docker CLI를 설치
+- phase.pre_build : ECR 서비스에 로그인
+- phase.build : Maven 및 Docker 빌드
+- phase.post_build : Docker 이미지를 ECR에 push
+- cache.paths(선택): 소스코드 빌드에 사용하는 파일을 cache하는 경우 위치 
 
 `$AWS_DEFAULT_REGION`와 같은 환경 변수는 CodeBuild 프로젝트 구성 과정에서 설정합니다.
 
@@ -135,7 +134,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 - CodeBuild 콘솔에 접속 > 왼쪽 메뉴의 빌드 > 프로젝트 빌드 선택
 - 메인 화면 > `빌드 프로젝트 생성` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-01.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-01.png)
 
 ### 프로젝트 설정
 
@@ -144,14 +143,14 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 - 프로젝트 이름 `cicd-demo` 입력
 - 빌드 배지 활성화 체크
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-02.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-02.png)
 
 #### 소스
 
 - 소스 공급자 `AWS CodeCommit` 선택
 - 리포지토리 `cicd-demo` 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-03.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-03.png)
 
 #### 환경
 
@@ -164,22 +163,22 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 - 이미지 버전 > `이 런타임 버전에 항상 최신 이미지 사용` 선택
 - 권한이 있음 체크 
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-04.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-04.png)
 
 ##### 역할
 
 - 서비스 역할 > `새 서비스 역할` 선택
 - 역할 이름 `codebuild-cicd-demo-service-role` 입력
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-05.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-05.png)
 
 ##### 추가 구성
 
 - 추가 구성 메뉴 확장 > 환경 변수 입력
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-06-00.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-06-00.png)
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-06-01.png){: width="70%"}
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-06-01.png){: width="70%"}
 
 - 환경 변수 이름, 값 설명
 
@@ -193,20 +192,20 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 
 - 빌드 사양 > `buildspec 파일 사용` 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-07.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-07.png)
 
 #### 아티팩트
 
 - 유형 > `아티팩트 없음` 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-08.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-08.png)
 
 #### 로그
 
 - 유형 > `CloudWatch 로그` 선택
 - `빌드 프로젝트 생성` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-09.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-09.png)
 
 ### CodeBuild 역할과 정책 연결
 
@@ -218,15 +217,15 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 
 - 메인 화면 > 검색 창 > `codebuild` 입력 > `codebuild-cicd-demo-service-role` 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-10-00.png){: width="50%"}
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-10-00.png){: width="50%"}
 
 - 권한 탭 > `정책 연결` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-10-01.png){: width="50%"}
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-10-01.png){: width="50%"}
 
 - 정책 필터 > `codebuild` 입력 > `CodeBuildECRPolicy-cicd-demo-ap-northeast-2` 선택 > `정책 연결` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-10-02.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-10-02.png)
 
 ## CodeBuild 시작
 
@@ -234,29 +233,29 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 
 - 메인 화면 > `cicd-demo` 프로젝트 선택 > `빌드 시작` 버튼 선택 
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-11-00.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-00.png)
 
 - 빌드가 성공적으로 종료되면 상태가 성공함으로 변경됩니다
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-11-01.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-01.png)
 
 - ECR의 `cicd-demo` 저장소에 접속해보면 새로운 이미지가 생성되어 있습니다.
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-11-02.png){: width="60%"}
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-02.png){: width="60%"}
 
 ## CodeBuild 캐시 설정(선택)
 
 위에서 빌드 결과를 보면 빌드에 소요된 시간이 14분 55초로 다소 오래 걸립니다.
 
-![](/blog/assets/images/cloud/aws/aws-cicd03-11-01.png)
+![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-01.png)
 
 빌드 기록을 선택해 상세보기 페이지로 이동한 후 단계 세부 정보를 확인해보면 BUILD 단계에서 14분이 소요된 것을 확인할 수 있습니다.
 
-![](/blog/assets/images/cloud/aws/aws-cicd03-11-03.png)
+![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-03.png)
 
 빌드 로그 탭을 선택해 로그를 확인해보면 Maven Build를 하기 위해 의존성 라이브러리를 다운로드하는데 많은 시간이 소요되는 것을 확인할 수 있습니다.
 
-![](/blog/assets/images/cloud/aws/aws-cicd03-11-04.png)
+![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-04.png)
 
 CodeBuild 서비스에서는 소스코드를 빌드하기 위한 파일을 한번만 다운받고 이 후에는 다시 받지 않도록 캐시 옵션을 설정할 수 있습니다.
 
@@ -264,17 +263,21 @@ CodeBuild 서비스에서는 소스코드를 빌드하기 위한 파일을 한�
 
 - 아티팩트 > `편집` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-12-00.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-00.png)
 
 - 추가 구성 메뉴 확장 > 캐시 유형 `Amazon S3` 선택 > 캐시 버킷 선택(S3 콘솔에서 생성)
 
-    ![](/blog/assets/images/cloud/aws/aws-cicd03-12-02.png)
+    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-02.png)
 
 설정을 완료한 후 다시 빌드를 시작합니다. 빌드가 완료된 후 기록을 보겠습니다. 
 아래와 같이 기존 `14분 55초`에서 `1분 54초로` 빌드 시간이 단축되었습니다.
 
-![](/blog/assets/images/cloud/aws/aws-cicd03-12-03.png)
+![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-03.png)
 
 단계 세부 정보를 확인해보면 BUILD 단계가 기존 `14분`에서 `1분`으로 단축되었습니다.
 
-![](/blog/assets/images/cloud/aws/aws-cicd03-12-04.png)
+![](/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-04.png)
+
+
+다음으로 [AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline](/blog/cloud/2019/06/22/aws-cicd04.html)
+문서에서 파이프라인 서비스인 CodePipeline을 구성하는 방법을 살펴보겠습니다.
