@@ -50,6 +50,22 @@
     </url>
   
     <url>
+      <loc>http://localhost:4000/cloud/2019/06/22/aws-cicd05.html</loc>
+      
+        <lastmod>2019-06-22T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
       <loc>http://localhost:4000/cloud/2019/06/22/aws-cicd04.html</loc>
       
         <lastmod>2019-06-22T00:00:00+09:00</lastmod>

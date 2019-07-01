@@ -384,8 +384,39 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   <img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-01.png" alt="" /></li>
     </ul>
   </li>
+  <li>Additional configuration
+    <ul>
+      <li>Target group 1 name &gt; cicd-demo-service 선택</li>
+      <li>Target group 2 name &gt; 새로 생성 선택 &gt; cicd-demo-service-green 입력</li>
+      <li>Target group 2 protocol &gt; HTTP 선택
+  <img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-02.png" alt="" /></li>
+    </ul>
+  </li>
 </ul>
 
+<h3 id="서비스-확인-1">서비스 확인</h3>
+
+<p>서비스 확인 방법도 Rolling Update와 동일합니다.</p>
+
+<p>다른 점은 Blue/green deployment 방식으로 서비스를 생성하는 경우 CodeDeploy에 애플리케이션 및 배포 그룹이 자동 생성됩니다.</p>
+
+<ul>
+  <li>
+    <p>CodeDeploy console 접속 &gt; 왼쪽 메뉴의 애플리케이션 선택</p>
+  </li>
+  <li>
+    <p>애플리케이션 리스트 &gt; AppECS-cicd-demo-cicd-demo 선택 
+<img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png" alt="" /></p>
+  </li>
+  <li>
+    <p>배포 그룹 리스트 &gt; DgpECS-cicd-demo-cicd-demo 선택 
+<img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png" alt="" /></p>
+  </li>
+  <li>
+    <p>배포 그룹 확인
+<img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png" alt="" /></p>
+  </li>
+</ul>
 
   </div>
 <div id="disqus_thread"></div>

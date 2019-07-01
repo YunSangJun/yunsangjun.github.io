@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-06-28T13:14:39+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기</title><link href="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)의 서비스(ECS Service)를 통해 작업 정의(컨테이너)를 관리할 수 있습니다. 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-07-01T10:36:29+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기</title><link href="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)의 서비스(ECS Service)를 통해 작업 정의(컨테이너)를 관리할 수 있습니다. 
 로드 밸런서와 연동하여 트랙픽을 다중 컨테이너에 분산할 수 있습니다. 
 Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 조절할 수 있습니다.&lt;/p&gt;
 
@@ -298,6 +298,38 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   &lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-01.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;Additional configuration
+    &lt;ul&gt;
+      &lt;li&gt;Target group 1 name &amp;gt; cicd-demo-service 선택&lt;/li&gt;
+      &lt;li&gt;Target group 2 name &amp;gt; 새로 생성 선택 &amp;gt; cicd-demo-service-green 입력&lt;/li&gt;
+      &lt;li&gt;Target group 2 protocol &amp;gt; HTTP 선택
+  &lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-02.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;서비스-확인-1&quot;&gt;서비스 확인&lt;/h3&gt;
+
+&lt;p&gt;서비스 확인 방법도 Rolling Update와 동일합니다.&lt;/p&gt;
+
+&lt;p&gt;다른 점은 Blue/green deployment 방식으로 서비스를 생성하는 경우 CodeDeploy에 애플리케이션 및 배포 그룹이 자동 생성됩니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CodeDeploy console 접속 &amp;gt; 왼쪽 메뉴의 애플리케이션 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;애플리케이션 리스트 &amp;gt; AppECS-cicd-demo-cicd-demo 선택 
+&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;배포 그룹 리스트 &amp;gt; DgpECS-cicd-demo-cicd-demo 선택 
+&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;배포 그룹 확인
+&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecsservice" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)의 서비스(ECS Service)를 통해 작업 정의(컨테이너)를 관리할 수 있습니다. 로드 밸런서와 연동하여 트랙픽을 다중 컨테이너에 분산할 수 있습니다. Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 조절할 수 있습니다.</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)</title><link href="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-02.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-02</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-02.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)의 작업 정의(ECS Task)를 통해 컨테이너 관련 설정을 할 수 있습니다.&lt;/p&gt;
 
 &lt;p&gt;이 문서에서는 작업 정의(ECS Task)를 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
@@ -445,7 +477,373 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
 &lt;/ul&gt;
 
 &lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-02.html&quot;&gt;AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)&lt;/a&gt;
-문서에서 작업 정의(ECS Task)를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)를 구성하기 위해 필요한 사전 준비와 ECS 클러스터를 생성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline</title><link href="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline" /><published>2019-06-22T00:00:00+09:00</published><updated>2019-06-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04.html">&lt;p&gt;지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.&lt;/p&gt;
+문서에서 작업 정의(ECS Task)를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)를 구성하기 위해 필요한 사전 준비와 ECS 클러스터를 생성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline</title><link href="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd05.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline" /><published>2019-06-22T00:00:00+09:00</published><updated>2019-06-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/22/aws-cicd05</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd05.html">&lt;p&gt;지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;이 문서에서는 배포 방식으로 Blue/green deployment를 활용하겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
+
+&lt;h3 id=&quot;ecselastic-container-service-구성&quot;&gt;ECS(Elastic Container Service) 구성&lt;/h3&gt;
+
+&lt;p&gt;이 문서에서는 애플리케이션을 배포할 서버로 ECS(Elastic Container Service) 서비스를 사용합니다.&lt;/p&gt;
+
+&lt;p&gt;아래 문서를 참고하여 ECS 환경을 구성할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-01.html&quot;&gt;AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-02.html&quot;&gt;AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-03.html&quot;&gt;AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;warning-title&quot;&gt;경고&lt;/p&gt;
+&lt;p class=&quot;warning-content&quot;&gt;
+이 문서에서는 서비스(ECS Service) 구성하기에서 배포 방식을 Blue/green deployment로 선택해야합니다.
+&lt;/p&gt;
+
+&lt;h3 id=&quot;branch-생성&quot;&gt;Branch 생성&lt;/h3&gt;
+
+&lt;p&gt;Blue/green 배포를 위해 사용할 리포지토리를 생성합니다.
+CodeCommit의 cicd-demo 리포지토리에 blue/green branch를 생성해보겠습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CodeCommit Console 접속 &amp;gt; 왼쪽 메뉴의 소스 &amp;gt; 리포지토리&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;리포지토리 리스트 &amp;gt; cicd-demo 선택 &amp;gt; 왼쪽 메뉴에서 브랜치 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;메인 화면 &amp;gt; 브랜치 생성 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-branch-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;브랜치 이름에 bluegreen 입력 &amp;gt; 다음으로부터의 브랜치에 master 선택 &amp;gt; 브랜치 생성 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-branch-02.png&quot; alt=&quot;&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;브랜치 리스트 &amp;gt; bluegreen 선택해 이동
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-branch-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;app-spec-변경&quot;&gt;App spec 변경&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CodeCommit Console 접속 &amp;gt; 왼쪽 메뉴의 소스 &amp;gt; 리포지토리&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;리포지토리 리스트 &amp;gt; cicd-demo 선택 &amp;gt; bluegreen branch 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;파일 추가 &amp;gt; 파일 생성 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-appspec-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;파일 내용에 아래 내용 입력&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: 0.0 
+Resources: 
+  - TargetService: 
+      Type: AWS::ECS::Service 
+      Properties: 
+        TaskDefinition: &quot;arn:aws:ecs:AWS_DEFAULT_REGION:AWS_ACCOUNT_ID:task-definition/TASK_NAME&quot; 
+        LoadBalancerInfo: 
+          ContainerName: &quot;CONTAINER_NAME&quot; 
+          ContainerPort: CONTAINER_PORT 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-appspec-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
+    &lt;p class=&quot;tip-content&quot;&gt;
+AWS_DEFAULT_REGION과 같은 환경 변수는 코드 빌드 시 치환함
+&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;파일 이름에 &lt;code class=&quot;highlighter-rouge&quot;&gt;appspec.yaml&lt;/code&gt; 파일을 입력 &amp;gt; 변경 사항 커밋 버튼 선택&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-appspec-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;build-spec-변경&quot;&gt;Build spec 변경&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CodeCommit Console 접속 &amp;gt; 왼쪽 메뉴의 소스 &amp;gt; 리포지토리&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;리포지토리 리스트 &amp;gt; cicd-demo 선택 &amp;gt; bluegreen branch 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;buildspec.yaml&lt;/code&gt; 파일 아래와 같이 편집&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;buildspec.yaml&amp;gt;
+version: 0.2  
+    
+phases:  
+  install:  
+    runtime-versions:  
+      java: openjdk8  
+      docker: 18  
+  pre_build:  
+    commands:  
+      - echo Logging in to Amazon ECR...  
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)  
+  build:  
+    commands:  
+      - echo Build started on `date`  
+      - echo Building the Docker image...     
+      - mvn clean package         
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .  
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG  
+  post_build:  
+    commands:  
+      - echo Build completed on `date`  
+      - echo Pushing the Docker image...  
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG  
+      - sed -i s/AWS_DEFAULT_REGION/$AWS_DEFAULT_REGION/ appspec.yaml 
+      - sed -i s/AWS_ACCOUNT_ID/$AWS_ACCOUNT_ID/ appspec.yaml 
+      - sed -i s/TASK_NAME/$TASK_NAME/ appspec.yaml 
+      - sed -i s/CONTAINER_NAME/$CONTAINER_NAME/ appspec.yaml 
+      - sed -i s/CONTAINER_PORT/$CONTAINER_PORT/ appspec.yaml 
+artifacts:  
+  files:   
+    - appspec.yaml 
+cache:  
+  paths:  
+    - '/root/.m2/**/*' 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;추가된 내용은 아래와 같습니다.&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;appspec.yaml&lt;/code&gt; 파일의 &lt;code class=&quot;highlighter-rouge&quot;&gt;CONTAINER_NAME&lt;/code&gt;과 같은 환경 변수를 치환&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;appspec.yaml&lt;/code&gt; 파일을 artifacts file에 추가&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;환경-변수-설정&quot;&gt;환경 변수 설정&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;buildspec.yaml&lt;/code&gt; 파일의 환경 변수를 CodeBuild에서 설정하겠습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CodeBuild Console 접속 &amp;gt; 왼쪽 메뉴의 프로젝트 빌드&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;메인 화면의 빌드 프로젝트 리스트에서 cicd-demo 선택 &amp;gt; 빌드 세부 정보 탭 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;환경 &amp;gt; 편집 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;추가 구성 확장 &amp;gt; 환경 변수 입력 &amp;gt; 환경 업데이트 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-03.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-04-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+    &lt;table&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;이름&lt;/td&gt;
+          &lt;td&gt;값&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;AWS_DEFAULT_REGION&lt;/td&gt;
+          &lt;td&gt;리전 이름&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;AWS_ACCOUNT_ID&lt;/td&gt;
+          &lt;td&gt;계정 아이디&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;IMAGE_REPO_NAME&lt;/td&gt;
+          &lt;td&gt;ECR 이름&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;IMAGE_TAG&lt;/td&gt;
+          &lt;td&gt;Docker 이미지 태그 이름&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;TASK_NAME&lt;/td&gt;
+          &lt;td&gt;ECS Task 이름&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;CONTAINER_NAME&lt;/td&gt;
+          &lt;td&gt;컨테이너 이름&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;CONTAINER_PORT&lt;/td&gt;
+          &lt;td&gt;컨테이너 포트&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;배포-그룹-설정-변경&quot;&gt;배포 그룹 설정 변경&lt;/h3&gt;
+
+&lt;p&gt;Blue/green 방식으로 배포한 후 기존 서버(Blue)의 트래픽을 신규 서버(Green)로 1)바로 이동시키거나
+2)승인 후 이동하도록 설정할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;이 문서에서는 승인 후 이동하도록 설정을 변경해보겠습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CodeDeploy console 접속 &amp;gt; 왼쪽 메뉴의 애플리케이션 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;애플리케이션 리스트 &amp;gt; AppECS-cicd-demo-cicd-demo 선택 
+&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;배포 그룹 리스트 &amp;gt; DgpECS-cicd-demo-cicd-demo 선택 
+&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;배포 그룹 &amp;gt; 편집 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;배포 설정 &amp;gt; 트래픽을 언제 다시 라우팅할지 지정 선택 &amp;gt; 시간을 1시간으로 설정
+&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;파이프라인-구성bluegreen-deployment&quot;&gt;파이프라인 구성(Blue/green deployment)&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;CodePipeline 콘솔에 접속 &amp;gt; 왼쪽 메뉴의 파이프라인 &amp;gt; 파이프라인 선택&lt;/li&gt;
+  &lt;li&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;파이프라인 생성&lt;/code&gt; 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-01.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;파이프라인-설정-선택&quot;&gt;파이프라인 설정 선택&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;파이프라인 이름 &amp;gt; cicd-demo-bluegreen 입력&lt;/li&gt;
+  &lt;li&gt;서비스 역할 &amp;gt; 기존 서비스 역할 선택&lt;/li&gt;
+  &lt;li&gt;역할 이름 &amp;gt; codepipeline-cicd-demo-role 선택 &amp;gt; 다음 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-02.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;소스-스테이지-추가&quot;&gt;소스 스테이지 추가&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;소스 공급자 &amp;gt; AWS CodeCommit 선택&lt;/li&gt;
+  &lt;li&gt;리포지토리 이름 &amp;gt; cicd-demo 선택&lt;/li&gt;
+  &lt;li&gt;브랜치 이름 &amp;gt; bluegreen 선택 &amp;gt; 다음 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-03.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;빌드-스테이지-추가&quot;&gt;빌드 스테이지 추가&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;빌드 공급자 &amp;gt; AWS CodeBuild 선택&lt;/li&gt;
+  &lt;li&gt;프로젝트 이름 &amp;gt; cicd-demo 검색 및 선택 &amp;gt; 다음 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-04.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;배포-스테이지-추가&quot;&gt;배포 스테이지 추가&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;배포 공급자 &amp;gt; Amazon CodeDeploy 선택&lt;/li&gt;
+  &lt;li&gt;애플리케이션 이름 &amp;gt; AppECS-cicd-demo-cicd-demo 선택&lt;/li&gt;
+  &lt;li&gt;배포 그룹 &amp;gt; DgpECS-cicd-demo-cicd-demo 선택 &amp;gt; 다음 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-05.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;검토&quot;&gt;검토&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;파이프라인 검토 후 다음 파이프라인 생성 버튼 선택
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-06-01.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-06-02.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;파이프라인-실행&quot;&gt;파이프라인 실행&lt;/h2&gt;
+
+&lt;p&gt;파이프라인을 생성하면 자동으로 소스코드 통합 &amp;gt; 빌드 &amp;gt; 배포 과정이 발생합니다.&lt;/p&gt;
+
+&lt;p&gt;이 후에는 1)수동으로 파이프라인을 실행하거나 2)CodeCommit의 소스코드 변경사항을 감지해 실행됩니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;수동으로-파이프라인-실행&quot;&gt;수동으로 파이프라인 실행&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CodePipeline Console &amp;gt; 왼쪽 메뉴의 파이프라인 &amp;gt; 파이프라인 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;메인 화면의 파이프라인 리스트 &amp;gt; cicd-demo-bluegreen 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;변경사항 릴리스 버튼을 선택&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;변경사항에-의해-자동으로-실행&quot;&gt;변경사항에 의해 자동으로 실행&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CodeCommit Console 접속 &amp;gt; 왼쪽 메뉴의 소스 &amp;gt; 리포지토리&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;리포지토리 리스트 &amp;gt; cicd-demo 선택 &amp;gt; bluegreen branch 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;src/main/resources/messages/messages.properties&lt;/code&gt; 파일 아래와 같이 편집&lt;/p&gt;
+
+    &lt;p&gt;메세지의 welcome 프로퍼티를 &lt;code class=&quot;highlighter-rouge&quot;&gt;Welcome(Version 2)&lt;/code&gt;에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;Welcome(Version 3)&lt;/code&gt;로 변경 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;변경 사항 커밋&lt;/code&gt; 버튼 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;CodePipeline Console &amp;gt; 왼쪽 메뉴의 파이프라인 &amp;gt; 파이프라인 선택&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;메인 화면의 파이프라인 리스트 &amp;gt; cicd-demo-bluegreen 선택&lt;/p&gt;
+
+    &lt;p&gt;소스코드 변경을 감지하고 자동으로 빌드와 배포 파이프라인이 실행됨
+  &lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Deploy 단계가 넘어가면 세부 정보 선택해서 배포 상태 조회하면으로 이동
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-10.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;교체 작업(Green)을 배포 완료했으나 트래픽은 원본 작업(Blue)으로 연결된 상태
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-11.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;웹 브라우저 &amp;gt; ELB DNS 주소로 접속 &amp;gt; 원본 작업(Blue)이므로 Version이 2임
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-12-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;웹 브라우저 &amp;gt; 테스트 포트(ELB DNS 주소 + &lt;code class=&quot;highlighter-rouge&quot;&gt;:8080&lt;/code&gt;) &amp;gt; 교체 작업(Green)이므로 Version이 3임
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-12-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;트래픽 다시 라우팅 버튼을 선택해 교체 작업(Green)으로 트래픽을 이동
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-11.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;트래픽 전환이 완료될때까지 대기
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-13.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;웹 브라우저 &amp;gt; ELB DNS 주소로 접속 &amp;gt; 트래픽이 교체 작업(Green)으로 완전히 라우팅 되었으므로 Version이 3임
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-14.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;배포 작업이 완료되었으므로 원래 작업 세트 종료 버튼을 선택해 원본 작업은 종료 처리
+&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-13.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodedeploy" /><category term="awscodepipeline" /><category term="bluegreendeployement" /><summary type="html">지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline</title><link href="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline" /><published>2019-06-22T00:00:00+09:00</published><updated>2019-06-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04.html">&lt;p&gt;지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;이 문서에서는 배포 방식으로 Rolling Update를 활용하겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
@@ -621,7 +1019,10 @@ cache:
     &lt;p&gt;파이프라인의 배포 단계까지 완료되면 로드밸런서 주소로 접속해서 변경한 메세지가 반영되었는지 확인
 &lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-10.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodedeploy" /><category term="awscodepipeline" /><summary type="html">지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild</title><link href="http://localhost:4000/blog/cloud/2019/06/21/aws-cicd03.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild" /><published>2019-06-21T00:00:00+09:00</published><updated>2019-06-21T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/21/aws-cicd03</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/21/aws-cicd03.html">&lt;p&gt;AWS에서 CodeBuild 서비스를 활용하여 소스코드를 빌드하는 방법을 알아보겠습니다.&lt;/p&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/22/aws-cicd05.html&quot;&gt;AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline&lt;/a&gt;
+문서에서 Blue/green deployment 방식의 파이프라인을 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodedeploy" /><category term="awscodepipeline" /><category term="rollingupdate" /><summary type="html">지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild</title><link href="http://localhost:4000/blog/cloud/2019/06/21/aws-cicd03.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild" /><published>2019-06-21T00:00:00+09:00</published><updated>2019-06-21T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/21/aws-cicd03</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/21/aws-cicd03.html">&lt;p&gt;AWS에서 CodeBuild 서비스를 활용하여 소스코드를 빌드하는 방법을 알아보겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
@@ -1298,120 +1699,4 @@ contract C {
         return data;
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><category term="ethereum" /><category term="solidity" /><category term="smartcontract" /><summary type="html">이 페이지에서는 Solidity의 함수 상태 가변성(Mutability)에 대해 살펴보겠습니다.</summary></entry><entry><title type="html">Solidity Programming #6 가시성(Visibility)</title><link href="http://localhost:4000/blog/solidity/2018/11/12/solidity-programming-visibility.html" rel="alternate" type="text/html" title="Solidity Programming #6 가시성(Visibility)" /><published>2018-11-12T00:00:00+09:00</published><updated>2018-11-12T00:00:00+09:00</updated><id>http://localhost:4000/blog/solidity/2018/11/12/solidity-programming-visibility</id><content type="html" xml:base="http://localhost:4000/blog/solidity/2018/11/12/solidity-programming-visibility.html">&lt;p&gt;이 페이지에서는 Solidity의 가시성(Visibility)에 대해 살펴보겠습니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;가시성visibility&quot;&gt;가시성(Visibility)&lt;/h2&gt;
-
-&lt;p&gt;Solidity에는 두 가지의 함수 호출(function call)이 있습니다.
-실제 EVM 호출을 만들지 않는 내부(internal) 함수 호출과 EVM 함수 호출을 만드는 외부(external) 함수 호출입니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;가시성의-종류&quot;&gt;가시성의 종류&lt;/h3&gt;
-
-&lt;p&gt;함수와 상태 변수(state variables)는 아래와 같이 &lt;code class=&quot;highlighter-rouge&quot;&gt;external&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; 4가지로 선언할 수 있습니다.&lt;/p&gt;
-
-&lt;p&gt;함수(function)의 기본 값은 &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt;입니다.&lt;/p&gt;
-
-&lt;p&gt;상태 변수(state variables)는 &lt;code class=&quot;highlighter-rouge&quot;&gt;external&lt;/code&gt; 사용이 불가능하고 기본값은 &lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt;입니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;external: contract 외부에서만 호출 가능합니다.&lt;/li&gt;
-  &lt;li&gt;public: contract 내부 및 외부애서 호출 가능합니다. 상태 변수를 public으로 선언하면 자동으로 getter 함수가 생성됩니다.&lt;/li&gt;
-  &lt;li&gt;internal: contract 내부 및 상속받은 contract에서 호출 가능합니다.&lt;/li&gt;
-  &lt;li&gt;private: contract 내부에서만 호출 가능합니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
-&lt;p class=&quot;tip-content&quot;&gt;
-contract 내부의 모든 것은 외부에 노출됩니다. private으로 선언하여 다른 contract가 정보를 접근하고 수정하는 것을 막을 수는 있지만
-여전히 전 세계의 블록체인(Block Chain)에서 볼 수 있습니다. Ethereum 환경에서 smart contract 개발은 실제 현금과
-교환할 수 있는 암호화폐를 다루기 때문에 일반 애플리케이션을 개발할 때보다 더 주의해야한다는 것을 명심해야합니다.
-&lt;/p&gt;
-
-&lt;h3 id=&quot;practice&quot;&gt;Practice&lt;/h3&gt;
-
-&lt;p&gt;가시성은 상태 변수의 자료형 뒤에 선언하고 함수의 매개 변수 및 반환 값 사이에 선언합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pragma solidity ^0.x.x;
-
-contract C {
-    function f(uint a) private pure returns (uint b) { return a + 1; }
-    function setData(uint a) internal { data = a; }
-    uint public data;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;아래 예제에서 contract &lt;code class=&quot;highlighter-rouge&quot;&gt;D&lt;/code&gt;는 &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt;으로 선언된 &lt;code class=&quot;highlighter-rouge&quot;&gt;c.getData()&lt;/code&gt; 함수를 호출해 &lt;code class=&quot;highlighter-rouge&quot;&gt;data&lt;/code&gt; 상태 변수의 값을 가져올 수 있습니다.
-하지만 &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt;으로 선언된 &lt;code class=&quot;highlighter-rouge&quot;&gt;f&lt;/code&gt; 함수는 호출할 수 없습니다.&lt;/p&gt;
-
-&lt;p&gt;Contract &lt;code class=&quot;highlighter-rouge&quot;&gt;C&lt;/code&gt;를 상속받은 &lt;code class=&quot;highlighter-rouge&quot;&gt;E&lt;/code&gt;는 &lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt;로 선언된 &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt; 함수를 호출할 수 있습니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pragma solidity ^0.x.x;
-
-contract C {
-    uint private data;
-
-    function f(uint a) private returns(uint b) { return a + 1; }
-    function setData(uint a) public { data = a; }
-    function getData() public returns(uint) { return data; }
-    function compute(uint a, uint b) internal returns (uint) { return a+b; }
-}
-
-contract D {
-    function readData() public {
-        C c = new C();
-        uint local = c.f(7); // error: member `f` is not visible
-        c.setData(3);
-        local = c.getData();
-        local = c.compute(3, 5); // error: member `compute` is not visible
-    }
-}
-
-contract E is C {
-    function g() public {
-        C c = new C();
-        uint val = compute(3, 5); // access to internal member (from derived to parent contract)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;getter-함수&quot;&gt;Getter 함수&lt;/h2&gt;
-
-&lt;p&gt;상태 변수를 &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt;으로 선언하면 컴파일러가 자동으로 getter 함수를 생성합니다.&lt;/p&gt;
-
-&lt;p&gt;아래 예제에서 컴파일러는 &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt;으로 선언된 상태 변수 &lt;code class=&quot;highlighter-rouge&quot;&gt;data&lt;/code&gt;에 대한 getter 함수를 생성합니다.
-getter 함수는 입력받는 매개변수가 없으며 반환 값으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;uint&lt;/code&gt; 형의 상태 변수 &lt;code class=&quot;highlighter-rouge&quot;&gt;data&lt;/code&gt;의 값을 반환합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pragma solidity ^0.4.0;
-
-contract C {
-    uint public data = 42;
-
-    //컴파일 시 내부적으로 생성되는 getter 함수.(실제 코드 상에는 존재하지 않음)
-    function data() public returns(uint) {
-      return data;
-    }
-}
-
-contract Caller {
-    C c = new C();
-
-    function f() public {
-        uint local = c.data();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;상태 변수 &lt;code class=&quot;highlighter-rouge&quot;&gt;data&lt;/code&gt;는 &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt;으로 선언했으므로 외부에서 접근할 수 있습니다.
-만약 내부적으로(접근자 &lt;code class=&quot;highlighter-rouge&quot;&gt;this&lt;/code&gt; 사용 안함) 접근하면 상태 변수로 간주되고, 외부적으로(접근자 &lt;code class=&quot;highlighter-rouge&quot;&gt;this&lt;/code&gt; 사용) 접근하면 getter 함수로 간주됩니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pragma solidity ^0.4.0;
-
-contract C {
-    uint public data;
-
-    function x() public {
-        data = 3; // 내부 접근
-        uint val = this.data(); // 외부 접근
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><category term="ethereum" /><category term="solidity" /><category term="smartcontract" /><summary type="html">이 페이지에서는 Solidity의 가시성(Visibility)에 대해 살펴보겠습니다.</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><category term="ethereum" /><category term="solidity" /><category term="smartcontract" /><summary type="html">이 페이지에서는 Solidity의 함수 상태 가변성(Mutability)에 대해 살펴보겠습니다.</summary></entry></feed>

@@ -10,9 +10,12 @@ tags:
 - devops
 - awscodedeploy
 - awscodepipeline
+- rollingupdate
 ---
 
 지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.
+
+이 문서에서는 배포 방식으로 Rolling Update를 활용하겠습니다.
 
 ## 사전 준비
 
@@ -155,3 +158,6 @@ cache:
 
 - 파이프라인의 배포 단계까지 완료되면 로드밸런서 주소로 접속해서 변경한 메세지가 반영되었는지 확인
 ![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-10.png)
+
+다음으로 [AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline](/blog/cloud/2019/06/22/aws-cicd05.html)
+문서에서 Blue/green deployment 방식의 파이프라인을 구성하는 방법을 살펴보겠습니다.

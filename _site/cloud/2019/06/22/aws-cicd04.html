@@ -32,6 +32,8 @@
   <meta property="article:tag" content="awscodedeploy" >
   
   <meta property="article:tag" content="awscodepipeline" >
+  
+  <meta property="article:tag" content="rollingupdate" >
   <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
 </head>
 <body><header class="site-header" role="banner">
@@ -76,7 +78,9 @@
   
   <a href="/blog/tags/#awscodedeploy">awscodedeploy</a>,
   
-  <a href="/blog/tags/#awscodepipeline">awscodepipeline</a>
+  <a href="/blog/tags/#awscodepipeline">awscodepipeline</a>,
+  
+  <a href="/blog/tags/#rollingupdate">rollingupdate</a>
   
 </div>
 <br/>
@@ -85,6 +89,8 @@
 
   <div class="post-content e-content" itemprop="articleBody">
     <p>지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.</p>
+
+<p>이 문서에서는 배포 방식으로 Rolling Update를 활용하겠습니다.</p>
 
 <h2 id="사전-준비">사전 준비</h2>
 
@@ -261,6 +267,9 @@ cache:
 <img src="/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-10.png" alt="" /></p>
   </li>
 </ul>
+
+<p>다음으로 <a href="/blog/cloud/2019/06/22/aws-cicd05.html">AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline</a>
+문서에서 Blue/green deployment 방식의 파이프라인을 구성하는 방법을 살펴보겠습니다.</p>
 
   </div>
 <div id="disqus_thread"></div>

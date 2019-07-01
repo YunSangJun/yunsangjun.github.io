@@ -32,10 +32,20 @@
   
     {
 
+      "title"    : "AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline",
+      "url"      : "/blog/cloud/2019/06/22/aws-cicd05.html",
+      "category" : "cloud",
+      "tags"     : "aws, cicd, devops, awscodedeploy, awscodepipeline, bluegreendeployement",
+      "date"     : "2019-06-22 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline",
       "url"      : "/blog/cloud/2019/06/22/aws-cicd04.html",
       "category" : "cloud",
-      "tags"     : "aws, cicd, devops, awscodedeploy, awscodepipeline",
+      "tags"     : "aws, cicd, devops, awscodedeploy, awscodepipeline, rollingupdate",
       "date"     : "2019-06-22 00:00:00 +0900"
 
     } ,

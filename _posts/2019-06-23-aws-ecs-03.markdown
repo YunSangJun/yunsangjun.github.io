@@ -226,4 +226,25 @@ Blue/green deployment 방식으로 서비스를 생성하는 경우 Rolling Upda
     - Service role for CodeDeploy > `다음` 버튼 선택
     ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-01.png)
 
+- Additional configuration
+    - Target group 1 name > cicd-demo-service 선택
+    - Target group 2 name > 새로 생성 선택 > cicd-demo-service-green 입력
+    - Target group 2 protocol > HTTP 선택
+    ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-02.png)
 
+### 서비스 확인
+
+서비스 확인 방법도 Rolling Update와 동일합니다.
+
+다른 점은 Blue/green deployment 방식으로 서비스를 생성하는 경우 CodeDeploy에 애플리케이션 및 배포 그룹이 자동 생성됩니다.
+
+- CodeDeploy console 접속 > 왼쪽 메뉴의 애플리케이션 선택 
+
+- 애플리케이션 리스트 > AppECS-cicd-demo-cicd-demo 선택 
+![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png)
+
+- 배포 그룹 리스트 > DgpECS-cicd-demo-cicd-demo 선택 
+![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png)
+
+- 배포 그룹 확인
+![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png)
