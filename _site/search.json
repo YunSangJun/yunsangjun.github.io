@@ -2,6 +2,16 @@
   
     {
 
+      "title"    : "CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기",
+      "url"      : "/blog/cloud/2019/07/03/circleci.html",
+      "category" : "cloud",
+      "tags"     : "circleci, cicd, devops",
+      "date"     : "2019-07-03 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기",
       "url"      : "/blog/cloud/2019/06/23/aws-ecs-03.html",
       "category" : "cloud",
