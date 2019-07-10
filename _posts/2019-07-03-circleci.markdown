@@ -158,7 +158,7 @@ ECR Console에 접속해서 circleci-demo 저장소로 이동해 위에서 저�
 - `.circleci` 디렉토리 하위에 `config.yml` 파일을 생성하고 단계별로 설정해보겠습니다.
 
   ```
-  $ vi .circleci/config.yaml
+  $ vi .circleci/config.yml
   ```
 
   먼저 Version을 설정합니다.
