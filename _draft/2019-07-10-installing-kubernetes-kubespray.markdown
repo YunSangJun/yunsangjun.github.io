@@ -64,3 +64,12 @@ Apply complete! Resources: 47 added, 0 changed, 0 destroyed.
 Outputs:
 ...
 ```
+
+### python 패키지 설치
+
+Kubespray 프로젝트 root에서 아래 명령을 실행합니다.
+클러스터 구성을 위한 python 패키지를 설치합니다.
+
+```
+sudo pip install -r requirements.txt
+```
