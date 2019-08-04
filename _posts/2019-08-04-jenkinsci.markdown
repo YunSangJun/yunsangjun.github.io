@@ -152,10 +152,10 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
 
 3. 소스코드를 저장소에 업로드합니다.
 
-```
-git init
-git add --all
-git commit -m "first commit"
-git remote add origin https://github.com/YunSangJun/sample-app.git
-git push -u origin master
-```
+    ```
+    git init
+    git add --all
+    git commit -m "first commit"
+    git remote add origin https://github.com/YunSangJun/sample-app.git
+    git push -u origin master
+    ```
