@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/blog/assets/css/tag.css">
   <link rel="stylesheet" href="/blog/assets/main.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
 <title>Helm 설치하기 | 윤상준의 기술 블로그</title>
-<meta name="generator" content="Jekyll v3.7.3" />
+<meta name="generator" content="Jekyll v3.8.0" />
 <meta property="og:title" content="Helm 설치하기" />
 <meta name="author" content="윤상준" />
 <meta property="og:locale" content="en_US" />
@@ -83,51 +83,64 @@
     <p>이 페이지는 Helm을 설치하는 방법에 대해 설명합니다.
 자세한 내용은 <a href="https://docs.helm.sh/using_helm/#installing-helm">Installing Helm</a>을 참고하세요.</p>
 
-<h2 id="helm-client-바이너리-다운로드">Helm client 바이너리 다운로드</h2>
+<h2 id="helm-cli-다운로드">Helm CLI 다운로드</h2>
 
 <ol>
   <li>
-    <p><a href="https://github.com/kubernetes/helm/releases">Helm release</a> 바이너리를 다운로드합니다.</p>
+    <p><a href="https://github.com/kubernetes/helm/releases">Helm release</a> 문서에서 Helm CLI를 다운로드합니다.</p>
   </li>
   <li>
-    <p>바이너리 압축 해제합니다.</p>
+    <p>압축을 해제합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> tar -zxvf helm-vX.X.X-OS_NAME-amd64.tgz
+ mv OS_NAME-amd64/helm /usr/local/bin/helm
+</code></pre></div>    </div>
   </li>
 </ol>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  tar -zxvf helm-vX.X.X-OS_NAME-amd64.tgz
-</code></pre></div></div>
-
-<ol>
-  <li>Helm 바이너리를 원하는 위치로 이동시킵니다.</li>
-</ol>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  mv OS_NAME-amd64/helm /usr/local/bin/helm
-</code></pre></div></div>
 
 <h2 id="tiller-설치">Tiller 설치</h2>
-
 <p>Helm의 서버 부분 인 Tiller는 일반적으로 Kubernetes 클러스터 내부에서 실행됩니다. 그러나 개발을 위해 로컬로 실행될 수도 있고 원격 Kubernetes 클러스터와 통신하도록 구성 될 수도 있습니다.</p>
 
-<p>Tiller를 클러스터에 설치하는 가장 쉬운 방법은 <code class="highlighter-rouge">helm init</code>를 실행하는 것입니다.</p>
+<ol>
+  <li>
+    <p>Tiller를 위한 service account를 생성하고 cluster-admin 역할을 할당합니다.</p>
 
-<p><code class="highlighter-rouge">helm init</code> 실행 후 Tiller가 running 상태가 될 때까지 대기합니다.</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> kubectl create serviceaccount tiller --namespace kube-system
+ kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Tiller를 클러스터에 설치하는 가장 쉬운 방법은 <code class="highlighter-rouge">helm init</code>를 실행하는 것입니다.
+  <code class="highlighter-rouge">helm init</code> 실행 후 Tiller가 running 상태가 될 때까지 대기합니다.
+  이 때, 위의 1번에서 생성한 tiller service account를 인자값을 전달해야합니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl get pods --namespace kube-system |grep tiller
-tiller-deploy-7ccf99cd64-pd7c2        1/1       Running   0          3d
-</code></pre></div></div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ helm init --service-account=tiller
+ $ kubectl get pods --namespace kube-system |grep tiller
+ tiller-deploy-7ccf99cd64-pd7c2        1/1       Running   0          3m
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>다음으로 Helm client와 server의 버전을 확인합니다.
+  Server의 버전이 Client의 버전과 같거나 높아야 합니다.</p>
 
-<p>Helm client와 server의 버전을 확인합니다.
-Server의 버전이 Client의 버전과 같거나 높아야 합니다.</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ helm version
+ Client: &amp;version.Version{SemVer:"v2.x.x", GitCommit:"xxx", GitTreeState:"clean"}
+ Server: &amp;version.Version{SemVer:"v2.x.x", GitCommit:"xxx", GitTreeState:"clean"}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Tiller 설치가 완료되었으면 업데이트를 실행합니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ helm version
-Client: &amp;version.Version{SemVer:"v2.9.0", GitCommit:"xxx", GitTreeState:"clean"}
-Server: &amp;version.Version{SemVer:"v2.9.1", GitCommit:"xxx", GitTreeState:"clean"}
-</code></pre></div></div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> helm update
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Server를 제외한 Client만 설치하고 싶은 경우 아래와 같이 실행합니다.</p>
 
-<p>Server를 제외한 Client만 설치하고 싶은 경우 아래와 같이 실행합니다.</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ helm init --client-only
-</code></pre></div></div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ helm init --client-only
+</code></pre></div>    </div>
+  </li>
+</ol>
 
 <p>이제 Helm을 활용해 chart를 Kubernetes에 배포할 수 있습니다.</p>
 

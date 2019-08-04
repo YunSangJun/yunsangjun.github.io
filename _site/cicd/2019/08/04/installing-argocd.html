@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/assets/css/home.css">
+  <link rel="stylesheet" href="/blog/assets/css/category.css">
+  <link rel="stylesheet" href="/blog/assets/css/tag.css">
+  <link rel="stylesheet" href="/blog/assets/main.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Argo CD 설치하기 | 윤상준의 기술 블로그</title>
+<meta name="generator" content="Jekyll v3.8.0" />
+<meta property="og:title" content="Argo CD 설치하기" />
+<meta name="author" content="윤상준" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Overview" />
+<meta property="og:description" content="Overview" />
+<link rel="canonical" href="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html" />
+<meta property="og:url" content="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html" />
+<meta property="og:site_name" content="윤상준의 기술 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-08-04T00:00:00+09:00" />
+<script type="application/ld+json">
+{"description":"Overview","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html","headline":"Argo CD 설치하기","dateModified":"2019-08-04T00:00:00+09:00","datePublished":"2019-08-04T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <meta property="article:tag" content="argocd" >
+  
+  <meta property="article:tag" content="cicd" >
+  
+  <meta property="article:tag" content="devops" >
+  
+  <meta property="article:tag" content="kubernetes" >
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">윤상준의 기술 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/blog/categories">Categories</a>
+            <a class="page-link" href="/blog/tags">Tags</a>
+        </div>
+
+        <!--div class="trigger"><a class="page-link" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</a><a class="page-link" href="/blog/categories/">Categories</a><a class="page-link" href="/blog/tags/">Tags</a></div-->
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Argo CD 설치하기</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-08-04T00:00:00+09:00" itemprop="datePublished">Aug 4, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">윤상준</span></span></p>
+      
+<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<div class="post-tags">
+  
+  
+  <a href="/blog/tags/#argocd">argocd</a>,
+  
+  <a href="/blog/tags/#cicd">cicd</a>,
+  
+  <a href="/blog/tags/#devops">devops</a>,
+  
+  <a href="/blog/tags/#kubernetes">kubernetes</a>
+  
+</div>
+<br/>
+
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="overview">Overview</h2>
+
+<p>Argo CD는 지속적인 배포 환경을 구성하기 위한 툴입니다.</p>
+
+<p>이 문서에서는 Argo CD를 Kubernetes 환경에 구성하는 방법에 대해 알아보겠습니다.</p>
+
+<h2 id="사전-준비">사전 준비</h2>
+
+<h3 id="kubernetes-클러스터-구성">Kubernetes 클러스터 구성</h3>
+
+<p>Argo CD를 설치할 Kubernetes 클러스터 환경을 준비합니다.</p>
+
+<h3 id="kubectl-cli-설치">Kubectl CLI 설치</h3>
+
+<p>Argo CD를 설치하기 위해 kubectl cli를 설치합니다.</p>
+
+<h2 id="argo-cd-설치">Argo CD 설치</h2>
+
+<p>argocd namespace를 생성하고 kubectl 명령을 통해 argocd를 kubernetes cluster에 배포합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+</code></pre></div></div>
+
+<p>정상적으로 배포되었는지 조회해봅니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get po -n argocd
+NAME                                             READY   STATUS    RESTARTS   AGE
+argocd-application-controller-5576758b85-r45zq   1/1     Running   2          26m
+argocd-dex-server-c87ff4c6-kgrcp                 1/1     Running   1          26m
+argocd-redis-6f4db95c5-r5zbp                     1/1     Running   0          26m
+argocd-repo-server-7dc5cc9b47-4m6ng              1/1     Running   0          26m
+argocd-server-67c6bd95bc-7qdbl                   1/1     Running   0          26m
+</code></pre></div></div>
+
+<h2 id="argo-cd-cli-설치">Argo CD CLI 설치</h2>
+
+<p><a href="https://github.com/argoproj/argo-cd/releases">Argo CD Release</a> 페이지에서 CLI 바이너리를 다운로드합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//OSX
+curl -LO https://github.com/argoproj/argo-cd/releases/download/[VERSION]/argocd-darwin-amd64
+chmod u+x argocd-darwin-amd64
+mv argocd-darwin-amd64 /usr/local/bin/argocd
+
+//Linux
+curl -LO https://github.com/argoproj/argo-cd/releases/download/[VERSION]/argocd-linux-amd64
+chmod u+x argocd-linux-amd64
+mv argocd-linux-amd64 /usr/local/bin/argocd
+</code></pre></div></div>
+
+<h2 id="argo-cd-api-서버에-접속하기">Argo CD API 서버에 접속하기</h2>
+
+<p>Argo CD 설치 시 기본 설정은 API 서버를 외부 주소로 노출시키지 않습니다.</p>
+
+<p>아래와 같이 세 가지 방법으로 API 서버를 외부에서 접속할 수 있습니다.</p>
+
+<ol>
+  <li>
+    <p>Service Type을 Load Balancer로 설정</p>
+
+    <p>아래 명령을 실행하여 Service Type을 Load Balancer로 설정합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Ingress 설정</p>
+
+    <p>아래 가이드를 참고하여 Ingress를 설정합니다.</p>
+
+    <p>https://argoproj.github.io/argo-cd/operator-manual/ingress/</p>
+  </li>
+  <li>
+    <p>Port Forwarding 설정</p>
+
+    <p>아래 명령을 실행하여 Port Forwarding을 설정합니다.</p>
+
+    <p><code class="highlighter-rouge">http://localhost:8080</code>으로 서버에 접속할 수 있습니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> kubectl port-forward svc/argocd-server -n argocd 8080:443
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="로그인">로그인</h2>
+
+<p>Argo CD의 admin 계정 암호는 argocd-server pod 이름으로 자동 설정됩니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
+</code></pre></div></div>
+
+<p>위의 암호를 사용하여 admin으로 로그입합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>argocd login [SERVER_ADDRESS]
+</code></pre></div></div>
+
+<p>아래 명령을 실행하여 패스워드를 변경합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>argocd account update-password
+</code></pre></div></div>
+
+<p>웹 브라우저를 통해서도 서버에 접속할 수 있습니다.</p>
+
+<p><img src="/blog/assets/images/kubernetes/argocd/installing-argocd-login.png" alt="" /></p>
+
+<h2 id="샘플-애플리케이션-배포">샘플 애플리케이션 배포</h2>
+
+<p>이제 Argo CD를 활용하여 샘플 애플리케이션을 배포해보겠습니다.</p>
+
+<h3 id="cli-사용">CLI 사용</h3>
+
+<p>Argo CD CLI를 사용하여 샘플 애플리케이션을 배포합니다.</p>
+
+<ol>
+  <li>
+    <p>아래 명령을 실행하여 샘플 애플리케이션을 생성합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> argocd app create sample-app \
+ --repo https://github.com/argoproj/argocd-example-apps.git \
+ --path guestbook \
+ --dest-server https://kubernetes.default.svc \
+ --dest-namespace default
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>생성한 sample-app을 조회해보면 STATUS가 OutOfSync입니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ argocd app get sample-app
+ Name:               guestbook
+ Server:             https://kubernetes.default.svc
+ Namespace:          default
+ ...
+ GROUP  KIND        NAMESPACE  NAME          STATUS     HEALTH
+ apps   Deployment  default    guestbook-ui  OutOfSync  Missing
+     Service     default    guestbook-ui  OutOfSync  Missing
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>아래 명령을 실행하여 sample-app을 동기화합니다.
+동기화하면 kubectl apply 명령을 실행해 애플리케이션을 클러스터에 배포합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> argocd app sync guestbook
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="ui-활용">UI 활용</h3>
+
+<p>웹 브라우저에서 Argo CD UI를 통해 샘플 애플리케이션을 배포해보겠습니다.</p>
+
+<ol>
+  <li>
+    <p>Create Application 버튼을 선택합니다.</p>
+
+    <p><img src="/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-00.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Application Name에 sample-app, Project는 default를 선택합니다.</p>
+
+    <p><img src="/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-01.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Repository URL에 https://github.com/argoproj/argocd-example-apps.git 를 입력합니다.
+Revision은 Head, Path는 guestbook을 입력합니다.</p>
+
+    <p><img src="/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-02.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Cluster URL은 https://kubernetes.default.svc, Namespace는 default를 선택합니다.
+그리고 화면 상단의 Create 버튼을 선택해 애플리케이션을 생성합니다.</p>
+
+    <p><img src="/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-03.png" alt="" /></p>
+  </li>
+  <li>
+    <p>처음 배포하면 Status가 OutOfSync 상태입니다. Sync 버튼을 선택해 동기화합니다.
+동기화하면 kubectl apply 명령을 실행해 애플리케이션을 클러스터에 배포합니다.</p>
+
+    <p><img src="/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-04.png" alt="" /></p>
+  </li>
+  <li>
+    <p>배포가 완료되면 아래와 같은 모습니다.</p>
+
+    <p><img src="/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-05.png" alt="" /></p>
+  </li>
+</ol>
+
+  </div>
+<div id="disqus_thread"></div>
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://sj-blog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a class="u-url" href="/blog/cicd/2019/08/04/installing-argocd.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <!--h2 class="footer-heading">윤상준의 기술 블로그</h2-->
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yun SangJun</li><li><a class="u-email" href="mailto:chris.sj.yun@gmail.com">chris.sj.yun@gmail.com</a></li>
+            <li>subscribe <a href="/blog/feed.xml">via RSS</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yunsangjun"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yunsangjun</span></a></li><li><a href="https://twitter.com/sjyun2"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">sjyun2</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,56 +1,60 @@
 ---
 layout: post
-title:  "Helm chart를 사용하여 Jenkins를 컨테이너로 배포하기"
+title:  "Jenkins 설치하기"
 author: 윤상준
 date: 2018-05-26
-categories: helm
+categories: cicd
 tags:
-- helm
-- chart
-- kubernetes
-- container
-- jenkins
 - cicd
 - devops
+- jenkins
+- helm
+- kubernetes
 ---
 
-이 페이지는 Helm chart를 사용하여 Jenkins를 컨테이너로 배포하는 방법에 대해 설명합니다.
+이 문서에서는 Helm chart를 사용하여 Jenkins를 Kubernetes 클러스터에 설치해보겠습니다.
 자세한 내용은 [Jenkins Helm Chart](https://github.com/kubernetes/charts/tree/master/stable/jenkins)에서 참고하세요.
 
 ## 준비 사항
 
-아래 가이드를 참고하여 Helm Client를 설치합니다.
-
-[Helm 설치하기](/blog/helm/2018/05/27/installing-helm.html)
+[Helm 설치하기](/blog/helm/2018/05/27/installing-helm.html) 문서를 참고하여 Helm Client를 설치합니다.
 
 ## 빠른 설치
 
-아래 명령을 실행하면 Kubernetes 클러스터에 Jenkins가 배포됩니다.
+1. Jenkins를 설치할 namespace를 생성합니다.
 
-```
-$ helm install --name jenkins stable/jenkins
-NAME:   jenkins
-...
-NOTES:
-1. Get your 'admin' user password by running:
-  printf $(kubectl get secret --namespace default jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
-2. Get the Jenkins URL to visit by running these commands in the same shell:
-  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-        You can watch the status of by running 'kubectl get svc --namespace default -w jenkins'
-  ...
-  echo http://$SERVICE_IP:8080/login
+    ```
+    kubectl create namespace jenkins
+    ```
 
-3. Login with the password from step 1 and the username: admin
+2. Helm 명령을 실행하여 Jenkins를 설치합니다.
+release명은 jenkins-release로 namespace는 위의 1번에서 생성한 jenkins를 지정합니다.
 
-For more information on running Jenkins on Kubernetes, visit:
-https://cloud.google.com/solutions/jenkins-on-container-engine
-```
+    ```
+    $ helm install --name jenkins-release --namespace jenkins \
+    stable/jenkins
+    NAME:   jenkins
+    ...
+    NOTES:
+    1. Get your 'admin' user password by running:
+      printf $(kubectl get secret --namespace default jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
+    2. Get the Jenkins URL to visit by running these commands in the same shell:
+      NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+            You can watch the status of by running 'kubectl get svc --namespace default -w jenkins'
+      ...
+      echo http://$SERVICE_IP:8080/login
+
+    3. Login with the password from step 1 and the username: admin
+
+    For more information on running Jenkins on Kubernetes, visit:
+    https://cloud.google.com/solutions/jenkins-on-container-engine
+    ```
 
 정상적으로 설치가 완료되었다면 `NOTES`의 가이드를 참고하여 Jenkins 대시보드에 접속할 수 있습니다.
 
 <p class="warning-title">경고</p>
 <p class="warning-content">
-기본 설정을 사용하므로 클러스터 환경에 따라 설치 중 에러가 발생할 수 있습니다.
+기본 설정을 사용하므로 클러스터가 설치된 환경에 따라 설치 중 에러가 발생할 수 있습니다.
 이런 경우 아래 가이드를 따라 사용자 설정 방식으로 배포 할 수 있습니다.
 </p>
 

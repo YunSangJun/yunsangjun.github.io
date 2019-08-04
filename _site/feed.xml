@@ -1,4 +1,354 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-07-10T18:28:45+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기</title><link href="http://localhost:4000/blog/cloud/2019/07/03/circleci.html" rel="alternate" type="text/html" title="CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기" /><published>2019-07-03T00:00:00+09:00</published><updated>2019-07-03T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/07/03/circleci</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/07/03/circleci.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-08-05T03:41:42+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Jenkins CI를 활용한 지속적인 소스코드 통합 환경 구성하기</title><link href="http://localhost:4000/blog/cicd/2019/08/04/jenkinsci.html" rel="alternate" type="text/html" title="Jenkins CI를 활용한 지속적인 소스코드 통합 환경 구성하기" /><published>2019-08-04T00:00:00+09:00</published><updated>2019-08-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/08/04/jenkinsci</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/08/04/jenkinsci.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;소스코드를 지속적으로 통합하기 위해서 TravisCI, CircleCI, Jenkins 등 다양한 툴을 활용할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;이 문서에서는 Jenkins CI를 활용하여 소스코드를 지속적으로 통합하는 방법을 알아보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;Jenkins CI와 아래 서비스를 통합하여 CI 환경을 구성해보겠습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;소스코드 저장소: Github&lt;/li&gt;
+  &lt;li&gt;이미지 저장소: Docker Hub&lt;/li&gt;
+  &lt;li&gt;통합(CI): Jenkins&lt;/li&gt;
+  &lt;li&gt;애플리케이션 서버: Kubernetes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
+
+&lt;h3 id=&quot;소스코드-다운로드&quot;&gt;소스코드 다운로드&lt;/h3&gt;
+
+&lt;p&gt;이 문서에서 사용할 &lt;a href=&quot;https://github.com/YunSangJun/jenkinsci-demo.git&quot;&gt;jenkinsci-demo&lt;/a&gt; 프로젝트를 복사합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/YunSangJun/jenkinsci-demo.git
+cd jenkinsci-demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;소스코드-저장소&quot;&gt;소스코드 저장소&lt;/h3&gt;
+
+&lt;p&gt;Github에 sample-app 저장소를 생성합니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;이미지-저장소-준비&quot;&gt;이미지 저장소 준비&lt;/h3&gt;
+
+&lt;p&gt;Docker Hub에 sample-app 저장소를 생성합니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;kubernetes-클러스터-구성&quot;&gt;Kubernetes 클러스터 구성&lt;/h3&gt;
+
+&lt;p&gt;애플리케이션 서버로 사용할 Kubernetes 클러스터를 준비합니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;jenkins-설치&quot;&gt;Jenkins 설치&lt;/h3&gt;
+
+&lt;p&gt;Jenkins를 설치할 namespace를 생성합니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create namespace jenkins
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위에서 다운로드한 jenkinsci-demo 디렉토리로 이동합니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd jenkinsci-demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Jenkins Helm chart를 설치합니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm install --name jenkins-release --namespace jenkins \
+-f jenkins/values.yaml stable/jenkins
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Maven Build Cache 용도의 pvc를 생성합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create -f jenkins/maven-cache-pvc.yaml -n jenkins
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Jenkins에 대한 자세한 내용은 &lt;a href=&quot;/blog/cicd/2018/05/26/installing-jenkins.html&quot;&gt;Jenkins 설치하기&lt;/a&gt; 문서를 참고하세요.&lt;/p&gt;
+
+&lt;h2 id=&quot;jenkins-ui-접속&quot;&gt;Jenkins UI 접속&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jenkins UI에 접속하기 위해 포트포워딩을 설정합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; export POD_NAME=$(kubectl get pods --namespace jenkins -l &quot;app.kubernetes.io/component=jenkins-master&quot; -l &quot;app.kubernetes.io/instance=jenkins-release&quot; -o jsonpath=&quot;{.items[0].metadata.name}&quot;)
+ kubectl --namespace jenkins port-forward $POD_NAME 8080:8080
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jenkins admin 계정의 암호를 확인합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; printf $(kubectl get secret --namespace jenkins jenkins-release -o jsonpath=&quot;{.data.jenkins-admin-password}&quot; | base64 --decode);echo
+ xxxxx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;이제 웹 브라우저에서 localhost:8080 로 접속해서 admin 계정으로 로그인합니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;credential-생성하기&quot;&gt;Credential 생성하기&lt;/h2&gt;
+
+&lt;p&gt;DockerHub에 접속하기 위한 credential을 생성해보겠습니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jenkins UI에서 왼쪽 메뉴의 Credentials을 선택합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;목록에서 Jenkins를 선택합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Global credentials을 선택합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;왼쪽 메뉴의 Add Credentials을 클릭합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;DockerHub의 Username, Password를 입력하고 ID에 docker_credential을 입력합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;OK 버튼을 선택해 저장합니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;jenkins-job-생성하기&quot;&gt;Jenkins Job 생성하기&lt;/h2&gt;
+
+&lt;p&gt;소스코드를 빌드하고 DockerHub에 저장하는 Job을 생성해보겠습니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;왼쪽 메뉴의 New Item을 선택합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Item 이름을 sample-app으로 입력하고 Multibranch Pipeline을 선택합니다.
+그리고 OK 버튼을 선택해 다음 화면으로 이동합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;화면 상단의 General으로 이동합니다.
+Display Name에 sample-app을 입력합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Branch Sources로 이동합니다.
+Add source &amp;gt; Git을 선택합니다. Project Repository에 앞에서 생성한 sample-app 저장소 주소를 입력합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Scan Multibranch Pipeline Triggers로 이동합니다.
+Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Save 버튼을 선택해 설정을 저장합니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;sample-app-저장소에-소스코드-업로드&quot;&gt;sample-app 저장소에 소스코드 업로드&lt;/h2&gt;
+
+&lt;p&gt;위에서 미리 생성한 sample-app 저장소에 소스코드를 업로드하겠습니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;sample-app 디렉토리를 생성하고 jenkinsci-demo/sample-app의 소스코드를 복사합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; mkdir sample-app
+ cd sample-app
+ cp -r ../jenkinsci-demo/sample-app/. ./
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jenkinsfile을 수정합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DOCKER_REPOSITORY&lt;/code&gt;를 위에서 생성한 DockerHub 저장소명으로 변경합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; def dockerCredential = &quot;docker_credential&quot;
+ def imageTag = &quot;DOCKER_REPOSITORY:${env.BRANCH_NAME}.${env.BUILD_NUMBER}&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;소스코드를 저장소에 업로드합니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git init
+git add --all
+git commit -m &quot;first commit&quot;
+git remote add origin https://github.com/YunSangJun/sample-app.git
+git push -u origin master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><category term="jenkinsci" /><category term="cicd" /><category term="devops" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">Argo CD 설치하기</title><link href="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html" rel="alternate" type="text/html" title="Argo CD 설치하기" /><published>2019-08-04T00:00:00+09:00</published><updated>2019-08-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/08/04/installing-argocd</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;Argo CD는 지속적인 배포 환경을 구성하기 위한 툴입니다.&lt;/p&gt;
+
+&lt;p&gt;이 문서에서는 Argo CD를 Kubernetes 환경에 구성하는 방법에 대해 알아보겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
+
+&lt;h3 id=&quot;kubernetes-클러스터-구성&quot;&gt;Kubernetes 클러스터 구성&lt;/h3&gt;
+
+&lt;p&gt;Argo CD를 설치할 Kubernetes 클러스터 환경을 준비합니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;kubectl-cli-설치&quot;&gt;Kubectl CLI 설치&lt;/h3&gt;
+
+&lt;p&gt;Argo CD를 설치하기 위해 kubectl cli를 설치합니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;argo-cd-설치&quot;&gt;Argo CD 설치&lt;/h2&gt;
+
+&lt;p&gt;argocd namespace를 생성하고 kubectl 명령을 통해 argocd를 kubernetes cluster에 배포합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;정상적으로 배포되었는지 조회해봅니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl get po -n argocd
+NAME                                             READY   STATUS    RESTARTS   AGE
+argocd-application-controller-5576758b85-r45zq   1/1     Running   2          26m
+argocd-dex-server-c87ff4c6-kgrcp                 1/1     Running   1          26m
+argocd-redis-6f4db95c5-r5zbp                     1/1     Running   0          26m
+argocd-repo-server-7dc5cc9b47-4m6ng              1/1     Running   0          26m
+argocd-server-67c6bd95bc-7qdbl                   1/1     Running   0          26m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;argo-cd-cli-설치&quot;&gt;Argo CD CLI 설치&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/argoproj/argo-cd/releases&quot;&gt;Argo CD Release&lt;/a&gt; 페이지에서 CLI 바이너리를 다운로드합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//OSX
+curl -LO https://github.com/argoproj/argo-cd/releases/download/[VERSION]/argocd-darwin-amd64
+chmod u+x argocd-darwin-amd64
+mv argocd-darwin-amd64 /usr/local/bin/argocd
+
+//Linux
+curl -LO https://github.com/argoproj/argo-cd/releases/download/[VERSION]/argocd-linux-amd64
+chmod u+x argocd-linux-amd64
+mv argocd-linux-amd64 /usr/local/bin/argocd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;argo-cd-api-서버에-접속하기&quot;&gt;Argo CD API 서버에 접속하기&lt;/h2&gt;
+
+&lt;p&gt;Argo CD 설치 시 기본 설정은 API 서버를 외부 주소로 노출시키지 않습니다.&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 세 가지 방법으로 API 서버를 외부에서 접속할 수 있습니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Service Type을 Load Balancer로 설정&lt;/p&gt;
+
+    &lt;p&gt;아래 명령을 실행하여 Service Type을 Load Balancer로 설정합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; kubectl patch svc argocd-server -n argocd -p '{&quot;spec&quot;: {&quot;type&quot;: &quot;LoadBalancer&quot;}}'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Ingress 설정&lt;/p&gt;
+
+    &lt;p&gt;아래 가이드를 참고하여 Ingress를 설정합니다.&lt;/p&gt;
+
+    &lt;p&gt;https://argoproj.github.io/argo-cd/operator-manual/ingress/&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Port Forwarding 설정&lt;/p&gt;
+
+    &lt;p&gt;아래 명령을 실행하여 Port Forwarding을 설정합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8080&lt;/code&gt;으로 서버에 접속할 수 있습니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; kubectl port-forward svc/argocd-server -n argocd 8080:443
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;로그인&quot;&gt;로그인&lt;/h2&gt;
+
+&lt;p&gt;Argo CD의 admin 계정 암호는 argocd-server pod 이름으로 자동 설정됩니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위의 암호를 사용하여 admin으로 로그입합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;argocd login [SERVER_ADDRESS]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;아래 명령을 실행하여 패스워드를 변경합니다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;argocd account update-password
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;웹 브라우저를 통해서도 서버에 접속할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-login.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;샘플-애플리케이션-배포&quot;&gt;샘플 애플리케이션 배포&lt;/h2&gt;
+
+&lt;p&gt;이제 Argo CD를 활용하여 샘플 애플리케이션을 배포해보겠습니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;cli-사용&quot;&gt;CLI 사용&lt;/h3&gt;
+
+&lt;p&gt;Argo CD CLI를 사용하여 샘플 애플리케이션을 배포합니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;아래 명령을 실행하여 샘플 애플리케이션을 생성합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; argocd app create sample-app \
+ --repo https://github.com/argoproj/argocd-example-apps.git \
+ --path guestbook \
+ --dest-server https://kubernetes.default.svc \
+ --dest-namespace default
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;생성한 sample-app을 조회해보면 STATUS가 OutOfSync입니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ argocd app get sample-app
+ Name:               guestbook
+ Server:             https://kubernetes.default.svc
+ Namespace:          default
+ ...
+ GROUP  KIND        NAMESPACE  NAME          STATUS     HEALTH
+ apps   Deployment  default    guestbook-ui  OutOfSync  Missing
+     Service     default    guestbook-ui  OutOfSync  Missing
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;아래 명령을 실행하여 sample-app을 동기화합니다.
+동기화하면 kubectl apply 명령을 실행해 애플리케이션을 클러스터에 배포합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; argocd app sync guestbook
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;ui-활용&quot;&gt;UI 활용&lt;/h3&gt;
+
+&lt;p&gt;웹 브라우저에서 Argo CD UI를 통해 샘플 애플리케이션을 배포해보겠습니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create Application 버튼을 선택합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-00.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Application Name에 sample-app, Project는 default를 선택합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Repository URL에 https://github.com/argoproj/argocd-example-apps.git 를 입력합니다.
+Revision은 Head, Path는 guestbook을 입력합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Cluster URL은 https://kubernetes.default.svc, Namespace는 default를 선택합니다.
+그리고 화면 상단의 Create 버튼을 선택해 애플리케이션을 생성합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;처음 배포하면 Status가 OutOfSync 상태입니다. Sync 버튼을 선택해 동기화합니다.
+동기화하면 kubectl apply 명령을 실행해 애플리케이션을 클러스터에 배포합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;배포가 완료되면 아래와 같은 모습니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name>윤상준</name></author><category term="argocd" /><category term="cicd" /><category term="devops" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기</title><link href="http://localhost:4000/blog/cicd/2019/07/03/circleci.html" rel="alternate" type="text/html" title="CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기" /><published>2019-07-03T00:00:00+09:00</published><updated>2019-07-03T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/07/03/circleci</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/07/03/circleci.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
 &lt;p&gt;CircleCI는 소스코드를 통합하고 빌드, 배포를 자동화하는 파이프라인을 구성하기 위한 툴입니다.&lt;/p&gt;
 
@@ -2307,75 +2657,4 @@ ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;
 &lt;/ol&gt;
 
 &lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/21/aws-cicd03.html&quot;&gt;AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild&lt;/a&gt;
-문서에서 코드 빌드 서비스인 CodeBuild를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodecommit" /><summary type="html">AWS에서 CodeCommit 서비스를 활용하여 형상 관리를 구성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #1 - Overview</title><link href="http://localhost:4000/blog/cloud/2019/06/18/aws-cicd01.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #1 - Overview" /><published>2019-06-18T00:00:00+09:00</published><updated>2019-06-18T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/18/aws-cicd01</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/18/aws-cicd01.html">&lt;p&gt;AWS에서 CI/CD 환경을 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
-
-&lt;p&gt;이 문서에서는 아래와 같은 AWS의 서비스를 활용하여 CI/CD 환경을 구성합니다. 
-에플리케이션을 서버는 ECS(Elastic Container Service) Fargate를 활용하겠습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;형상 관리: CodeCommit. Git 기반으로 Github와 사용방법이 동일함&lt;/li&gt;
-  &lt;li&gt;빌드: CodeBuild. 애플리케이션 빌드 및 패키징(Maven, NPM 등), Docker 이미지 빌드 및 ECR(Elastic Container Registry)에 Push&lt;/li&gt;
-  &lt;li&gt;배포: CodeDeploy. Rolling Update 또는 Blue/Green 방식의 배포 지원함&lt;/li&gt;
-  &lt;li&gt;파이프라인:  CodePipeline. CodeCommit, CodeBuild, CodeDeploy를 파이프라인으로 관리&lt;/li&gt;
-  &lt;li&gt;이미지 저장소: ECR(Elastic Container Registry)&lt;/li&gt;
-  &lt;li&gt;애플리케이션 서버: ECS(Elastic Container Service) Fargate. Fargate는 ECS용 EC2가 없는 완전 관리형 컨테이너 서비스&lt;/li&gt;
-  &lt;li&gt;알림: SNS(Simple Notification Service), Lambda를 활용&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;CI/CD 전체적인 아키텍처는 아래와 같습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;사용자(개발자, 운영자 등) 개발한 코드를 CodeCommit에 반영합니다.&lt;/li&gt;
-  &lt;li&gt;CodeCommit에서 코드 변화를 감지하고 CloudWathch를 통해 CodeBuild에 이벤트를 전달합니다.&lt;/li&gt;
-  &lt;li&gt;CodeBuild에서 애플리케이션 빌드 및 패키징을, Docker 이미지를 빌드, 그리고 빌드한 이미지를 ECR에 Push합니다. Build가 완료되면 CodeDeploy로 이벤트를 전달합니다.&lt;/li&gt;
-  &lt;li&gt;CodeDeploy에서 빌드된 이미지를 활용하여 ECS에 Rolling Update 또는 Blue/Green 방식으로 배포합니다.&lt;/li&gt;
-  &lt;li&gt;CodePipeline의 대시보드를 활용해서 코드를 통합, 빌드하고 배포하는 파이프라인을 구성할 수 있습니다.&lt;/li&gt;
-  &lt;li&gt;CodeDeploy에 SNS, Lambda를 연동해서 Slack등의 Chat 서비스로 배포 과정을 전달할 수 있습니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/20/aws-cicd02.html&quot;&gt;AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit&lt;/a&gt;
-문서에서 형상 관리 서비스인 CodeCommit을 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodecommit" /><category term="awscodebuild" /><category term="awscodedeploy" /><category term="awscodepipeline" /><category term="awsecs" /><category term="awsecr" /><category term="awssns" /><category term="awslambda" /><summary type="html">AWS에서 CI/CD 환경을 구성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">Solidity Programming #8 제어문</title><link href="http://localhost:4000/blog/solidity/2018/11/14/solidity-programming-control.html" rel="alternate" type="text/html" title="Solidity Programming #8 제어문" /><published>2018-11-14T00:00:00+09:00</published><updated>2018-11-14T00:00:00+09:00</updated><id>http://localhost:4000/blog/solidity/2018/11/14/solidity-programming-control</id><content type="html" xml:base="http://localhost:4000/blog/solidity/2018/11/14/solidity-programming-control.html">&lt;p&gt;이 페이지에서는 Solidity의 제어문에 대해 살펴보겠습니다.&lt;/p&gt;
-
-&lt;p&gt;Javascript의 &lt;code class=&quot;highlighter-rouge&quot;&gt;switch&lt;/code&gt; 및 &lt;code class=&quot;highlighter-rouge&quot;&gt;goto&lt;/code&gt;를 제외한 대부분의 제어문을 Solidity에서 사용할 수 있습니다.
-if, else, while, do, for, break, continue, return 등의 제어문을 지원합니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;조건문if&quot;&gt;조건문(if)&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int a = 3;
-
-if(a &amp;gt; 1) {
-  return &quot;a is greater than 1&quot;;
-} else{
-  return &quot;a is less than 1&quot;;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;주의 : bool 아닌 유형에 대해 유형 변환이 없기 때문에 if(1) {…}이 유효하지 않습니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;반복문while&quot;&gt;반복문(while)&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int i = 0;
-int sum = 0;
-
-while(i&amp;lt;10){
-    sum = sum + i;
-    i++;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;반복문for&quot;&gt;반복문(for)&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int num = 5;
-
-for(int i=0; i&amp;lt;10; i++){
-    if(num % 2 == 0){
-        return &quot;Even&quot;;
-    } else{
-        return &quot;Odd&quot;;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>윤상준</name></author><category term="ethereum" /><category term="solidity" /><category term="smartcontract" /><summary type="html">이 페이지에서는 Solidity의 제어문에 대해 살펴보겠습니다.</summary></entry></feed>
+문서에서 코드 빌드 서비스인 CodeBuild를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodecommit" /><summary type="html">AWS에서 CodeCommit 서비스를 활용하여 형상 관리를 구성하는 방법을 알아보겠습니다.</summary></entry></feed>

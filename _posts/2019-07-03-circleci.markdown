@@ -3,7 +3,7 @@ layout: post
 title:  "CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기"
 author: 윤상준
 date: 2019-07-03
-categories: cloud
+categories: cicd
 tags:
 - circleci
 - cicd
