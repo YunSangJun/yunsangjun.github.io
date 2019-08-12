@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-08-12T01:22:17+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기</title><link href="http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh.html" rel="alternate" type="text/html" title="Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기" /><published>2019-08-11T00:00:00+09:00</published><updated>2019-08-11T00:00:00+09:00</updated><id>http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh</id><content type="html" xml:base="http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-08-13T01:06:42+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기</title><link href="http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh.html" rel="alternate" type="text/html" title="Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기" /><published>2019-08-11T00:00:00+09:00</published><updated>2019-08-11T00:00:00+09:00</updated><id>http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh</id><content type="html" xml:base="http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
 &lt;p&gt;Istio를 활용하여 여러개의 Kubernetes Cluster 환경에 Service Mesh를 구성할 수 있습니다.&lt;/p&gt;
 
@@ -534,9 +534,9 @@ cd jenkinsci-demo
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;jenkins-job-생성하기&quot;&gt;Jenkins Job 생성하기&lt;/h2&gt;
+&lt;h2 id=&quot;jenkins-pipeline-생성하기&quot;&gt;Jenkins Pipeline 생성하기&lt;/h2&gt;
 
-&lt;p&gt;소스코드를 빌드하고 DockerHub에 저장하는 Job을 생성해보겠습니다.&lt;/p&gt;
+&lt;p&gt;소스코드를 빌드하고 DockerHub에 저장하는 Pipeline을 생성해보겠습니다.&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -591,9 +591,141 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
     &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git init
  git add --all
  git commit -m &quot;first commit&quot;
- git remote add origin https://github.com/YunSangJun/sample-app.git
+ git remote add origin https://github.com/REPOSITORY_NAME/sample-app.git
  git push -u origin master
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jenkins Pipeline 확인&lt;/p&gt;
+
+    &lt;p&gt;소스코드가 업로드되면 Jenkins에서 master branch의 변경사항을 감지하고 Pipeline에 정의된 build job을 수행합니다.&lt;/p&gt;
+
+    &lt;p&gt;Job이 성공적으로 수행되면 아래와 같은 화면을 확인할 수 있습니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Docker build 확인&lt;/p&gt;
+
+    &lt;p&gt;Jenkins Pipeline 수행이 완료되면 Docker 이미지 저장소에서 빌드된 이미지를 확인할 수 있습니다.&lt;/p&gt;
+
+    &lt;p&gt;이미지의 태그명은 &lt;code class=&quot;highlighter-rouge&quot;&gt;BRANCH_NAME.BUILD_NUMBER&lt;/code&gt;과 같이 정의됩니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;애플리케이션 확인&lt;/p&gt;
+
+    &lt;p&gt;빌드한 Docker 이미지를 활용하여 애플리케이션을 실행해보겠습니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; docker run -p 8080:8080 DOCKER_REPOSITORY_NAME/sample-app:BRANCH_NAME.BUILD_NUMBER
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;애플리케이션이 실행되면 버전을 확인해봅니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ curl localhost:8080/version
+ 0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;branch-추가&quot;&gt;Branch 추가&lt;/h2&gt;
+
+&lt;p&gt;이번에는 새로운 branch를 만들어 신규 기능을 추가해보겠습니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;new_feature&lt;/code&gt; branch를 추가합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git checkout -b new_feature
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Application version을 0.2로 변경합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ vi src/main/resources/application.yaml
+ application:
+     version: 0.2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;변경사항을 Git 저장소에 반영합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git add --all
+ git commit -m &quot;Add new feature and Update version as 0.2&quot;
+ git push origin new_feature
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jenkins Pipeline 확인&lt;/p&gt;
+
+    &lt;p&gt;소스코드가 업로드되면 Jenkins에서 new_feature branch의 변경사항을 감지하고 Pipeline에 정의된 build job을 수행합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;Job이 성공적으로 수행되면 아래와 같은 화면을 확인할 수 있습니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Docker build 확인&lt;/p&gt;
+
+    &lt;p&gt;Jenkins Pipeline 수행이 완료되면 Docker 이미지 저장소에서 빌드된 이미지를 확인할 수 있습니다.&lt;/p&gt;
+
+    &lt;p&gt;이미지의 태그명은 &lt;code class=&quot;highlighter-rouge&quot;&gt;BRANCH_NAME.BUILD_NUMBER&lt;/code&gt;와 같이 정의됩니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;애플리케이션 확인&lt;/p&gt;
+
+    &lt;p&gt;빌드한 Docker 이미지를 활용하여 애플리케이션을 실행해보겠습니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; docker run -p 8080:8080 DOCKER_REPOSITORY_NAME/sample-app:BRANCH_NAME.BUILD_NUMBER
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;애플리케이션이 실행되면 버전을 확인해봅니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ curl localhost:8080/version
+ 0.2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;compare--pull-request&quot;&gt;Compare &amp;amp; Pull request&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;new_feature&lt;/code&gt; branch의 신규 기능을 Pull request 해보겠습니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;새로운 branch가 추가되면 Compare &amp;amp; Pull request 알림이 나타납니다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Compare &amp;amp; Pull request&lt;/code&gt; 버튼을 선택합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Merge하는 내용을 비교하고 이상이 없으면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Create pull request&lt;/code&gt; 버튼을 선택합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;merge-pull-request&quot;&gt;Merge pull request&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Pull request 목록에 방금 요청한 항목이 나타납니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-08.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;요청 항목에 문제가 없으면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Merge pull request&lt;/code&gt; 버튼을 선택합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;master branch에 new_feature 코드가 병합됩니다.
+그리고 Jenkins Pipeline이 master branch의 변경사항을 감지하고 애플리케이션을 다시 빌드합니다.&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;</content><author><name>윤상준</name></author><category term="jenkinsci" /><category term="cicd" /><category term="devops" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">Argo CD 설치하기</title><link href="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html" rel="alternate" type="text/html" title="Argo CD 설치하기" /><published>2019-08-04T00:00:00+09:00</published><updated>2019-08-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/08/04/installing-argocd</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 

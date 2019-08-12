@@ -109,9 +109,9 @@ DockerHub에 접속하기 위한 credential을 생성해보겠습니다.
 
 6. OK 버튼을 선택해 저장합니다.
 
-## Jenkins Job 생성하기
+## Jenkins Pipeline 생성하기
 
-소스코드를 빌드하고 DockerHub에 저장하는 Job을 생성해보겠습니다.
+소스코드를 빌드하고 DockerHub에 저장하는 Pipeline을 생성해보겠습니다.
 
 1. 왼쪽 메뉴의 New Item을 선택합니다.
 
@@ -156,6 +156,124 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
     git init
     git add --all
     git commit -m "first commit"
-    git remote add origin https://github.com/YunSangJun/sample-app.git
+    git remote add origin https://github.com/REPOSITORY_NAME/sample-app.git
     git push -u origin master
     ```
+
+4. Jenkins Pipeline 확인
+
+    소스코드가 업로드되면 Jenkins에서 master branch의 변경사항을 감지하고 Pipeline에 정의된 build job을 수행합니다.
+
+    Job이 성공적으로 수행되면 아래와 같은 화면을 확인할 수 있습니다.
+
+    ![](/blog/assets/images/kubernetes/jenkins/jenkinsci-01.png)
+
+5. Docker build 확인
+
+    Jenkins Pipeline 수행이 완료되면 Docker 이미지 저장소에서 빌드된 이미지를 확인할 수 있습니다.
+
+    이미지의 태그명은 `BRANCH_NAME.BUILD_NUMBER`과 같이 정의됩니다.
+
+    ![](/blog/assets/images/kubernetes/jenkins/jenkinsci-02.png)
+
+6. 애플리케이션 확인
+
+    빌드한 Docker 이미지를 활용하여 애플리케이션을 실행해보겠습니다.
+
+    ```
+    docker run -p 8080:8080 DOCKER_REPOSITORY_NAME/sample-app:BRANCH_NAME.BUILD_NUMBER
+    ```
+
+    애플리케이션이 실행되면 버전을 확인해봅니다.
+
+    ```
+    $ curl localhost:8080/version
+    0.1
+    ```
+
+## Branch 추가
+
+이번에는 새로운 branch를 만들어 신규 기능을 추가해보겠습니다.
+
+1. `new_feature` branch를 추가합니다.
+
+    ```
+    git checkout -b new_feature
+    ```
+
+2. Application version을 0.2로 변경합니다.
+
+    ```
+    $ vi src/main/resources/application.yaml
+    application:
+        version: 0.2
+    ```
+
+3. 변경사항을 Git 저장소에 반영합니다.
+
+    ```
+    git add --all
+    git commit -m "Add new feature and Update version as 0.2"
+    git push origin new_feature
+    ```
+
+4. Jenkins Pipeline 확인
+
+    소스코드가 업로드되면 Jenkins에서 new_feature branch의 변경사항을 감지하고 Pipeline에 정의된 build job을 수행합니다.
+
+    ![](/blog/assets/images/kubernetes/jenkins/jenkinsci-03.png)
+
+    Job이 성공적으로 수행되면 아래와 같은 화면을 확인할 수 있습니다.
+
+    ![](/blog/assets/images/kubernetes/jenkins/jenkinsci-04.png)
+
+5. Docker build 확인
+
+    Jenkins Pipeline 수행이 완료되면 Docker 이미지 저장소에서 빌드된 이미지를 확인할 수 있습니다.
+
+    이미지의 태그명은 `BRANCH_NAME.BUILD_NUMBER`와 같이 정의됩니다.
+
+    ![](/blog/assets/images/kubernetes/jenkins/jenkinsci-05.png)
+
+6. 애플리케이션 확인
+
+    빌드한 Docker 이미지를 활용하여 애플리케이션을 실행해보겠습니다.
+
+    ```
+    docker run -p 8080:8080 DOCKER_REPOSITORY_NAME/sample-app:BRANCH_NAME.BUILD_NUMBER
+    ```
+
+    애플리케이션이 실행되면 버전을 확인해봅니다.
+
+    ```
+    $ curl localhost:8080/version
+    0.2
+    ```
+
+## Compare & Pull request
+
+`new_feature` branch의 신규 기능을 Pull request 해보겠습니다.
+
+1. 새로운 branch가 추가되면 Compare & Pull request 알림이 나타납니다.
+`Compare & Pull request` 버튼을 선택합니다.
+
+    ![](/blog/assets/images/kubernetes/jenkins/jenkinsci-06.png)
+
+2. Merge하는 내용을 비교하고 이상이 없으면 `Create pull request` 버튼을 선택합니다.
+
+    ![](/blog/assets/images/kubernetes/jenkins/jenkinsci-07.png)
+
+## Merge pull request
+
+1. Pull request 목록에 방금 요청한 항목이 나타납니다.
+
+    ![](/blog/assets/images/kubernetes/jenkins/jenkinsci-08.png)
+
+2. 요청 항목에 문제가 없으면 `Merge pull request` 버튼을 선택합니다.
+
+    ![](/blog/assets/images/kubernetes/jenkins/jenkinsci-09.png)
+
+3. master branch에 new_feature 코드가 병합됩니다.
+그리고 Jenkins Pipeline이 master branch의 변경사항을 감지하고 애플리케이션을 다시 빌드합니다.
+
+
