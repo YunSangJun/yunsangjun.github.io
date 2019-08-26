@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/assets/css/home.css">
+  <link rel="stylesheet" href="/blog/assets/css/category.css">
+  <link rel="stylesheet" href="/blog/assets/css/tag.css">
+  <link rel="stylesheet" href="/blog/assets/main.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기 | SJ Tech Blog</title>
+<meta name="generator" content="Jekyll v3.8.0" />
+<meta property="og:title" content="Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기" />
+<meta name="author" content="sj" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Overview Private 환경에서 kubernetes cluster를 운영하고 있다면 workload를 bursting 하는 관점에서 Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것입니다." />
+<meta property="og:description" content="Overview Private 환경에서 kubernetes cluster를 운영하고 있다면 workload를 bursting 하는 관점에서 Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것입니다." />
+<link rel="canonical" href="http://localhost:4000/blog/kubernetes/2019/08/25/virtual-kublet.html" />
+<meta property="og:url" content="http://localhost:4000/blog/kubernetes/2019/08/25/virtual-kublet.html" />
+<meta property="og:site_name" content="SJ Tech Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-08-25T00:00:00+09:00" />
+<script type="application/ld+json">
+{"description":"Overview Private 환경에서 kubernetes cluster를 운영하고 있다면 workload를 bursting 하는 관점에서 Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것입니다.","author":{"@type":"Person","name":"sj"},"@type":"BlogPosting","url":"http://localhost:4000/blog/kubernetes/2019/08/25/virtual-kublet.html","headline":"Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기","dateModified":"2019-08-25T00:00:00+09:00","datePublished":"2019-08-25T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/kubernetes/2019/08/25/virtual-kublet.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <meta property="article:tag" content="kubernetes" >
+  
+  <meta property="article:tag" content="virtualkubelet" >
+  
+  <meta property="article:tag" content="cloud" >
+  
+  <meta property="article:tag" content="container" >
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="SJ Tech Blog" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">SJ Tech Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/blog/categories">Categories</a>
+            <a class="page-link" href="/blog/tags">Tags</a>
+        </div>
+
+        <!--div class="trigger"><a class="page-link" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</a><a class="page-link" href="/blog/categories/">Categories</a><a class="page-link" href="/blog/tags/">Tags</a></div-->
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-08-25T00:00:00+09:00" itemprop="datePublished">Aug 25, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">sj</span></span></p>
+      
+<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<div class="post-tags">
+  
+  
+  <a href="/blog/tags/#kubernetes">kubernetes</a>,
+  
+  <a href="/blog/tags/#virtualkubelet">virtualkubelet</a>,
+  
+  <a href="/blog/tags/#cloud">cloud</a>,
+  
+  <a href="/blog/tags/#container">container</a>
+  
+</div>
+<br/>
+
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="overview">Overview</h2>
+<p>Private 환경에서 kubernetes cluster를 운영하고 있다면 workload를 bursting 하는 관점에서 
+Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것입니다.</p>
+
+<p>CNCF(Cloud Native Computing Foundation)에 
+<a href="https://github.com/virtual-kubelet/virtual-kubelet">Virtual Kubelet</a>이라는
+흥미로운 프로젝트가 있어 간단한 Hands-on과 함께 후기를 적어봅니다.</p>
+
+<p>Virtual Kubelet에 대한 설명을 보면 <code class="highlighter-rouge">Kubernete를 다른 API와 연동하기 위한 Kubelet 구현체</code>라고 정의되어 있습니다.
+이 설명만 들으면 무슨 소린지 와닿지가 않습니다.</p>
+
+<p>활용 사례를 통해 좀 더 쉬운 예를 들어보겠습니다.
+아래 그림과 같이 운영중인 Kubernetes cluster에 Public Cloud의 서버리스 컨테이너 서비스
+(예 - AWS ECS Fargate, Azure Container Instance 등)를 확장해 마치 하나의 cluster 처럼 사용할 수 있습니다.</p>
+
+<p><img src="/blog/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-architecture.png" alt="" /></p>
+
+<p>Public cloud에는 Kubernetes cluster를 추가로 운영할 필요없이 서버리스 컨테이너에 대한 비용만 지불하면 되므로 비용 효율적인 측면이 있습니다.</p>
+
+<p>물론 제약 사항도 있습니다. Kubernetes cluster와 컨테이너 플랫폼이 동일한 네트워크 환경에 위치하지 않는다면 
+일반적으로 Pod간에 private 통신은 불가능합니다.</p>
+
+<p>예외적으로 동일한 Cloud 환경에 Kubernetes와 서버리스 컨테이너가 위치한다면 Pod간 private 통신도 가능합니다.
+자세한 내용은 아래 사례를 읽어보시면 이해가 쉬울 것입니다.</p>
+
+<p>https://docs.microsoft.com/ko-kr/azure/aks/virtual-nodes-portal</p>
+
+<p>추가로 프로젝트 설명에 Multi Kubernetes cluster를 federation 하기 위한 용도가 아니라고 명시되어 있으니
+사용에 참고가 필요할 거 같습니다.</p>
+
+<p>마지막으로 프로젝트 현황을 살펴보면 CNCF의 Sandbox 프로젝트라고 합니다.
+일반적으로 Sandbox =&gt; Incubation =&gt; Graduate 순으로 발전된다고 합니다.</p>
+
+<p>최근 1.0 버전이 릴리스되어 프로젝트가 안정화되어 가는거 같고 
+실용적인 활용 사례와 컨셉이 명확해 앞으로 기대가 되는 프로젝트입니다.</p>
+
+<p>아래 hands-on을 한번 따라해보시면 프로젝트 컨셉과 활용 방법에 대해 좀 더 쉽게 이해할 수 있으리라 생각됩니다.</p>
+
+<h2 id="사전-준비하기">사전 준비하기</h2>
+
+<p>이 문서에서는 누구나 따라할 수 있도록 Public cloud의 무료 체험이 가능한 환경 기준으로 작성했습니다.</p>
+
+<p>Kubernetes cluster는 GKE(Google Kubernetes Engine), 컨테이너 서비스는 ACI(Azure Container Instance)를 사용했습니다.</p>
+
+<p>Hands-on을 위해서 아래와 같은 준비사항이 필요합니다.</p>
+
+<ol>
+  <li>
+    <p>Kubernetes cluster</p>
+
+    <p>기존의 보유하고 있는 cluster를 사용하거나 새로 생성합니다.</p>
+
+    <p><a href="https://cloud.google.com/kubernetes-engine/docs/quickstart?hl=ko">GKE(Google Kubernetes Engine)</a>,
+ <a href="https://azure.microsoft.com/ko-kr/services/kubernetes-service/">AKS(Azure Kubernetes Service)</a>, 
+ <a href="https://aws.amazon.com/ko/eks/">EKS(Elastic Kubernetes Service)</a> 
+ 등 관리형 Kubernetes 서비스를 활용하여 쉽고 빠르게 생성할 수 있습니다.</p>
+
+    <p>이 문서에서는 GKE 환경을 사용했습니다. 구글 계정을 가지고 있다면 Credit을 받아 일정기간 무료로 사용할 수 있습니다.</p>
+  </li>
+  <li>
+    <p>Azure 계정</p>
+
+    <p>ACI(Azure Container Instance)를 사용하기 위해 Azure 계정을 준비합니다.</p>
+
+    <p>Azure 계정이 없다면 <a href="https://azure.microsoft.com/ko-kr/free/">Azure 체험 계정 만들기</a>를 통하여 
+ 계정을 생성하고 Credit을 받아 일정기간 무료로 사용할 수 있습니다.</p>
+  </li>
+  <li>
+    <p>Azure CLI.</p>
+
+    <p>Azure CLI를 설치합니다.</p>
+
+    <ul>
+      <li>
+        <p>OSX</p>
+
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  brew install azure-cli
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Linux(Ubuntu 64-bit)</p>
+
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main" | \
+  sudo tee /etc/apt/sources.list.d/azure-cli.list
+ 
+  $ sudo apt-key adv --keyserver packages.microsoft.com --recv-keys 52E16F86FEE04B979B07E28DB02C46DF417A0893
+  $ sudo apt-get install apt-transport-https
+  $ sudo apt-get update &amp;&amp; sudo apt-get install azure-cli
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Kubernetes CLI</p>
+
+    <p><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">Kubernetes CLI</a>를 설치합니다.</p>
+  </li>
+  <li>
+    <p>Helm CLI.</p>
+
+    <p><a href="/blog/helm/2018/05/27/installing-helm.html">Helm CLI</a>를 설치합니다.</p>
+  </li>
+</ol>
+
+<h2 id="azure-계정-설정하기">Azure 계정 설정하기</h2>
+
+<ol>
+  <li>
+    <p>Azure에 로그인합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> az login
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Azure subscription 조회 및 복사합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ az account list -o table
+ Name       CloudName    SubscriptionId                        State    IsDefault
+ ---------  -----------  ------------------------------------  -------  -----------
+ 무료 체험    AzureCloud   &lt;SubscriptionId&gt;                      Enabled  True
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Subscription ID에 위에서 복사한 ID를 저장합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> export AZURE_SUBSCRIPTION_ID="&lt;SubscriptionId&gt;"
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>ACI(Azure Container Instance)를 활성화합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> az provider register -n Microsoft.ContainerInstance
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="aci-resource-group-생성하기">ACI Resource Group 생성하기</h2>
+
+<p class="tip-title">참고</p>
+<p class="tip-content">
+현재 Azure 한국 리전에서는 ACI 서비스가 없습니다. 
+서비스 중인 가장 가까운 리전은 japaneast 입니다.(japanwest도 없음)
+</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export ACI_REGION=japaneast
+az group create --name aci-group --location "$ACI_REGION"
+export AZURE_RG=aci-group
+</code></pre></div></div>
+
+<h2 id="azure-service-principal-생성하기">Azure Service principal 생성하기</h2>
+
+<ol>
+  <li>
+    <p>RBAC과 함께 SP(Service principal)를 생성합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ az ad sp create-for-rbac --name virtual-kubelet-quickstart -o table
+ ...
+ AppId       DisplayName        Name                Password                  Tenant
+ -----------------------------------------------------------------------------------------------  
+ &lt;AppId&gt;     ...                ...                 &lt;Password&gt;                &lt;Tenant&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>위의 결과를 변수로 저장합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> export AZURE_TENANT_ID=&lt;Tenant&gt;
+ export AZURE_CLIENT_ID=&lt;AppId&gt;
+ export AZURE_CLIENT_SECRET=&lt;Password&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="virtual-kubelet-배포하기">Virtual Kubelet 배포하기</h2>
+
+<ol>
+  <li>
+    <p>Cluster의 Master Endpoint 확인 및 복사합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ kubectl cluster-info
+ Kubernetes master is running at &lt;Kubernetes Master&gt;
+ ...
+
+ $ export MASTER_URI=&lt;Kubernetes Master&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Helm을 통하여 Virtual Kubelet 설치합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> VK_RELEASE=virtual-kubelet-latest
+ RELEASE_NAME=virtual-kubelet
+ NODE_NAME=virtual-kubelet
+ CHART_URL=https://github.com/virtual-kubelet/virtual-kubelet/raw/master/charts/$VK_RELEASE.tgz
+
+ helm install "$CHART_URL" --name "$RELEASE_NAME" \
+ --set provider=azure \
+ --set rbac.install=true \
+ --set providers.azure.targetAKS=false \
+ --set providers.azure.aciResourceGroup=$AZURE_RG \
+ --set providers.azure.aciRegion=$ACI_REGION \
+ --set providers.azure.tenantId=$AZURE_TENANT_ID \
+ --set providers.azure.subscriptionId=$AZURE_SUBSCRIPTION_ID \
+ --set providers.azure.clientId=$AZURE_CLIENT_ID \
+ --set providers.azure.clientKey=$AZURE_CLIENT_SECRET \
+ --set providers.azure.masterUri=$MASTER_URI
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>정상 설치 확인하기</p>
+
+    <p>virtual-kubelet이 cluster에 Pod로 배포되었고, Running 중인지 확인합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ kubectl --namespace=default get pods -l "app=virtual-kubelet"
+ NAME                                               READY   STATUS    RESTARTS   AGE
+ virtual-kubelet-virtual-kubelet-7c9fbc55c4-r2j57   1/1     Running   0          23s
+</code></pre></div>    </div>
+
+    <p>Cluster의 node를 조회해 virtual-kubelet node가 조회되는지 확인합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ kubectl get nodes
+ NAME                                                STATUS   ROLES    AGE   VERSION
+ gke-standard-cluster-1-default-pool-cc858c9e-9sf8   Ready    &lt;none&gt;   39m   v1.12.8-gke.10
+ gke-standard-cluster-1-default-pool-cc858c9e-bm01   Ready    &lt;none&gt;   39m   v1.12.8-gke.10
+ virtual-kubelet                                     Ready    agent    44s   v1.13.1-vk-v0.9.0-1-g7b92d1ee-dev
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="sample-app-배포하기">Sample App 배포하기</h2>
+
+<ol>
+  <li>
+    <p>virtual-node.yaml 파일을 생성합니다.
+ACI(Azure Container Instance)에 배포하기 위해 nodeSelector와 toleration을 추가합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aci-helloworld
+spec:
+  replicas: 1
+  selector:
+ matchLabels:
+   app: aci-helloworld
+  template:
+ metadata:
+   labels:
+     app: aci-helloworld
+ spec:
+   containers:
+   - name: aci-helloworld
+     image: microsoft/aci-helloworld
+     ports:
+     - containerPort: 80
+   nodeSelector:
+     kubernetes.io/role: agent
+     beta.kubernetes.io/os: linux
+     type: virtual-kubelet
+   tolerations:
+   - key: virtual-kubelet.io/provider
+     operator: Exists
+   - key: azure.com/aci
+     effect: NoSchedule
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>aci-helloworld pod를 배포합니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ kubectl apply -f virtual-node.yaml
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>배포 후 Pod를 조회해보면 aci-helloworld app은 virtual-kubelt node에 배포된 것을 확인할 수 있습니다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ kubectl get po -o wide
+ NAME                 READY STATUS    RESTARTS   AGE    IP              NODE              NOMINATED NODE
+ aci-helloworld-...   1/1   Running   0          54s    [IP_ADDRESS]    virtual-kubelet   &lt;none&gt;
+ sample-app-...       1/1   Running   0          4m17s  10.0.0.7        gke-standard...   &lt;none&gt;
+</code></pre></div>    </div>
+
+    <p>aci-helloworld pod의 [IP_ADDRESS]를 정보를 복사한 후 웹브라우저에서 접속하면 
+ <code class="highlighter-rouge">Welcome to Azure Container Instances!</code> 메세지를 확인할 수 있습니다.</p>
+
+    <p>마지막으로 Azure Port에 접속해 ACI resource group에서 aci-helloworld 앱이 배포된것을 확인할 수 있습니다.</p>
+
+    <p><img src="/blog/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-aci.png" alt="" /></p>
+  </li>
+</ol>
+
+
+  </div>
+<div id="disqus_thread"></div>
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://sj-blog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a class="u-url" href="/blog/kubernetes/2019/08/25/virtual-kublet.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <!--h2 class="footer-heading">SJ Tech Blog</h2-->
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">SJ</li><li><a class="u-email" href="mailto:ysj188cm@gmail.com">ysj188cm@gmail.com</a></li>
+            <li>subscribe <a href="/blog/feed.xml">via RSS</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yunsangjun"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yunsangjun</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud 및 DevOps 관련 기술에 관심이 있습니다.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

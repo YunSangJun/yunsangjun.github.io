@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기"
-author: 윤상준
+author: sj
 date: 2019-08-11
 categories: istio
 tags:

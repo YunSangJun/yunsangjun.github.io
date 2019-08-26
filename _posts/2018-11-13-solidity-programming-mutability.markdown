@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Solidity Programming #7 가변성(Mutability)"
-author: 윤상준
+author: sj
 date: 2018-11-13
 categories: solidity
 tags:

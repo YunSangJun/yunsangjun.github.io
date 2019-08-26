@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Jenkins 설치하기"
-author: 윤상준
+author: sj
 date: 2018-05-26
 categories: cicd
 tags:

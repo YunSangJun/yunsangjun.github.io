@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spinnaker 활용 #1 파이프라인 시작하기"
-author: 윤상준
+author: sj
 date: 2018-10-14
 categories: spinnaker
 ---

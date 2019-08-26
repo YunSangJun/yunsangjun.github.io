@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Solidity Programming #6 가시성(Visibility)"
-author: 윤상준
+author: sj
 date: 2018-11-12
 categories: solidity
 tags:

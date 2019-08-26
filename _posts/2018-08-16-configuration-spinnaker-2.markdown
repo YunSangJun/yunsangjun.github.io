@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spinnaker 설정 #2 사용자 인증/인가"
-author: 윤상준
+author: sj
 date: 2018-08-16
 categories: spinnaker
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Docker 이미지 레이어란?"
-author: 윤상준
+author: sj
 date: 2018-05-26
 categories: docker
 tags:

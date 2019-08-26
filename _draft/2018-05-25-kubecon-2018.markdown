@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "KubeCon & CloudNativeCon Europe 2018"
-author: 윤상준
+author: sj
 date: 2018-05-25
 categories: kubernetes
 ---

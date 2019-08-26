@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Kubespray를 활용하여 Kubernetes 설치하기"
-author: 윤상준
+author: sj
 date: 2019-07-10
 categories: kubernetes
 tags:

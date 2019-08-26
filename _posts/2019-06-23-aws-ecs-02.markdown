@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)"
-author: 윤상준
+author: sj
 date: 2019-06-23
 categories: cloud
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Docker Private Registry로 부터 이미지 가져오기"
-author: 윤상준
+author: sj
 date: 2018-05-25
 categories: kubernetes
 tags:

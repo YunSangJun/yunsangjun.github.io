@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Istio Overview"
-author: 윤상준
+author: sj
 date: 2018-04-26
 categories: istio
 tags:

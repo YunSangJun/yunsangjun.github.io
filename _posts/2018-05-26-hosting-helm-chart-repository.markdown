@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Helm chart repository 호스팅"
-author: 윤상준
+author: sj
 date: 2018-05-26
 categories: helm
 tags:

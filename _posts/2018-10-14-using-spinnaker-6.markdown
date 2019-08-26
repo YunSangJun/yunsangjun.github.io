@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spinnaker 활용 #6 Helm chart 배포"
-author: 윤상준
+author: sj
 date: 2018-10-14
 categories: spinnaker
 tags:

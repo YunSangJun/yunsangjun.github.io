@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spinnaker 활용 #2 무중단 배포(Rolling Update)"
-author: 윤상준
+author: sj
 date: 2018-10-14
 categories: spinnaker
 ---

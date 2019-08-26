@@ -1,4 +1,290 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-08-13T01:06:42+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">윤상준의 기술 블로그</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>Yun SangJun</name></author><entry><title type="html">Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기</title><link href="http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh.html" rel="alternate" type="text/html" title="Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기" /><published>2019-08-11T00:00:00+09:00</published><updated>2019-08-11T00:00:00+09:00</updated><id>http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh</id><content type="html" xml:base="http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-08-26T22:45:14+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">SJ Tech Blog</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>SJ</name></author><entry><title type="html">Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기</title><link href="http://localhost:4000/blog/kubernetes/2019/08/25/virtual-kublet.html" rel="alternate" type="text/html" title="Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기" /><published>2019-08-25T00:00:00+09:00</published><updated>2019-08-25T00:00:00+09:00</updated><id>http://localhost:4000/blog/kubernetes/2019/08/25/virtual-kublet</id><content type="html" xml:base="http://localhost:4000/blog/kubernetes/2019/08/25/virtual-kublet.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;Private 환경에서 kubernetes cluster를 운영하고 있다면 workload를 bursting 하는 관점에서 
+Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것입니다.&lt;/p&gt;
+
+&lt;p&gt;CNCF(Cloud Native Computing Foundation)에 
+&lt;a href=&quot;https://github.com/virtual-kubelet/virtual-kubelet&quot;&gt;Virtual Kubelet&lt;/a&gt;이라는
+흥미로운 프로젝트가 있어 간단한 Hands-on과 함께 후기를 적어봅니다.&lt;/p&gt;
+
+&lt;p&gt;Virtual Kubelet에 대한 설명을 보면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Kubernete를 다른 API와 연동하기 위한 Kubelet 구현체&lt;/code&gt;라고 정의되어 있습니다.
+이 설명만 들으면 무슨 소린지 와닿지가 않습니다.&lt;/p&gt;
+
+&lt;p&gt;활용 사례를 통해 좀 더 쉬운 예를 들어보겠습니다.
+아래 그림과 같이 운영중인 Kubernetes cluster에 Public Cloud의 서버리스 컨테이너 서비스
+(예 - AWS ECS Fargate, Azure Container Instance 등)를 확장해 마치 하나의 cluster 처럼 사용할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-architecture.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Public cloud에는 Kubernetes cluster를 추가로 운영할 필요없이 서버리스 컨테이너에 대한 비용만 지불하면 되므로 비용 효율적인 측면이 있습니다.&lt;/p&gt;
+
+&lt;p&gt;물론 제약 사항도 있습니다. Kubernetes cluster와 컨테이너 플랫폼이 동일한 네트워크 환경에 위치하지 않는다면 
+일반적으로 Pod간에 private 통신은 불가능합니다.&lt;/p&gt;
+
+&lt;p&gt;예외적으로 동일한 Cloud 환경에 Kubernetes와 서버리스 컨테이너가 위치한다면 Pod간 private 통신도 가능합니다.
+자세한 내용은 아래 사례를 읽어보시면 이해가 쉬울 것입니다.&lt;/p&gt;
+
+&lt;p&gt;https://docs.microsoft.com/ko-kr/azure/aks/virtual-nodes-portal&lt;/p&gt;
+
+&lt;p&gt;추가로 프로젝트 설명에 Multi Kubernetes cluster를 federation 하기 위한 용도가 아니라고 명시되어 있으니
+사용에 참고가 필요할 거 같습니다.&lt;/p&gt;
+
+&lt;p&gt;마지막으로 프로젝트 현황을 살펴보면 CNCF의 Sandbox 프로젝트라고 합니다.
+일반적으로 Sandbox =&amp;gt; Incubation =&amp;gt; Graduate 순으로 발전된다고 합니다.&lt;/p&gt;
+
+&lt;p&gt;최근 1.0 버전이 릴리스되어 프로젝트가 안정화되어 가는거 같고 
+실용적인 활용 사례와 컨셉이 명확해 앞으로 기대가 되는 프로젝트입니다.&lt;/p&gt;
+
+&lt;p&gt;아래 hands-on을 한번 따라해보시면 프로젝트 컨셉과 활용 방법에 대해 좀 더 쉽게 이해할 수 있으리라 생각됩니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;사전-준비하기&quot;&gt;사전 준비하기&lt;/h2&gt;
+
+&lt;p&gt;이 문서에서는 누구나 따라할 수 있도록 Public cloud의 무료 체험이 가능한 환경 기준으로 작성했습니다.&lt;/p&gt;
+
+&lt;p&gt;Kubernetes cluster는 GKE(Google Kubernetes Engine), 컨테이너 서비스는 ACI(Azure Container Instance)를 사용했습니다.&lt;/p&gt;
+
+&lt;p&gt;Hands-on을 위해서 아래와 같은 준비사항이 필요합니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kubernetes cluster&lt;/p&gt;
+
+    &lt;p&gt;기존의 보유하고 있는 cluster를 사용하거나 새로 생성합니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https://cloud.google.com/kubernetes-engine/docs/quickstart?hl=ko&quot;&gt;GKE(Google Kubernetes Engine)&lt;/a&gt;,
+ &lt;a href=&quot;https://azure.microsoft.com/ko-kr/services/kubernetes-service/&quot;&gt;AKS(Azure Kubernetes Service)&lt;/a&gt;, 
+ &lt;a href=&quot;https://aws.amazon.com/ko/eks/&quot;&gt;EKS(Elastic Kubernetes Service)&lt;/a&gt; 
+ 등 관리형 Kubernetes 서비스를 활용하여 쉽고 빠르게 생성할 수 있습니다.&lt;/p&gt;
+
+    &lt;p&gt;이 문서에서는 GKE 환경을 사용했습니다. 구글 계정을 가지고 있다면 Credit을 받아 일정기간 무료로 사용할 수 있습니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Azure 계정&lt;/p&gt;
+
+    &lt;p&gt;ACI(Azure Container Instance)를 사용하기 위해 Azure 계정을 준비합니다.&lt;/p&gt;
+
+    &lt;p&gt;Azure 계정이 없다면 &lt;a href=&quot;https://azure.microsoft.com/ko-kr/free/&quot;&gt;Azure 체험 계정 만들기&lt;/a&gt;를 통하여 
+ 계정을 생성하고 Credit을 받아 일정기간 무료로 사용할 수 있습니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Azure CLI.&lt;/p&gt;
+
+    &lt;p&gt;Azure CLI를 설치합니다.&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;OSX&lt;/p&gt;
+
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  brew install azure-cli
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Linux(Ubuntu 64-bit)&lt;/p&gt;
+
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  $ echo &quot;deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main&quot; | \
+  sudo tee /etc/apt/sources.list.d/azure-cli.list
+ 
+  $ sudo apt-key adv --keyserver packages.microsoft.com --recv-keys 52E16F86FEE04B979B07E28DB02C46DF417A0893
+  $ sudo apt-get install apt-transport-https
+  $ sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install azure-cli
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kubernetes CLI&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https://kubernetes.io/docs/tasks/tools/install-kubectl/&quot;&gt;Kubernetes CLI&lt;/a&gt;를 설치합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Helm CLI.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/blog/helm/2018/05/27/installing-helm.html&quot;&gt;Helm CLI&lt;/a&gt;를 설치합니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;azure-계정-설정하기&quot;&gt;Azure 계정 설정하기&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Azure에 로그인합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; az login
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Azure subscription 조회 및 복사합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ az account list -o table
+ Name       CloudName    SubscriptionId                        State    IsDefault
+ ---------  -----------  ------------------------------------  -------  -----------
+ 무료 체험    AzureCloud   &amp;lt;SubscriptionId&amp;gt;                      Enabled  True
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Subscription ID에 위에서 복사한 ID를 저장합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; export AZURE_SUBSCRIPTION_ID=&quot;&amp;lt;SubscriptionId&amp;gt;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;ACI(Azure Container Instance)를 활성화합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; az provider register -n Microsoft.ContainerInstance
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;aci-resource-group-생성하기&quot;&gt;ACI Resource Group 생성하기&lt;/h2&gt;
+
+&lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
+&lt;p class=&quot;tip-content&quot;&gt;
+현재 Azure 한국 리전에서는 ACI 서비스가 없습니다. 
+서비스 중인 가장 가까운 리전은 japaneast 입니다.(japanwest도 없음)
+&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export ACI_REGION=japaneast
+az group create --name aci-group --location &quot;$ACI_REGION&quot;
+export AZURE_RG=aci-group
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;azure-service-principal-생성하기&quot;&gt;Azure Service principal 생성하기&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;RBAC과 함께 SP(Service principal)를 생성합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ az ad sp create-for-rbac --name virtual-kubelet-quickstart -o table
+ ...
+ AppId       DisplayName        Name                Password                  Tenant
+ -----------------------------------------------------------------------------------------------  
+ &amp;lt;AppId&amp;gt;     ...                ...                 &amp;lt;Password&amp;gt;                &amp;lt;Tenant&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;위의 결과를 변수로 저장합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; export AZURE_TENANT_ID=&amp;lt;Tenant&amp;gt;
+ export AZURE_CLIENT_ID=&amp;lt;AppId&amp;gt;
+ export AZURE_CLIENT_SECRET=&amp;lt;Password&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;virtual-kubelet-배포하기&quot;&gt;Virtual Kubelet 배포하기&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Cluster의 Master Endpoint 확인 및 복사합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl cluster-info
+ Kubernetes master is running at &amp;lt;Kubernetes Master&amp;gt;
+ ...
+
+ $ export MASTER_URI=&amp;lt;Kubernetes Master&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Helm을 통하여 Virtual Kubelet 설치합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; VK_RELEASE=virtual-kubelet-latest
+ RELEASE_NAME=virtual-kubelet
+ NODE_NAME=virtual-kubelet
+ CHART_URL=https://github.com/virtual-kubelet/virtual-kubelet/raw/master/charts/$VK_RELEASE.tgz
+
+ helm install &quot;$CHART_URL&quot; --name &quot;$RELEASE_NAME&quot; \
+ --set provider=azure \
+ --set rbac.install=true \
+ --set providers.azure.targetAKS=false \
+ --set providers.azure.aciResourceGroup=$AZURE_RG \
+ --set providers.azure.aciRegion=$ACI_REGION \
+ --set providers.azure.tenantId=$AZURE_TENANT_ID \
+ --set providers.azure.subscriptionId=$AZURE_SUBSCRIPTION_ID \
+ --set providers.azure.clientId=$AZURE_CLIENT_ID \
+ --set providers.azure.clientKey=$AZURE_CLIENT_SECRET \
+ --set providers.azure.masterUri=$MASTER_URI
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;정상 설치 확인하기&lt;/p&gt;
+
+    &lt;p&gt;virtual-kubelet이 cluster에 Pod로 배포되었고, Running 중인지 확인합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl --namespace=default get pods -l &quot;app=virtual-kubelet&quot;
+ NAME                                               READY   STATUS    RESTARTS   AGE
+ virtual-kubelet-virtual-kubelet-7c9fbc55c4-r2j57   1/1     Running   0          23s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Cluster의 node를 조회해 virtual-kubelet node가 조회되는지 확인합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl get nodes
+ NAME                                                STATUS   ROLES    AGE   VERSION
+ gke-standard-cluster-1-default-pool-cc858c9e-9sf8   Ready    &amp;lt;none&amp;gt;   39m   v1.12.8-gke.10
+ gke-standard-cluster-1-default-pool-cc858c9e-bm01   Ready    &amp;lt;none&amp;gt;   39m   v1.12.8-gke.10
+ virtual-kubelet                                     Ready    agent    44s   v1.13.1-vk-v0.9.0-1-g7b92d1ee-dev
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;sample-app-배포하기&quot;&gt;Sample App 배포하기&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;virtual-node.yaml 파일을 생성합니다.
+ACI(Azure Container Instance)에 배포하기 위해 nodeSelector와 toleration을 추가합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aci-helloworld
+spec:
+  replicas: 1
+  selector:
+ matchLabels:
+   app: aci-helloworld
+  template:
+ metadata:
+   labels:
+     app: aci-helloworld
+ spec:
+   containers:
+   - name: aci-helloworld
+     image: microsoft/aci-helloworld
+     ports:
+     - containerPort: 80
+   nodeSelector:
+     kubernetes.io/role: agent
+     beta.kubernetes.io/os: linux
+     type: virtual-kubelet
+   tolerations:
+   - key: virtual-kubelet.io/provider
+     operator: Exists
+   - key: azure.com/aci
+     effect: NoSchedule
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;aci-helloworld pod를 배포합니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl apply -f virtual-node.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;배포 후 Pod를 조회해보면 aci-helloworld app은 virtual-kubelt node에 배포된 것을 확인할 수 있습니다.&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ kubectl get po -o wide
+ NAME                 READY STATUS    RESTARTS   AGE    IP              NODE              NOMINATED NODE
+ aci-helloworld-...   1/1   Running   0          54s    [IP_ADDRESS]    virtual-kubelet   &amp;lt;none&amp;gt;
+ sample-app-...       1/1   Running   0          4m17s  10.0.0.7        gke-standard...   &amp;lt;none&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;aci-helloworld pod의 [IP_ADDRESS]를 정보를 복사한 후 웹브라우저에서 접속하면 
+ &lt;code class=&quot;highlighter-rouge&quot;&gt;Welcome to Azure Container Instances!&lt;/code&gt; 메세지를 확인할 수 있습니다.&lt;/p&gt;
+
+    &lt;p&gt;마지막으로 Azure Port에 접속해 ACI resource group에서 aci-helloworld 앱이 배포된것을 확인할 수 있습니다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-aci.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name>sj</name></author><category term="kubernetes" /><category term="virtualkubelet" /><category term="cloud" /><category term="container" /><summary type="html">Overview Private 환경에서 kubernetes cluster를 운영하고 있다면 workload를 bursting 하는 관점에서 Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것입니다.</summary></entry><entry><title type="html">Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기</title><link href="http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh.html" rel="alternate" type="text/html" title="Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기" /><published>2019-08-11T00:00:00+09:00</published><updated>2019-08-11T00:00:00+09:00</updated><id>http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh</id><content type="html" xml:base="http://localhost:4000/blog/istio/2019/08/11/istio-multi-cluster-mesh.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
 &lt;p&gt;Istio를 활용하여 여러개의 Kubernetes Cluster 환경에 Service Mesh를 구성할 수 있습니다.&lt;/p&gt;
 
@@ -425,7 +711,7 @@ CTX_CLUSTER1 = cluster1, CTX_CLUSTER2 = cluster2
 &lt;/ol&gt;
 
 &lt;p&gt;지금까지 살펴본 내용을 보면 Istio의 Service Mesh 구성을 통해 서로 다른 네트워크에 구성한 Cluster에서 실행중인 서비스간의 통신이
-가능하다는 것을 확인할 수 있었습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="istio" /><category term="servicemesh" /><category term="multicluster" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">Jenkins CI를 활용한 지속적인 소스코드 통합 환경 구성하기</title><link href="http://localhost:4000/blog/cicd/2019/08/04/jenkinsci.html" rel="alternate" type="text/html" title="Jenkins CI를 활용한 지속적인 소스코드 통합 환경 구성하기" /><published>2019-08-04T00:00:00+09:00</published><updated>2019-08-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/08/04/jenkinsci</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/08/04/jenkinsci.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+가능하다는 것을 확인할 수 있었습니다.&lt;/p&gt;</content><author><name>sj</name></author><category term="istio" /><category term="servicemesh" /><category term="multicluster" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">Jenkins CI를 활용한 지속적인 소스코드 통합 환경 구성하기</title><link href="http://localhost:4000/blog/cicd/2019/08/04/jenkinsci.html" rel="alternate" type="text/html" title="Jenkins CI를 활용한 지속적인 소스코드 통합 환경 구성하기" /><published>2019-08-04T00:00:00+09:00</published><updated>2019-08-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/08/04/jenkinsci</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/08/04/jenkinsci.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
 &lt;p&gt;소스코드를 지속적으로 통합하기 위해서 TravisCI, CircleCI, Jenkins 등 다양한 툴을 활용할 수 있습니다.&lt;/p&gt;
 
@@ -727,7 +1013,7 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
     &lt;p&gt;master branch에 new_feature 코드가 병합됩니다.
 그리고 Jenkins Pipeline이 master branch의 변경사항을 감지하고 애플리케이션을 다시 빌드합니다.&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>윤상준</name></author><category term="jenkinsci" /><category term="cicd" /><category term="devops" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">Argo CD 설치하기</title><link href="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html" rel="alternate" type="text/html" title="Argo CD 설치하기" /><published>2019-08-04T00:00:00+09:00</published><updated>2019-08-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/08/04/installing-argocd</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;/ol&gt;</content><author><name>sj</name></author><category term="jenkinsci" /><category term="cicd" /><category term="devops" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">Argo CD 설치하기</title><link href="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html" rel="alternate" type="text/html" title="Argo CD 설치하기" /><published>2019-08-04T00:00:00+09:00</published><updated>2019-08-04T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/08/04/installing-argocd</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/08/04/installing-argocd.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
 &lt;p&gt;Argo CD는 지속적인 배포 환경을 구성하기 위한 툴입니다.&lt;/p&gt;
 
@@ -910,7 +1196,7 @@ Revision은 Head, Path는 guestbook을 입력합니다.&lt;/p&gt;
 
     &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>윤상준</name></author><category term="argocd" /><category term="cicd" /><category term="devops" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기</title><link href="http://localhost:4000/blog/cicd/2019/07/03/circleci.html" rel="alternate" type="text/html" title="CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기" /><published>2019-07-03T00:00:00+09:00</published><updated>2019-07-03T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/07/03/circleci</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/07/03/circleci.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;/ol&gt;</content><author><name>sj</name></author><category term="argocd" /><category term="cicd" /><category term="devops" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기</title><link href="http://localhost:4000/blog/cicd/2019/07/03/circleci.html" rel="alternate" type="text/html" title="CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기" /><published>2019-07-03T00:00:00+09:00</published><updated>2019-07-03T00:00:00+09:00</updated><id>http://localhost:4000/blog/cicd/2019/07/03/circleci</id><content type="html" xml:base="http://localhost:4000/blog/cicd/2019/07/03/circleci.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
 &lt;p&gt;CircleCI는 소스코드를 통합하고 빌드, 배포를 자동화하는 파이프라인을 구성하기 위한 툴입니다.&lt;/p&gt;
 
@@ -1688,7 +1974,7 @@ $ git push
 
     &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-09.png&quot; alt=&quot;&quot; width=&quot;70%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>윤상준</name></author><category term="circleci" /><category term="cicd" /><category term="devops" /><summary type="html">Overview</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기</title><link href="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)의 서비스(ECS Service)를 통해 작업 정의(컨테이너)를 관리할 수 있습니다. 
+&lt;/ul&gt;</content><author><name>sj</name></author><category term="circleci" /><category term="cicd" /><category term="devops" /><summary type="html">Overview</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기</title><link href="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-03.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)의 서비스(ECS Service)를 통해 작업 정의(컨테이너)를 관리할 수 있습니다. 
 로드 밸런서와 연동하여 트랙픽을 다중 컨테이너에 분산할 수 있습니다. 
 Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 조절할 수 있습니다.&lt;/p&gt;
 
@@ -2020,7 +2306,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
     &lt;p&gt;배포 그룹 확인
 &lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecsservice" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)의 서비스(ECS Service)를 통해 작업 정의(컨테이너)를 관리할 수 있습니다. 로드 밸런서와 연동하여 트랙픽을 다중 컨테이너에 분산할 수 있습니다. Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 조절할 수 있습니다.</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)</title><link href="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-02.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-02</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-02.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)의 작업 정의(ECS Task)를 통해 컨테이너 관련 설정을 할 수 있습니다.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>sj</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecsservice" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)의 서비스(ECS Service)를 통해 작업 정의(컨테이너)를 관리할 수 있습니다. 로드 밸런서와 연동하여 트랙픽을 다중 컨테이너에 분산할 수 있습니다. Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 조절할 수 있습니다.</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)</title><link href="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-02.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-02</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-02.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)의 작업 정의(ECS Task)를 통해 컨테이너 관련 설정을 할 수 있습니다.&lt;/p&gt;
 
 &lt;p&gt;이 문서에서는 작업 정의(ECS Task)를 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
 
@@ -2101,7 +2387,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
 &lt;/ul&gt;
 
 &lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-03.html&quot;&gt;AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기&lt;/a&gt;
-문서에서 서비스(ECS Service)를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecstask" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)의 작업 정의(ECS Task)를 통해 컨테이너 관련 설정을 할 수 있습니다. 이 문서에서는 작업 정의(ECS Task)를 구성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기</title><link href="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-01.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-01</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-01.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)를 구성하기 위해 필요한 사전 준비와 ECS 클러스터를 생성하는 방법을 알아보겠습니다.&lt;/p&gt;
+문서에서 서비스(ECS Service)를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>sj</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecstask" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)의 작업 정의(ECS Task)를 통해 컨테이너 관련 설정을 할 수 있습니다. 이 문서에서는 작업 정의(ECS Task)를 구성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기</title><link href="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-01.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-01</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/23/aws-ecs-01.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)를 구성하기 위해 필요한 사전 준비와 ECS 클러스터를 생성하는 방법을 알아보겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
@@ -2167,7 +2453,7 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
 &lt;/ul&gt;
 
 &lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-02.html&quot;&gt;AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)&lt;/a&gt;
-문서에서 작업 정의(ECS Task)를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)를 구성하기 위해 필요한 사전 준비와 ECS 클러스터를 생성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline</title><link href="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd05.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline" /><published>2019-06-22T00:00:00+09:00</published><updated>2019-06-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/22/aws-cicd05</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd05.html">&lt;p&gt;지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.&lt;/p&gt;
+문서에서 작업 정의(ECS Task)를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>sj</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)를 구성하기 위해 필요한 사전 준비와 ECS 클러스터를 생성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline</title><link href="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd05.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline" /><published>2019-06-22T00:00:00+09:00</published><updated>2019-06-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/22/aws-cicd05</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd05.html">&lt;p&gt;지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.&lt;/p&gt;
 
 &lt;p&gt;이 문서에서는 배포 방식으로 Blue/green deployment를 활용하겠습니다.&lt;/p&gt;
 
@@ -2531,7 +2817,7 @@ cache:
     &lt;p&gt;배포 작업이 완료되었으므로 원래 작업 세트 종료 버튼을 선택해 원본 작업은 종료 처리
 &lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-13.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodedeploy" /><category term="awscodepipeline" /><category term="bluegreendeployement" /><summary type="html">지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline</title><link href="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline" /><published>2019-06-22T00:00:00+09:00</published><updated>2019-06-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04.html">&lt;p&gt;지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>sj</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodedeploy" /><category term="awscodepipeline" /><category term="bluegreendeployement" /><summary type="html">지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline</title><link href="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline" /><published>2019-06-22T00:00:00+09:00</published><updated>2019-06-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/22/aws-cicd04.html">&lt;p&gt;지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.&lt;/p&gt;
 
 &lt;p&gt;이 문서에서는 배포 방식으로 Rolling Update를 활용하겠습니다.&lt;/p&gt;
 
@@ -2712,358 +2998,4 @@ cache:
 &lt;/ul&gt;
 
 &lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/22/aws-cicd05.html&quot;&gt;AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline&lt;/a&gt;
-문서에서 Blue/green deployment 방식의 파이프라인을 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodedeploy" /><category term="awscodepipeline" /><category term="rollingupdate" /><summary type="html">지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild</title><link href="http://localhost:4000/blog/cloud/2019/06/21/aws-cicd03.html" rel="alternate" type="text/html" title="AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild" /><published>2019-06-21T00:00:00+09:00</published><updated>2019-06-21T00:00:00+09:00</updated><id>http://localhost:4000/blog/cloud/2019/06/21/aws-cicd03</id><content type="html" xml:base="http://localhost:4000/blog/cloud/2019/06/21/aws-cicd03.html">&lt;p&gt;AWS에서 CodeBuild 서비스를 활용하여 소스코드를 빌드하는 방법을 알아보겠습니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
-
-&lt;h3 id=&quot;ecrelastic-container-registry-생성&quot;&gt;ECR(Elastic Container Registry) 생성&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;ECR Console에 접속 &amp;gt; 메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;리포지토리 생성&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-00.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;리포지토리 이름 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 입력 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;리포지토리 생성&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;생성한 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 리포지토리를 CodeBuild 서비스에서 사용합니다.&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;iam-정책-생성&quot;&gt;IAM 정책 생성&lt;/h3&gt;
-
-&lt;p&gt;CodeBuild에서 ECR에 접근하기 위한 정책을 생성합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;IAM Console에 접속 &amp;gt; 왼쪽 메뉴 &amp;gt; AWS Account &amp;gt; 정책 선택&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;정책 생성&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-02.png&quot; alt=&quot;&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;정책 생성 화면 &amp;gt; JSON 탭 선택 &amp;gt; 정책 내용 입력(아래 코드 참고) &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;정책 검토&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  {
-      &quot;Statement&quot;: [
-          {
-              &quot;Action&quot;: [
-                  &quot;ecr:BatchCheckLayerAvailability&quot;,
-                  &quot;ecr:CompleteLayerUpload&quot;,
-                  &quot;ecr:GetAuthorizationToken&quot;,
-                  &quot;ecr:InitiateLayerUpload&quot;,
-                  &quot;ecr:PutImage&quot;,
-                  &quot;ecr:UploadLayerPart&quot;
-              ],
-              &quot;Resource&quot;: &quot;*&quot;,
-              &quot;Effect&quot;: &quot;Allow&quot;
-          }
-      ],
-      &quot;Version&quot;: &quot;2012-10-17&quot;
-  }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;정책 이름을 &lt;code class=&quot;highlighter-rouge&quot;&gt;CodeBuildECRPolicy-cicd-demo-ap-northeast-2&lt;/code&gt;로 입력 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;정책 생성&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;buildspec-파일-생성&quot;&gt;BuildSpec 파일 생성&lt;/h3&gt;
-
-&lt;p&gt;CodeBuild 서비스를 통하여 소스코드를 빌드하기 위해서 소스코드의 repository에 &lt;code class=&quot;highlighter-rouge&quot;&gt;buildspec.yml&lt;/code&gt; 파일을 생성해야합니다.&lt;/p&gt;
-
-&lt;p&gt;아래와 같은 &lt;code class=&quot;highlighter-rouge&quot;&gt;buildspec.yml&lt;/code&gt; 파일을 CodeCommit에 생성한 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 저장소 root에 생성합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;buildspec.yml&amp;gt;
-version: 0.2 
- 
-phases: 
-  install: 
-    runtime-versions: 
-      java: openjdk8 
-      docker: 18 
-  pre_build: 
-    commands: 
-      - echo Logging in to Amazon ECR... 
-      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION) 
-  build: 
-    commands: 
-      - echo Build started on `date` 
-      - echo Building the Docker image...    
-      - mvn clean package        
-      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG . 
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG 
-  post_build: 
-    commands: 
-      - echo Build completed on `date` 
-      - echo Pushing the Docker image... 
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG 
-cache: 
-  paths: 
-    - '/root/.m2/**/*' 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;phase.install : Java SDK, Docker CLI를 설치&lt;/li&gt;
-  &lt;li&gt;phase.pre_build : ECR 서비스에 로그인&lt;/li&gt;
-  &lt;li&gt;phase.build : Maven 및 Docker 빌드&lt;/li&gt;
-  &lt;li&gt;phase.post_build : Docker 이미지를 ECR에 push&lt;/li&gt;
-  &lt;li&gt;cache.paths(선택): 소스코드 빌드에 사용하는 파일을 cache하는 경우 위치&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$AWS_DEFAULT_REGION&lt;/code&gt;와 같은 환경 변수는 CodeBuild 프로젝트 구성 과정에서 설정합니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;docker-파일-생성&quot;&gt;Docker 파일 생성&lt;/h3&gt;
-
-&lt;p&gt;Docker 이미지를 빌드하기 위해서 소스코드의 repository에 &lt;code class=&quot;highlighter-rouge&quot;&gt;Dockerfile&lt;/code&gt;을 생성해야합니다.&lt;/p&gt;
-
-&lt;p&gt;아래와 같은 &lt;code class=&quot;highlighter-rouge&quot;&gt;Dockerfile&lt;/code&gt;을 CodeCommit에 생성한 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 저장소 root에 생성합니다.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;Dockerfile&amp;gt;
-FROM openjdk:8-jdk-alpine
-ADD target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar app.jar
-ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;/app.jar&quot;]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;codebuild-프로젝트-구성&quot;&gt;CodeBuild 프로젝트 구성&lt;/h2&gt;
-
-&lt;p&gt;이제 CodeBuild 프로젝트를 구성하는 방법을 알아보겠습니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;빌드-프로젝트-생성&quot;&gt;빌드 프로젝트 생성&lt;/h3&gt;
-
-&lt;p&gt;먼저 프로젝트를 생성합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;CodeBuild 콘솔에 접속 &amp;gt; 왼쪽 메뉴의 빌드 &amp;gt; 프로젝트 빌드 선택&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;빌드 프로젝트 생성&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;프로젝트-설정&quot;&gt;프로젝트 설정&lt;/h3&gt;
-
-&lt;p&gt;이제 프로젝트 정보를 설정합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;프로젝트 이름 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 입력&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;빌드 배지 활성화 체크&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;소스&quot;&gt;소스&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;소스 공급자 &lt;code class=&quot;highlighter-rouge&quot;&gt;AWS CodeCommit&lt;/code&gt; 선택&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;리포지토리 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;환경&quot;&gt;환경&lt;/h4&gt;
-
-&lt;h5 id=&quot;이미지&quot;&gt;이미지&lt;/h5&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;환경 이미지 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;관리형 이미지&lt;/code&gt; 선택&lt;/li&gt;
-  &lt;li&gt;운영 체제 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Ubuntu 선택&lt;/code&gt; 선택&lt;/li&gt;
-  &lt;li&gt;런타임 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Standard&lt;/code&gt; 선택&lt;/li&gt;
-  &lt;li&gt;이미지 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;aws/codebuild/standart:2.0&lt;/code&gt; 선택&lt;/li&gt;
-  &lt;li&gt;이미지 버전 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;이 런타임 버전에 항상 최신 이미지 사용&lt;/code&gt; 선택&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;권한이 있음 체크&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;역할&quot;&gt;역할&lt;/h5&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;서비스 역할 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;새 서비스 역할&lt;/code&gt; 선택&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;역할 이름 &lt;code class=&quot;highlighter-rouge&quot;&gt;codebuild-cicd-demo-service-role&lt;/code&gt; 입력&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;추가-구성&quot;&gt;추가 구성&lt;/h5&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;추가 구성 메뉴 확장 &amp;gt; 환경 변수 입력&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-06-00.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-06-01.png&quot; alt=&quot;&quot; width=&quot;70%&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;환경 변수 이름, 값 설명&lt;/p&gt;
-
-    &lt;table&gt;
-      &lt;tbody&gt;
-        &lt;tr&gt;
-          &lt;td&gt;이름&lt;/td&gt;
-          &lt;td&gt;값&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;tr&gt;
-          &lt;td&gt;AWS_DEFAULT_REGION&lt;/td&gt;
-          &lt;td&gt;리전 이름&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;tr&gt;
-          &lt;td&gt;AWS_ACCOUNT_ID&lt;/td&gt;
-          &lt;td&gt;계정 아이디&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;tr&gt;
-          &lt;td&gt;IMAGE_REPO_NAME&lt;/td&gt;
-          &lt;td&gt;ECR 이름&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;tr&gt;
-          &lt;td&gt;IMAGE_TAG&lt;/td&gt;
-          &lt;td&gt;Docker 이미지 태그 이름&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;build-spec&quot;&gt;Build Spec&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;빌드 사양 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;buildspec 파일 사용&lt;/code&gt; 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;아티팩트&quot;&gt;아티팩트&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;유형 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;아티팩트 없음&lt;/code&gt; 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-08.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;로그&quot;&gt;로그&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;유형 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;CloudWatch 로그&lt;/code&gt; 선택&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;빌드 프로젝트 생성&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;codebuild-역할과-정책-연결&quot;&gt;CodeBuild 역할과 정책 연결&lt;/h3&gt;
-
-&lt;p&gt;빌드 프로젝트 생성이 완료되면 CodeBuild용 IAM 역할이 생성됩니다.&lt;/p&gt;
-
-&lt;p&gt;이 역할에 사전 준비에서 생성한 정책을 연결합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;IAM Console에 접속 &amp;gt; 왼쪽 메뉴 &amp;gt; AWS Account &amp;gt; 역할 선택&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;메인 화면 &amp;gt; 검색 창 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;codebuild&lt;/code&gt; 입력 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;codebuild-cicd-demo-service-role&lt;/code&gt; 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-10-00.png&quot; alt=&quot;&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;권한 탭 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;정책 연결&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-10-01.png&quot; alt=&quot;&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;정책 필터 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;codebuild&lt;/code&gt; 입력 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;CodeBuildECRPolicy-cicd-demo-ap-northeast-2&lt;/code&gt; 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;정책 연결&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-10-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;codebuild-시작&quot;&gt;CodeBuild 시작&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;CodeBuild 콘솔에 접속 &amp;gt; 왼쪽 메뉴의 빌드 &amp;gt; 프로젝트 빌드 선택&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 프로젝트 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;빌드 시작&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-00.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;빌드가 성공적으로 종료되면 상태가 성공함으로 변경됩니다&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;ECR의 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 저장소에 접속해보면 새로운 이미지가 생성되어 있습니다.&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-02.png&quot; alt=&quot;&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;codebuild-캐시-설정선택&quot;&gt;CodeBuild 캐시 설정(선택)&lt;/h2&gt;
-
-&lt;p&gt;위에서 빌드 결과를 보면 빌드에 소요된 시간이 14분 55초로 다소 오래 걸립니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;빌드 기록을 선택해 상세보기 페이지로 이동한 후 단계 세부 정보를 확인해보면 BUILD 단계에서 14분이 소요된 것을 확인할 수 있습니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;빌드 로그 탭을 선택해 로그를 확인해보면 Maven Build를 하기 위해 의존성 라이브러리를 다운로드하는데 많은 시간이 소요되는 것을 확인할 수 있습니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;CodeBuild 서비스에서는 소스코드를 빌드하기 위한 파일을 한번만 다운받고 이 후에는 다시 받지 않도록 캐시 옵션을 설정할 수 있습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;CodeBuild Console에 접속 &amp;gt; 빌드 &amp;gt; 프로젝트 빌드 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;빌드 세부 정보&lt;/code&gt; 탭 선택&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;아티팩트 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;편집&lt;/code&gt; 버튼 선택&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-00.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;추가 구성 메뉴 확장 &amp;gt; 캐시 유형 &lt;code class=&quot;highlighter-rouge&quot;&gt;Amazon S3&lt;/code&gt; 선택 &amp;gt; 캐시 버킷 선택(S3 콘솔에서 생성)&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;설정을 완료한 후 다시 빌드를 시작합니다. 빌드가 완료된 후 기록을 보겠습니다. 
-아래와 같이 기존 &lt;code class=&quot;highlighter-rouge&quot;&gt;14분 55초&lt;/code&gt;에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;1분 54초로&lt;/code&gt; 빌드 시간이 단축되었습니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;단계 세부 정보를 확인해보면 BUILD 단계가 기존 &lt;code class=&quot;highlighter-rouge&quot;&gt;14분&lt;/code&gt;에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;1분&lt;/code&gt;으로 단축되었습니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/22/aws-cicd04.html&quot;&gt;AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline&lt;/a&gt;
-문서에서 파이프라인 서비스인 CodePipeline을 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>윤상준</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodebuild" /><summary type="html">AWS에서 CodeBuild 서비스를 활용하여 소스코드를 빌드하는 방법을 알아보겠습니다.</summary></entry></feed>
+문서에서 Blue/green deployment 방식의 파이프라인을 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>sj</name></author><category term="aws" /><category term="cicd" /><category term="devops" /><category term="awscodedeploy" /><category term="awscodepipeline" /><category term="rollingupdate" /><summary type="html">지금까지 구성한 CodeCommit, CodeBuild, CodeDeploy 및 CodePipeline 서비스를 활용하여 코드를 통합, 빌드 및 배포하는 방법을 알아보겠습니다.</summary></entry></feed>

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Kubernetes 스터디 #8 Monitoring"
-author: 윤상준
+author: sj
 date: 2018-07-20
 categories: kubernetes
 tags:

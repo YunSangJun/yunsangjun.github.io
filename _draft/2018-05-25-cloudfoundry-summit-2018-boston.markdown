@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "CloudFoundry Summit in 2018 Boston"
-author: 윤상준
+author: sj
 date: 2018-05-25
 categories: cloudfoundry
 ---

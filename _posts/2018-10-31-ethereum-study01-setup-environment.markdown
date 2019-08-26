@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "이더리움 스터디 #1 환경 구성"
-author: 윤상준
+author: sj
 date: 2018-10-31
 categories: ethereum
 tags:

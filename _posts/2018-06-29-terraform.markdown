@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Terraform 사용하기"
-author: 윤상준
+author: sj
 date: 2018-06-29
 categories: terraform
 tags:

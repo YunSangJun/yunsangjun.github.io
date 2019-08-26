@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "이더리움 스터디 #3 송금(Transaction)"
-author: 윤상준
+author: sj
 date: 2018-11-01
 categories: ethereum
 tags:

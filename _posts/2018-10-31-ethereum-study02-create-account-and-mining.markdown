@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "이더리움 스터디 #2 계정 생성 및 채굴(Mining)"
-author: 윤상준
+author: sj
 date: 2018-10-31
 categories: ethereum
 tags:

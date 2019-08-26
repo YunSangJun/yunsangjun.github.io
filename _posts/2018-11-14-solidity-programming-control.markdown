@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Solidity Programming #8 제어문"
-author: 윤상준
+author: sj
 date: 2018-11-14
 categories: solidity
 tags:

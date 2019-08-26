@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spinnaker 설정 #3 CI 시스템 연계"
-author: 윤상준
+author: sj
 date: 2018-08-18
 categories: spinnaker
 tags:

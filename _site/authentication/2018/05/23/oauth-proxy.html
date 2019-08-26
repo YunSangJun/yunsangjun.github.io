@@ -7,20 +7,20 @@
   <link rel="stylesheet" href="/blog/assets/css/category.css">
   <link rel="stylesheet" href="/blog/assets/css/tag.css">
   <link rel="stylesheet" href="/blog/assets/main.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
-<title>OAuth Proxy를 활용한 애플리케이션 인증 및 인가 | 윤상준의 기술 블로그</title>
+<title>OAuth Proxy를 활용한 애플리케이션 인증 및 인가 | SJ Tech Blog</title>
 <meta name="generator" content="Jekyll v3.8.0" />
 <meta property="og:title" content="OAuth Proxy를 활용한 애플리케이션 인증 및 인가" />
-<meta name="author" content="윤상준" />
+<meta name="author" content="sj" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="OIDC(OpenID Connect identity providers)와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 자체 개발한 애플리케이션의 경우 OIDC와 연동하기 위한 인증 기능을 개발하면 됩니다. 하지만 오픈소스를 사용하는 경우 해당 오픈소스에서 OIDC와의 연동기능을 제공하지 않으면 오픈소스의 코드를 수정해야합니다(예 : Kibana). 하지만 오픈소스의 코드를 수정하면 업스트림과의 일관성을 유지해야하는 부분이 부담스러울수 있습니다. 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 애플리케이션의 인증/인가를 처리할 수 있습니다." />
 <meta property="og:description" content="OIDC(OpenID Connect identity providers)와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 자체 개발한 애플리케이션의 경우 OIDC와 연동하기 위한 인증 기능을 개발하면 됩니다. 하지만 오픈소스를 사용하는 경우 해당 오픈소스에서 OIDC와의 연동기능을 제공하지 않으면 오픈소스의 코드를 수정해야합니다(예 : Kibana). 하지만 오픈소스의 코드를 수정하면 업스트림과의 일관성을 유지해야하는 부분이 부담스러울수 있습니다. 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 애플리케이션의 인증/인가를 처리할 수 있습니다." />
 <link rel="canonical" href="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html" />
 <meta property="og:url" content="http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html" />
-<meta property="og:site_name" content="윤상준의 기술 블로그" />
+<meta property="og:site_name" content="SJ Tech Blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-05-23T00:00:00+09:00" />
 <script type="application/ld+json">
-{"description":"OIDC(OpenID Connect identity providers)와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 자체 개발한 애플리케이션의 경우 OIDC와 연동하기 위한 인증 기능을 개발하면 됩니다. 하지만 오픈소스를 사용하는 경우 해당 오픈소스에서 OIDC와의 연동기능을 제공하지 않으면 오픈소스의 코드를 수정해야합니다(예 : Kibana). 하지만 오픈소스의 코드를 수정하면 업스트림과의 일관성을 유지해야하는 부분이 부담스러울수 있습니다. 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 애플리케이션의 인증/인가를 처리할 수 있습니다.","author":{"@type":"Person","name":"윤상준"},"@type":"BlogPosting","url":"http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html","headline":"OAuth Proxy를 활용한 애플리케이션 인증 및 인가","dateModified":"2018-05-23T00:00:00+09:00","datePublished":"2018-05-23T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html"},"@context":"http://schema.org"}</script>
+{"description":"OIDC(OpenID Connect identity providers)와 연계하여 애플리케이션의 인증을 해야하는 경우가 있습니다. 자체 개발한 애플리케이션의 경우 OIDC와 연동하기 위한 인증 기능을 개발하면 됩니다. 하지만 오픈소스를 사용하는 경우 해당 오픈소스에서 OIDC와의 연동기능을 제공하지 않으면 오픈소스의 코드를 수정해야합니다(예 : Kibana). 하지만 오픈소스의 코드를 수정하면 업스트림과의 일관성을 유지해야하는 부분이 부담스러울수 있습니다. 이 경우 Keycloak Proxy와 같은 OAuth Proxy를 사용하여 애플리케이션의 인증/인가를 처리할 수 있습니다.","author":{"@type":"Person","name":"sj"},"@type":"BlogPosting","url":"http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html","headline":"OAuth Proxy를 활용한 애플리케이션 인증 및 인가","dateModified":"2018-05-23T00:00:00+09:00","datePublished":"2018-05-23T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/authentication/2018/05/23/oauth-proxy.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="article:tag" content="oauth" >
@@ -40,11 +40,11 @@
   <meta property="article:tag" content="chart" >
   
   <meta property="article:tag" content="kubernetes" >
-  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="윤상준의 기술 블로그" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="SJ Tech Blog" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
 </head>
 <body><header class="site-header" role="banner">
 
-  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">윤상준의 기술 블로그</a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">SJ Tech Blog</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -70,7 +70,7 @@
     <h1 class="post-title p-name" itemprop="name headline">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="2018-05-23T00:00:00+09:00" itemprop="datePublished">May 23, 2018
-      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">윤상준</span></span></p>
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">sj</span></span></p>
       
 <img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
 <div class="post-tags">
@@ -337,20 +337,20 @@ Forwarding from 127.0.0.1:8080 -&gt; 8080
 
   <div class="wrapper">
 
-    <!--h2 class="footer-heading">윤상준의 기술 블로그</h2-->
+    <!--h2 class="footer-heading">SJ Tech Blog</h2-->
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">Yun SangJun</li><li><a class="u-email" href="mailto:chris.sj.yun@gmail.com">chris.sj.yun@gmail.com</a></li>
+          <li class="p-name">SJ</li><li><a class="u-email" href="mailto:ysj188cm@gmail.com">ysj188cm@gmail.com</a></li>
             <li>subscribe <a href="/blog/feed.xml">via RSS</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yunsangjun"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yunsangjun</span></a></li><li><a href="https://twitter.com/sjyun2"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">sjyun2</span></a></li></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yunsangjun"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yunsangjun</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.</p>
+        <p>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud 및 DevOps 관련 기술에 관심이 있습니다.</p>
       </div>
 
     </div>

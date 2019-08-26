@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Kubernetes 스터디 #6 고급설정"
-author: 윤상준
+author: sj
 date: 2018-07-05
 categories: kubernetes
 ---

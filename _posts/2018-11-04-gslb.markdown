@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Route 53을 활용하여 GSLB 구성하기"
-author: 윤상준
+author: sj
 date: 2018-11-04
 categories: cloud
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spinnaker 설정 #5 Artifact 설정"
-author: 윤상준
+author: sj
 date: 2018-10-11
 categories: spinnaker
 tags:

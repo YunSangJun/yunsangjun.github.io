@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Jenkins CI를 활용한 지속적인 소스코드 통합 환경 구성하기"
-author: 윤상준
+author: sj
 date: 2019-08-04
 categories: cicd
 tags:

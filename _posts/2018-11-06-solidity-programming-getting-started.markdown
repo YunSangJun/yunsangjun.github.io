@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Solidity Programming #1 Getting started"
-author: 윤상준
+author: sj
 date: 2018-11-06
 categories: solidity
 tags:

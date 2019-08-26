@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "이더리움 스터디 #4 JSON RPC(remote procedure call) API"
-author: 윤상준
+author: sj
 date: 2018-11-02
 categories: ethereum
 tags:

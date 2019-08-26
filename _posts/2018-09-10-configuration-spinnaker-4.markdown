@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spinnaker 설정 #4 GitHub Webhooks 설정"
-author: 윤상준
+author: sj
 date: 2018-09-10
 categories: spinnaker
 tags:

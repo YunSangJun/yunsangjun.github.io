@@ -2,6 +2,16 @@
   
     {
 
+      "title"    : "Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기",
+      "url"      : "/blog/kubernetes/2019/08/25/virtual-kublet.html",
+      "category" : "kubernetes",
+      "tags"     : "kubernetes, virtualkubelet, cloud, container",
+      "date"     : "2019-08-25 00:00:00 +0900"
+
+    } ,
+  
+    {
+
       "title"    : "Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기",
       "url"      : "/blog/istio/2019/08/11/istio-multi-cluster-mesh.html",
       "category" : "istio",

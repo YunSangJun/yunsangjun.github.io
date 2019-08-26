@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Ingress TLS Secret 생성하기"
-author: 윤상준
+author: sj
 date: 2018-05-27
 categories: kubernetes
 tags:

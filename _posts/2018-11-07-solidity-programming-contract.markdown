@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Solidity Programming #3 Contract의 구조"
-author: 윤상준
+author: sj
 date: 2018-11-07
 categories: solidity
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Kubernetes 스터디 #3 워크로드"
-author: 윤상준
+author: sj
 date: 2018-07-02
 categories: kubernetes
 ---

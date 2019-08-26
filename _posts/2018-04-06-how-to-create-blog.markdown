@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Github Page를 활용해 블로그 만들기"
-author: 윤상준
+author: sj
 date: 2018-04-06
 categories: etc
 tags:

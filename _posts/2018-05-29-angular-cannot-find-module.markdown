@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Cannot find module 'webpack/lib/node/NodeTemplatePlugin'"
-author: 윤상준
+author: sj
 date: 2018-05-29
 categories: angular
 tags:

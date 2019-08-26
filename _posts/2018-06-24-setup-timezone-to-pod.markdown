@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Pod에 타임존 설정하기"
-author: 윤상준
+author: sj
 date: 2018-06-24
 categories: kubernetes
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spinnaker 설정 #1 도메인 주소를 통한 대시보드 접속"
-author: 윤상준
+author: sj
 date: 2018-08-15
 categories: spinnaker
 tags:

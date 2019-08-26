@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Kubernetes 스터디 #1 Overview"
-author: 윤상준
+author: sj
 date: 2018-06-30
 categories: kubernetes
 ---

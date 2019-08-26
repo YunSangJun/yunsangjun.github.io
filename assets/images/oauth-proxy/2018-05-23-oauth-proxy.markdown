@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "OAuth Proxy를 활용한 애플리케이션 인증 및 인가"
-author: 윤상준
+author: sj
 date: 2018-05-23
 categories: authentication
 ---

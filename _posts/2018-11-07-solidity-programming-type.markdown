@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Solidity Programming #4 자료형"
-author: 윤상준
+author: sj
 date: 2018-11-07
 categories: solidity
 tags:

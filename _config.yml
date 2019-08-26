@@ -13,12 +13,12 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: 윤상준의 기술 블로그
-author: Yun SangJun
-email: chris.sj.yun@gmail.com
+title: SJ Tech Blog
+author: SJ
+email: ysj188cm@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Software & Cloud Engineer 입니다.
-  Kubernetes, Cloud Foundry등의 PaaS와 Cloud 및 DevOps 관련 기술에 관심이 있습니다.
+  Kubernetes, Cloud 및 DevOps 관련 기술에 관심이 있습니다.
 baseurl: "/blog" # the subpath of your site, e.g. /blog
 url: "https://yunsangjun.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 disqus:
@@ -30,7 +30,7 @@ paginate: 5
 paginate_path: "/page:num/"
 
 #Social networks
-twitter_username: sjyun2
+#twitter_username: sjyun2
 github_username: yunsangjun
 #facebook_username: jekyll
 #flickr_username: jekyll

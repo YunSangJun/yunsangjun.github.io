@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Istio Intelligent Routing #1 콘텐츠 기반 라우팅"
-author: 윤상준
+author: sj
 date: 2018-04-26
 categories: istio
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Argo CD 설치하기"
-author: 윤상준
+author: sj
 date: 2019-08-04
 categories: cicd
 tags:

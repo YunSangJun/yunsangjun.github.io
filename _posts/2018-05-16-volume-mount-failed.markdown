@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "MountVolume.SetUp failed for volume pvc-xxx"
-author: 윤상준
+author: sj
 date: 2018-05-16
 categories: kubernetes
 tags:
