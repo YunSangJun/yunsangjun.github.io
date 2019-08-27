@@ -13,30 +13,36 @@ tags:
 
 ## Overview
 Private 환경에서 kubernetes cluster를 운영하고 있다면 workload를 bursting 하는 관점에서 
-Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것입니다.
+Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것이라 생각합니다.
 
-CNCF(Cloud Native Computing Foundation)에 
+이와 관련해 CNCF(Cloud Native Computing Foundation)에 
 [Virtual Kubelet](https://github.com/virtual-kubelet/virtual-kubelet)이라는
-흥미로운 프로젝트가 있어 간단한 Hands-on과 함께 후기를 적어봅니다.
+흥미로운 프로젝트가 있어 활용 사례 및 Hands-on을 남겨봅니다.
 
 Virtual Kubelet에 대한 설명을 보면 `Kubernete를 다른 API와 연동하기 위한 Kubelet 구현체`라고 정의되어 있습니다.
-이 설명만 들으면 무슨 소린지 와닿지가 않습니다.
+이 설명만 들으면 활용 방법이나 프로젝트에서 추구하는 목적이 크게 와닿지가 않습니다.
 
-활용 사례를 통해 좀 더 쉬운 예를 들어보겠습니다.
+이해를 돕기 위해 활용 사례를 들어보겠습니다.
 아래 그림과 같이 운영중인 Kubernetes cluster에 Public Cloud의 서버리스 컨테이너 서비스
 (예 - AWS ECS Fargate, Azure Container Instance 등)를 확장해 마치 하나의 cluster 처럼 사용할 수 있습니다.  
 
 ![](/blog/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-architecture.png)
 
-Public cloud에는 Kubernetes cluster를 추가로 운영할 필요없이 서버리스 컨테이너에 대한 비용만 지불하면 되므로 비용 효율적인 측면이 있습니다.
+이를 통해 컨테이너 서비스 별로 서로 다른 사용 방식을 고려할 필요 없이 Kubernetes stack으로 통일하여 개발 및 운영을 할 수 있는 장점이 있습니다.
+또한 Public cloud에는 Kubernetes cluster를 추가로 운영할 필요없이 컨테이너에 대한 비용만 지불하면 되므로 비용 효율적인 측면이 있습니다.
 
-물론 제약 사항도 있습니다. Kubernetes cluster와 컨테이너 플랫폼이 동일한 네트워크 환경에 위치하지 않는다면 
-일반적으로 Pod간에 private 통신은 불가능합니다. 
+물론 제약 사항도 있습니다. 아래 현재 지원하는 feature를 보면 kubernetes의 모든 기능을 사용할 수 있는 것은 아닙니다.
+- create, delete and update pods
+- container logs, exec, and metrics
+- get pod, pods and pod status
+- capacity
+- node addresses, node capacity, node daemon endpoints
+- operating system
+- bring your own virtual network
 
-예외적으로 동일한 Cloud 환경에 Kubernetes와 서버리스 컨테이너가 위치한다면 Pod간 private 통신도 가능합니다.
-자세한 내용은 아래 사례를 읽어보시면 이해가 쉬울 것입니다.
-
-https://docs.microsoft.com/ko-kr/azure/aks/virtual-nodes-portal
+또한 Virtual Kubelet에서 사용할 virtual network를 지정할 수 있지만 
+해당 network가 Kubernetes cluster의 pod에서 사용하는 network과 연결성이 없다면 
+pod간 private 통신도 불가능합니다.
 
 추가로 프로젝트 설명에 Multi Kubernetes cluster를 federation 하기 위한 용도가 아니라고 명시되어 있으니
 사용에 참고가 필요할 거 같습니다.
@@ -270,6 +276,9 @@ spec:
     aci-helloworld-...   1/1   Running   0          54s    [IP_ADDRESS]    virtual-kubelet   <none>
     sample-app-...       1/1   Running   0          4m17s  10.0.0.7        gke-standard...   <none>
     ```
+
+    aci-helloworld pod의 IP를 보면 azure의 public ip를 할당받은것을 확인할 수 있습니다.
+    Virtual Kubelet 배포 시 별도의 vitual network 설정을 하지 않았기 때문입니다.
 
     aci-helloworld pod의 [IP_ADDRESS]를 정보를 복사한 후 웹브라우저에서 접속하면 
     `Welcome to Azure Container Instances!` 메세지를 확인할 수 있습니다.
