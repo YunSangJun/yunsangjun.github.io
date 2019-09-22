@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-09-23T02:03:25+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">SJ Tech Blog</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>SJ</name></author><entry><title type="html">Istio Study #2.4 Isiio observability, resiliency, traffic routing</title><link href="http://localhost:4000/blog/istio/2019/09/22/istio-study-2.4.html" rel="alternate" type="text/html" title="Istio Study #2.4 Isiio observability, resiliency, traffic routing" /><published>2019-09-22T00:00:00+09:00</published><updated>2019-09-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/istio/2019/09/22/istio-study-2.4</id><content type="html" xml:base="http://localhost:4000/blog/istio/2019/09/22/istio-study-2.4.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.0">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-09-23T02:30:43+09:00</updated><id>http://localhost:4000/blog/</id><title type="html">SJ Tech Blog</title><subtitle>Software &amp; Cloud Engineer 입니다. Kubernetes, Cloud 및 DevOps 관련 기술에 관심이 있습니다.</subtitle><author><name>SJ</name></author><entry><title type="html">Istio Study #2.4 Isiio observability, resiliency, traffic routing</title><link href="http://localhost:4000/blog/istio/2019/09/22/istio-study-2.4.html" rel="alternate" type="text/html" title="Istio Study #2.4 Isiio observability, resiliency, traffic routing" /><published>2019-09-22T00:00:00+09:00</published><updated>2019-09-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/istio/2019/09/22/istio-study-2.4</id><content type="html" xml:base="http://localhost:4000/blog/istio/2019/09/22/istio-study-2.4.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
 &lt;p&gt;지금까지 두 개의 서비스를 배포했습니다. 하지만 외부에서 서비스로 접속할 수 있는 방법이 없습니다. 
 Kubernetes 환경에서는 일반적으로 Ingress resource 또는 API Gateway(e.g Gloo)를 사용합니다.
@@ -94,6 +94,73 @@ Service combo box에서 istio-ingressgateway를 선택합니다.
 [출처: Istio in Action MEAP Edition]&lt;/p&gt;
 
 &lt;h2 id=&quot;3istio-resiliency&quot;&gt;3.Istio resiliency&lt;/h2&gt;
+
+&lt;p&gt;예제 소스코드의 아래 스크립트를 실행하면 모든 요청이 HTTP 500 에러가 발생하도록 설정됩니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ./bin/chaos.sh 500 100
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;실제로 apigateway 서비스를 호출하면 500에러가 발생하는것을 확인할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ curl -v $URL/api/catalog
+* Trying 192.168.64.67...
+* TCP_NODELAY set
+* Connected to 192.168.64.67 (192.168.64.67) port 31380 (#0)
+&amp;gt; GET /api/catalog HTTP/1.1
+&amp;gt; Host: 192.168.64.67:31380
+&amp;gt; User-Agent: curl/7.54.0
+&amp;gt; Accept: */*
+&amp;lt; HTTP/1.1 500 Internal Server Error
+&amp;lt; content-type: text/plain; charset=utf-8
+&amp;lt; x-content-type-options: nosniff
+&amp;lt; date: Wed, 17 Apr 2019 00:13:16 GMT
+&amp;lt; content-length: 30
+&amp;lt; x-envoy-upstream-service-time: 4
+&amp;lt; server: istio-envoy
+&amp;lt;
+error calling Catalog service
+* Connection #0 to host 192.168.64.67 left intact
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이번에는 apigateway 서비스를 호출할 떄 50%의 에러가 발생하도록 설정하겠습니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ./bin/chaos.sh 500 50
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;apigateway 서비스를 반복적으로 호출해보면 성공 또는 실패 메세지가 간헐적으로 발생하는 것을 확인할 수 있습니다.
+호출 실패의 경우 apigateway 서비스가 catalog 서비스를 호출할 때 발생합니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ while true; do curl $URL/api/catalog; \
+sleep .5; done
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 Istio가 어떻게 apigateway와 catalog 서비스간의 통신을 더 복원력있게 만들 수 있는지 확인해보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;먼저 Istio의 VirtualService 리소스를 살펴보겠습니다.
+VirtualService는 서비스간의 상호작용을 정의합니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+ name: catalog
+spec:
+ hosts:
+ - catalog
+ http:
+ - route:
+ - destination:
+ host: catalog
+ retries:
+ attempts: 3
+ perTryTimeout: 2s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 위에서 살펴본 VirtualService 리소스를 배포합니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ kubectl apply -f chapters/chapter2/catalog-virtualservice.yaml
+virtualservice.networking.istio.io/catalog created
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;apigateway 서비스를 반복적으로 호출해보면 실패 메세지가 더 이상 발생하지 않는 것을 확인할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ while true; do curl $URL/api/catalog; \
+sleep .5; done
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;여기서 중요한 점은 application 코드를 수정하지 않고 서비스간 통신을 더 복원력있게 만들었다는 점입니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;4istio-traffic-routing&quot;&gt;4.Istio traffic routing&lt;/h2&gt;</content><author><name>sj</name></author><category term="istio" /><category term="servicemesh" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">Istio Study #2.3 Service Mesh에 첫 번째 application 배포하기</title><link href="http://localhost:4000/blog/istio/2019/09/22/istio-study-2.3.html" rel="alternate" type="text/html" title="Istio Study #2.3 Service Mesh에 첫 번째 application 배포하기" /><published>2019-09-22T00:00:00+09:00</published><updated>2019-09-22T00:00:00+09:00</updated><id>http://localhost:4000/blog/istio/2019/09/22/istio-study-2.3</id><content type="html" xml:base="http://localhost:4000/blog/istio/2019/09/22/istio-study-2.3.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 

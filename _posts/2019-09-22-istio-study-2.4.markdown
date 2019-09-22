@@ -114,4 +114,79 @@ Span을 선택하면 특정 요청에 대해 상세한 정보를 확인할 수 �
 
 ## 3.Istio resiliency
 
+예제 소스코드의 아래 스크립트를 실행하면 모든 요청이 HTTP 500 에러가 발생하도록 설정됩니다. 
+```
+$ ./bin/chaos.sh 500 100
+```
+
+실제로 apigateway 서비스를 호출하면 500에러가 발생하는것을 확인할 수 있습니다.
+```
+$ curl -v $URL/api/catalog
+* Trying 192.168.64.67...
+* TCP_NODELAY set
+* Connected to 192.168.64.67 (192.168.64.67) port 31380 (#0)
+> GET /api/catalog HTTP/1.1
+> Host: 192.168.64.67:31380
+> User-Agent: curl/7.54.0
+> Accept: */*
+< HTTP/1.1 500 Internal Server Error
+< content-type: text/plain; charset=utf-8
+< x-content-type-options: nosniff
+< date: Wed, 17 Apr 2019 00:13:16 GMT
+< content-length: 30
+< x-envoy-upstream-service-time: 4
+< server: istio-envoy
+<
+error calling Catalog service
+* Connection #0 to host 192.168.64.67 left intact
+```
+
+이번에는 apigateway 서비스를 호출할 떄 50%의 에러가 발생하도록 설정하겠습니다.
+```
+$ ./bin/chaos.sh 500 50
+```
+
+apigateway 서비스를 반복적으로 호출해보면 성공 또는 실패 메세지가 간헐적으로 발생하는 것을 확인할 수 있습니다.
+호출 실패의 경우 apigateway 서비스가 catalog 서비스를 호출할 때 발생합니다.
+```
+$ while true; do curl $URL/api/catalog; \
+sleep .5; done
+```
+
+이제 Istio가 어떻게 apigateway와 catalog 서비스간의 통신을 더 복원력있게 만들 수 있는지 확인해보겠습니다.
+
+먼저 Istio의 VirtualService 리소스를 살펴보겠습니다.
+VirtualService는 서비스간의 상호작용을 정의합니다.
+```
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+ name: catalog
+spec:
+ hosts:
+ - catalog
+ http:
+ - route:
+ - destination:
+ host: catalog
+ retries:
+ attempts: 3
+ perTryTimeout: 2s
+```
+
+이제 위에서 살펴본 VirtualService 리소스를 배포합니다.
+```
+$ kubectl apply -f chapters/chapter2/catalog-virtualservice.yaml
+virtualservice.networking.istio.io/catalog created
+```
+
+apigateway 서비스를 반복적으로 호출해보면 실패 메세지가 더 이상 발생하지 않는 것을 확인할 수 있습니다.
+```
+$ while true; do curl $URL/api/catalog; \
+sleep .5; done
+```
+
+여기서 중요한 점은 application 코드를 수정하지 않고 서비스간 통신을 더 복원력있게 만들었다는 점입니다.
+
+
 ## 4.Istio traffic routing
