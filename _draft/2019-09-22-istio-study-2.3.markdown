@@ -10,6 +10,9 @@ tags:
 - kubernetes
 ---
 
+이 문서는 [Istio in Action v5 MEAP](https://www.manning.com/books/istio-in-action) 
+내용을 기반으로 작성했습니다. 
+
 ## Overview
 
 새로운 스타트업 Conference Outfitters가 웹 사이트와 재고 및 결제를 지원하는 시스템을 개편하고 있습니다.

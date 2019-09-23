@@ -10,6 +10,9 @@ tags:
 - kubernetes
 ---
 
+이 문서는 [Istio in Action v5 MEAP](https://www.manning.com/books/istio-in-action) 
+내용을 기반으로 작성했습니다. 
+
 ## Overview
 
 지금까지 두 개의 서비스를 배포했습니다. 하지만 외부에서 서비스로 접속할 수 있는 방법이 없습니다. 

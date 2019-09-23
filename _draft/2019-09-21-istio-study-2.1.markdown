@@ -10,6 +10,9 @@ tags:
 - kubernetes
 ---
 
+이 문서는 [Istio in Action v5 MEAP](https://www.manning.com/books/istio-in-action) 
+내용을 기반으로 작성했습니다. 
+
 이 문서에서는 Istio와 샘플 앱을 배포해보겠습니다.
 
 Istio는 Kubernetes에 의존성이 없고 다양한 플랫폼을 지원합니다.

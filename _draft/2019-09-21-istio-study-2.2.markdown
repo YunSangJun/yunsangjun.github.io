@@ -10,6 +10,9 @@ tags:
 - kubernetes
 ---
 
+이 문서는 [Istio in Action v5 MEAP](https://www.manning.com/books/istio-in-action) 
+내용을 기반으로 작성했습니다. 
+
 [2.1 Kubernetes에 Istio 배포하기](/blog/istio/2019/09/21/istio-study-2.1.html)
 에서 Istio의 control plane의 모든 구성 요소를 설치했습니다. 
 
