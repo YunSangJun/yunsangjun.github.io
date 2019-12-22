@@ -1,0 +1,15 @@
+---
+layout: post
+title:  "Ansible Playbook 활용 #3 Python 연동"
+author: sj
+date: 2019-12-23
+categories: automation
+tags:
+- ansible
+- ansibleplaybook
+- automation
+- ops
+---
+
+## Overview
+
