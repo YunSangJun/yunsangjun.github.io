@@ -22,10 +22,59 @@ tags:
 
 이렇게 많은 서버의 구성을 해본 경험이 없어서 처음에는 쉘 스크립트로 자동화를 해야겠다고 생각하던 차에
 Ansible이라는 자동화 도구를 접하게 되었습니다. 
+
 여러가지 활용 사례를 찾아보니 제가 개발하고자 하는 방향에 적합했고 
-쉘 스크립트로 구현해야하는 많은 부분들을 이미 기능으로 제공하고 있어 장점이 많다고 생각했습니다.
+쉘 스크립트로 구현해야하는 많은 부분들을 이미 기능으로 제공하고 있어 장점이 많다고 생각합니다.
+
+## 1.1.Python 설치
+
+Ansible을 설치하기 위해서는 먼저 python을 설치해야합니다.
+
+[Python](https://www.python.org/downloads/) 사이트에서 자신의 환경에 맞는 버전을 다운로드 및 설치합니다.
+
+<p class="tip-title">참고</p>
+<p class="tip-content">
+이 가이드는 Python 3.x 버전을 기준으로 작성했습니다.
+</p>
 
 ## 1.Ansible 설치하기
+
+이제 Ansible을 설치해보겠습니다.
+
+[Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-releases-via-pip)
+사이트의 설치 가이드를 보면 다양한 방법이 있습니다.
+
+이 가이드에서는 OS 환경에 종속성이 없는 
+[pip](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-releases-via-pip)
+을 통해 설치해보겠습니다.
+
+아래 명령을 실행해 ansible을 설치합니다. `--user` 옵션으로 설치를 권장합니다.
+
+```
+//for local
+pip install --user ansible
+
+//for global
+pip install ansible
+```
+
+<p class="tip-title">참고</p>
+<p class="tip-content">
+"--user" 옵션으로 설치한 경우 아래와 같이 환경 변수를 설정해야 합니다.
+</p>
+
+```
+PATH=$PATH:$HOME/.local/bin
+export PATH
+```
+
+설치가 완료되면 버전을 확인합니다.
+
+```
+# ansible --version
+ansible 2.9.2
+...
+```
 
 ## 2.Host 파일 구성하기
 
