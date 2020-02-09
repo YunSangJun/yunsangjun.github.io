@@ -2,41 +2,11 @@
   
     {
 
-      "title"    : "Istio Study #2.4 Isiio observability, resiliency, traffic routing",
-      "url"      : "/blog/istio/2019/09/22/istio-study-2.4.html",
-      "category" : "istio",
-      "tags"     : "istio, servicemesh, kubernetes",
-      "date"     : "2019-09-22 00:00:00 +0900"
-
-    } ,
-  
-    {
-
-      "title"    : "Istio Study #2.3 Service Mesh에 첫 번째 application 배포하기",
-      "url"      : "/blog/istio/2019/09/22/istio-study-2.3.html",
-      "category" : "istio",
-      "tags"     : "istio, servicemesh, kubernetes",
-      "date"     : "2019-09-22 00:00:00 +0900"
-
-    } ,
-  
-    {
-
-      "title"    : "Istio Study #2.2 Isio Control Plane 알아보기",
-      "url"      : "/blog/istio/2019/09/21/istio-study-2.2.html",
-      "category" : "istio",
-      "tags"     : "istio, servicemesh, kubernetes",
-      "date"     : "2019-09-21 00:00:00 +0900"
-
-    } ,
-  
-    {
-
-      "title"    : "Istio Study #2.1 Kubernetes에 Istio 배포하기",
-      "url"      : "/blog/istio/2019/09/21/istio-study-2.1.html",
-      "category" : "istio",
-      "tags"     : "istio, servicemesh, kubernetes",
-      "date"     : "2019-09-21 00:00:00 +0900"
+      "title"    : "Ansible 시작하기",
+      "url"      : "/blog/automation/2019/10/13/ansible-start.html",
+      "category" : "automation",
+      "tags"     : "ansible, ansibleplaybook, automation, devops",
+      "date"     : "2019-10-13 00:00:00 +0900"
 
     } ,
   
@@ -417,16 +387,6 @@
       "category" : "spinnaker",
       "tags"     : "spinnaker, kubernetes, cicd, devops",
       "date"     : "2018-06-03 00:00:00 +0900"
-
-    } ,
-  
-    {
-
-      "title"    : "Cannot find module &#39;webpack/lib/node/NodeTemplatePlugin&#39;",
-      "url"      : "/blog/angular/2018/05/29/angular-cannot-find-module.html",
-      "category" : "angular",
-      "tags"     : "angular, npm",
-      "date"     : "2018-05-29 00:00:00 +0900"
 
     } ,
   

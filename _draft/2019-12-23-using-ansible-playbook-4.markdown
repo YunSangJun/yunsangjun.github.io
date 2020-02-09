@@ -8,7 +8,7 @@ tags:
 - ansible
 - ansibleplaybook
 - automation
-- ops
+- devops
 ---
 
 ## Overview
