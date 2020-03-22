@@ -12,15 +12,15 @@
 <meta property="og:title" content="Ansible 시작하기" />
 <meta name="author" content="sj" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Overview" />
-<meta property="og:description" content="Overview" />
+<meta name="description" content="Ansible 이란?" />
+<meta property="og:description" content="Ansible 이란?" />
 <link rel="canonical" href="http://localhost:4000/blog/automation/2019/10/13/ansible-start.html" />
 <meta property="og:url" content="http://localhost:4000/blog/automation/2019/10/13/ansible-start.html" />
 <meta property="og:site_name" content="SJ Tech Blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-10-13T00:00:00+09:00" />
 <script type="application/ld+json">
-{"description":"Overview","author":{"@type":"Person","name":"sj"},"@type":"BlogPosting","url":"http://localhost:4000/blog/automation/2019/10/13/ansible-start.html","headline":"Ansible 시작하기","dateModified":"2019-10-13T00:00:00+09:00","datePublished":"2019-10-13T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/automation/2019/10/13/ansible-start.html"},"@context":"http://schema.org"}</script>
+{"description":"Ansible 이란?","author":{"@type":"Person","name":"sj"},"@type":"BlogPosting","url":"http://localhost:4000/blog/automation/2019/10/13/ansible-start.html","headline":"Ansible 시작하기","dateModified":"2019-10-13T00:00:00+09:00","datePublished":"2019-10-13T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/automation/2019/10/13/ansible-start.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="article:tag" content="ansible" >
@@ -80,20 +80,28 @@
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <h2 id="overview">Overview</h2>
+    <h2 id="ansible-이란">Ansible 이란?</h2>
 
 <p><a href="https://github.com/ansible/ansible">Ansible</a>은 소프트웨어 프로비저닝, 구성 관리를 지원하는 자동화 도구입니다.
 “Michael DeHaan”에 의해 개발되었으며 이후 레드햇에 인수되었다고 합니다.</p>
 
 <p>저 같은 경우 이직 후 새로운 개발/운영 환경에서 업무를 하게되면서 Ansible을 처음 접하게 되었습니다.
-오픈소스 소프트웨어를 베어메탈 서버에 구성하기 위해 서버에 계정, 네트워크 등의 설정을 해야하는 경우가 있었는데
-한 두대도 아니고 수 백대의 서버에 설정을 하려니 너무 귀찮고 번거로운 일이었습니다.</p>
+새로운 개발/운영 환경이란 것이 On-premise(온프레미스) 환경을 말하는데 서버마다 일일히 설정/구성 해줘야하는 작업이 있습니다.</p>
 
-<p>이렇게 많은 서버의 구성을 해본 경험이 없어서 처음에는 쉘 스크립트로 자동화를 해야겠다고 생각하던 차에
+<p>오픈소스 소프트웨어를 물리적인 서버에 구성하기 위해 서버에 계정, 네트워크 등의 설정을 해야하는 경우가 있었는데
+한 두대도 아니고 수십~수백대의 서버에 동일한 설정을 반복해야한다고 생각하니 너무 귀찮고 번거로운 일이었습니다.</p>
+
+<p>이렇게 많은 물리 서버의 구성을 해본 경험이 없어서 처음에는 쉘 스크립트로 자동화를 해야겠다고 생각하던 차에
 Ansible이라는 자동화 도구를 접하게 되었습니다.</p>
 
 <p>여러가지 활용 사례를 찾아보니 제가 개발하고자 하는 방향에 적합했고 
 쉘 스크립트로 구현해야하는 많은 부분들을 이미 기능으로 제공하고 있어 장점이 많다고 생각합니다.</p>
+
+<p class="tip-title">참고</p>
+<p class="tip-content">
+이 가이드의 Ansible host(Ansible을 설치하고 있는 서버)에서 사용하는 계정은 sudo 권한이 없는 일반 사용자입니다.
+(sudo: 일반 사용자가 root 권한을 일시적으로 획득하여 특정 명령을 실행 할 수 있도록 하는 명령)
+</p>
 
 <h2 id="1python-설치">1.Python 설치</h2>
 
@@ -103,7 +111,7 @@ Ansible이라는 자동화 도구를 접하게 되었습니다.</p>
 
 <p class="tip-title">참고</p>
 <p class="tip-content">
-이 가이드는 Python 3.x 버전을 기준으로 작성했습니다.
+이 가이드는 Python 3.7 버전을 기준으로 작성했습니다.
 </p>
 
 <h2 id="2ansible-설치하기">2.Ansible 설치하기</h2>
@@ -117,7 +125,7 @@ Ansible이라는 자동화 도구를 접하게 되었습니다.</p>
 <a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-releases-via-pip">pip</a>
 을 통해 설치해보겠습니다.</p>
 
-<p>아래 명령을 실행해 ansible을 설치합니다. <code class="highlighter-rouge">--user</code> 옵션으로 설치를 권장합니다.</p>
+<p>아래 명령을 실행해 ansible을 설치합니다. “–user” 옵션으로 설치를 권장합니다.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//for local
 pip install --user ansible
@@ -148,29 +156,50 @@ ansible 2.9.2
 
 <p>Loopback(ansible host)을 호출하고 응답이 오는지 확인하는 명령을 실행합니다.</p>
 <ul>
-  <li>1번째 옵션: 호출할 host 명(127.0.0.1)</li>
-  <li>2번째 옵션: “-m” 옵션에 실행할 모듈명을 입력(ping)</li>
+  <li>host 명: loopback 주소인 “localhost” 입력</li>
+  <li>모듈 명: “-m” 옵션에 “ping” 모듈 입력</li>
 </ul>
 
 <p>“pong” 이라는 응답이 오면 정상적으로 동작한 것입니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible 127.0.0.1 -m ping
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible localhost -m ping
 ...
-127.0.0.1 | SUCCESS =&gt; {
+localhost | SUCCESS =&gt; {
     "changed": false,
     "ping": "pong"
 }
 </code></pre></div></div>
 
+<p>위에서 <a href="https://docs.ansible.com/ansible/latest/user_guide/modules_intro.html">모듈</a>이란 개념이 나왔는데 간략히 살펴보고 지나가겠습니다. 모듈은 일종의 플러그인입니다. Ansible은 모듈을 remote host에서 실행하고 return 값을 수집합니다.</p>
+
+<p>사실 모듈을 사용하지 않고 쉘 스크립트를 사용해서 원하는 명령을 실행할 수도 있습니다.
+예를 들어 remote host의 특정 파일을 복사하는 명령을 실행한다고 가정해보겟습니다.</p>
+
+<p>아래 명령은 쉘 스크립트를 사용해 remote host의 파일을 복사하는 명령을 실행합니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible all -m shell -a "cp ~/.profile ~/.profile.bak"
+</code></pre></div></div>
+
+<p>같은 명령을 “copy” 모듈을 사용할 수도 있습니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible all -m copy -a "src=~/.profile dest=~/.profile.bak"
+</code></pre></div></div>
+
+<p>모듈을 사용하면 몇 가지 장점이 있습니다.</p>
+<ul>
+  <li>멱등성을 보장합니다. 즉 실행 결과를 저장해 다시 실행 시 변경된 부분만 실행할 수 있습니다.</li>
+  <li>OS에 대한 호환성이 있습니다. 다른 OS에서 실행할 때 명령어를 다시 작성할 필요가 없습니다.</li>
+</ul>
+
+<p>어떤 방법을 사용하는지는 개인의 선택이지만 유지보수 측면을 고려한다면 모듈을 사용하는 것이 효율적입니다.</p>
+
 <h2 id="4host-파일-구성하기">4.Host 파일 구성하기</h2>
 
-<p>Ansible host에서 여러대의 remote host를 호출해야 할 경우 <code class="highlighter-rouge">/etc/ansible/hosts</code> 파일에 등록해서 사용합니다.</p>
+<p>Ansible host에서 여러대의 remote host를 호출해야 할 경우 “/etc/ansible/hosts” 파일에 등록해서 사용합니다.</p>
 
 <p>“/etc/ansible/hosts” 파일을 생성하고 remote host를 입력합니다.
-“[hosts]”는 remote host들의 그룹 이름입니다. 딱히 정해진 이름은 없으니 자유롭게 정하면 됩니다.</p>
+“[example]”는 remote host들의 그룹 이름입니다. 딱히 정해진 이름은 없으니 자유롭게 정하면됩니다.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ vi /etc/ansible/hosts
-[hosts]
+[example]
 host01.example.com
 host02.example.com
 host03.example.com
@@ -179,17 +208,18 @@ host03.example.com
 <p class="tip-title">참고</p>
 <p class="tip-content">
 Ansible host에서 remote host로 ssh 클라이언트를 통해 접속 가능한 상태이어야합니다.
+일반적으로 ssh key를 통해 접속합니다.
 </p>
 
 <h2 id="5-remote-host에-ping-명령-호출하기">5. Remote host에 ping 명령 호출하기</h2>
 
 <p>이제 등록한 remote host에 ping 명령을 호출해보겠습니다.</p>
 <ul>
-  <li>1번째 옵션: 그룹명(hosts) 입력</li>
-  <li>2번째 옵션: “-m” 옵션에 실행할 모듈명을 입력(ping)</li>
+  <li>host 명: 그룹명 “example” 입력</li>
+  <li>모듈 명: “-m” 옵션에 “ping” 모듈 입력</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible hosts -m ping
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible example -m ping
 host01.example.com | SUCCESS =&gt; {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
@@ -217,27 +247,27 @@ host03.example.com | SUCCESS =&gt; {
 “/etc/ansible/hosts” 파일에 여러개의 host 그룹을 등록할 수 있는데
 전체 그룹에 대해 호출하고 싶은 경우 “all”을 사용하면됩니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible all -m ping
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ vi /etc/ansible/hosts
+[example01]
+host01.example.com
+
+[example02]
+host02.example.com
+
+[example03]
+host03.example.com
+
+$ ansible all -m ping
 ...
 </code></pre></div></div>
 
-<h2 id="5remote-host의-hostname-조회">5.Remote host의 hostname 조회</h2>
+<h2 id="맺음말">맺음말</h2>
 
-<p>이번에는 remote host의 hostname을 조회해보겠습니다.</p>
-<ul>
-  <li>1번째 옵션: 그룹명(hosts) 또는 “all” 입력</li>
-  <li>2번째 옵션: “-m” 옵션에 실행할 모듈명을 입력(shell)</li>
-  <li>3번째 옵션: “-a” 옵션에 remote host에서 실행할 shell 명령어 입력</li>
-</ul>
+<p>지금까지 Ansible이 무엇인지 알아보고 간단한 사용 방법에 대해 알아봤습니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible all -m shell -a "hostname"
-host01.example.com | CHANGED | rc=0 &gt;&gt;
-host01.example.com
-host02.example.com | CHANGED | rc=0 &gt;&gt;
-host02.example.com
-host03.example.com | CHANGED | rc=0 &gt;&gt;
-host03.example.com
-</code></pre></div></div>
+<p>서버를 구성 할 때 필수적으로 하는 작업(그리고 가장 번거로운)이 있습니다. 서버의 계정을 생성하는 작업인데 이 작업을 
+<a href="/blog/automation/2019/10/15/ansible-create-account.html">Ansible을 활용해 자동화</a>하는 방법에 대해 알아보겠습니다.</p>
+
 
   </div>
 <div id="disqus_thread"></div>
