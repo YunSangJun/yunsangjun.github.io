@@ -100,4 +100,4 @@ Istio의 향후 배포에는 세분화 된 접근 제어 및 감사 기능이 �
 https://istio.io/docs/concepts/what-is-istio/overview.html
 
 ## 다음 포스트
-[Kubernetes에 Istio 설치하기](/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html)
+[Kubernetes에 Istio 설치하기](/istio/2018/04/26/deploying-istio-on-kubernetes.html)

@@ -19,7 +19,7 @@ tags:
 운영용 서버라면 root 계정은 서버 관리자만 알고 일반 사용자는 계정과 필요한 권한만 할당 받는 것이 일반적입니다.
 
 Ansible의 처음 접하는 분이라면 
-[Ansible 시작하기](/blog/automation/2019/10/13/ansible-start.html)에서 
+[Ansible 시작하기](/automation/2019/10/13/ansible-start.html)에서 
 기본적인 개념과 사용 방법에 대해 살펴보는것이 좋습니다.
 
 <p class="tip-title">참고</p>

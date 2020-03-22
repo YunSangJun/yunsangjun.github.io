@@ -94,16 +94,6 @@ categories: etc
 # 블로그 로컬 환경에서 실행
 아래 명령어를 실행해 로컬 환경에서 블로그 페이지를 확인할 수 있습니다.
 
-- Github Page 기본 도메인 사용 시
-
-  ```
-  jekyll serve --watch
-
-  http://127.0.0.1:4000/blog/
-  ```
-
-- 사용자 도메인 사용 시
-
   ```
   jekyll serve --watch
 
@@ -131,7 +121,7 @@ Github repository home > Settings > Github Pages > Source > master branch > Save
 
 ```
 ## https://GITHUB_OWNER.github.io/GITHUB_REPOSITORY_NAME/
-Your site is published at https://yunsangjun.github.io/blog/
+Your site is published at https://yunsangjun.github.io/
 ```
 
 # 사용자 도메인 설정(옵션)

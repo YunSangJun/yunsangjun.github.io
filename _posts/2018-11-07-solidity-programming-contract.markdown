@@ -29,9 +29,9 @@ contract SimpleStorage {
 }
 ```
 
-상태 변수의 유형에 대한 내용은 [자료형](/blog/solidity/2018/11/07/solidity-programming-type.html)을 참고하세요.
+상태 변수의 유형에 대한 내용은 [자료형](/solidity/2018/11/07/solidity-programming-type.html)을 참고하세요.
 
-상태 변수의 [가시성](/blog/solidity/2018/11/12/solidity-programming-visibility.html)은 상태 변수에 대한 접근을 제어하는 용도로 사용합니다.
+상태 변수의 [가시성](/solidity/2018/11/12/solidity-programming-visibility.html)은 상태 변수에 대한 접근을 제어하는 용도로 사용합니다.
 
 ## 함수(function)
 
@@ -47,8 +47,8 @@ contract SimpleAuction {
 }
 ```
 
-Solidity에서 [함수 호출](/blog/solidity/2018/11/12/solidity-programming-function.html) 방식은 내부 호출(internal function call)과 외부 호출(external function call)이 있습니다.
+Solidity에서 [함수 호출](/solidity/2018/11/12/solidity-programming-function.html) 방식은 내부 호출(internal function call)과 외부 호출(external function call)이 있습니다.
 
-함수의 [가시성](/blog/solidity/2018/11/12/solidity-programming-visibility.html)은 함수에 대한 접근을 제어하는 용도로 사용합니다.
+함수의 [가시성](/solidity/2018/11/12/solidity-programming-visibility.html)은 함수에 대한 접근을 제어하는 용도로 사용합니다.
 
-함수의 [가변성](/blog/solidity/2018/11/13/solidity-programming-mutability.html)은 함수에서 contract에 정의된 상태 변수에 접근하는 것을 제어하는 용도로 사용합니다.
+함수의 [가변성](/solidity/2018/11/13/solidity-programming-mutability.html)은 함수에서 contract에 정의된 상태 변수에 접근하는 것을 제어하는 용도로 사용합니다.

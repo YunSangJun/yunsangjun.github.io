@@ -48,10 +48,10 @@ Docker Hub에 `aricicd-demo` 저장소를 생성합니다.
 
 Jenkins는 소스코드를 지속적으로 통합하고 Docker 이미지를 빌드 및 저장합니다.
 
-[Jenkins 설치하기](/blog/cicd/2018/05/26/installing-jenkins.html) 문서를 참고하여 구성합니다.
+[Jenkins 설치하기](/cicd/2018/05/26/installing-jenkins.html) 문서를 참고하여 구성합니다.
 
 ### Argo CD 구성
 
 Argo CD는 애플리케이션을 지속적으로 배포합니다.
 
-[Argo CD 설치하기](/blog/cicd/2019/08/04/installing-argocd.html) 문서를 참고하여 구성합니다.
+[Argo CD 설치하기](/cicd/2019/08/04/installing-argocd.html) 문서를 참고하여 구성합니다.

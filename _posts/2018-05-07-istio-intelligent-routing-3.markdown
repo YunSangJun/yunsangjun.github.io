@@ -21,11 +21,11 @@ tags:
 
 1. Kubernetes에 Istio 설치하기
 
-    [Kubernetes에 Istio 설치하기](/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html)를 참고하여 Kubernetes에 Istio 설치합니다.<br />
+    [Kubernetes에 Istio 설치하기](/istio/2018/04/26/deploying-istio-on-kubernetes.html)를 참고하여 Kubernetes에 Istio 설치합니다.<br />
 
 2. 마이크로서비스 샘플앱(BookInfo) 배포하기
 
-    [마이크로서비스 샘플앱(BookInfo) 배포하기](/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.<br />
+    [마이크로서비스 샘플앱(BookInfo) 배포하기](/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.<br />
 
 
 ## 가중치 기반 라우팅

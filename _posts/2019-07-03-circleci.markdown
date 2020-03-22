@@ -36,7 +36,7 @@ CircleCI는 소스코드를 통합하고 빌드, 배포를 자동화하는 파�
 
 ### AWS ECR(Elastic Container Registry) 구성
 
-[AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild](/blog/cloud/2019/06/21/aws-cicd03.html)
+[AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild](/cloud/2019/06/21/aws-cicd03.html)
 문서의 `사전 준비 > ECR(Elastic Container Registry) 생성` 섹션을 참고하여 ECR을 생성하겠습니다.
 
 <p class="tip-title">참고</p>
@@ -83,7 +83,7 @@ ECR Console에 접속해서 circleci-demo 저장소로 이동해 위에서 저�
 
 ### AWS ECS Cluster 구성
 
-[AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기](/blog/cloud/2019/06/23/aws-ecs-01.html) 
+[AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기](/cloud/2019/06/23/aws-ecs-01.html) 
 문서의 `ECS Cluster 생성` 섹션을 참고하여 클러스터를 생성하겠습니다.
 
 <p class="tip-title">참고</p>
@@ -93,7 +93,7 @@ ECR Console에 접속해서 circleci-demo 저장소로 이동해 위에서 저�
 
 ### AWS ECS Task 구성
 
-[AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)](/blog/cloud/2019/06/23/aws-ecs-02.html)
+[AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)](/cloud/2019/06/23/aws-ecs-02.html)
 문서를 참고하여 작업 정의를 생성하겠습니다.
 
 <p class="tip-title">참고</p>
@@ -104,7 +104,7 @@ ECR Console에 접속해서 circleci-demo 저장소로 이동해 위에서 저�
 
 ### AWS ECS Service 구성
 
-[AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기](/blog/cloud/2019/06/23/aws-ecs-03.html)
+[AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기](/cloud/2019/06/23/aws-ecs-03.html)
 문서를 참고하여 ECS 서비스를 구성하겠습니다.
 
 <p class="tip-title">참고</p>

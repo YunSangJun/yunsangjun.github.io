@@ -25,11 +25,11 @@ tags:
 
 아래 문서를 참고하여 ECS 환경을 구성할 수 있습니다.
 
-[AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기](/blog/cloud/2019/06/23/aws-ecs-01.html)
+[AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기](/cloud/2019/06/23/aws-ecs-01.html)
 
-[AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)](/blog/cloud/2019/06/23/aws-ecs-02.html)
+[AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)](/cloud/2019/06/23/aws-ecs-02.html)
 
-[AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기](/blog/cloud/2019/06/23/aws-ecs-03.html)
+[AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기](/cloud/2019/06/23/aws-ecs-03.html)
 
 <p class="warning-title">경고</p>
 <p class="warning-content">
@@ -159,5 +159,5 @@ cache:
 - 파이프라인의 배포 단계까지 완료되면 로드밸런서 주소로 접속해서 변경한 메세지가 반영되었는지 확인
 ![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-10.png)
 
-다음으로 [AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline](/blog/cloud/2019/06/22/aws-cicd05.html)
+다음으로 [AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline](/cloud/2019/06/22/aws-cicd05.html)
 문서에서 Blue/green deployment 방식의 파이프라인을 구성하는 방법을 살펴보겠습니다.

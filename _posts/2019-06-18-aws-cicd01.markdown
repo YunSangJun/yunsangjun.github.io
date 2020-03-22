@@ -42,5 +42,5 @@ CI/CD 전체적인 아키텍처는 아래와 같습니다.
 
 ![](/assets/images/cloud/aws/cicd/aws-cicd01.png)
 
-다음으로 [AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit](/blog/cloud/2019/06/20/aws-cicd02.html)
+다음으로 [AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit](/cloud/2019/06/20/aws-cicd02.html)
 문서에서 형상 관리 서비스인 CodeCommit을 구성하는 방법을 살펴보겠습니다.

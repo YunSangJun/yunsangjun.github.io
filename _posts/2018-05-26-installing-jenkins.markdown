@@ -17,7 +17,7 @@ tags:
 
 ## 준비 사항
 
-[Helm 설치하기](/blog/helm/2018/05/27/installing-helm.html) 문서를 참고하여 Helm Client를 설치합니다.
+[Helm 설치하기](/helm/2018/05/27/installing-helm.html) 문서를 참고하여 Helm Client를 설치합니다.
 
 ## 빠른 설치
 
@@ -104,7 +104,7 @@ LoadBalancer 서비스가 없다면 아래와 같이 NodePort 또는 Ingress 방
 
   Ingress TLS Secret 생성 방법은 아래 가이드를 참고하세요.
 
-  [Ingress TLS Secret 생성하기](/blog/kubernetes/2018/05/27/how-to-create-ingress-secret.html)
+  [Ingress TLS Secret 생성하기](/kubernetes/2018/05/27/how-to-create-ingress-secret.html)
 
   ```
   <values.yaml>

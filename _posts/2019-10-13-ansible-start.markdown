@@ -200,5 +200,5 @@ default-user@ansible-host:~$ ansible all -m ping
 지금까지 Ansible이 무엇인지 알아보고 간단한 사용 방법에 대해 알아봤습니다.
 
 서버를 구성 할 때 필수적으로 하는 작업(그리고 가장 번거로운)이 있습니다. 서버의 계정을 생성하는 작업인데 이 작업을 
-[Ansible을 활용해 자동화](/blog/automation/2019/10/15/ansible-create-account.html)하는 방법에 대해 알아보겠습니다.
+[Ansible을 활용해 자동화](/automation/2019/10/15/ansible-create-account.html)하는 방법에 대해 알아보겠습니다.
 

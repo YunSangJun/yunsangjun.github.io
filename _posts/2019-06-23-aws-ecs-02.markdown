@@ -70,5 +70,5 @@ ECS 작업 정의를 구성하기 위해서 IAM 역할을 생성합니다.
 - `생성` 버튼 선택해서 작업 정의 생성 완료
 ![](/assets/images/cloud/aws/ecs/aws-ecstask-07.png)
 
-다음으로 [AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기](/blog/cloud/2019/06/23/aws-ecs-03.html)
+다음으로 [AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기](/cloud/2019/06/23/aws-ecs-03.html)
 문서에서 서비스(ECS Service)를 구성하는 방법을 살펴보겠습니다.

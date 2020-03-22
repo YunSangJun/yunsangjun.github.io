@@ -17,4 +17,4 @@ GitHub 계정을 생성하고 아래 저장소를 fork 합니다.
 
 ### Github Webhook 설정
 
-[GitHub Webhooks 설정하기](/blog/spinnaker/2018/08/15/configuration-spinnaker-4.html)
+[GitHub Webhooks 설정하기](/spinnaker/2018/08/15/configuration-spinnaker-4.html)

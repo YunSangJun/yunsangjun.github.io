@@ -21,11 +21,11 @@ tags:
 
 1. Kubernetes에 Istio 설치하기
 
-    [Kubernetes에 Istio 설치하기](/blog/istio/2018/04/26/deploying-istio-on-kubernetes.html)를 참고하여 Kubernetes에 Istio 설치합니다.<br />
+    [Kubernetes에 Istio 설치하기](/istio/2018/04/26/deploying-istio-on-kubernetes.html)를 참고하여 Kubernetes에 Istio 설치합니다.<br />
 
 2. 마이크로서비스 샘플앱(BookInfo) 배포하기
 
-    [마이크로서비스 샘플앱(BookInfo) 배포하기](/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.<br />
+    [마이크로서비스 샘플앱(BookInfo) 배포하기](/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)를 참고하여 Kubernetes에 BookInfo 애플리케이션을 배포합니다.<br />
 
 3. 애플리케이션의 버전 라우팅 초기화하기
 
@@ -173,4 +173,4 @@ spec:
 https://istio.io/docs/tasks/traffic-management/fault-injection.html
 
 ## 다음 포스트
-[Istio Intelligent Routing #3 가중치 기반 라우팅](/blog/istio/2018/05/07/istio-intelligent-routing-3.html)
+[Istio Intelligent Routing #3 가중치 기반 라우팅](/istio/2018/05/07/istio-intelligent-routing-3.html)

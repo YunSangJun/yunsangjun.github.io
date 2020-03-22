@@ -96,4 +96,4 @@ $ kubectl create -f <(istioctl kube-inject -f <your-app-spec>.yaml)
 https://istio.io/docs/setup/kubernetes/quick-start.html
 
 ## 다음 포스트
-[마이크로서비스 샘플앱(BookInfo) 배포하기](/blog/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)
+[마이크로서비스 샘플앱(BookInfo) 배포하기](/istio/2018/04/26/deploying-bookinfo-on-kubernetes.html)

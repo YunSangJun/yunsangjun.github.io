@@ -42,7 +42,7 @@ Github > Settings > Developer settings > OAuth Apps > New OAuth App 선택
 
 ![](/assets/images/spinnaker/spinnaker-create-oauthapp.png)
 
-* Homepage 및 Callback URL은 [도메인 주소를 통한 대시보드 접속](/blog/spinnaker/2018/08/15/configuration-spinnaker-1.html) 가이드의 Spinnaker ui, api 설정
+* Homepage 및 Callback URL은 [도메인 주소를 통한 대시보드 접속](/spinnaker/2018/08/15/configuration-spinnaker-1.html) 가이드의 Spinnaker ui, api 설정
 정보입니다.
 
 ### OAuth Provider 및 Client 정보 설정

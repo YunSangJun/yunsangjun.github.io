@@ -76,7 +76,7 @@ curl -L https://git.io/getLatestIstio | ISTIO_VERSION=x.x.x sh -
 
 ### Helm 설치
 
-[Helm 설치하기](/blog/helm/2018/05/27/installing-helm.html) 문서를 참고하여 Helm Client를 설치합니다.
+[Helm 설치하기](/helm/2018/05/27/installing-helm.html) 문서를 참고하여 Helm Client를 설치합니다.
 
 ## Multi Cluster에 Service Mesh 구성하기
 

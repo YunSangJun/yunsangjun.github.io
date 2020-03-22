@@ -35,13 +35,13 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
 
 아래 문서를 참고하여 형상 관리 저장소에 샘플 애플리케이션을 저장합니다.
 
-[AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit](/blog/cloud/2019/06/20/aws-cicd02.html)
+[AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit](/cloud/2019/06/20/aws-cicd02.html)
 
 ### 코드 빌드 및 이미지 저장
 
 다음으로 아래 문서를 참고하여 코드를 빌드하고 이를 이미지 저장소에 저장합니다.
 
-[AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild](/blog/cloud/2019/06/21/aws-cicd03.html)
+[AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild](/cloud/2019/06/21/aws-cicd03.html)
 
 이 단계를 완료하면 아래와 같이 이미지 저장소 주소를 복사합니다.
 이 주소는 ECS 환경에 애플리케이션을 배포할 때 사용합니다.
@@ -68,5 +68,5 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
 - 클러스터 구성 > 클러스터 이름 `cicd-demo` 입력 > `생성` 버튼 선택
 ![](/assets/images/cloud/aws/ecs/aws-ecs-03.png)
 
-다음으로 [AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)](/blog/cloud/2019/06/23/aws-ecs-02.html)
+다음으로 [AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)](/cloud/2019/06/23/aws-ecs-02.html)
 문서에서 작업 정의(ECS Task)를 구성하는 방법을 살펴보겠습니다.

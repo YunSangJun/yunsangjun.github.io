@@ -132,5 +132,5 @@ Git 클라이언트 툴을 사용해 CodeCommit에 접속하기 위해 자격 �
 
     ![](/assets/images/cloud/aws/cicd/aws-cicd02-14.png)
 
-다음으로 [AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild](/blog/cloud/2019/06/21/aws-cicd03.html)
+다음으로 [AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild](/cloud/2019/06/21/aws-cicd03.html)
 문서에서 코드 빌드 서비스인 CodeBuild를 구성하는 방법을 살펴보겠습니다.

@@ -29,7 +29,7 @@ Container 환경을 운영 환경으로 고려하기 시작하면서 운영을 �
 
 ![](/assets/images/kubernetes/monitoring/monitoring-trend-02.png)
 
-[출처 : CNCF https://www.cncf.io/blog/2017/12/06/cloud-native-technologies-scaling-production-applications/]
+[출처 : CNCF https://www.cncf.io/2017/12/06/cloud-native-technologies-scaling-production-applications/]
 
 ## Cloud Native 환경에서 Monitoring Architecture의 변화
 

@@ -108,7 +108,7 @@ Hands-on을 위해서 아래와 같은 준비사항이 필요합니다.
 
 5. Helm CLI.
 
-    [Helm CLI](/blog/helm/2018/05/27/installing-helm.html)를 설치합니다.
+    [Helm CLI](/helm/2018/05/27/installing-helm.html)를 설치합니다.
 
 ## Azure 계정 설정하기
 

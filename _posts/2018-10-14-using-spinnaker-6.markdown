@@ -25,11 +25,11 @@ https://github.com/YunSangJun/my-charts
 
 ### GitHub Webhook 설정
 
-[GitHub Webhooks 설정하기](/blog/spinnaker/2018/09/10/configuration-spinnaker-4.html)
+[GitHub Webhooks 설정하기](/spinnaker/2018/09/10/configuration-spinnaker-4.html)
 
 ### GitHub Artifact 설정
 
-[GitHub Artifact 설정하기](/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html)
+[GitHub Artifact 설정하기](/spinnaker/2018/10/11/configuration-spinnaker-5.html)
 
 ## Application 생성
 
@@ -70,7 +70,7 @@ Pipeline configuration > Automated Triggers > Add Trigger를 선택합니다.
   예) https://github.com/YunSangJun/my-charts > `YunSangJun`이 사용자 명
 - Project :  my-charts
 - Branch : master
-- Secret : [GitHub Webhooks 설정하기](/blog/spinnaker/2018/09/10/configuration-spinnaker-4.html)에서 입력한 secret
+- Secret : [GitHub Webhooks 설정하기](/spinnaker/2018/09/10/configuration-spinnaker-4.html)에서 입력한 secret
 
 ![](/assets/images/spinnaker/spinnaker-automated-trigger.png)
 
@@ -110,7 +110,7 @@ Pipeline > Configuration > Add stage를 선택합니다.
 - Name : demo
 - Namespace : demo
 - Expected Artifact : stable/demo-0.1.0.tgz
-- Artifact Account : [GitHub Artifact 설정하기](/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html)에서 추가한 GitHub 계정
+- Artifact Account : [GitHub Artifact 설정하기](/spinnaker/2018/10/11/configuration-spinnaker-5.html)에서 추가한 GitHub 계정
 - Overrides :
   - Key : ingress.enabled, Value : true
   - Key : ingress.hosts[0], Value : 애플리케이션 호스트 명 입력(예: demo.ibm.example.com)
@@ -147,7 +147,7 @@ Pipeline > Configuration > Add stage를 선택합니다.
 - Name : demo
 - Namespace : demo
 - Expected Artifact : stable/demo-0.1.0.tgz
-- Artifact Account : [GitHub Artifact 설정하기](/blog/spinnaker/2018/10/11/configuration-spinnaker-5.html)에서 추가한 GitHub 계정
+- Artifact Account : [GitHub Artifact 설정하기](/spinnaker/2018/10/11/configuration-spinnaker-5.html)에서 추가한 GitHub 계정
 - Overrides :
   - Key : ingress.enabled, Value : true
   - Key : ingress.hosts[0], Value : 애플리케이션 호스트 명 입력(예: demo.gcp.example.com)

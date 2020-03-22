@@ -71,7 +71,7 @@ Maven Build Cache 용도의 pvc를 생성합니다.
 kubectl create -f jenkins/maven-cache-pvc.yaml -n jenkins
 ```
 
-Jenkins에 대한 자세한 내용은 [Jenkins 설치하기](/blog/cicd/2018/05/26/installing-jenkins.html) 문서를 참고하세요.
+Jenkins에 대한 자세한 내용은 [Jenkins 설치하기](/cicd/2018/05/26/installing-jenkins.html) 문서를 참고하세요.
 
 ## Jenkins UI 접속
 

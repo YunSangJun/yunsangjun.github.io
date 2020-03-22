@@ -6,7 +6,7 @@
 운영용 서버라면 root 계정은 서버 관리자만 알고 일반 사용자는 계정과 필요한 권한만 할당 받는 것이 일반적입니다.&lt;/p&gt;
 
 &lt;p&gt;Ansible의 처음 접하는 분이라면 
-&lt;a href=&quot;/blog/automation/2019/10/13/ansible-start.html&quot;&gt;Ansible 시작하기&lt;/a&gt;에서 
+&lt;a href=&quot;/automation/2019/10/13/ansible-start.html&quot;&gt;Ansible 시작하기&lt;/a&gt;에서 
 기본적인 개념과 사용 방법에 대해 살펴보는것이 좋습니다.&lt;/p&gt;
 
 &lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
@@ -356,7 +356,7 @@ default-user@ansible-host:~$ ansible all -m ping
 &lt;p&gt;지금까지 Ansible이 무엇인지 알아보고 간단한 사용 방법에 대해 알아봤습니다.&lt;/p&gt;
 
 &lt;p&gt;서버를 구성 할 때 필수적으로 하는 작업(그리고 가장 번거로운)이 있습니다. 서버의 계정을 생성하는 작업인데 이 작업을 
-&lt;a href=&quot;/blog/automation/2019/10/15/ansible-create-account.html&quot;&gt;Ansible을 활용해 자동화&lt;/a&gt;하는 방법에 대해 알아보겠습니다.&lt;/p&gt;</content><author><name>sj</name></author><category term="ansible" /><category term="ansibleplaybook" /><category term="automation" /><category term="devops" /><summary type="html">Ansible 이란?</summary></entry><entry><title type="html">Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기</title><link href="http://localhost:4000/kubernetes/2019/08/25/virtual-kublet.html" rel="alternate" type="text/html" title="Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기" /><published>2019-08-25T00:00:00+09:00</published><updated>2019-08-25T00:00:00+09:00</updated><id>http://localhost:4000/kubernetes/2019/08/25/virtual-kublet</id><content type="html" xml:base="http://localhost:4000/kubernetes/2019/08/25/virtual-kublet.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;a href=&quot;/automation/2019/10/15/ansible-create-account.html&quot;&gt;Ansible을 활용해 자동화&lt;/a&gt;하는 방법에 대해 알아보겠습니다.&lt;/p&gt;</content><author><name>sj</name></author><category term="ansible" /><category term="ansibleplaybook" /><category term="automation" /><category term="devops" /><summary type="html">Ansible 이란?</summary></entry><entry><title type="html">Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기</title><link href="http://localhost:4000/kubernetes/2019/08/25/virtual-kublet.html" rel="alternate" type="text/html" title="Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기" /><published>2019-08-25T00:00:00+09:00</published><updated>2019-08-25T00:00:00+09:00</updated><id>http://localhost:4000/kubernetes/2019/08/25/virtual-kublet</id><content type="html" xml:base="http://localhost:4000/kubernetes/2019/08/25/virtual-kublet.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;Private 환경에서 kubernetes cluster를 운영하고 있다면 workload를 bursting 하는 관점에서 
 Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것이라 생각합니다.&lt;/p&gt;
 
@@ -464,7 +464,7 @@ pod간 private 통신도 불가능합니다.&lt;/p&gt;
   &lt;li&gt;
     &lt;p&gt;Helm CLI.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;/blog/helm/2018/05/27/installing-helm.html&quot;&gt;Helm CLI&lt;/a&gt;를 설치합니다.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;/helm/2018/05/27/installing-helm.html&quot;&gt;Helm CLI&lt;/a&gt;를 설치합니다.&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
@@ -722,7 +722,7 @@ CTX_CLUSTER1 = cluster1, CTX_CLUSTER2 = cluster2
 
 &lt;h3 id=&quot;helm-설치&quot;&gt;Helm 설치&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&quot;/blog/helm/2018/05/27/installing-helm.html&quot;&gt;Helm 설치하기&lt;/a&gt; 문서를 참고하여 Helm Client를 설치합니다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;/helm/2018/05/27/installing-helm.html&quot;&gt;Helm 설치하기&lt;/a&gt; 문서를 참고하여 Helm Client를 설치합니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;multi-cluster에-service-mesh-구성하기&quot;&gt;Multi Cluster에 Service Mesh 구성하기&lt;/h2&gt;
 
@@ -1137,7 +1137,7 @@ cd jenkinsci-demo
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create -f jenkins/maven-cache-pvc.yaml -n jenkins
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Jenkins에 대한 자세한 내용은 &lt;a href=&quot;/blog/cicd/2018/05/26/installing-jenkins.html&quot;&gt;Jenkins 설치하기&lt;/a&gt; 문서를 참고하세요.&lt;/p&gt;
+&lt;p&gt;Jenkins에 대한 자세한 내용은 &lt;a href=&quot;/cicd/2018/05/26/installing-jenkins.html&quot;&gt;Jenkins 설치하기&lt;/a&gt; 문서를 참고하세요.&lt;/p&gt;
 
 &lt;h2 id=&quot;jenkins-ui-접속&quot;&gt;Jenkins UI 접속&lt;/h2&gt;
 
@@ -1593,7 +1593,7 @@ Revision은 Head, Path는 guestbook을 입력합니다.&lt;/p&gt;
 
 &lt;h3 id=&quot;aws-ecrelastic-container-registry-구성&quot;&gt;AWS ECR(Elastic Container Registry) 구성&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&quot;/blog/cloud/2019/06/21/aws-cicd03.html&quot;&gt;AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild&lt;/a&gt;
+&lt;p&gt;&lt;a href=&quot;/cloud/2019/06/21/aws-cicd03.html&quot;&gt;AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild&lt;/a&gt;
 문서의 &lt;code class=&quot;highlighter-rouge&quot;&gt;사전 준비 &amp;gt; ECR(Elastic Container Registry) 생성&lt;/code&gt; 섹션을 참고하여 ECR을 생성하겠습니다.&lt;/p&gt;
 
 &lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
@@ -1636,7 +1636,7 @@ $ docker push $FULL_IMAGE_NAME
 
 &lt;h3 id=&quot;aws-ecs-cluster-구성&quot;&gt;AWS ECS Cluster 구성&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-01.html&quot;&gt;AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기&lt;/a&gt; 
+&lt;p&gt;&lt;a href=&quot;/cloud/2019/06/23/aws-ecs-01.html&quot;&gt;AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기&lt;/a&gt; 
 문서의 &lt;code class=&quot;highlighter-rouge&quot;&gt;ECS Cluster 생성&lt;/code&gt; 섹션을 참고하여 클러스터를 생성하겠습니다.&lt;/p&gt;
 
 &lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
@@ -1646,7 +1646,7 @@ $ docker push $FULL_IMAGE_NAME
 
 &lt;h3 id=&quot;aws-ecs-task-구성&quot;&gt;AWS ECS Task 구성&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-02.html&quot;&gt;AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)&lt;/a&gt;
+&lt;p&gt;&lt;a href=&quot;/cloud/2019/06/23/aws-ecs-02.html&quot;&gt;AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)&lt;/a&gt;
 문서를 참고하여 작업 정의를 생성하겠습니다.&lt;/p&gt;
 
 &lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
@@ -1657,7 +1657,7 @@ $ docker push $FULL_IMAGE_NAME
 
 &lt;h3 id=&quot;aws-ecs-service-구성&quot;&gt;AWS ECS Service 구성&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-03.html&quot;&gt;AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기&lt;/a&gt;
+&lt;p&gt;&lt;a href=&quot;/cloud/2019/06/23/aws-ecs-03.html&quot;&gt;AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기&lt;/a&gt;
 문서를 참고하여 ECS 서비스를 구성하겠습니다.&lt;/p&gt;
 
 &lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
@@ -2755,7 +2755,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
 &lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecstask-07.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-03.html&quot;&gt;AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기&lt;/a&gt;
+&lt;p&gt;다음으로 &lt;a href=&quot;/cloud/2019/06/23/aws-ecs-03.html&quot;&gt;AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기&lt;/a&gt;
 문서에서 서비스(ECS Service)를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>sj</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecstask" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)의 작업 정의(ECS Task)를 통해 컨테이너 관련 설정을 할 수 있습니다. 이 문서에서는 작업 정의(ECS Task)를 구성하는 방법을 알아보겠습니다.</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기</title><link href="http://localhost:4000/cloud/2019/06/23/aws-ecs-01.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #1 - 사전 준비 및 클러스터 생성하기" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/cloud/2019/06/23/aws-ecs-01</id><content type="html" xml:base="http://localhost:4000/cloud/2019/06/23/aws-ecs-01.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)를 구성하기 위해 필요한 사전 준비와 ECS 클러스터를 생성하는 방법을 알아보겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
@@ -2782,13 +2782,13 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
 
 &lt;p&gt;아래 문서를 참고하여 형상 관리 저장소에 샘플 애플리케이션을 저장합니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;/blog/cloud/2019/06/20/aws-cicd02.html&quot;&gt;AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;/cloud/2019/06/20/aws-cicd02.html&quot;&gt;AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;코드-빌드-및-이미지-저장&quot;&gt;코드 빌드 및 이미지 저장&lt;/h3&gt;
 
 &lt;p&gt;다음으로 아래 문서를 참고하여 코드를 빌드하고 이를 이미지 저장소에 저장합니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;/blog/cloud/2019/06/21/aws-cicd03.html&quot;&gt;AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;/cloud/2019/06/21/aws-cicd03.html&quot;&gt;AWS에서 CI/CD 환경 구성 #3 - 코드 빌드, CodeBuild&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;이 단계를 완료하면 아래와 같이 이미지 저장소 주소를 복사합니다.
 이 주소는 ECS 환경에 애플리케이션을 배포할 때 사용합니다.&lt;/p&gt;
@@ -2821,5 +2821,5 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-02.html&quot;&gt;AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)&lt;/a&gt;
+&lt;p&gt;다음으로 &lt;a href=&quot;/cloud/2019/06/23/aws-ecs-02.html&quot;&gt;AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)&lt;/a&gt;
 문서에서 작업 정의(ECS Task)를 구성하는 방법을 살펴보겠습니다.&lt;/p&gt;</content><author><name>sj</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)를 구성하기 위해 필요한 사전 준비와 ECS 클러스터를 생성하는 방법을 알아보겠습니다.</summary></entry></feed>
