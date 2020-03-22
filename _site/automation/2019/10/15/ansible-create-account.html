@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/assets/css/home.css">
+  <link rel="stylesheet" href="/blog/assets/css/category.css">
+  <link rel="stylesheet" href="/blog/assets/css/tag.css">
+  <link rel="stylesheet" href="/blog/assets/main.css"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Ansible 활용 #1 서버 계정 생성 자동화 | 개발 노트</title>
+<meta name="generator" content="Jekyll v3.7.3" />
+<meta property="og:title" content="Ansible 활용 #1 서버 계정 생성 자동화" />
+<meta name="author" content="sj" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Overview" />
+<meta property="og:description" content="Overview" />
+<link rel="canonical" href="http://localhost:4000/blog/automation/2019/10/15/ansible-create-account.html" />
+<meta property="og:url" content="http://localhost:4000/blog/automation/2019/10/15/ansible-create-account.html" />
+<meta property="og:site_name" content="개발 노트" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-10-15T00:00:00+09:00" />
+<script type="application/ld+json">
+{"description":"Overview","author":{"@type":"Person","name":"sj"},"@type":"BlogPosting","url":"http://localhost:4000/blog/automation/2019/10/15/ansible-create-account.html","headline":"Ansible 활용 #1 서버 계정 생성 자동화","dateModified":"2019-10-15T00:00:00+09:00","datePublished":"2019-10-15T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/automation/2019/10/15/ansible-create-account.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <meta property="article:tag" content="ansible" >
+  
+  <meta property="article:tag" content="ansibleplaybook" >
+  
+  <meta property="article:tag" content="automation" >
+  
+  <meta property="article:tag" content="devops" >
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/blog/feed.xml" title="개발 노트" /><meta name="naver-site-verification" content="33e13a38620284ab48998da35e7c8e63ec9c7319"/>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">개발 노트</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/blog/categories">Categories</a>
+            <a class="page-link" href="/blog/tags">Tags</a>
+        </div>
+
+        <!--div class="trigger"><a class="page-link" href="/blog/assets/images/oauth-proxy/2018-05-23-oauth-proxy.html">OAuth Proxy를 활용한 애플리케이션 인증 및 인가</a><a class="page-link" href="/blog/categories/">Categories</a><a class="page-link" href="/blog/tags/">Tags</a></div-->
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Ansible 활용 #1 서버 계정 생성 자동화</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-10-15T00:00:00+09:00" itemprop="datePublished">Oct 15, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">sj</span></span></p>
+      
+<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<div class="post-tags">
+  
+  
+  <a href="/blog/tags/#ansible">ansible</a>,
+  
+  <a href="/blog/tags/#ansibleplaybook">ansibleplaybook</a>,
+  
+  <a href="/blog/tags/#automation">automation</a>,
+  
+  <a href="/blog/tags/#devops">devops</a>
+  
+</div>
+<br/>
+
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="overview">Overview</h2>
+
+<p>서버에 무언가 필요한 것들을 설치하기 전에 가장 먼저 하는 일이 사용자 계정을 생성하고 권한을 할당하는 일입니다.</p>
+
+<p>개인적인 스터디로 사용하는 서버라면 root 계정을 사용해도 무방하겠지만 
+운영용 서버라면 root 계정은 서버 관리자만 알고 일반 사용자는 계정과 필요한 권한만 할당 받는 것이 일반적입니다.</p>
+
+<p>Ansible의 처음 접하는 분이라면 
+<a href="/blog/automation/2019/10/13/ansible-start.html">Ansible 시작하기</a>에서 
+기본적인 개념과 사용 방법에 대해 살펴보는것이 좋습니다.</p>
+
+<p class="tip-title">참고</p>
+<p class="tip-content">
+이 가이드의 Ansible host(Ansible을 설치하고 있는 서버)에서 사용하는 계정은 sudo 권한이 없는 일반 사용자입니다.
+(sudo: 일반 사용자가 root 권한을 일시적으로 획득하여 특정 명령을 실행 할 수 있도록 하는 명령)
+</p>
+
+<h2 id="1-계정-추가하기">1. 계정 추가하기</h2>
+
+<p>Remote host에 계정을 추가하는 명령을 실행해보겠습니다.</p>
+<ul>
+  <li>host 명: 전체 host 그룹인 “all” 입력</li>
+  <li>모듈 명: “-m” 옵션에 “user” 모듈 입력</li>
+  <li>모듈 파라미터: user 모듈의 name 파라미터에 “example-user” 입력</li>
+  <li>become: 명령을 실행하는 사용자 계정의 권한을 승격. “–become” 또는 “-b” 입력</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-user@ansible-host:~$ ansible all -m user -a "name=example-user" -b
+host01.example.com | CHANGED =&gt; {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": true,
+    "comment": "",
+    "create_home": true,
+    "group": 1003,
+    "home": "/home/example-user",
+    "name": "example-user",
+    "shell": "",
+    "state": "present",
+    "system": false,
+    "uid": 1002
+}
+...
+</code></pre></div></div>
+
+<p>이 명령을 실행하면 <a href="https://docs.ansible.com/ansible/latest/modules/user_module.html">user 모듈</a>을 사용해서 “example-user”라는 이름의 계정을 생성합니다.</p>
+
+<p class="tip-title">참고</p>
+<p class="tip-content">만약 "-b" 옵션을 추가하지 않는다면 "useradd" 명령을 실행할 권한이 없다는 에러가 발생할 것입니다.</p>
+<p class="tip-content">이 에러가 발생하는 이유는 ansible을 실행하는 사용자 계정에 sudo 권한이 없기 때문입니다.
+(위에서 언급한 것과 같이 제가 테스트하는 계정도 sudo 권한이 없습니다. 만약 root 계정으로 ansible을 실행한다면 정상적으로 동작할 것입니다.)</p>
+<p class="tip-content">하지만 일반적으로 root 계정을 사용하지 않습니다. 따라서 "-b" 옵션을 추가해 명령 실행해 필요한 권한을 할당 받아 사용하는 것입니다.</p>
+
+<p>이번에는 Remote host에 실제로 계정이 생성되었는지 확인해보겠습니다.</p>
+
+<ul>
+  <li>host 명: 전체 host 그룹인 “all” 입력</li>
+  <li>모듈 명: “-m” 옵션에 “shell” 모듈 입력</li>
+  <li>모듈 파라미터: shell 모듈의 파라미터에 “cat /etc/passwd” 명령 입력</li>
+  <li>출력 옵션: “-o” 옵션을 추가해 결과를 한줄로 출력</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-user@ansible-host:~$ ansible all -m shell -a "cat /etc/passwd |grep 'example-user'" -o
+host01.example.com | CHANGED | rc=0 | (stdout) example-user:x:1002:1003::/home/example-user:
+host02.example.com | CHANGED | rc=0 | (stdout) example-user:x:1002:1003::/home/example-user:
+host03.example.com | CHANGED | rc=0 | (stdout) example-user:x:1002:1003::/home/example-user:
+</code></pre></div></div>
+
+<p>이 명령을 실행하면 remote host의 계정 정보를 가져옵니다.
+결과를 확인해보면 “example-user”가 추가된 것을 확인할 수 있습니다.</p>
+
+<h2 id="2-패스워드-추가하기">2. 패스워드 추가하기</h2>
+
+<p>위에서 생성한 계정에 패스워드를 추가하는 명령을 실행해보겠습니다.</p>
+<ul>
+  <li>host 명: 전체 host 그룹인 “all” 입력</li>
+  <li>모듈 명: “-m” 옵션에 “user” 모듈 입력</li>
+  <li>모듈 파라미터
+    <ul>
+      <li>name: 위에서 생성한 계정인 “example-user” 입력</li>
+      <li>update_password: “always” 입력(입력한 암호가 기존 패스워드와 다른 경우 업데이트)</li>
+      <li>password: 암호 “example-password”를 hash한 값을 입력</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-user@ansible-host:~$ ansible all -m user -a "name=example-user update_password=always password=example-password"
+</code></pre></div></div>
+
+<p>이 명령을 실행하면 “example-user”라는 이름의 계정에 “example-password” 암호가 설정됩니다.</p>
+
+<p>암호가 정상적으로 설정되었는지 확인하기 위해 remote host에서 신규 생성한 계정으로 로그인을 해보겠습니다.
+패스워드 입력 프롬포트가 나타나면 위에서 설정한 패스워드 “example-password”를 입력합니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-user@ansible-host:~$ su - example-user 
+Password:
+</code></pre></div></div>
+
+<p>“example-user” 계정으로 정상 로그인되었습니다.
+로그인을 확인했으니 다음 과정을 위해 로그아웃하고 원래 계정으로 돌아가겠습니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>example-user@ansible-host:~$ exit
+
+default-user@ansible-host:~$ 
+</code></pre></div></div>
+
+<h2 id="3-sudo-명령어-사용-권한-추가하기">3. sudo 명령어 사용 권한 추가하기</h2>
+
+<p>마지막으로 신규 생성한 계정에 sudo 명령어를 사용할 수 있는 권한을 추가해보겠습니다.</p>
+
+<p>계정에 권한을 추가하는 방법은 1)”/etc/sudoers” 파일을 직접 수정하는 방법과 
+2)”/etc/sudoers.d/” 디렉토리에 파일을 추가하는 방법이 있습니다.</p>
+
+<p>어느 방법을 선택해도 무관하지만 좀 더 안전한 방법인 2번째 방법으로 진행해보겠습니다.</p>
+
+<ul>
+  <li>host 명: 전체 host 그룹인 “all” 입력</li>
+  <li>모듈 명: “-m” 옵션에 복사 기능을 수행하는 “copy” 모듈 입력</li>
+  <li>모듈 파라미터
+    <ul>
+      <li>content: 복사할 문자열 입력. “example-user ALL=(ALL) NOPASSWD:ALL”</li>
+      <li>dest: 복사할 목적지로 remote host의 절대 경로 입력. “/etc/sudoers.d/example-user”</li>
+      <li>mode: 복사할 목적지의 파일/디렉토리 권한 입력. “0664”</li>
+    </ul>
+  </li>
+  <li>become: 명령을 실행하는 사용자 계정의 권한을 승격. “–become” 또는 “-b” 입력</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-user@ansible-host:~$ ansible all -m copy -a "content='example-user ALL=(ALL) NOPASSWD:ALL' dest=/etc/sudoers.d/example-user mode=0644" -b
+host01.example.com | CHANGED =&gt; {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": true,
+    "checksum": "211b02ac91fd0734b04f766226aaa7bc8fb0aec8",
+    "dest": "/etc/sudoers.d/example-user",
+    "gid": 0,
+    "group": "root",
+    "md5sum": "c10df13e1e8647a0a77e2a8343678fe5",
+    "mode": "0644",
+    "owner": "root",
+    "size": 35,
+    "src": "/home/sangjunyun_1984/.ansible/tmp/ansible-tmp-1584880181.3114061-33928614051676/source",
+    "state": "file",
+    "uid": 0
+}
+...
+</code></pre></div></div>
+
+<p>이 명령을 실행하면 remote host에 “/etc/sudoers.d/example-user” 파일이 생성되고
+해당 파일에 “example-user ALL=(ALL) NOPASSWD:ALL” 내용이 추가됩니다.
+이 내용은 “example-user”에게 패스워드 없이 sudo를 실행할 수 있는 권한을 부여한다는 의미입니다.</p>
+
+<p>이제 sudo 권한을 확인해보겠습니다. 먼저 “example-user”로 다시 로그인합니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-user@ansible-host:~$ su - example-user 
+Password: 
+</code></pre></div></div>
+
+<p>그리고 “root” 계정으로 로그인하는 sudo 명령을 실행해보겠습니다.
+패스워드 없이 root 계정으로 로그인된 것을 확인할 수 있습니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>example-user@ansible-host:~$ sudo su - root
+
+root@ansible-host:~$
+</code></pre></div></div>
+
+<h2 id="맺음말">맺음말</h2>
+
+<p>지금까지 Ansible 명령을 사용하여 계정 생성 작업을 자동화하는 방법을 알아봤습니다.</p>
+
+<p>Ansible 명령으로 간단한 작업들을 수행하는 것은 편리합니다.
+하지만 여러 가지 작업들을 수행해야하는 경우 Ansible 명령만으로 부족한 부분이 있습니다.</p>
+
+<p>이런 경우에 Ansible Playbook을 활용할 수 있습니다.
+이후에 Ansible Playbook이 무엇이고 어떻게 사용하는지에 대해서도 한번 살펴 보겠습니다.</p>
+
+
+  </div>
+<div id="disqus_thread"></div>
+<script>
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+  /*
+  var disqus_config = function () {
+  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  */
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://sj-blog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a class="u-url" href="/blog/automation/2019/10/15/ansible-create-account.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <!--h2 class="footer-heading">개발 노트</h2-->
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yun SangJun</li><li><a class="u-email" href="mailto:ysj188cm@gmail.com">ysj188cm@gmail.com</a></li>
+            <li>subscribe <a href="/blog/feed.xml">via RSS</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yunsangjun"><svg class="svg-icon"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yunsangjun</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>iOS를 시작으로 개발자의 길로 들어서 모바일 프레임워크와 애플리케이션을 개발했고 이후, 웹 개발자로 커리어를 전환해 웹 프레임워크, IDE를 개발했습니다. 최근에는 Kubernetes 및 Cloud 환경에서 애플리케션을 개발하고 빌드, 배포, 모니터링하는 운영 단계를 자동화하는 DevOps 엔지니어링을 하고 있습니다.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

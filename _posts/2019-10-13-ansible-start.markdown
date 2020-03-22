@@ -60,10 +60,10 @@ Ansible을 설치하기 위해서는 먼저 python을 설치해야합니다.
 
 ```
 //for local
-pip install --user ansible
+default-user@ansible-host:~$ pip install --user ansible
 
 //for global
-pip install ansible
+default-user@ansible-host:~$ pip install ansible
 ```
 
 <p class="tip-title">참고</p>
@@ -72,15 +72,15 @@ pip install ansible
 </p>
 
 ```
-PATH=$PATH:$HOME/.local/bin
-export PATH
+default-user@ansible-host:~$ PATH=$PATH:$HOME/.local/bin
+default-user@ansible-host:~$ export PATH
 ```
 
 설치가 완료되면 버전을 확인합니다.
 
 ```
-# ansible --version
-ansible 2.9.2
+default-user@ansible-host:~$ ansible --version
+default-user@ansible-host:~$ ansible 2.9.2
 ...
 ```
 
@@ -95,7 +95,7 @@ Loopback(ansible host)을 호출하고 응답이 오는지 확인하는 명령�
 "pong" 이라는 응답이 오면 정상적으로 동작한 것입니다.
 
 ```
-$ ansible localhost -m ping
+default-user@ansible-host:~$ ansible localhost -m ping
 ...
 localhost | SUCCESS => {
     "changed": false,
@@ -110,12 +110,12 @@ localhost | SUCCESS => {
 
 아래 명령은 쉘 스크립트를 사용해 remote host의 파일을 복사하는 명령을 실행합니다. 
 ```
-$ ansible all -m shell -a "cp ~/.profile ~/.profile.bak"
+default-user@ansible-host:~$ ansible all -m shell -a "cp ~/.profile ~/.profile.bak"
 ```
 
 같은 명령을 "copy" 모듈을 사용할 수도 있습니다.
 ```
-$ ansible all -m copy -a "src=~/.profile dest=~/.profile.bak"
+default-user@ansible-host:~$ ansible all -m copy -a "src=~/.profile dest=~/.profile.bak"
 ```
 
 모듈을 사용하면 몇 가지 장점이 있습니다.
@@ -132,7 +132,7 @@ Ansible host에서 여러대의 remote host를 호출해야 할 경우 "/etc/ans
 "[example]"는 remote host들의 그룹 이름입니다. 딱히 정해진 이름은 없으니 자유롭게 정하면됩니다. 
 
 ```
-$ vi /etc/ansible/hosts
+default-user@ansible-host:~$ vi /etc/ansible/hosts
 [example]
 host01.example.com
 host02.example.com
@@ -152,7 +152,7 @@ Ansible host에서 remote host로 ssh 클라이언트를 통해 접속 가능한
 - 모듈 명: "-m" 옵션에 "ping" 모듈 입력
 
 ```
-$ ansible example -m ping
+default-user@ansible-host:~$ ansible example -m ping
 host01.example.com | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
@@ -181,7 +181,7 @@ host03.example.com | SUCCESS => {
 전체 그룹에 대해 호출하고 싶은 경우 "all"을 사용하면됩니다.
 
 ```
-$ vi /etc/ansible/hosts
+default-user@ansible-host:~$ vi /etc/ansible/hosts
 [example01]
 host01.example.com
 
@@ -191,7 +191,7 @@ host02.example.com
 [example03]
 host03.example.com
 
-$ ansible all -m ping
+default-user@ansible-host:~$ ansible all -m ping
 ...
 ```
 
