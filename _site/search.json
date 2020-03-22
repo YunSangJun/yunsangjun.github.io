@@ -2,26 +2,6 @@
   
     {
 
-      "title"    : "Ansible 활용 #1 서버 계정 생성 자동화",
-      "url"      : "/blog/automation/2019/10/15/ansible-create-account.html",
-      "category" : "automation",
-      "tags"     : "ansible, ansibleplaybook, automation, devops",
-      "date"     : "2019-10-15 00:00:00 +0900"
-
-    } ,
-  
-    {
-
-      "title"    : "Ansible 시작하기",
-      "url"      : "/blog/automation/2019/10/13/ansible-start.html",
-      "category" : "automation",
-      "tags"     : "ansible, ansibleplaybook, automation, devops",
-      "date"     : "2019-10-13 00:00:00 +0900"
-
-    } ,
-  
-    {
-
       "title"    : "Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기",
       "url"      : "/blog/kubernetes/2019/08/25/virtual-kublet.html",
       "category" : "kubernetes",

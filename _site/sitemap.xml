@@ -2,38 +2,6 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
     <url>
-      <loc>http://localhost:4000/automation/2019/10/15/ansible-create-account.html</loc>
-      
-        <lastmod>2019-10-15T00:00:00+09:00</lastmod>
-      
-
-      
-        <changefreq>weekly</changefreq>
-      
-
-      
-          <priority>0.5</priority>
-      
-
-    </url>
-  
-    <url>
-      <loc>http://localhost:4000/automation/2019/10/13/ansible-start.html</loc>
-      
-        <lastmod>2019-10-13T00:00:00+09:00</lastmod>
-      
-
-      
-        <changefreq>weekly</changefreq>
-      
-
-      
-          <priority>0.5</priority>
-      
-
-    </url>
-  
-    <url>
       <loc>http://localhost:4000/kubernetes/2019/08/25/virtual-kublet.html</loc>
       
         <lastmod>2019-08-25T00:00:00+09:00</lastmod>
