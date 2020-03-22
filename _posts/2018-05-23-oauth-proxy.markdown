@@ -51,15 +51,15 @@ Keycloak Proxy와 Keycloak을 연동하기 위해서는 Keycloak 관리자 대�
 
 - Keycloak Proxy는 `/user` endpoint에 대한 클라이언트 요청을 허용합니다.
 
-  ![Keycloak Proxy Flow Allow](/blog/assets/images/oauth-proxy/keycloak_proxy_flow_user_allow.png)
+  ![Keycloak Proxy Flow Allow](/assets/images/oauth-proxy/keycloak_proxy_flow_user_allow.png)
 
 - Keycloak Proxy는 클라이언트가 admin 권한을 가지고 있지 않다면 `/admin` endpoint에 대한 클라이언트 요청을 거부합니다.
 
-  ![Keycloak Proxy Flow Deny](/blog/assets/images/oauth-proxy/keycloak_proxy_flow_admin_deny.png)
+  ![Keycloak Proxy Flow Deny](/assets/images/oauth-proxy/keycloak_proxy_flow_admin_deny.png)
 
 - Keycloak Proxy는 클라이언트가 admin 권한을 가지고 있다면 `/admin` endpoint에 대한 클라이언트 요청을 허용합니다.
 
-  ![Keycloak Proxy Flow Deny](/blog/assets/images/oauth-proxy/keycloak_proxy_flow_admin_allow.png)
+  ![Keycloak Proxy Flow Deny](/assets/images/oauth-proxy/keycloak_proxy_flow_admin_allow.png)
 
 ### 다운로드
 
@@ -188,28 +188,28 @@ Keycloak Proxy에 대한 자세한 설명은 [Keycloak Proxy Helm Chart](https:/
     먼저 `/user` endpoint에 접속해봅니다. 이전과 마찬가지로 인증없이 접근이 가능합니다.
     Keycloak Proxy 배포 시 `pattern` 설정에 `/admin` 패턴만 설정했기 때문에 `/user` endpoint는 bypass 합니다.
 
-    ![Authentication and Authorization](/blog/assets/images/oauth-proxy/page_user.png)
+    ![Authentication and Authorization](/assets/images/oauth-proxy/page_user.png)
 
 2. `http://$NODE_IP:$NODE_PORT/admin` 접속
 
     `admin` endpoint에 접속해봅니다. Keycloak Proxy는 클라이언트를 Keycloak 로그인 페이지로 redirect 시킵니다.
     Keycloak Proxy 배포 시 `pattern` 설정에 `/admin` 패턴을 체크하도록 설정했기 때문입니다.
 
-    ![Authentication and Authorization](/blog/assets/images/oauth-proxy/login1.png)
+    ![Authentication and Authorization](/assets/images/oauth-proxy/login1.png)
 
     Keycloak 계정이 없다면 "Register" 버튼을 클릭하여 계정을 생성합니다.
-    ![Authentication and Authorization](/blog/assets/images/oauth-proxy/add_user.png)
+    ![Authentication and Authorization](/assets/images/oauth-proxy/add_user.png)
 
     Keycloak 계정으로 로그인합니다.
-    ![Authentication and Authorization](/blog/assets/images/oauth-proxy/login2.png)
+    ![Authentication and Authorization](/assets/images/oauth-proxy/login2.png)
 
     이제 로그인에 성공했다면 제어권이 다시 Keycloak Proxy로 넘어갑니다.
     만약 로그인한 계정이 admin 권한을 가지고 있지 않다면 "HTTP 403" 에러가 발생 할 수 있습니다.
-    ![Authentication and Authorization](/blog/assets/images/oauth-proxy/page_admin_error.png)
+    ![Authentication and Authorization](/assets/images/oauth-proxy/page_admin_error.png)
 
     Keycloak 관리자 대시보드에 접속한 후 User 관리메뉴를 클릭합니다.
     로그인한 사용자 계정을 선택한 후 admin 권한을 사용자에게 부여합니다.
-    ![Authentication and Authorization](/blog/assets/images/oauth-proxy/role_mapping.png)
+    ![Authentication and Authorization](/assets/images/oauth-proxy/role_mapping.png)
 
     이제 다시 접속해보면 아래와 같이 `/admin` endpoint에 정상적으로 접근할 수 있습니다.
-    ![Authentication and Authorization](/blog/assets/images/oauth-proxy/page_admin_success.png)
+    ![Authentication and Authorization](/assets/images/oauth-proxy/page_admin_success.png)

@@ -63,4 +63,4 @@ $ kubectl apply -f ingress.yaml
 
 이제 `spinnaker.example.com`에 접속해 Spinnaker 대시보드를 사용할 수 있습니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-dashboard.png)
+![](/assets/images/spinnaker/spinnaker-dashboard.png)

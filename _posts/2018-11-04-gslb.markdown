@@ -19,7 +19,7 @@ tags:
 
 AWS의 Route 53 서비스에 접속합니다.
 
-![](/blog/assets/images/cloud/gslb/route53_main.png)
+![](/assets/images/cloud/gslb/route53_main.png)
 
 ### Health Check 생성하기
 
@@ -30,11 +30,11 @@ Route 53 서비스 main > Left menu > Health checks > `Create health check`를 �
 
 아래와 같이 Master 애플리케이션에 대한 health check 설정을 입력합니다.
 
-![](/blog/assets/images/cloud/gslb/health-check-master.png)
+![](/assets/images/cloud/gslb/health-check-master.png)
 
 마찬가지로 Slave 애플리케이션에 대한 health check 설정을 입력합니다.
 
-![](/blog/assets/images/cloud/gslb/health-check-slave.png)
+![](/assets/images/cloud/gslb/health-check-slave.png)
 
 ### Host Zone 생성하기
 
@@ -42,7 +42,7 @@ Route 53 서비스 main > Left menu > Hosted zones > `Create Hosted Zone`을 선
 
 아래와 같이 Hosted Zone의 정보를 입력합니다.
 
-![](/blog/assets/images/cloud/gslb/create-hosted-zone.png)
+![](/assets/images/cloud/gslb/create-hosted-zone.png)
 
 - Domain Name : dr.example.com(`*.example.com` 도메인을 소유하고 있고 하위 도메인
   `dr.example.com`을 GSLB 구성에 사용합니다.)
@@ -51,25 +51,25 @@ Route 53 서비스 main > Left menu > Hosted zones > `Create Hosted Zone`을 선
 
 Route 53 서비스 main > Left menu > Hosted zones > `Create Record Set`을 선택합니다.
 
-![](/blog/assets/images/cloud/gslb/create-recordset-01.png)
+![](/assets/images/cloud/gslb/create-recordset-01.png)
 
 Master(Primary)에 대한 Record Set을 아래와 같이 설정합니다.
 
 - Value : Master 애플리케이션 Endpoint가 가르키는 IP Address
 - Health Check to Associate : 앞에서 생성한 Master의 health check name 선택
 
-![](/blog/assets/images/cloud/gslb/create-recordset-02.png)
+![](/assets/images/cloud/gslb/create-recordset-02.png)
 
 Slave(Secondary)에 대한 Record Set을 아래와 같이 설정합니다.
 
 - Value : Slave 애플리케이션 Endpoint가 가르키는 IP Address
 - Health Check to Associate : 앞에서 생성한 Slave의 health check name 선택
 
-![](/blog/assets/images/cloud/gslb/create-recordset-03.png)
+![](/assets/images/cloud/gslb/create-recordset-03.png)
 
 아래와 같이 Master(Primary)와 Slave(Secondary)에 대한 Record Set이 설정되었습니다.
 
-![](/blog/assets/images/cloud/gslb/create-recordset-04.png)
+![](/assets/images/cloud/gslb/create-recordset-04.png)
 
 ### 도메인 설정하기
 
@@ -107,7 +107,7 @@ Address: 169.x.x.1
 
 좀 더 상세한 흐름을 그림으로 표현해보면 아래와 같습니다.
 
-![](/blog/assets/images/cloud/gslb/workflow-master-up.png)
+![](/assets/images/cloud/gslb/workflow-master-up.png)
 
 #### Master 애플리케이션의 접속이 비정상인 경우
 
@@ -129,4 +129,4 @@ Address: 169.x.x.2
 
 좀 더 상세한 흐름을 그림으로 표현해보면 아래와 같습니다.
 
-![](/blog/assets/images/cloud/gslb/workflow-master-down.png)
+![](/assets/images/cloud/gslb/workflow-master-down.png)

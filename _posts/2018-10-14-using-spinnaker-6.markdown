@@ -40,7 +40,7 @@ Spinnaker top menu > Applications > 우측 Actions dropbox > Create Application�
 - Name : helm-chart-demo
 - Owner Email : 애플리케이션 소유자의 이메일
 
-![](/blog/assets/images/spinnaker/spinnaker-new-application.png)
+![](/assets/images/spinnaker/spinnaker-new-application.png)
 
 ## Pipeline 생성
 
@@ -51,7 +51,7 @@ Application top > PIPELINES > Configure a new pipeline을 선택합니다.
 - Type : Pipeline
 - Pipeline Name : Deploy helm chart
 
-![](/blog/assets/images/spinnaker/spinnaker-new-pipeline.png)
+![](/assets/images/spinnaker/spinnaker-new-pipeline.png)
 
 ## Pipeline 설정
 
@@ -59,7 +59,7 @@ Application top > PIPELINES > Configure a new pipeline을 선택합니다.
 
 Pipeline configuration > Automated Triggers > Add Trigger를 선택합니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-pipeline-main-01.png)
+![](/assets/images/spinnaker/spinnaker-pipeline-main-01.png)
 
 아래와 같이 내용을 입력하고 `Save Changes` 버튼을 선택해 변경사항을 저장합니다.
 
@@ -72,7 +72,7 @@ Pipeline configuration > Automated Triggers > Add Trigger를 선택합니다.
 - Branch : master
 - Secret : [GitHub Webhooks 설정하기](/blog/spinnaker/2018/09/10/configuration-spinnaker-4.html)에서 입력한 secret
 
-![](/blog/assets/images/spinnaker/spinnaker-automated-trigger.png)
+![](/assets/images/spinnaker/spinnaker-automated-trigger.png)
 
 ### Expected Artifacts
 
@@ -83,7 +83,7 @@ Pipeline configuration > Expected Artifacts > Add Artifact를 선택합니다.
 - Match against : GitHub
 - File path : stable/demo-0.1.0.tgz
 
-![](/blog/assets/images/spinnaker/spinnaker-expected-artifacts.png)
+![](/assets/images/spinnaker/spinnaker-expected-artifacts.png)
 
 ### Bake Manifest
 
@@ -93,14 +93,14 @@ Helm chart로 부터 Kubernetes manifest를 생성하는 stage를 구성합니�
 
 Pipeline > Configuration > Add stage를 선택합니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-pipeline-main-01.png)
+![](/assets/images/spinnaker/spinnaker-pipeline-main-01.png)
 
 아래와 같이 내용을 입력하고 `Save Changes` 버튼을 선택해 변경사항을 저장합니다.
 
 - Type : Bake(Manifest)
 - Stage Name : Bake manifest for IBM
 
-![](/blog/assets/images/spinnaker/spinnaker-bake-ibm-01.png)
+![](/assets/images/spinnaker/spinnaker-bake-ibm-01.png)
 
 #### Stage 설정
 
@@ -115,7 +115,7 @@ Pipeline > Configuration > Add stage를 선택합니다.
   - Key : ingress.enabled, Value : true
   - Key : ingress.hosts[0], Value : 애플리케이션 호스트 명 입력(예: demo.ibm.example.com)
 
-![](/blog/assets/images/spinnaker/spinnaker-bake-ibm-02.png)
+![](/assets/images/spinnaker/spinnaker-bake-ibm-02.png)
 
 #### Produces Artifacts
 
@@ -124,7 +124,7 @@ Bake Manifest 설정을 완료하면 Produces Artifacts에 생성되는 Kubernet
 
 이 설정을 다음 단계인 Deploy Manifest에서 사용합니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-bake-produces-artifacts.png)
+![](/assets/images/spinnaker/spinnaker-bake-produces-artifacts.png)
 
 #### Multi cloud/cluster
 
@@ -134,14 +134,14 @@ Bake Manifest 설정을 완료하면 Produces Artifacts에 생성되는 Kubernet
 
 Pipeline > Configuration > Add stage를 선택합니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-pipeline-main-02.png)
+![](/assets/images/spinnaker/spinnaker-pipeline-main-02.png)
 
 아래와 같이 내용을 입력하고 `Save Changes` 버튼을 선택해 변경사항을 저장합니다.
 
 - Type : Bake(Manifest)
 - Stage Name : Bake manifest for GCP
 
-![](/blog/assets/images/spinnaker/spinnaker-bake-gcp-01.png)
+![](/assets/images/spinnaker/spinnaker-bake-gcp-01.png)
 
 - Render Engine : HELM2
 - Name : demo
@@ -152,7 +152,7 @@ Pipeline > Configuration > Add stage를 선택합니다.
   - Key : ingress.enabled, Value : true
   - Key : ingress.hosts[0], Value : 애플리케이션 호스트 명 입력(예: demo.gcp.example.com)
 
-![](/blog/assets/images/spinnaker/spinnaker-bake-gcp-02.png)
+![](/assets/images/spinnaker/spinnaker-bake-gcp-02.png)
 
 ### Deploy Manifest
 
@@ -162,7 +162,7 @@ Pipeline > Configuration > Add stage를 선택합니다.
 
 Pipeline > Bake manifest IBM > Add stage를 선택합니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-pipeline-main-03.png)
+![](/assets/images/spinnaker/spinnaker-pipeline-main-03.png)
 
 아래와 같이 내용을 입력하고 `Save Changes` 버튼을 선택해 변경사항을 저장합니다.
 
@@ -170,7 +170,7 @@ Pipeline > Bake manifest IBM > Add stage를 선택합니다.
 - Stage Name : Deploy to IBM
 - Depends On : Bake manifest for IBM
 
-![](/blog/assets/images/spinnaker/spinnaker-deploy-to-ibm-01.png)
+![](/assets/images/spinnaker/spinnaker-deploy-to-ibm-01.png)
 
 #### Stage 설정
 
@@ -181,7 +181,7 @@ Pipeline > Bake manifest IBM > Add stage를 선택합니다.
 - Expected Artifact : b64 name:demo, type:embedded/base64(Bake Manifest에서 생성한 Kubernetes manifest)
 - Artifact Account : embedded-artifact
 
-![](/blog/assets/images/spinnaker/spinnaker-deploy-to-ibm-02.png)
+![](/assets/images/spinnaker/spinnaker-deploy-to-ibm-02.png)
 
 #### Multi cloud/cluster
 
@@ -189,7 +189,7 @@ Pipeline > Bake manifest IBM > Add stage를 선택합니다.
 
 Pipeline > Bake manifest GCP > Add stage를 선택합니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-pipeline-main-04.png)
+![](/assets/images/spinnaker/spinnaker-pipeline-main-04.png)
 
 아래와 같이 내용을 입력하고 `Save Changes` 버튼을 선택해 변경사항을 저장합니다.
 
@@ -197,7 +197,7 @@ Pipeline > Bake manifest GCP > Add stage를 선택합니다.
 - Stage Name : Deploy to GCP
 - Depends On : Bake manifest for GCP
 
-![](/blog/assets/images/spinnaker/spinnaker-deploy-to-gcp-01.png)
+![](/assets/images/spinnaker/spinnaker-deploy-to-gcp-01.png)
 
 아래와 같이 내용을 입력하고 `Save Changes` 버튼을 선택해 변경사항을 저장합니다.
 
@@ -206,7 +206,7 @@ Pipeline > Bake manifest GCP > Add stage를 선택합니다.
 - Expected Artifact : b64 name:demo, type:embedded/base64(Bake Manifest에서 생성한 Kubernetes manifest)
 - Artifact Account : embedded-artifact
 
-![](/blog/assets/images/spinnaker/spinnaker-deploy-to-gcp-02.png)
+![](/assets/images/spinnaker/spinnaker-deploy-to-gcp-02.png)
 
 ## Helm chart 배포
 
@@ -226,15 +226,15 @@ git push
 
 GitHub 저장소의 stable/demo-0.1.0.tgz에 변경사항이 있으면 Pipeline이 실행됩니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-pipeline-result.png)
+![](/assets/images/spinnaker/spinnaker-pipeline-result.png)
 
 Pipeline status가 성공적으로 완료되면(SUCCEEDED) 서버자원이 생성된 것을 확인할 수 있습니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-deploy-result-server.png)
+![](/assets/images/spinnaker/spinnaker-deploy-result-server.png)
 
 Service와 Ingress도 생성된 것을 확인할 수 있습니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-deploy-result-loadbalancer.png)
+![](/assets/images/spinnaker/spinnaker-deploy-result-loadbalancer.png)
 
 Multi cloud/cluster에 배포한 경우 ingress host 주소가 다른 것을 확인 할 수 있습니다.
 

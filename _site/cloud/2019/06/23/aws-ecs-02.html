@@ -65,7 +65,7 @@
       <time class="dt-published" datetime="2019-06-23T00:00:00+09:00" itemprop="datePublished">Jun 23, 2019
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">sj</span></span></p>
       
-<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<img src="/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
 <div class="post-tags">
   
   
@@ -99,26 +99,26 @@
   </li>
   <li>
     <p>메인 화면 &gt; <code class="highlighter-rouge">역할 만들기</code> 버튼 선택
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-01.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-01.png" alt="" /></p>
   </li>
   <li>
     <p>개체 선택에서 <code class="highlighter-rouge">AWS 서비스</code> 선택 &gt; 서비스 선택에서 <code class="highlighter-rouge">Elastic Container Service</code> 선택
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-02.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-02.png" alt="" /></p>
   </li>
   <li>
     <p>사용 사례에서 &gt; <code class="highlighter-rouge">Elastic Container Service Task</code> 선택 &gt; <code class="highlighter-rouge">다음: 권한</code> 버튼 선택
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-03.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-03.png" alt="" /></p>
   </li>
   <li>
     <p>권한 정책 연결 &gt; 정책 필터에 <code class="highlighter-rouge">ecs</code> 입력 &gt; <code class="highlighter-rouge">AmazonECSTaskExecutionRolePolicy</code> 선택 &gt; <code class="highlighter-rouge">다음: 태그</code> 버튼 선택
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-04.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-04.png" alt="" /></p>
   </li>
   <li>
     <p>태그 입력 또는 다음으로 넘어가기</p>
   </li>
   <li>
     <p>역할 이름을 <code class="highlighter-rouge">ecstask-cicd-demo-role</code> 입력 &gt; 역할 검토 &gt; <code class="highlighter-rouge">역할 만들기</code> 버튼 선택 
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-05.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-05.png" alt="" /></p>
   </li>
 </ul>
 
@@ -130,23 +130,23 @@
   </li>
   <li>
     <p>메인 화면 &gt; <code class="highlighter-rouge">새 작업 정의 선택</code> 버튼 선택
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecstask-01.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecstask-01.png" alt="" /></p>
   </li>
   <li>
     <p>Fargate 선택 &gt; <code class="highlighter-rouge">다음 단계</code> 버튼 선택
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecstask-02.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecstask-02.png" alt="" /></p>
   </li>
   <li>
     <p>작업 정의 이름에 <code class="highlighter-rouge">cicd-demo</code> 입력 &gt; 작업 역할 <code class="highlighter-rouge">ecstask-cicd-demo-role</code> 선택(시작하기 에서 생성)
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecstask-03.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecstask-03.png" alt="" /></p>
   </li>
   <li>
     <p>작업 실행 역할 <code class="highlighter-rouge">ecsTaskExecutionRole</code> 선택(없는 경우 새 역할 생성 선택)
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecstask-04.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecstask-04.png" alt="" /></p>
   </li>
   <li>
     <p>작업 메모리 <code class="highlighter-rouge">2GB</code> 선택 &gt; 작업 CPU <code class="highlighter-rouge">1vCPU</code> 선택
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecstask-05.png" alt="" /></p>
+<img src="/assets/images/cloud/aws/ecs/aws-ecstask-05.png" alt="" /></p>
   </li>
   <li>컨테이너 정의
     <ul>
@@ -157,12 +157,12 @@
       <li>
         <p>포트 매핑 &gt; <code class="highlighter-rouge">8080</code> 입력 &gt; <code class="highlighter-rouge">추가</code> 버튼 선택</p>
 
-        <p><img src="/blog/assets/images/cloud/aws/ecs/aws-ecstask-06.png" alt="" /></p>
+        <p><img src="/assets/images/cloud/aws/ecs/aws-ecstask-06.png" alt="" /></p>
       </li>
     </ul>
   </li>
   <li><code class="highlighter-rouge">생성</code> 버튼 선택해서 작업 정의 생성 완료
-<img src="/blog/assets/images/cloud/aws/ecs/aws-ecstask-07.png" alt="" /></li>
+<img src="/assets/images/cloud/aws/ecs/aws-ecstask-07.png" alt="" /></li>
 </ul>
 
 <p>다음으로 <a href="/blog/cloud/2019/06/23/aws-ecs-03.html">AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기</a>

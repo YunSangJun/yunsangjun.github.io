@@ -73,7 +73,7 @@
       <time class="dt-published" datetime="2018-07-06T00:00:00+09:00" itemprop="datePublished">Jul 6, 2018
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">sj</span></span></p>
       
-<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<img src="/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
 <div class="post-tags">
   
   
@@ -105,7 +105,7 @@
 
 <h3 id="legacy">Legacy</h3>
 
-<p><img src="/blog/assets/images/kubernetes/logging/logging-legacy.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/logging/logging-legacy.png" alt="" /></p>
 
 <ul>
   <li>고사양의 서버에 Application을 크게 운영</li>
@@ -115,7 +115,7 @@
 
 <h3 id="cloud-native">Cloud Native</h3>
 
-<p><img src="/blog/assets/images/kubernetes/logging/logging-cloud-native.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/logging/logging-cloud-native.png" alt="" /></p>
 
 <ul>
   <li>Application을 작게 운영하고 필요할 때 마다 확장</li>
@@ -129,7 +129,7 @@
 
 <h4 id="daemonset-pattern">DaemonSet Pattern</h4>
 
-<p><img src="/blog/assets/images/kubernetes/logging/logging-daemonset.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/logging/logging-daemonset.png" alt="" /></p>
 
 <ul>
   <li>App Console Log가 각 Node의 Storage에 자동 저장</li>
@@ -139,7 +139,7 @@
 
 <h4 id="sidecar-pattern">Sidecar Pattern</h4>
 
-<p><img src="/blog/assets/images/kubernetes/logging/logging-sidecar.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/logging/logging-sidecar.png" alt="" /></p>
 
 <ul>
   <li>App Log를 Pod의 Storage에 파일로 저장(Log4j 등 사용)</li>
@@ -148,7 +148,7 @@
 
 <h3 id="daemonset-pattern-상세-architecture">DaemonSet Pattern 상세 Architecture</h3>
 
-<p><img src="/blog/assets/images/kubernetes/logging/logging-daemonset-detail.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/logging/logging-daemonset-detail.png" alt="" /></p>
 
 <ul>
   <li>App Console Log가 각 Node의 Storage에 자동 저장</li>
@@ -160,7 +160,7 @@
 
 <h3 id="sidecar-pattern-상세-architecture">Sidecar Pattern 상세 Architecture</h3>
 
-<p><img src="/blog/assets/images/kubernetes/logging/logging-sidecar-detail.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/logging/logging-sidecar-detail.png" alt="" /></p>
 
 <ul>
   <li>App Log를 Pod의 Storage에 파일로 저장(Log4j 등 사용)</li>
@@ -383,22 +383,22 @@ $ kubectl exec -it logging-demo-6c659fb7cb-zndhs -c fluent-bit sh
   <li>
     <p>Kibana 접속 &gt; Left 메뉴 &gt; Management 메뉴 선택 &gt; Kibana Index Patterns 선택</p>
 
-    <p><img src="/blog/assets/images/kubernetes/logging/logging-kibana-index-01.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/logging/logging-kibana-index-01.png" alt="" /></p>
   </li>
   <li>
     <p>Index name or pattern input box에 fluentbit 입력 후 Time Filter field name combo box에 @timestamp 선택</p>
 
-    <p><img src="/blog/assets/images/kubernetes/logging/logging-kibana-index-02.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/logging/logging-kibana-index-02.png" alt="" /></p>
   </li>
   <li>
     <p>정상적으로 생성 시 아래와 같은 모습</p>
 
-    <p><img src="/blog/assets/images/kubernetes/logging/logging-kibana-index-03.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/logging/logging-kibana-index-03.png" alt="" /></p>
   </li>
   <li>
     <p>Left 메뉴 &gt; Discover 메뉴 선택 &gt; Demo Application의 Log message 검색 됨</p>
 
-    <p><img src="/blog/assets/images/kubernetes/logging/logging-kibana-search.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/logging/logging-kibana-search.png" alt="" /></p>
   </li>
 </ul>
 

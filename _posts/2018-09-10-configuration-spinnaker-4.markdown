@@ -42,6 +42,6 @@ Repository > Settings > Webhooks > Add Webhook 선택
 
 * Payload URL은 위에서 확인한 `services.gate.baseUrl` + `/webhooks/git/github` 입니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-webhook.png)
+![](/assets/images/spinnaker/spinnaker-webhook.png)
 
 이제 GitHub 저장소에 push event가 발생하면 Spinnaker에서 이벤트를 수신하게됩니다.

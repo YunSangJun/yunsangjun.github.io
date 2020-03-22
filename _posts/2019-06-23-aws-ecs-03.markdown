@@ -26,22 +26,22 @@ ECS 서비스를 구성하기 위해서 EBL를 생성합니다.
 
 - 메인 화면 > `로드 밸런서 생성` 버튼 선택
     
-    ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-01.png){: width="30%"}
+    ![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-01.png){: width="30%"}
 
 - 로드밸런서 유형 선택 > Application Load Balancer > `생성` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-02.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-02.png)
 
 - 기본 구성 > 이름 > `cicd-demo` 입력
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-03.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-03.png)
 
 - 리스너 > 기본 값인 `HTTP, 80` 그대로 사용(애플리케이션 접속시 http를 사용하여 접속)
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-04.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-04.png)
 
 - 가용 영역 > VPC, 가용 영역 및 Subnet(Public) 선택 > `다음` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-05.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-05.png)
 
 - 보안 설정은 변경 없이 `다음` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-06.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-06.png)
 
 - 보안 그룹 구성
 
@@ -50,27 +50,27 @@ ECS 서비스를 구성하기 위해서 EBL를 생성합니다.
     - 설명에 `Allow http` 입력
     - 유형 `HTTP` 선택 > `다음` 버튼 선택
 
-        ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-07.png)
+        ![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-07.png)
 
 - 대상 그룹
 
     - 대상 그룹 > 새 대상 그룹 선택
     - 이름 `cicd-demo-service` 입력
 
-        ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-08.png)
+        ![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-08.png)
 
 - 상태 검사
 
     - 고급 상태 검사 설정 확장
     - 포트 > 재정의 선택 > `8080` 입력(작업 정의에서 컨테이너 포트를 8080으로 지정)
 
-        ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-09.png)
+        ![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-09.png)
 
 - 대상 등록은 설정 변경 없이 `다음` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-10.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-10.png)
 
 - 전체적으로 검토 > `생성` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-11.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-11.png)
 
 
 ## 서비스 생성하기
@@ -81,7 +81,7 @@ ECS 서비스를 구성하기 위해서 EBL를 생성합니다.
 
 - 서비스 탭 > `생성` 버튼 선택
 
-    ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-01.png){: width="40%"}
+    ![](/assets/images/cloud/aws/ecs/aws-ecs-service-01.png){: width="40%"}
 
 - 서비스 구성
 
@@ -89,10 +89,10 @@ ECS 서비스를 구성하기 위해서 EBL를 생성합니다.
     - 서비스 이름 > cicd-demo 입력 
     - 작업 개수 > 2 입력
 
-        [](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-02.png)
+        [](/assets/images/cloud/aws/ecs/aws-ecs-service-02.png)
 
 - Deployments > Rolling Update 선택 > `다음` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-03.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-03.png)
 
     <p class="tip-title">참고</p>
     <p class="tip-content">
@@ -111,7 +111,7 @@ ECS 서비스를 구성하기 위해서 EBL를 생성합니다.
     - 보안 그룹 > 편집 선택 > 보안 그룹 구성
     - 자동 할당 퍼블릭 IP > DISABLED 선택
 
-        ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-04-01.png)
+        ![](/assets/images/cloud/aws/ecs/aws-ecs-service-04-01.png)
 
         <p class="warning-title">경고</p>
         <p class="warning-content">
@@ -127,34 +127,34 @@ ECS 서비스를 구성하기 위해서 EBL를 생성합니다.
         - 보안 그룹 이름 > cicd-demo-service 입력
         - 인바운드 규칙 > 유형에서 Custom TCP 선택 > 포트 범위 8080 입력(로드밸런서에서 컨테이너의 8080 포트로의 인바운드 트래픽)
 
-            ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-04-02.png)
+            ![](/assets/images/cloud/aws/ecs/aws-ecs-service-04-02.png)
 
 - Elastic Load Balancing
     
     - ELB 유형 > Application Load Balancer 선택
     - ELB 이름 > cicd-demo 선택(사전 준비에서 생성)
 
-        ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-05.png)
+        ![](/assets/images/cloud/aws/ecs/aws-ecs-service-05.png)
 
 - 로드를 밸런싱할 컨테이너 
 
     - cicd-demo:8080:8080 선택(작업 정의에서 생성) > ELB에 추가 버튼 선택
 
-        ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-06-01.png)
+        ![](/assets/images/cloud/aws/ecs/aws-ecs-service-06-01.png)
 
     - 리스너 포트 > 80:HTTP 선택(사전 준비에서 생성)
     - 대상 그룹 이름 > cicd-demo-service 선택
 
-        ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-06-02.png)
+        ![](/assets/images/cloud/aws/ecs/aws-ecs-service-06-02.png)
 
 - 다른 설정은 기본 설정을 사용 > 다음 단계 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-07.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-07.png)
 
 - 서비스 Auto Scaling은 사용하지 않음 > 다음 단계 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-08.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-08.png)
 
 - 서비스 검토를 전반적으로 하고 생성하기 버튼 선택해서 서비스 생성 완료
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-09.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-09.png)
 
 ## 서비스 확인
 
@@ -165,23 +165,23 @@ ECS 서비스를 구성하기 위해서 EBL를 생성합니다.
 - 클러스터 리스트 > `cicd-demo` 선택
 
 - 서비스 탭 선택 > 상태가 Active인지 확인
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-10.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-10.png)
 
 - 작업 탭 선택 > 마지막/원하는 상태가 Running인지 확인
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-11.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-11.png)
 
 - EC2 Console에 접속 > 왼쪽 메뉴 > 로드 밸런싱 > 로드밸런서 선택 
 
 - 로드밸런서 리스트 > `cicd-demo` 선택
 
 - 대상 탭 선택 > 등록된 대상 > 상태가 healthy인지 확인
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-12.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-12.png)
 
 - 설명 탭 선택 > DNS 이름 복사
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-13.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-13.png)
 
 - 웹 브라우저 > 복사한 DNS 이름 붙여넣고 접속 > 서비스 정상 접속 확인
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-14.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-14.png)
 
 
 ## Blue/green deployment(선택)
@@ -199,23 +199,23 @@ Blue/green deployment 방식으로 서비스를 생성하는 경우 CodeDeploy�
 - IAM Console에 접속 > 왼쪽 메뉴 > AWS Account > 역할 선택 
 
 - 메인 화면 > `역할 만들기` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-01.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-01.png)
 
 - 신뢰할 수 있는 유형의 개체 선택 > AWS 서비스 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-01.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-01.png)
 
 - 이 역할을 사용할 서비스 선택 > CodeDeploy 선택 > CodeDeploy - ECS 선택 > 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-02.png)
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-03.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-02.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-03.png)
 
 - 설정 변경 없이 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-03.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-03.png)
 
 - 설정 변경 없이 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-04.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-04.png)
 
 - 역할 이름 > codedeploy-cicd-demo-role 입력 > 역할 만들기 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-05.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-05.png)
 
 ### 서비스 생성
 
@@ -224,13 +224,13 @@ Blue/green deployment 방식으로 서비스를 생성하는 경우 Rolling Upda
 - Deployments
     - Deployment type > Blue/green deployment 선택 
     - Service role for CodeDeploy > `다음` 버튼 선택
-    ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-01.png)
+    ![](/assets/images/cloud/aws/ecs/aws-ecs-service-bg-01.png)
 
 - Additional configuration
     - Target group 1 name > cicd-demo-service 선택
     - Target group 2 name > 새로 생성 선택 > cicd-demo-service-green 입력
     - Target group 2 protocol > HTTP 선택
-    ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-02.png)
+    ![](/assets/images/cloud/aws/ecs/aws-ecs-service-bg-02.png)
 
 ### 서비스 확인
 
@@ -241,10 +241,10 @@ Blue/green deployment 방식으로 서비스를 생성하는 경우 Rolling Upda
 - CodeDeploy console 접속 > 왼쪽 메뉴의 애플리케이션 선택 
 
 - 애플리케이션 리스트 > AppECS-cicd-demo-cicd-demo 선택 
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png)
 
 - 배포 그룹 리스트 > DgpECS-cicd-demo-cicd-demo 선택 
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png)
 
 - 배포 그룹 확인
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png)

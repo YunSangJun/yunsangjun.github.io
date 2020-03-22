@@ -23,40 +23,40 @@ ECS 작업 정의를 구성하기 위해서 IAM 역할을 생성합니다.
 - IAM Console에 접속 > 왼쪽 메뉴 > AWS Account > 역할 선택 
 
 - 메인 화면 > `역할 만들기` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-01.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-01.png)
 
 -  개체 선택에서 `AWS 서비스` 선택 > 서비스 선택에서 `Elastic Container Service` 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-02.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-02.png)
 
 - 사용 사례에서 > `Elastic Container Service Task` 선택 > `다음: 권한` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-03.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-03.png)
 
 - 권한 정책 연결 > 정책 필터에 `ecs` 입력 > `AmazonECSTaskExecutionRolePolicy` 선택 > `다음: 태그` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-04.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-04.png)
 
 - 태그 입력 또는 다음으로 넘어가기
 
 - 역할 이름을 `ecstask-cicd-demo-role` 입력 > 역할 검토 > `역할 만들기` 버튼 선택 
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-05.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-05.png)
 
 ## ECS 작업 정의
 
 - ECS Console에 접속 > 왼쪽 메뉴 > Amazon ECS > 작업 정의 선택 
 
 - 메인 화면 > `새 작업 정의 선택` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecstask-01.png)
+![](/assets/images/cloud/aws/ecs/aws-ecstask-01.png)
 
 - Fargate 선택 > `다음 단계` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecstask-02.png)
+![](/assets/images/cloud/aws/ecs/aws-ecstask-02.png)
 
 - 작업 정의 이름에 `cicd-demo` 입력 > 작업 역할 `ecstask-cicd-demo-role` 선택(시작하기 에서 생성)
-![](/blog/assets/images/cloud/aws/ecs/aws-ecstask-03.png)
+![](/assets/images/cloud/aws/ecs/aws-ecstask-03.png)
 
 - 작업 실행 역할 `ecsTaskExecutionRole` 선택(없는 경우 새 역할 생성 선택)
-![](/blog/assets/images/cloud/aws/ecs/aws-ecstask-04.png)
+![](/assets/images/cloud/aws/ecs/aws-ecstask-04.png)
 
 - 작업 메모리 `2GB` 선택 > 작업 CPU `1vCPU` 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecstask-05.png)
+![](/assets/images/cloud/aws/ecs/aws-ecstask-05.png)
 
 - 컨테이너 정의
     - `컨테이너 추가` 버튼 선택
@@ -65,10 +65,10 @@ ECS 작업 정의를 구성하기 위해서 IAM 역할을 생성합니다.
     - 메모리 제한 > `소프트 제한` 선택 > `500` 입력
     - 포트 매핑 > `8080` 입력 > `추가` 버튼 선택
 
-        ![](/blog/assets/images/cloud/aws/ecs/aws-ecstask-06.png)
+        ![](/assets/images/cloud/aws/ecs/aws-ecstask-06.png)
 
 - `생성` 버튼 선택해서 작업 정의 생성 완료
-![](/blog/assets/images/cloud/aws/ecs/aws-ecstask-07.png)
+![](/assets/images/cloud/aws/ecs/aws-ecstask-07.png)
 
 다음으로 [AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기](/blog/cloud/2019/06/23/aws-ecs-03.html)
 문서에서 서비스(ECS Service)를 구성하는 방법을 살펴보겠습니다.

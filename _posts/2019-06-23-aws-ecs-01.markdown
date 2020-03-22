@@ -46,7 +46,7 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
 이 단계를 완료하면 아래와 같이 이미지 저장소 주소를 복사합니다.
 이 주소는 ECS 환경에 애플리케이션을 배포할 때 사용합니다.
 
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-ecr-01.png){: width="70%"}
+![](/assets/images/cloud/aws/ecs/aws-ecs-prep-ecr-01.png){: width="70%"}
 
 
 ## ECS Cluster 생성
@@ -54,11 +54,11 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
 - ECS Console에 접속 > 왼쪽 메뉴 > Amazon ECS > 클러스터 선택 
 
 - 메인 화면 > `클러스터 생성` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-01.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-01.png)
 
 - 클러스터 템플릿 선택 > `네트워킹 전용(AWS Fargate 제공)` 선택
 
-    ![](/blog/assets/images/cloud/aws/ecs/aws-ecs-02.png)
+    ![](/assets/images/cloud/aws/ecs/aws-ecs-02.png)
 
     <p class="tip-title">참고</p>
     <p class="tip-content">
@@ -66,7 +66,7 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
     </p>
 
 - 클러스터 구성 > 클러스터 이름 `cicd-demo` 입력 > `생성` 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-03.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-03.png)
 
 다음으로 [AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)](/blog/cloud/2019/06/23/aws-ecs-02.html)
 문서에서 작업 정의(ECS Task)를 구성하는 방법을 살펴보겠습니다.

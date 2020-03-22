@@ -66,7 +66,7 @@ Control plane은 트래픽을 라우팅하기 위해 프록시를 관리하고 �
 
 아래 다이어그램은 각 plane을 구성하는 다양한 컴포넌트를 보여줍니다.
 
-![Istio Architecture](/blog/assets/images/istio_architecture.png)
+![Istio Architecture](/assets/images/istio_architecture.png)
 
 ### Envoy
 

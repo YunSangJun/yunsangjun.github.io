@@ -24,7 +24,7 @@ Istio를 활용하여 여러개의 Kubernetes Cluster 환경에 Service Mesh를 
     이 방법은 여러개의 Cluster가 하나의 Istio Control Plane을 공유합니다.
     Istio Gateway를 통해 Cluster간 통신하므로 각 Cluster의 네트워크가 분리되어 있고 VPN 또는 Direct 네트워크로 연결되어 있지 않아도 됩니다. 
 
-    ![](/blog/assets/images/kubernetes/istio/istio-shared-multi.svg)
+    ![](/assets/images/kubernetes/istio/istio-shared-multi.svg)
 
 2. [Shared control plane (single-network)](https://istio.io/docs/setup/kubernetes/install/multicluster/shared-vpn/)
 
@@ -32,13 +32,13 @@ Istio를 활용하여 여러개의 Kubernetes Cluster 환경에 Service Mesh를 
     별도의 Gateway가 없기 때문에 각 Cluster의 네트워크가 VPN 등을 통해 연결성이 있어야합니다.
     각 Cluster의 네트워크에서 Pod와 Service의 CIDR은 중복되서는 안되고 서로간의 라우팅이 가능해야합니다. 
 
-    ![](/blog/assets/images/kubernetes/istio/istio-shared-single.svg)
+    ![](/assets/images/kubernetes/istio/istio-shared-single.svg)
 
 3. [Multiple control planes](https://istio.io/docs/setup/kubernetes/install/multicluster/gateways/)
 
     1번과 마찬가지로 Istio Gateway를 통해 Cluster간 통신을 하지만 Istio Control Plance을 공유하지 않고 각각의 Cluster에 설치합니다.
 
-    ![](/blog/assets/images/kubernetes/istio/istio-multiple-multi.svg)
+    ![](/assets/images/kubernetes/istio/istio-multiple-multi.svg)
 
 ## 준비하기
 

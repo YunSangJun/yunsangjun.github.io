@@ -71,7 +71,7 @@
       <time class="dt-published" datetime="2018-07-20T00:00:00+09:00" itemprop="datePublished">Jul 20, 2018
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">sj</span></span></p>
       
-<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<img src="/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
 <div class="post-tags">
   
   
@@ -103,13 +103,13 @@
 
 <p>운영 환경에서 Kubernets 사용 비율 증가. =&gt; Container 기반 운영 환경 증가</p>
 
-<p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-trend-01.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/monitoring/monitoring-trend-01.png" alt="" /></p>
 
 <h3 id="container-환경에서-떠오르는-도전-과제-1">Container 환경에서 떠오르는 도전 과제</h3>
 
 <p>Container 환경을 운영 환경으로 고려하기 시작하면서 운영을 위해 꼭 필요한 모니터링에 대한 관심 증가</p>
 
-<p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-trend-02.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/monitoring/monitoring-trend-02.png" alt="" /></p>
 
 <p>[출처 : CNCF https://www.cncf.io/blog/2017/12/06/cloud-native-technologies-scaling-production-applications/]</p>
 
@@ -123,7 +123,7 @@
   <li>Agent가 App 및 OS의 metric 수집해 Backend에 전송</li>
 </ul>
 
-<p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-legacy.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/monitoring/monitoring-legacy.png" alt="" /></p>
 
 <h3 id="cloud-native">Cloud Native</h3>
 
@@ -134,7 +134,7 @@
   <li>Monitoring Backend에서 discovery한 endpoint를 통해 metric 수집</li>
 </ul>
 
-<p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-cloud-native.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/monitoring/monitoring-cloud-native.png" alt="" /></p>
 
 <h2 id="monitoring-architecture">Monitoring Architecture</h2>
 
@@ -150,7 +150,7 @@
   <li>다양한 exporter(수집기)를 제공해 외부 시스템 통합 모니터링 가능</li>
 </ul>
 
-<p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-prometheus-01.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/monitoring/monitoring-prometheus-01.png" alt="" /></p>
 
 <h3 id="service-discovery--scrape">Service Discovery &amp; Scrape</h3>
 
@@ -160,7 +160,7 @@
   <li>Pod(Application)이 동적으로 증가하면 discovery 통해 자동으로 수집 대상에 추가</li>
 </ul>
 
-<p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-prometheus-02.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/monitoring/monitoring-prometheus-02.png" alt="" /></p>
 
 <h2 id="monitoring-실습">Monitoring 실습</h2>
 
@@ -173,7 +173,7 @@
   <li>Grafana dashboard에서 Pod 및 JMX metrics 정보를 시각화</li>
 </ul>
 
-<p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-exercise.png" alt="" /></p>
+<p><img src="/assets/images/kubernetes/monitoring/monitoring-exercise.png" alt="" /></p>
 
 <p class="tip-title">참고</p>
 <p class="tip-content">
@@ -372,19 +372,19 @@ jvm_gc_collection_seconds_sum{gc="PS MarkSweep",} 0.262
   <li>
     <p>Grafana Dashboard 접속 &gt; Left 메뉴 &gt; <code class="highlighter-rouge">+</code> 버튼 선택 &gt; Import 메뉴 선택</p>
 
-    <p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-01.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-01.png" alt="" /></p>
   </li>
   <li>
     <p><code class="highlighter-rouge">Upload .json File</code> 버튼 선택</p>
 
     <p>다운로드 받은 <code class="highlighter-rouge">spring-boot-monitoring-demo</code> 프로젝트 &gt; <code class="highlighter-rouge">jmx-exporter</code> &gt; <code class="highlighter-rouge">jmx-exporter-tomcat-grafana-dashboard.json</code> 파일 import</p>
 
-    <p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-02.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-02.png" alt="" /></p>
   </li>
   <li>
     <p>Options &gt; prometheus combo box &gt; 원하는 data source 선택 &gt; <code class="highlighter-rouge">Import</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-03.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-03.png" alt="" /></p>
 
     <ul>
       <li>참고 : data source 설정은 prometheus로 부터 data를 검색하기 위한 용도</li>
@@ -393,7 +393,7 @@ jvm_gc_collection_seconds_sum{gc="PS MarkSweep",} 0.262
   <li>
     <p>Heap Memory, Threads, Class Loading, Open File, GC 등에 대한 metrics을 그래프 형태로 조회</p>
 
-    <p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-04.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-04.png" alt="" /></p>
   </li>
 </ul>
 
@@ -407,12 +407,12 @@ Prometheus와 Grafana 설치에 대한 가이드는 추후 작성 예정입니�
   <li>
     <p>Dashboard List &gt; Container Dashboards &gt; Kubernetes: POD Overview 선택</p>
 
-    <p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-pod-01.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/monitoring/monitoring-dashboard-pod-01.png" alt="" /></p>
   </li>
   <li>
     <p>Pod(Application)의 cpu, memory, network metrics을 그래프 형태로 조회</p>
 
-    <p><img src="/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-pod-02.png" alt="" /></p>
+    <p><img src="/assets/images/kubernetes/monitoring/monitoring-dashboard-pod-02.png" alt="" /></p>
   </li>
 </ul>
 

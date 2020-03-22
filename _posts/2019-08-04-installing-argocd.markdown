@@ -115,7 +115,7 @@ argocd account update-password
 
 웹 브라우저를 통해서도 서버에 접속할 수 있습니다.
 
-![](/blog/assets/images/kubernetes/argocd/installing-argocd-login.png)
+![](/assets/images/kubernetes/argocd/installing-argocd-login.png)
 
 ## 샘플 애플리케이션 배포
 
@@ -161,27 +161,27 @@ Argo CD CLI를 사용하여 샘플 애플리케이션을 배포합니다.
 
 1. Create Application 버튼을 선택합니다.
 
-    ![](/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-00.png)
+    ![](/assets/images/kubernetes/argocd/installing-argocd-deploy-00.png)
 
 2. Application Name에 sample-app, Project는 default를 선택합니다.
 
-    ![](/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-01.png)
+    ![](/assets/images/kubernetes/argocd/installing-argocd-deploy-01.png)
 
 3. Repository URL에 https://github.com/argoproj/argocd-example-apps.git 를 입력합니다.
 Revision은 Head, Path는 guestbook을 입력합니다.
 
-    ![](/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-02.png)
+    ![](/assets/images/kubernetes/argocd/installing-argocd-deploy-02.png)
 
 4. Cluster URL은 https://kubernetes.default.svc, Namespace는 default를 선택합니다.
 그리고 화면 상단의 Create 버튼을 선택해 애플리케이션을 생성합니다.
 
-    ![](/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-03.png)
+    ![](/assets/images/kubernetes/argocd/installing-argocd-deploy-03.png)
 
 5. 처음 배포하면 Status가 OutOfSync 상태입니다. Sync 버튼을 선택해 동기화합니다.
 동기화하면 kubectl apply 명령을 실행해 애플리케이션을 클러스터에 배포합니다.
 
-    ![](/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-04.png)
+    ![](/assets/images/kubernetes/argocd/installing-argocd-deploy-04.png)
 
 6. 배포가 완료되면 아래와 같은 모습니다.
 
-    ![](/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-05.png)
+    ![](/assets/images/kubernetes/argocd/installing-argocd-deploy-05.png)

@@ -24,7 +24,7 @@ Argo CD는 애플리케이션을 지속적으로 배포하기 위한 툴입니�
 - 애플리케이션 서버: Kubernetes
 - 알림: Slack
 
-![](/blog/assets/images/cloud/circleci/circleci_architecture.png)
+![](/assets/images/cloud/circleci/circleci_architecture.png)
 
 ## 사전 준비
 

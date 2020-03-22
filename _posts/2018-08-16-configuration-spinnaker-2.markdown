@@ -40,7 +40,7 @@ Github > Settings > Developer settings > OAuth Apps > New OAuth App 선택
 
 아래와 같이 정보를 입력합니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-create-oauthapp.png)
+![](/assets/images/spinnaker/spinnaker-create-oauthapp.png)
 
 * Homepage 및 Callback URL은 [도메인 주소를 통한 대시보드 접속](/blog/spinnaker/2018/08/15/configuration-spinnaker-1.html) 가이드의 Spinnaker ui, api 설정
 정보입니다.
@@ -80,8 +80,8 @@ $ hal deploy apply
 
 아래와 같이 Github 로그인 페이지로 redirect 됩니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-oauth-login.png)
+![](/assets/images/spinnaker/spinnaker-oauth-login.png)
 
 이제 GitHub 계정으로 로그인하면 Spinnaker ui 주소록 접속되는 것을 확인 할 수 있습니다.
 
-![](/blog/assets/images/spinnaker/spinnaker-dashboard.png)
+![](/assets/images/spinnaker/spinnaker-dashboard.png)

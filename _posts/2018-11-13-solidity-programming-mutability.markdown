@@ -48,7 +48,7 @@ contract C {
 함수 내에서 상태 변수에 접근해 읽기 동작을 수행해야 하는데 읽기 동작 수행이 금지된 가변성 키워드 `pure`를 사용하므로
 아래 그림과 같은 컴파일 에러가 발생합니다.
 
-![](/blog/assets/images/solidity/mutability1.png)
+![](/assets/images/solidity/mutability1.png)
 
 그렇다면 키워드 `pure`를 삭제하면 어떻게 될까요?
 
@@ -68,7 +68,7 @@ contract C {
 접근해 읽기 동작을 수행할 수 있으므로 컴파일 에러는 발생하지 않지만 경고 메세지가 출력되는 것을 볼 수 있습니다.
 경고 메세지의 뜻은 함수의 상태 가변성을 `view`로 제한할 수 있다는 뜻입니다.
 
-![](/blog/assets/images/solidity/mutability2.png)
+![](/assets/images/solidity/mutability2.png)
 
 경고 메시지의 가이드에 따라 함수 상태 가변성 키워드를 `view`로 변경해주면 컴파일이나 경고 메세지가 출력되지 않는
 것을 확인할 수 있습니다.

@@ -135,7 +135,7 @@ tags:
 
     브라우저에서 productpage를 새로 고침하면 빨간색 별표가 약 50%의 비율로 표시됩니다.
 
-    ![](/blog/assets/images/istio_intel_routing_contents_red_rating.png)
+    ![](/assets/images/istio_intel_routing_contents_red_rating.png)
 
 4. 이번에는 트래픽을 reviews:v1과 reviews:v3에 20:80 비율로 전송합니다.
 

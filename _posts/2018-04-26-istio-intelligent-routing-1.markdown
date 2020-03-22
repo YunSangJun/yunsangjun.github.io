@@ -105,7 +105,7 @@ tags:
     Bookinfo application의 `productpage`를 볼수 있습니다.<br />
     `reviews:v1` 인스턴스 에는 rating stars가 없으므로 표시되지 않습니다.<br />
 
-    ![](/blog/assets/images/istio_intel_routing_contents_norating.png)
+    ![](/assets/images/istio_intel_routing_contents_norating.png)
 
 3. 특정 user로 접속
 
@@ -143,7 +143,7 @@ tags:
 
     이제 ratings (1-5 stars)를 볼 수 있습니다. 로그인하지 않으면 `reviews:v1` 인스턴스로 접속됩니다.<br />
 
-    ![](/blog/assets/images/istio_intel_routing_contents_rating.png)
+    ![](/assets/images/istio_intel_routing_contents_rating.png)
 
 ## 참고 자료
 https://istio.io/docs/tasks/traffic-management/request-routing.html

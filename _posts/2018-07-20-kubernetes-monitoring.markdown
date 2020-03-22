@@ -21,13 +21,13 @@ tags:
 
 운영 환경에서 Kubernets 사용 비율 증가. => Container 기반 운영 환경 증가
 
-![](/blog/assets/images/kubernetes/monitoring/monitoring-trend-01.png)
+![](/assets/images/kubernetes/monitoring/monitoring-trend-01.png)
 
 ### Container 환경에서 떠오르는 도전 과제
 
 Container 환경을 운영 환경으로 고려하기 시작하면서 운영을 위해 꼭 필요한 모니터링에 대한 관심 증가
 
-![](/blog/assets/images/kubernetes/monitoring/monitoring-trend-02.png)
+![](/assets/images/kubernetes/monitoring/monitoring-trend-02.png)
 
 [출처 : CNCF https://www.cncf.io/blog/2017/12/06/cloud-native-technologies-scaling-production-applications/]
 
@@ -39,7 +39,7 @@ Container 환경을 운영 환경으로 고려하기 시작하면서 운영을 �
 - Monitoring Agent를 서버에 설치
 - Agent가 App 및 OS의 metric 수집해 Backend에 전송
 
-![](/blog/assets/images/kubernetes/monitoring/monitoring-legacy.png)
+![](/assets/images/kubernetes/monitoring/monitoring-legacy.png)
 
 ### Cloud Native
 
@@ -48,7 +48,7 @@ Container 환경을 운영 환경으로 고려하기 시작하면서 운영을 �
 - Kubernetes API를 통해 동적으로 확장된 서버 endpoint를 discovery
 - Monitoring Backend에서 discovery한 endpoint를 통해 metric 수집
 
-![](/blog/assets/images/kubernetes/monitoring/monitoring-cloud-native.png)
+![](/assets/images/kubernetes/monitoring/monitoring-cloud-native.png)
 
 ## Monitoring Architecture
 
@@ -62,7 +62,7 @@ Container 환경을 운영 환경으로 고려하기 시작하면서 운영을 �
 - 자체 TSDB(Time Series Database) 보유. Metric data 저장 및 관리에 최적화
 - 다양한 exporter(수집기)를 제공해 외부 시스템 통합 모니터링 가능
 
-![](/blog/assets/images/kubernetes/monitoring/monitoring-prometheus-01.png)
+![](/assets/images/kubernetes/monitoring/monitoring-prometheus-01.png)
 
 ### Service Discovery & Scrape
 
@@ -70,7 +70,7 @@ Container 환경을 운영 환경으로 고려하기 시작하면서 운영을 �
 - 각 대상으로 부터 metic scrape(pull)
 - Pod(Application)이 동적으로 증가하면 discovery 통해 자동으로 수집 대상에 추가
 
-![](/blog/assets/images/kubernetes/monitoring/monitoring-prometheus-02.png)
+![](/assets/images/kubernetes/monitoring/monitoring-prometheus-02.png)
 
 ## Monitoring 실습
 
@@ -81,7 +81,7 @@ Container 환경을 운영 환경으로 고려하기 시작하면서 운영을 �
 - Target으로 부터 Pod 및 JVM metrics 수집
 - Grafana dashboard에서 Pod 및 JMX metrics 정보를 시각화
 
-![](/blog/assets/images/kubernetes/monitoring/monitoring-exercise.png)
+![](/assets/images/kubernetes/monitoring/monitoring-exercise.png)
 
 <p class="tip-title">참고</p>
 <p class="tip-content">
@@ -257,23 +257,23 @@ Prometheus와 Grafana 설치에 대한 가이드는 추후 작성 예정입니�
 
 - Grafana Dashboard 접속 > Left 메뉴 > `+` 버튼 선택 > Import 메뉴 선택
 
-  ![](/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-01.png)
+  ![](/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-01.png)
 
 - `Upload .json File` 버튼 선택
 
   다운로드 받은 `spring-boot-monitoring-demo` 프로젝트 > `jmx-exporter` > `jmx-exporter-tomcat-grafana-dashboard.json` 파일 import
 
-  ![](/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-02.png)
+  ![](/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-02.png)
 
 - Options > prometheus combo box > 원하는 data source 선택 > `Import` 버튼 선택
 
-  ![](/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-03.png)
+  ![](/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-03.png)
 
   * 참고 : data source 설정은 prometheus로 부터 data를 검색하기 위한 용도
 
 - Heap Memory, Threads, Class Loading, Open File, GC 등에 대한 metrics을 그래프 형태로 조회
 
-  ![](/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-04.png)
+  ![](/assets/images/kubernetes/monitoring/monitoring-dashboard-jmx-04.png)
 
 #### Pod(Application) Dashboard 활용
 
@@ -283,8 +283,8 @@ Prometheus와 Grafana 설치에 대한 가이드는 추후 작성 예정입니�
 
 - Dashboard List > Container Dashboards > Kubernetes: POD Overview 선택
 
-  ![](/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-pod-01.png)
+  ![](/assets/images/kubernetes/monitoring/monitoring-dashboard-pod-01.png)
 
 - Pod(Application)의 cpu, memory, network metrics을 그래프 형태로 조회  
 
-  ![](/blog/assets/images/kubernetes/monitoring/monitoring-dashboard-pod-02.png)
+  ![](/assets/images/kubernetes/monitoring/monitoring-dashboard-pod-02.png)

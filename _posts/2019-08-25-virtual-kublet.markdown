@@ -26,7 +26,7 @@ Virtual Kubelet에 대한 설명을 보면 `Kubernete를 다른 API와 연동하
 아래 그림과 같이 운영중인 Kubernetes cluster에 Public Cloud의 서버리스 컨테이너 서비스
 (예 - AWS ECS Fargate, Azure Container Instance 등)를 확장해 마치 하나의 cluster 처럼 사용할 수 있습니다.  
 
-![](/blog/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-architecture.png)
+![](/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-architecture.png)
 
 이를 통해 컨테이너 서비스 별로 서로 다른 사용 방식을 고려할 필요 없이 Kubernetes stack으로 통일하여 개발 및 운영을 할 수 있는 장점이 있습니다.
 또한 Public cloud에는 Kubernetes cluster를 추가로 운영할 필요없이 컨테이너에 대한 비용만 지불하면 되므로 비용 효율적인 측면이 있습니다.
@@ -285,5 +285,5 @@ spec:
 
     마지막으로 Azure Port에 접속해 ACI resource group에서 aci-helloworld 앱이 배포된것을 확인할 수 있습니다.
 
-    ![](/blog/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-aci.png)
+    ![](/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-aci.png)
 

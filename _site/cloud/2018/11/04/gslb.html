@@ -61,7 +61,7 @@
       <time class="dt-published" datetime="2018-11-04T00:00:00+09:00" itemprop="datePublished">Nov 4, 2018
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">sj</span></span></p>
       
-<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<img src="/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
 <div class="post-tags">
   
   
@@ -86,7 +86,7 @@
 
 <p>AWS의 Route 53 서비스에 접속합니다.</p>
 
-<p><img src="/blog/assets/images/cloud/gslb/route53_main.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/route53_main.png" alt="" /></p>
 
 <h3 id="health-check-생성하기">Health Check 생성하기</h3>
 
@@ -97,11 +97,11 @@
 
 <p>아래와 같이 Master 애플리케이션에 대한 health check 설정을 입력합니다.</p>
 
-<p><img src="/blog/assets/images/cloud/gslb/health-check-master.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/health-check-master.png" alt="" /></p>
 
 <p>마찬가지로 Slave 애플리케이션에 대한 health check 설정을 입력합니다.</p>
 
-<p><img src="/blog/assets/images/cloud/gslb/health-check-slave.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/health-check-slave.png" alt="" /></p>
 
 <h3 id="host-zone-생성하기">Host Zone 생성하기</h3>
 
@@ -109,7 +109,7 @@
 
 <p>아래와 같이 Hosted Zone의 정보를 입력합니다.</p>
 
-<p><img src="/blog/assets/images/cloud/gslb/create-hosted-zone.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/create-hosted-zone.png" alt="" /></p>
 
 <ul>
   <li>Domain Name : dr.example.com(<code class="highlighter-rouge">*.example.com</code> 도메인을 소유하고 있고 하위 도메인
@@ -120,7 +120,7 @@
 
 <p>Route 53 서비스 main &gt; Left menu &gt; Hosted zones &gt; <code class="highlighter-rouge">Create Record Set</code>을 선택합니다.</p>
 
-<p><img src="/blog/assets/images/cloud/gslb/create-recordset-01.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/create-recordset-01.png" alt="" /></p>
 
 <p>Master(Primary)에 대한 Record Set을 아래와 같이 설정합니다.</p>
 
@@ -129,7 +129,7 @@
   <li>Health Check to Associate : 앞에서 생성한 Master의 health check name 선택</li>
 </ul>
 
-<p><img src="/blog/assets/images/cloud/gslb/create-recordset-02.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/create-recordset-02.png" alt="" /></p>
 
 <p>Slave(Secondary)에 대한 Record Set을 아래와 같이 설정합니다.</p>
 
@@ -138,11 +138,11 @@
   <li>Health Check to Associate : 앞에서 생성한 Slave의 health check name 선택</li>
 </ul>
 
-<p><img src="/blog/assets/images/cloud/gslb/create-recordset-03.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/create-recordset-03.png" alt="" /></p>
 
 <p>아래와 같이 Master(Primary)와 Slave(Secondary)에 대한 Record Set이 설정되었습니다.</p>
 
-<p><img src="/blog/assets/images/cloud/gslb/create-recordset-04.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/create-recordset-04.png" alt="" /></p>
 
 <h3 id="도메인-설정하기">도메인 설정하기</h3>
 
@@ -184,7 +184,7 @@ Address: 169.x.x.1
 
 <p>좀 더 상세한 흐름을 그림으로 표현해보면 아래와 같습니다.</p>
 
-<p><img src="/blog/assets/images/cloud/gslb/workflow-master-up.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/workflow-master-up.png" alt="" /></p>
 
 <h4 id="master-애플리케이션의-접속이-비정상인-경우">Master 애플리케이션의 접속이 비정상인 경우</h4>
 
@@ -205,7 +205,7 @@ Address: 169.x.x.2
 
 <p>좀 더 상세한 흐름을 그림으로 표현해보면 아래와 같습니다.</p>
 
-<p><img src="/blog/assets/images/cloud/gslb/workflow-master-down.png" alt="" /></p>
+<p><img src="/assets/images/cloud/gslb/workflow-master-down.png" alt="" /></p>
 
   </div>
 <div id="disqus_thread"></div>

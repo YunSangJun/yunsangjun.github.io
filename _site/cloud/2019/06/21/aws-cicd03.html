@@ -63,7 +63,7 @@
       <time class="dt-published" datetime="2019-06-21T00:00:00+09:00" itemprop="datePublished">Jun 21, 2019
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">sj</span></span></p>
       
-<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<img src="/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
 <div class="post-tags">
   
   
@@ -91,14 +91,14 @@
   <li>
     <p>ECR Console에 접속 &gt; 메인 화면 &gt; <code class="highlighter-rouge">리포지토리 생성</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-00.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-00-00.png" alt="" /></p>
   </li>
   <li>
     <p>리포지토리 이름 <code class="highlighter-rouge">cicd-demo</code> 입력 &gt; <code class="highlighter-rouge">리포지토리 생성</code> 버튼 선택</p>
 
     <p>생성한 <code class="highlighter-rouge">cicd-demo</code> 리포지토리를 CodeBuild 서비스에서 사용합니다.</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-01.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-00-01.png" alt="" /></p>
   </li>
 </ul>
 
@@ -113,7 +113,7 @@
   <li>
     <p>메인 화면 &gt; <code class="highlighter-rouge">정책 생성</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-02.png" alt="" width="30%" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-00-02.png" alt="" width="30%" /></p>
   </li>
   <li>
     <p>정책 생성 화면 &gt; JSON 탭 선택 &gt; 정책 내용 입력(아래 코드 참고) &gt; <code class="highlighter-rouge">정책 검토</code> 버튼 선택</p>
@@ -137,12 +137,12 @@
   }
 </code></pre></div>    </div>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-03.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-00-03.png" alt="" /></p>
   </li>
   <li>
     <p>정책 이름을 <code class="highlighter-rouge">CodeBuildECRPolicy-cicd-demo-ap-northeast-2</code>로 입력 &gt; <code class="highlighter-rouge">정책 생성</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-00-04.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-00-04.png" alt="" /></p>
   </li>
 </ul>
 
@@ -216,7 +216,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>메인 화면 &gt; <code class="highlighter-rouge">빌드 프로젝트 생성</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-01.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-01.png" alt="" /></p>
   </li>
 </ul>
 
@@ -229,7 +229,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>빌드 배지 활성화 체크</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-02.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-02.png" alt="" /></p>
   </li>
 </ul>
 
@@ -240,7 +240,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>리포지토리 <code class="highlighter-rouge">cicd-demo</code> 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-03.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-03.png" alt="" /></p>
   </li>
 </ul>
 
@@ -257,7 +257,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>권한이 있음 체크</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-04.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-04.png" alt="" /></p>
   </li>
 </ul>
 
@@ -268,7 +268,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>역할 이름 <code class="highlighter-rouge">codebuild-cicd-demo-service-role</code> 입력</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-05.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-05.png" alt="" /></p>
   </li>
 </ul>
 
@@ -278,9 +278,9 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>추가 구성 메뉴 확장 &gt; 환경 변수 입력</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-06-00.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-06-00.png" alt="" /></p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-06-01.png" alt="" width="70%" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-06-01.png" alt="" width="70%" /></p>
   </li>
   <li>
     <p>환경 변수 이름, 값 설명</p>
@@ -318,7 +318,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>빌드 사양 &gt; <code class="highlighter-rouge">buildspec 파일 사용</code> 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-07.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-07.png" alt="" /></p>
   </li>
 </ul>
 
@@ -328,7 +328,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>유형 &gt; <code class="highlighter-rouge">아티팩트 없음</code> 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-08.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-08.png" alt="" /></p>
   </li>
 </ul>
 
@@ -339,7 +339,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p><code class="highlighter-rouge">빌드 프로젝트 생성</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-09.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-09.png" alt="" /></p>
   </li>
 </ul>
 
@@ -356,17 +356,17 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>메인 화면 &gt; 검색 창 &gt; <code class="highlighter-rouge">codebuild</code> 입력 &gt; <code class="highlighter-rouge">codebuild-cicd-demo-service-role</code> 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-10-00.png" alt="" width="50%" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-10-00.png" alt="" width="50%" /></p>
   </li>
   <li>
     <p>권한 탭 &gt; <code class="highlighter-rouge">정책 연결</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-10-01.png" alt="" width="50%" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-10-01.png" alt="" width="50%" /></p>
   </li>
   <li>
     <p>정책 필터 &gt; <code class="highlighter-rouge">codebuild</code> 입력 &gt; <code class="highlighter-rouge">CodeBuildECRPolicy-cicd-demo-ap-northeast-2</code> 선택 &gt; <code class="highlighter-rouge">정책 연결</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-10-02.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-10-02.png" alt="" /></p>
   </li>
 </ul>
 
@@ -379,17 +379,17 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>메인 화면 &gt; <code class="highlighter-rouge">cicd-demo</code> 프로젝트 선택 &gt; <code class="highlighter-rouge">빌드 시작</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-00.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-11-00.png" alt="" /></p>
   </li>
   <li>
     <p>빌드가 성공적으로 종료되면 상태가 성공함으로 변경됩니다</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-01.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-11-01.png" alt="" /></p>
   </li>
   <li>
     <p>ECR의 <code class="highlighter-rouge">cicd-demo</code> 저장소에 접속해보면 새로운 이미지가 생성되어 있습니다.</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-02.png" alt="" width="60%" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-11-02.png" alt="" width="60%" /></p>
   </li>
 </ul>
 
@@ -397,15 +397,15 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 
 <p>위에서 빌드 결과를 보면 빌드에 소요된 시간이 14분 55초로 다소 오래 걸립니다.</p>
 
-<p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-01.png" alt="" /></p>
+<p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-11-01.png" alt="" /></p>
 
 <p>빌드 기록을 선택해 상세보기 페이지로 이동한 후 단계 세부 정보를 확인해보면 BUILD 단계에서 14분이 소요된 것을 확인할 수 있습니다.</p>
 
-<p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-03.png" alt="" /></p>
+<p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-11-03.png" alt="" /></p>
 
 <p>빌드 로그 탭을 선택해 로그를 확인해보면 Maven Build를 하기 위해 의존성 라이브러리를 다운로드하는데 많은 시간이 소요되는 것을 확인할 수 있습니다.</p>
 
-<p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-11-04.png" alt="" /></p>
+<p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-11-04.png" alt="" /></p>
 
 <p>CodeBuild 서비스에서는 소스코드를 빌드하기 위한 파일을 한번만 다운받고 이 후에는 다시 받지 않도록 캐시 옵션을 설정할 수 있습니다.</p>
 
@@ -416,23 +416,23 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   <li>
     <p>아티팩트 &gt; <code class="highlighter-rouge">편집</code> 버튼 선택</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-00.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-12-00.png" alt="" /></p>
   </li>
   <li>
     <p>추가 구성 메뉴 확장 &gt; 캐시 유형 <code class="highlighter-rouge">Amazon S3</code> 선택 &gt; 캐시 버킷 선택(S3 콘솔에서 생성)</p>
 
-    <p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-02.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-12-02.png" alt="" /></p>
   </li>
 </ul>
 
 <p>설정을 완료한 후 다시 빌드를 시작합니다. 빌드가 완료된 후 기록을 보겠습니다. 
 아래와 같이 기존 <code class="highlighter-rouge">14분 55초</code>에서 <code class="highlighter-rouge">1분 54초로</code> 빌드 시간이 단축되었습니다.</p>
 
-<p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-03.png" alt="" /></p>
+<p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-12-03.png" alt="" /></p>
 
 <p>단계 세부 정보를 확인해보면 BUILD 단계가 기존 <code class="highlighter-rouge">14분</code>에서 <code class="highlighter-rouge">1분</code>으로 단축되었습니다.</p>
 
-<p><img src="/blog/assets/images/cloud/aws/cicd/aws-cicd03-12-04.png" alt="" /></p>
+<p><img src="/assets/images/cloud/aws/cicd/aws-cicd03-12-04.png" alt="" /></p>
 
 <p>다음으로 <a href="/blog/cloud/2019/06/22/aws-cicd04.html">AWS에서 CI/CD 환경 구성 #4 - 파이프라인 구성(Rolling Update), CodePipeline</a>
 문서에서 파이프라인 서비스인 CodePipeline을 구성하는 방법을 살펴보겠습니다.</p>

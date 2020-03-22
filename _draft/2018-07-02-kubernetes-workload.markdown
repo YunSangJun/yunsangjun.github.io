@@ -22,7 +22,7 @@ Pod는 아래와 같이 두 가지 형태로 사용할 수 있습니다.
 
   컨테이너 간에 서로 밀접하게 연관되어 있거나 자원을 공유해야 하는 경우 Pod에 여러개의 컨테이너를 캡슐화 할 수 있습니다.
 
-![](/blog/assets/images/kubernetes/kubernetes-workload-pod.png)
+![](/assets/images/kubernetes/kubernetes-workload-pod.png)
 
 ### Pod Replication과 Controller
 
@@ -36,7 +36,7 @@ Kubernetes에서는 이를 Replication라고 합니다.
 
 이러한 이유로 Pod를 단독으로 생성하지 않고 컨트롤러를 통해 생성하는 것이 일반적입니다.
 
-![](/blog/assets/images/kubernetes/kubernetes-workload-pod-replication-and-controller.png)
+![](/assets/images/kubernetes/kubernetes-workload-pod-replication-and-controller.png)
 
 ### 사이드카(멀티 컨테이너)
 
@@ -46,7 +46,7 @@ Kubernetes에서는 이를 Replication라고 합니다.
 
 이 때 외부에서 파일을 불러오는 컨테이너를 `사이드카(Sidecar)`라고 합니다.
 
-![](/blog/assets/images/kubernetes/kubernetes-workload-pod-sidecar.png)
+![](/assets/images/kubernetes/kubernetes-workload-pod-sidecar.png)
 
 ## Controllers
 

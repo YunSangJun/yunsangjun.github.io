@@ -371,7 +371,7 @@ Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것이라 �
 아래 그림과 같이 운영중인 Kubernetes cluster에 Public Cloud의 서버리스 컨테이너 서비스
 (예 - AWS ECS Fargate, Azure Container Instance 등)를 확장해 마치 하나의 cluster 처럼 사용할 수 있습니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-architecture.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-architecture.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;이를 통해 컨테이너 서비스 별로 서로 다른 사용 방식을 고려할 필요 없이 Kubernetes stack으로 통일하여 개발 및 운영을 할 수 있는 장점이 있습니다.
 또한 Public cloud에는 Kubernetes cluster를 추가로 운영할 필요없이 컨테이너에 대한 비용만 지불하면 되므로 비용 효율적인 측면이 있습니다.&lt;/p&gt;
@@ -651,7 +651,7 @@ spec:
 
     &lt;p&gt;마지막으로 Azure Port에 접속해 ACI resource group에서 aci-helloworld 앱이 배포된것을 확인할 수 있습니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-aci.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-aci.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;</content><author><name>sj</name></author><category term="kubernetes" /><category term="virtualkubelet" /><category term="cloud" /><category term="container" /><summary type="html">Overview Private 환경에서 kubernetes cluster를 운영하고 있다면 workload를 bursting 하는 관점에서 Public cloud와 연계하는 방안을 한번쯤은 고민해봤을 것이라 생각합니다.</summary></entry><entry><title type="html">Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기</title><link href="http://localhost:4000/istio/2019/08/11/istio-multi-cluster-mesh.html" rel="alternate" type="text/html" title="Istio를 활용해 Multi Cluster 환경에 Service Mesh 구성하기" /><published>2019-08-11T00:00:00+09:00</published><updated>2019-08-11T00:00:00+09:00</updated><id>http://localhost:4000/istio/2019/08/11/istio-multi-cluster-mesh</id><content type="html" xml:base="http://localhost:4000/istio/2019/08/11/istio-multi-cluster-mesh.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
@@ -668,7 +668,7 @@ spec:
     &lt;p&gt;이 방법은 여러개의 Cluster가 하나의 Istio Control Plane을 공유합니다.
  Istio Gateway를 통해 Cluster간 통신하므로 각 Cluster의 네트워크가 분리되어 있고 VPN 또는 Direct 네트워크로 연결되어 있지 않아도 됩니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/istio/istio-shared-multi.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/istio/istio-shared-multi.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;https://istio.io/docs/setup/kubernetes/install/multicluster/shared-vpn/&quot;&gt;Shared control plane (single-network)&lt;/a&gt;&lt;/p&gt;
@@ -677,14 +677,14 @@ spec:
  별도의 Gateway가 없기 때문에 각 Cluster의 네트워크가 VPN 등을 통해 연결성이 있어야합니다.
  각 Cluster의 네트워크에서 Pod와 Service의 CIDR은 중복되서는 안되고 서로간의 라우팅이 가능해야합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/istio/istio-shared-single.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/istio/istio-shared-single.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;https://istio.io/docs/setup/kubernetes/install/multicluster/gateways/&quot;&gt;Multiple control planes&lt;/a&gt;&lt;/p&gt;
 
     &lt;p&gt;1번과 마찬가지로 Istio Gateway를 통해 Cluster간 통신을 하지만 Istio Control Plance을 공유하지 않고 각각의 Cluster에 설치합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/istio/istio-multiple-multi.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/istio/istio-multiple-multi.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1257,7 +1257,7 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
 
     &lt;p&gt;Job이 성공적으로 수행되면 아래와 같은 화면을 확인할 수 있습니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/jenkins/jenkinsci-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Docker build 확인&lt;/p&gt;
@@ -1266,7 +1266,7 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
 
     &lt;p&gt;이미지의 태그명은 &lt;code class=&quot;highlighter-rouge&quot;&gt;BRANCH_NAME.BUILD_NUMBER&lt;/code&gt;과 같이 정의됩니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/jenkins/jenkinsci-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;애플리케이션 확인&lt;/p&gt;
@@ -1316,11 +1316,11 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
 
     &lt;p&gt;소스코드가 업로드되면 Jenkins에서 new_feature branch의 변경사항을 감지하고 Pipeline에 정의된 build job을 수행합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/jenkins/jenkinsci-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
     &lt;p&gt;Job이 성공적으로 수행되면 아래와 같은 화면을 확인할 수 있습니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/jenkins/jenkinsci-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Docker build 확인&lt;/p&gt;
@@ -1329,7 +1329,7 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
 
     &lt;p&gt;이미지의 태그명은 &lt;code class=&quot;highlighter-rouge&quot;&gt;BRANCH_NAME.BUILD_NUMBER&lt;/code&gt;와 같이 정의됩니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/jenkins/jenkinsci-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;애플리케이션 확인&lt;/p&gt;
@@ -1356,12 +1356,12 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
     &lt;p&gt;새로운 branch가 추가되면 Compare &amp;amp; Pull request 알림이 나타납니다.
 &lt;code class=&quot;highlighter-rouge&quot;&gt;Compare &amp;amp; Pull request&lt;/code&gt; 버튼을 선택합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/jenkins/jenkinsci-06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Merge하는 내용을 비교하고 이상이 없으면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Create pull request&lt;/code&gt; 버튼을 선택합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/jenkins/jenkinsci-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1371,12 +1371,12 @@ Periodically if not otherwise run를 체크하고 Interval을 1 minute로 선택
   &lt;li&gt;
     &lt;p&gt;Pull request 목록에 방금 요청한 항목이 나타납니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-08.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/jenkins/jenkinsci-08.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;요청 항목에 문제가 없으면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Merge pull request&lt;/code&gt; 버튼을 선택합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/jenkins/jenkinsci-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/jenkins/jenkinsci-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;master branch에 new_feature 코드가 병합됩니다.
@@ -1484,7 +1484,7 @@ mv argocd-linux-amd64 /usr/local/bin/argocd
 
 &lt;p&gt;웹 브라우저를 통해서도 서버에 접속할 수 있습니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-login.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/argocd/installing-argocd-login.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;샘플-애플리케이션-배포&quot;&gt;샘플 애플리케이션 배포&lt;/h2&gt;
 
@@ -1535,35 +1535,35 @@ mv argocd-linux-amd64 /usr/local/bin/argocd
   &lt;li&gt;
     &lt;p&gt;Create Application 버튼을 선택합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-00.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/argocd/installing-argocd-deploy-00.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Application Name에 sample-app, Project는 default를 선택합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/argocd/installing-argocd-deploy-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Repository URL에 https://github.com/argoproj/argocd-example-apps.git 를 입력합니다.
 Revision은 Head, Path는 guestbook을 입력합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/argocd/installing-argocd-deploy-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Cluster URL은 https://kubernetes.default.svc, Namespace는 default를 선택합니다.
 그리고 화면 상단의 Create 버튼을 선택해 애플리케이션을 생성합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/argocd/installing-argocd-deploy-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;처음 배포하면 Status가 OutOfSync 상태입니다. Sync 버튼을 선택해 동기화합니다.
 동기화하면 kubectl apply 명령을 실행해 애플리케이션을 클러스터에 배포합니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/argocd/installing-argocd-deploy-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;배포가 완료되면 아래와 같은 모습니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/kubernetes/argocd/installing-argocd-deploy-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/kubernetes/argocd/installing-argocd-deploy-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;</content><author><name>sj</name></author><category term="argocd" /><category term="cicd" /><category term="devops" /><category term="kubernetes" /><summary type="html">Overview</summary></entry><entry><title type="html">CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기</title><link href="http://localhost:4000/cicd/2019/07/03/circleci.html" rel="alternate" type="text/html" title="CircleCI를 활용한 코드 통합, 빌드, 배포 파이프라인 구성하기" /><published>2019-07-03T00:00:00+09:00</published><updated>2019-07-03T00:00:00+09:00</updated><id>http://localhost:4000/cicd/2019/07/03/circleci</id><content type="html" xml:base="http://localhost:4000/cicd/2019/07/03/circleci.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
@@ -1579,7 +1579,7 @@ Revision은 Head, Path는 guestbook을 입력합니다.&lt;/p&gt;
   &lt;li&gt;알림: Slack&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci_architecture.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/cloud/circleci/circleci_architecture.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;사전-준비&quot;&gt;사전 준비&lt;/h2&gt;
 
@@ -1589,7 +1589,7 @@ Revision은 Head, Path는 guestbook을 입력합니다.&lt;/p&gt;
 
 &lt;p&gt;위 프로젝트를 자신의 Github 계정으로 fork합니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-prep-code.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/cloud/circleci/circleci-prep-code.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;aws-ecrelastic-container-registry-구성&quot;&gt;AWS ECR(Elastic Container Registry) 구성&lt;/h3&gt;
 
@@ -1675,11 +1675,11 @@ $ docker push $FULL_IMAGE_NAME
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;화면 상단 오른쪽의 &lt;code class=&quot;highlighter-rouge&quot;&gt;Log In&lt;/code&gt; 버튼을 선택합니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-login-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-login-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Log In with GitHub&lt;/code&gt; 버튼을 선택해 자신의 Github 계정으로 로그인하겠습니다. 
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-login-02.png&quot; alt=&quot;&quot; width=&quot;40%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-login-02.png&quot; alt=&quot;&quot; width=&quot;40%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -1688,7 +1688,7 @@ $ docker push $FULL_IMAGE_NAME
 &lt;ul&gt;
   &lt;li&gt;CircleCI Console에 접속 &amp;gt; 왼쪽 메뉴의 Add Project 선택&lt;/li&gt;
   &lt;li&gt;Project 리스트 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;circleci-demo&lt;/code&gt; &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Set Up Project&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-add-project-01.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-add-project-01.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;프로젝트-설정하기&quot;&gt;프로젝트 설정하기&lt;/h3&gt;
@@ -1696,16 +1696,16 @@ $ docker push $FULL_IMAGE_NAME
 &lt;ul&gt;
   &lt;li&gt;
     &lt;p&gt;Settings &amp;gt; Organization &amp;gt; Projects &amp;gt; Followed projects &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;circleci-demo&lt;/code&gt; &amp;gt; 설정 버튼(톱니바퀴 아이콘) 선택
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-setup.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-setup.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Permissions &amp;gt; AWS Permissions &amp;gt; Access Key ID, Secret Access Key 입력
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-aws-permission.png&quot; alt=&quot;&quot; width=&quot;70%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-aws-permission.png&quot; alt=&quot;&quot; width=&quot;70%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Permissions &amp;gt; Build Settings &amp;gt; Environment Variables &amp;gt; 아래 환경 변수 입력&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-env.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/circleci/circleci-env.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
     &lt;table&gt;
       &lt;tbody&gt;
@@ -2264,19 +2264,19 @@ $ git push
 
 &lt;p&gt;CicleCI 콘솔에서 Workflows 메뉴를 선택하면 빌드 및 배포 상태를 확인할 수 있습니다.
 빌드 또는 배포 상태를 선택하면 해당 Job의 상세 정보를 확인할 수 있습니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-workflows.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-workflows.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;CicleCI 콘솔에서 Jobs 메뉴를 선택하면 실행 또는 완료된 Job의 목록을 확인할 수 있습니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-jobs-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-jobs-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;목록에서 Job을 선택하면 상세정보를 확인할 수 있습니다.&lt;br /&gt;
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-jobs-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-jobs-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Deploy job의 마지막 단계인 Test deployment 로그를 확인해보면 ECS 서비스가 정상적으로 
 배포되었는지 테스트하는 로그를 확인할 수 있습니다.
 &lt;code class=&quot;highlighter-rouge&quot;&gt;Hello World(Version 1)&lt;/code&gt; 메세지가 계속 출력되면 배포가 정상적으로 완료된것입니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-jobs-03.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/cloud/circleci/circleci-jobs-03.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;slack-연동&quot;&gt;Slack 연동&lt;/h3&gt;
 
@@ -2288,41 +2288,41 @@ $ git push
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Create New App 버튼을 선택합니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-01.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-slack-01.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;App Name에 circleci-demo를 입력하고 Slack workspace를 선택한뒤 Create App 버튼은 선택합니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-02.png&quot; alt=&quot;&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-slack-02.png&quot; alt=&quot;&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Slack 메신저에서 circleci-demo 채널을 생성합니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-03.png&quot; alt=&quot;&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-slack-03.png&quot; alt=&quot;&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;다시 Slack MyApp 페이지로 돌아와서 생성한 circleci-demo 앱을 선택합니다.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Features &amp;gt; Incoming Webhooks &amp;gt; Activate Incoming Webhooks를 On으로 변경합니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-04.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-slack-04.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;하단의 Webhook URL의 Add New Webhook to Workspace 버튼을 선택합니다. 
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-05.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-slack-05.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Post to에서 circleci-demo 채널을 선택하고 Install 버튼을 선택합니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-06.png&quot; alt=&quot;&quot; width=&quot;40%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-slack-06.png&quot; alt=&quot;&quot; width=&quot;40%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;생성된 Webhook URL을 복사해둡니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-07.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-slack-07.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;다시 CircleCI 콘솔로 이동해서 프로젝트 설정 화면으로 이동합니다.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Notifications &amp;gt; Chat Notifications &amp;gt; Webhook URL에 복사해둔 URL을 붙여넣고 저장합니다.
-&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-08.png&quot; alt=&quot;&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/circleci/circleci-slack-08.png&quot; alt=&quot;&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;이제 소스코드를 수정해서 빌드 및 배포를 다시 실행해보겠습니다. 
@@ -2341,7 +2341,7 @@ $ git push
     &lt;p&gt;CircleCI에서 소스 변경을 감지하고 빌드 및 배포 Job을 실행합니다. 
 완료 되면 아래와 같이 Slack 채널에 빌드 및 배포 성공을 알리는 메세지가 출력됩니다.&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/circleci/circleci-slack-09.png&quot; alt=&quot;&quot; width=&quot;70%&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/circleci/circleci-slack-09.png&quot; alt=&quot;&quot; width=&quot;70%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;</content><author><name>sj</name></author><category term="circleci" /><category term="cicd" /><category term="devops" /><summary type="html">Overview</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기</title><link href="http://localhost:4000/cloud/2019/06/23/aws-ecs-03.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/cloud/2019/06/23/aws-ecs-03</id><content type="html" xml:base="http://localhost:4000/cloud/2019/06/23/aws-ecs-03.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)의 서비스(ECS Service)를 통해 작업 정의(컨테이너)를 관리할 수 있습니다. 
 로드 밸런서와 연동하여 트랙픽을 다중 컨테이너에 분산할 수 있습니다. 
@@ -2360,27 +2360,27 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   &lt;li&gt;
     &lt;p&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;로드 밸런서 생성&lt;/code&gt; 버튼 선택&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-01.png&quot; alt=&quot;&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-01.png&quot; alt=&quot;&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;로드밸런서 유형 선택 &amp;gt; Application Load Balancer &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;생성&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;기본 구성 &amp;gt; 이름 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 입력
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;리스너 &amp;gt; 기본 값인 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTP, 80&lt;/code&gt; 그대로 사용(애플리케이션 접속시 http를 사용하여 접속)
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;가용 영역 &amp;gt; VPC, 가용 영역 및 Subnet(Public) 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;다음&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;보안 설정은 변경 없이 &lt;code class=&quot;highlighter-rouge&quot;&gt;다음&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;보안 그룹 구성&lt;/p&gt;
@@ -2392,7 +2392,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
       &lt;li&gt;
         &lt;p&gt;유형 &lt;code class=&quot;highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;다음&lt;/code&gt; 버튼 선택&lt;/p&gt;
 
-        &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
@@ -2404,7 +2404,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
       &lt;li&gt;
         &lt;p&gt;이름 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo-service&lt;/code&gt; 입력&lt;/p&gt;
 
-        &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-08.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-08.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
@@ -2416,17 +2416,17 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
       &lt;li&gt;
         &lt;p&gt;포트 &amp;gt; 재정의 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;8080&lt;/code&gt; 입력(작업 정의에서 컨테이너 포트를 8080으로 지정)&lt;/p&gt;
 
-        &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;대상 등록은 설정 변경 없이 &lt;code class=&quot;highlighter-rouge&quot;&gt;다음&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-10.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-10.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;전체적으로 검토 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;생성&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-11.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-lb-11.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -2442,7 +2442,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   &lt;li&gt;
     &lt;p&gt;서비스 탭 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;생성&lt;/code&gt; 버튼 선택&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-01.png&quot; alt=&quot;&quot; width=&quot;40%&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-01.png&quot; alt=&quot;&quot; width=&quot;40%&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;서비스 구성&lt;/p&gt;
@@ -2453,13 +2453,13 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
       &lt;li&gt;
         &lt;p&gt;작업 개수 &amp;gt; 2 입력&lt;/p&gt;
 
-        &lt;p&gt;&lt;a href=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-02.png&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;a href=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-02.png&quot;&gt;&lt;/a&gt;&lt;/p&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Deployments &amp;gt; Rolling Update 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;다음&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
     &lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
     &lt;p class=&quot;tip-content&quot;&gt;
@@ -2481,7 +2481,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
       &lt;li&gt;
         &lt;p&gt;자동 할당 퍼블릭 IP &amp;gt; DISABLED 선택&lt;/p&gt;
 
-        &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-04-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-04-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
         &lt;p class=&quot;warning-title&quot;&gt;경고&lt;/p&gt;
         &lt;p class=&quot;warning-content&quot;&gt;
@@ -2500,7 +2500,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
           &lt;li&gt;
             &lt;p&gt;인바운드 규칙 &amp;gt; 유형에서 Custom TCP 선택 &amp;gt; 포트 범위 8080 입력(로드밸런서에서 컨테이너의 8080 포트로의 인바운드 트래픽)&lt;/p&gt;
 
-            &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-04-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+            &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-04-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
           &lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
@@ -2514,7 +2514,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
       &lt;li&gt;
         &lt;p&gt;ELB 이름 &amp;gt; cicd-demo 선택(사전 준비에서 생성)&lt;/p&gt;
 
-        &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
@@ -2525,27 +2525,27 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
       &lt;li&gt;
         &lt;p&gt;cicd-demo:8080:8080 선택(작업 정의에서 생성) &amp;gt; ELB에 추가 버튼 선택&lt;/p&gt;
 
-        &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-06-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-06-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
       &lt;/li&gt;
       &lt;li&gt;리스너 포트 &amp;gt; 80:HTTP 선택(사전 준비에서 생성)&lt;/li&gt;
       &lt;li&gt;
         &lt;p&gt;대상 그룹 이름 &amp;gt; cicd-demo-service 선택&lt;/p&gt;
 
-        &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-06-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-06-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;다른 설정은 기본 설정을 사용 &amp;gt; 다음 단계 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;서비스 Auto Scaling은 사용하지 않음 &amp;gt; 다음 단계 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-08.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-08.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;서비스 검토를 전반적으로 하고 생성하기 버튼 선택해서 서비스 생성 완료
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-09.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -2562,11 +2562,11 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;서비스 탭 선택 &amp;gt; 상태가 Active인지 확인
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-10.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-10.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;작업 탭 선택 &amp;gt; 마지막/원하는 상태가 Running인지 확인
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-11.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-11.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;EC2 Console에 접속 &amp;gt; 왼쪽 메뉴 &amp;gt; 로드 밸런싱 &amp;gt; 로드밸런서 선택&lt;/p&gt;
@@ -2576,15 +2576,15 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;대상 탭 선택 &amp;gt; 등록된 대상 &amp;gt; 상태가 healthy인지 확인
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-12.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-12.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;설명 탭 선택 &amp;gt; DNS 이름 복사
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-13.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-13.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;웹 브라우저 &amp;gt; 복사한 DNS 이름 붙여넣고 접속 &amp;gt; 서비스 정상 접속 확인
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-14.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-14.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -2606,28 +2606,28 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;역할 만들기&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;신뢰할 수 있는 유형의 개체 선택 &amp;gt; AWS 서비스 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;이 역할을 사용할 서비스 선택 &amp;gt; CodeDeploy 선택 &amp;gt; CodeDeploy - ECS 선택 &amp;gt; 다음 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-02.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-02.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-02-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;설정 변경 없이 다음 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;설정 변경 없이 다음 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;역할 이름 &amp;gt; codedeploy-cicd-demo-role 입력 &amp;gt; 역할 만들기 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-bg-iam-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -2640,7 +2640,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
     &lt;ul&gt;
       &lt;li&gt;Deployment type &amp;gt; Blue/green deployment 선택&lt;/li&gt;
       &lt;li&gt;Service role for CodeDeploy &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;다음&lt;/code&gt; 버튼 선택
-  &lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-01.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+  &lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-bg-01.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Additional configuration
@@ -2648,7 +2648,7 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
       &lt;li&gt;Target group 1 name &amp;gt; cicd-demo-service 선택&lt;/li&gt;
       &lt;li&gt;Target group 2 name &amp;gt; 새로 생성 선택 &amp;gt; cicd-demo-service-green 입력&lt;/li&gt;
       &lt;li&gt;Target group 2 protocol &amp;gt; HTTP 선택
-  &lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-02.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+  &lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-bg-02.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
@@ -2665,15 +2665,15 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;애플리케이션 리스트 &amp;gt; AppECS-cicd-demo-cicd-demo 선택 
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;배포 그룹 리스트 &amp;gt; DgpECS-cicd-demo-cicd-demo 선택 
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;배포 그룹 확인
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;</content><author><name>sj</name></author><category term="aws" /><category term="container" /><category term="awsecs" /><category term="awsecsservice" /><category term="awsecsfargate" /><summary type="html">AWS에서 ECS(Elastic Container Service)의 서비스(ECS Service)를 통해 작업 정의(컨테이너)를 관리할 수 있습니다. 로드 밸런서와 연동하여 트랙픽을 다중 컨테이너에 분산할 수 있습니다. Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 조절할 수 있습니다.</summary></entry><entry><title type="html">AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)</title><link href="http://localhost:4000/cloud/2019/06/23/aws-ecs-02.html" rel="alternate" type="text/html" title="AWS ECS 구성 및 활용하기 #2 - 작업 정의 구성하기(ECS Task)" /><published>2019-06-23T00:00:00+09:00</published><updated>2019-06-23T00:00:00+09:00</updated><id>http://localhost:4000/cloud/2019/06/23/aws-ecs-02</id><content type="html" xml:base="http://localhost:4000/cloud/2019/06/23/aws-ecs-02.html">&lt;p&gt;AWS에서 ECS(Elastic Container Service)의 작업 정의(ECS Task)를 통해 컨테이너 관련 설정을 할 수 있습니다.&lt;/p&gt;
 
@@ -2689,26 +2689,26 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;역할 만들기&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;개체 선택에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;AWS 서비스&lt;/code&gt; 선택 &amp;gt; 서비스 선택에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;Elastic Container Service&lt;/code&gt; 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;사용 사례에서 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Elastic Container Service Task&lt;/code&gt; 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;다음: 권한&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;권한 정책 연결 &amp;gt; 정책 필터에 &lt;code class=&quot;highlighter-rouge&quot;&gt;ecs&lt;/code&gt; 입력 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;AmazonECSTaskExecutionRolePolicy&lt;/code&gt; 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;다음: 태그&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;태그 입력 또는 다음으로 넘어가기&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;역할 이름을 &lt;code class=&quot;highlighter-rouge&quot;&gt;ecstask-cicd-demo-role&lt;/code&gt; 입력 &amp;gt; 역할 검토 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;역할 만들기&lt;/code&gt; 버튼 선택 
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-iam-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -2720,23 +2720,23 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;새 작업 정의 선택&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecstask-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecstask-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Fargate 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;다음 단계&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecstask-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecstask-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;작업 정의 이름에 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 입력 &amp;gt; 작업 역할 &lt;code class=&quot;highlighter-rouge&quot;&gt;ecstask-cicd-demo-role&lt;/code&gt; 선택(시작하기 에서 생성)
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecstask-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecstask-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;작업 실행 역할 &lt;code class=&quot;highlighter-rouge&quot;&gt;ecsTaskExecutionRole&lt;/code&gt; 선택(없는 경우 새 역할 생성 선택)
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecstask-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecstask-04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;작업 메모리 &lt;code class=&quot;highlighter-rouge&quot;&gt;2GB&lt;/code&gt; 선택 &amp;gt; 작업 CPU &lt;code class=&quot;highlighter-rouge&quot;&gt;1vCPU&lt;/code&gt; 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecstask-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecstask-05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;컨테이너 정의
     &lt;ul&gt;
@@ -2747,12 +2747,12 @@ Auto Scailing을 사용하여 사용량에 기반하여 컨테이너 개수를 �
       &lt;li&gt;
         &lt;p&gt;포트 매핑 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;8080&lt;/code&gt; 입력 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;추가&lt;/code&gt; 버튼 선택&lt;/p&gt;
 
-        &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecstask-06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecstask-06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;생성&lt;/code&gt; 버튼 선택해서 작업 정의 생성 완료
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecstask-07.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecstask-07.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;다음으로 &lt;a href=&quot;/blog/cloud/2019/06/23/aws-ecs-03.html&quot;&gt;AWS ECS 구성 및 활용하기 #3 - 서비스(ECS Service) 구성하기&lt;/a&gt;
@@ -2793,7 +2793,7 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
 &lt;p&gt;이 단계를 완료하면 아래와 같이 이미지 저장소 주소를 복사합니다.
 이 주소는 ECS 환경에 애플리케이션을 배포할 때 사용합니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-prep-ecr-01.png&quot; alt=&quot;&quot; width=&quot;70%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-prep-ecr-01.png&quot; alt=&quot;&quot; width=&quot;70%&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;ecs-cluster-생성&quot;&gt;ECS Cluster 생성&lt;/h2&gt;
 
@@ -2803,12 +2803,12 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;메인 화면 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;클러스터 생성&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;클러스터 템플릿 선택 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;네트워킹 전용(AWS Fargate 제공)&lt;/code&gt; 선택&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
     &lt;p class=&quot;tip-title&quot;&gt;참고&lt;/p&gt;
     &lt;p class=&quot;tip-content&quot;&gt;
@@ -2817,7 +2817,7 @@ ECR 또는 외부 이미지 저장소에 이미 빌드한 이미지가 있다면
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;클러스터 구성 &amp;gt; 클러스터 이름 &lt;code class=&quot;highlighter-rouge&quot;&gt;cicd-demo&lt;/code&gt; 입력 &amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;생성&lt;/code&gt; 버튼 선택
-&lt;img src=&quot;/blog/assets/images/cloud/aws/ecs/aws-ecs-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cloud/aws/ecs/aws-ecs-03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 

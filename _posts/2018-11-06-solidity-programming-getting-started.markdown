@@ -28,7 +28,7 @@ IDE 오른쪽 > Compile 탭에서 컴파일러 버전을 선택합니다.
 
 이 페이지에서는 `0.4.24` 버전을 선택하겠습니다.
 
-![](/blog/assets/images/solidity/select-compiler-version.png)
+![](/assets/images/solidity/select-compiler-version.png)
 
 ## 실행 환경 선택
 
@@ -36,17 +36,17 @@ IDE 오른쪽 > Run 탭에서 실행 환경을 선택합니다.
 
 일반적으로 `Javascript VM`을 선택합니다.
 
-![](/blog/assets/images/solidity/select-running-environment.png)
+![](/assets/images/solidity/select-running-environment.png)
 
 ## 파일 생성
 
 화면 상단의 `+` 버튼을 클릭합니다.
 
-![](/blog/assets/images/solidity/create-file1.png)
+![](/assets/images/solidity/create-file1.png)
 
 파일명을 입력하고 OK 버튼을 선택해 파일을 생성합니다.
 
-![](/blog/assets/images/solidity/create-file2.png)
+![](/assets/images/solidity/create-file2.png)
 
 ## Smart Contract 작성
 
@@ -77,10 +77,10 @@ contract HelloWorld {
 `ctrl + s`로 파일을 저장한 후 오른쪽 Run 탭을 확인해보면 `Hello World` Smart Contract가 생성
 된 것을 확인할 수 있습니다.
 
-![](/blog/assets/images/solidity/deploy-smart-contract.png)
+![](/assets/images/solidity/deploy-smart-contract.png)
 
 여기서 `Deploy`를 선택하면 Smart Contract가 배포됩니다.
 
 하단의 콘솔 로그를 확인하면 `Hello world` 문자열이 출력된 것을 확인할 수 있습니다.
 
-![](/blog/assets/images/solidity/console-log.png)
+![](/assets/images/solidity/console-log.png)

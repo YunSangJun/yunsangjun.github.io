@@ -86,27 +86,27 @@ cache:
 
 - CodePipeline 콘솔에 접속 > 왼쪽 메뉴의 파이프라인 > 파이프라인 선택
 - 메인 화면 > `파이프라인 생성` 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-01.png)
 
 ### 파이프라인 설정 선택 
 
 - 파이프라인 이름 > cicd-demo 입력
 - 서비스 역할 > 새 서비스 역할 선택
 - 역할 이름 > codepipeline-cicd-demo-role > 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-02.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-02.png)
 
 ### 소스 스테이지 추가
 
 - 소스 공급자 > AWS CodeCommit 선택
 - 리포지토리 이름 > cicd-demo 선택
 - 브랜치 이름 > master 선택 > 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-03.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-03.png)
 
 ### 빌드 스테이지 추가
 
 - 빌드 공급자 > AWS CodeBuild 선택
 - 프로젝트 이름 > cicd-demo 검색 및 선택 > 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-04.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-04.png)
 
 ### 배포 스테이지 추가
 
@@ -114,13 +114,13 @@ cache:
 - 클러스터 이름 > cicd-demo 선택
 - 서비스 이름 > cicd-demo 선택
 - 이미지 정의 파일 > imagedefinitions.json 입력 > 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-05.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-05.png)
 
 ### 검토
 
 - 파이프라인 검토 후 다음 파이프라인 생성 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-06-01.png)
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-06-02.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-06-01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-06-02.png)
 
 ## 파이프라인 실행
 
@@ -136,7 +136,7 @@ cache:
 
 - 변경사항 릴리스 버튼을 선택
 
-    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-07.png)
+    ![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-07.png)
 
 ### 변경사항에 의해 자동으로 실행
 
@@ -147,17 +147,17 @@ cache:
 - `src/main/resources/messages/messages.properties` 파일 아래와 같이 편집
 
     메세지의 welcome 프로퍼티를 `Welcome`에서 `Welcome(Version 2)`로 변경 > `변경 사항 커밋` 버튼 선택
-    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-08.png)
+    ![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-08.png)
 
 - CodePipeline Console > 왼쪽 메뉴의 파이프라인 > 파이프라인 선택
 
 - 메인 화면의 파이프라인 리스트 > cicd-demo 선택
 
     소스코드 변경을 감지하고 자동으로 빌드와 배포 파이프라인이 실행됨
-    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-09.png)
+    ![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-09.png)
 
 - 파이프라인의 배포 단계까지 완료되면 로드밸런서 주소로 접속해서 변경한 메세지가 반영되었는지 확인
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-10.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-10.png)
 
 다음으로 [AWS에서 CI/CD 환경 구성 #5 - 파이프라인 구성(Blue/green), CodePipeline](/blog/cloud/2019/06/22/aws-cicd05.html)
 문서에서 Blue/green deployment 방식의 파이프라인을 구성하는 방법을 살펴보겠습니다.

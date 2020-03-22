@@ -20,7 +20,7 @@ tags:
 
 ### Legacy
 
-![](/blog/assets/images/kubernetes/logging/logging-legacy.png)
+![](/assets/images/kubernetes/logging/logging-legacy.png)
 
 - 고사양의 서버에 Application을 크게 운영
 - Log를 Application이 실행 중인 서버 내부에 저장
@@ -28,7 +28,7 @@ tags:
 
 ### Cloud Native
 
-![](/blog/assets/images/kubernetes/logging/logging-cloud-native.png)
+![](/assets/images/kubernetes/logging/logging-cloud-native.png)
 
 - Application을 작게 운영하고 필요할 때 마다 확장
 - 다중 인스턴스의 로그를 효율적으로 검색하기 위해 외부 Log 시스템에 저장
@@ -40,7 +40,7 @@ tags:
 
 #### DaemonSet Pattern
 
-![](/blog/assets/images/kubernetes/logging/logging-daemonset.png)
+![](/assets/images/kubernetes/logging/logging-daemonset.png)
 
 - App Console Log가 각 Node의 Storage에 자동 저장
 - 각 Node의 Agent가 Log를 Aggregator로 전달
@@ -48,14 +48,14 @@ tags:
 
 #### Sidecar Pattern
 
-![](/blog/assets/images/kubernetes/logging/logging-sidecar.png)
+![](/assets/images/kubernetes/logging/logging-sidecar.png)
 
 - App Log를 Pod의 Storage에 파일로 저장(Log4j 등 사용)
 - Pod의 Agent가 Log data를 전/후 처리 후 Backend로 전달
 
 ### DaemonSet Pattern 상세 Architecture
 
-![](/blog/assets/images/kubernetes/logging/logging-daemonset-detail.png)
+![](/assets/images/kubernetes/logging/logging-daemonset-detail.png)
 
 - App Console Log가 각 Node의 Storage에 자동 저장
 - Fluentbit가 각 Node의 Log 수집해 FluentD로 전달
@@ -65,7 +65,7 @@ tags:
 
 ### Sidecar Pattern 상세 Architecture
 
-![](/blog/assets/images/kubernetes/logging/logging-sidecar-detail.png)
+![](/assets/images/kubernetes/logging/logging-sidecar-detail.png)
 
 - App Log를 Pod의 Storage에 파일로 저장(Log4j 등 사용)
 - Fluentbit가 저장된 Log를 전/후 처리 후 ElasticSearch로 전달.
@@ -272,19 +272,19 @@ Logback 설정해 `/logs` directory 하위에 log message를 file로 저장
 
 - Kibana 접속 > Left 메뉴 > Management 메뉴 선택 > Kibana Index Patterns 선택
 
-  ![](/blog/assets/images/kubernetes/logging/logging-kibana-index-01.png)
+  ![](/assets/images/kubernetes/logging/logging-kibana-index-01.png)
 
 - Index name or pattern input box에 fluentbit 입력 후 Time Filter field name combo box에 @timestamp 선택
 
-  ![](/blog/assets/images/kubernetes/logging/logging-kibana-index-02.png)
+  ![](/assets/images/kubernetes/logging/logging-kibana-index-02.png)
 
 - 정상적으로 생성 시 아래와 같은 모습
 
-  ![](/blog/assets/images/kubernetes/logging/logging-kibana-index-03.png)
+  ![](/assets/images/kubernetes/logging/logging-kibana-index-03.png)
 
 - Left 메뉴 > Discover 메뉴 선택 > Demo Application의 Log message 검색 됨
 
-  ![](/blog/assets/images/kubernetes/logging/logging-kibana-search.png)
+  ![](/assets/images/kubernetes/logging/logging-kibana-search.png)
 
 지금까지 Kubernetes 환경에서 Logging Architecture에 대해 살펴봤습니다.
 

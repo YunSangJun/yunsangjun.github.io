@@ -46,13 +46,13 @@ CodeCommit의 cicd-demo 리포지토리에 blue/green branch를 생성해보겠�
 - 리포지토리 리스트 > cicd-demo 선택 > 왼쪽 메뉴에서 브랜치 선택
 
 - 메인 화면 > 브랜치 생성 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-branch-01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-branch-01.png)
 
 - 브랜치 이름에 bluegreen 입력 > 다음으로부터의 브랜치에 master 선택 > 브랜치 생성 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-branch-02.png){: width="60%"}
+![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-branch-02.png){: width="60%"}
 
 - 브랜치 리스트 > bluegreen 선택해 이동
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-branch-03.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-branch-03.png)
 
 ### App spec 변경
 
@@ -61,7 +61,7 @@ CodeCommit의 cicd-demo 리포지토리에 blue/green branch를 생성해보겠�
 - 리포지토리 리스트 > cicd-demo 선택 > bluegreen branch 선택
 
 - 파일 추가 > 파일 생성 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-appspec-01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-appspec-01.png)
 
 - 파일 내용에 아래 내용 입력
 
@@ -77,7 +77,7 @@ CodeCommit의 cicd-demo 리포지토리에 blue/green branch를 생성해보겠�
             ContainerPort: CONTAINER_PORT 
   ```
 
-  ![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-appspec-02.png)
+  ![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-appspec-02.png)
 
   <p class="tip-title">참고</p>
   <p class="tip-content">
@@ -86,7 +86,7 @@ CodeCommit의 cicd-demo 리포지토리에 blue/green branch를 생성해보겠�
 
 - 파일 이름에 `appspec.yaml` 파일을 입력 > 변경 사항 커밋 버튼 선택
 
-  ![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-appspec-03.png)
+  ![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-appspec-03.png)
 
 
 ### Build spec 변경
@@ -146,14 +146,14 @@ CodeCommit의 cicd-demo 리포지토리에 blue/green branch를 생성해보겠�
 - CodeBuild Console 접속 > 왼쪽 메뉴의 프로젝트 빌드
 
 - 메인 화면의 빌드 프로젝트 리스트에서 cicd-demo 선택 > 빌드 세부 정보 탭 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-01.png)
 
 - 환경 > 편집 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-02.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-02.png)
 
 - 추가 구성 확장 > 환경 변수 입력 > 환경 업데이트 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-03.png)
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-04-01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-03.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-prep-env-04-01.png)
 
   이름 | 값
   AWS_DEFAULT_REGION | 리전 이름
@@ -174,55 +174,55 @@ Blue/green 방식으로 배포한 후 기존 서버(Blue)의 트래픽을 신규
 - CodeDeploy console 접속 > 왼쪽 메뉴의 애플리케이션 선택 
 
 - 애플리케이션 리스트 > AppECS-cicd-demo-cicd-demo 선택 
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-bg-03.png)
 
 - 배포 그룹 리스트 > DgpECS-cicd-demo-cicd-demo 선택 
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-bg-04.png)
 
 - 배포 그룹 > 편집 버튼 선택
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-01.png)
 
 - 배포 설정 > 트래픽을 언제 다시 라우팅할지 지정 선택 > 시간을 1시간으로 설정
-![](/blog/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-02.png)
+![](/assets/images/cloud/aws/ecs/aws-ecs-service-bg-05-02.png)
 
 ## 파이프라인 구성(Blue/green deployment)
 
 - CodePipeline 콘솔에 접속 > 왼쪽 메뉴의 파이프라인 > 파이프라인 선택
 - 메인 화면 > `파이프라인 생성` 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-01.png)
 
 ### 파이프라인 설정 선택 
 
 - 파이프라인 이름 > cicd-demo-bluegreen 입력
 - 서비스 역할 > 기존 서비스 역할 선택
 - 역할 이름 > codepipeline-cicd-demo-role 선택 > 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-02.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-02.png)
 
 ### 소스 스테이지 추가
 
 - 소스 공급자 > AWS CodeCommit 선택
 - 리포지토리 이름 > cicd-demo 선택
 - 브랜치 이름 > bluegreen 선택 > 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-03.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-03.png)
 
 ### 빌드 스테이지 추가
 
 - 빌드 공급자 > AWS CodeBuild 선택
 - 프로젝트 이름 > cicd-demo 검색 및 선택 > 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-04.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd04-codepipeline-rolling-04.png)
 
 ### 배포 스테이지 추가
 
 - 배포 공급자 > Amazon CodeDeploy 선택
 - 애플리케이션 이름 > AppECS-cicd-demo-cicd-demo 선택
 - 배포 그룹 > DgpECS-cicd-demo-cicd-demo 선택 > 다음 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-05.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-05.png)
 
 ### 검토
 
 - 파이프라인 검토 후 다음 파이프라인 생성 버튼 선택
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-06-01.png)
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-06-02.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-06-01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-06-02.png)
 
 ## 파이프라인 실행
 
@@ -238,7 +238,7 @@ Blue/green 방식으로 배포한 후 기존 서버(Blue)의 트래픽을 신규
 
 - 변경사항 릴리스 버튼을 선택
 
-    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-07.png)
+    ![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-07.png)
 
 ### 변경사항에 의해 자동으로 실행
 
@@ -255,28 +255,28 @@ Blue/green 방식으로 배포한 후 기존 서버(Blue)의 트래픽을 신규
 - 메인 화면의 파이프라인 리스트 > cicd-demo-bluegreen 선택
 
     소스코드 변경을 감지하고 자동으로 빌드와 배포 파이프라인이 실행됨
-    ![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-09.png)
+    ![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-09.png)
 
 - Deploy 단계가 넘어가면 세부 정보 선택해서 배포 상태 조회하면으로 이동
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-10.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-10.png)
 
 - 교체 작업(Green)을 배포 완료했으나 트래픽은 원본 작업(Blue)으로 연결된 상태
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-11.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-11.png)
 
 - 웹 브라우저 > ELB DNS 주소로 접속 > 원본 작업(Blue)이므로 Version이 2임
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-12-01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-12-01.png)
 
 - 웹 브라우저 > 테스트 포트(ELB DNS 주소 + `:8080`) > 교체 작업(Green)이므로 Version이 3임
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-12-02.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-12-02.png)
 
 - 트래픽 다시 라우팅 버튼을 선택해 교체 작업(Green)으로 트래픽을 이동
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-11.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-11.png)
 
 - 트래픽 전환이 완료될때까지 대기
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-13.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-13.png)
 
 - 웹 브라우저 > ELB DNS 주소로 접속 > 트래픽이 교체 작업(Green)으로 완전히 라우팅 되었으므로 Version이 3임
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-14.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-14.png)
 
 - 배포 작업이 완료되었으므로 원래 작업 세트 종료 버튼을 선택해 원본 작업은 종료 처리
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-13.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd05-codepipeline-bg-13.png)

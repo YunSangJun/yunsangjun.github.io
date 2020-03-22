@@ -40,7 +40,7 @@ CI/CD 전체적인 아키텍처는 아래와 같습니다.
 - CodePipeline의 대시보드를 활용해서 코드를 통합, 빌드하고 배포하는 파이프라인을 구성할 수 있습니다.
 - CodeDeploy에 SNS, Lambda를 연동해서 Slack등의 Chat 서비스로 배포 과정을 전달할 수 있습니다.
 
-![](/blog/assets/images/cloud/aws/cicd/aws-cicd01.png)
+![](/assets/images/cloud/aws/cicd/aws-cicd01.png)
 
 다음으로 [AWS에서 CI/CD 환경 구성 #2 - 형상 관리 구성, CodeCommit](/blog/cloud/2019/06/20/aws-cicd02.html)
 문서에서 형상 관리 서비스인 CodeCommit을 구성하는 방법을 살펴보겠습니다.

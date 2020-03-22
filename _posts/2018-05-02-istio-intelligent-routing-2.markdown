@@ -79,7 +79,7 @@ Bookinfo 마이크로서비스의 복원력을 테스트하기 위해, `reviews:
     웹 페이지 응답 시간을 보려면, IE, Chrome 또는 Firefox (일반적으로 `Ctrl + Shift + I` 또는 `Alt + Cmd + I` 키 조합)의 개발자 도구 메뉴를 열고 네트워크 탭을 클릭 한 다음 `productpage`를 다시 로드하십시오.<br>
     약 6 초 후에 웹 페이지가 로드됩니다. `reviews` 섹션에 <b>"죄송합니다. 현재 이 책에 대한 제품 리뷰를 사용할 수 없습니다."</b>라고 표시 될 것입니다.
 
-    ![](/blog/assets/images/istio_fault_injection_delay_error.png)
+    ![](/assets/images/istio_fault_injection_delay_error.png)
 
 ## 이해하기
 `reviews` 서비스에 에러가 난 이유는 Bookinfo 애플리케이션에 버그가 있기 때문입니다. `productpage`와 `reviews` 서비스 간의 timeout(3s + 1 retry = 6s total)은 `reviews`와 `ratings` 서비스 사이의 timeout(10s)보다 작습니다. 이런 버그는 서로 다른 팀이 마이크로서비스를 독립적으로 개발하는 환경에서 발생할 수 있습니다. Istio의 <b>오류 주입</b> 규칙은 사용자에게 영향을 주지 않고 이런 예외를 식별하는 데 도움을 줍니다.<br>
@@ -116,7 +116,7 @@ spec:
 ---
 ```
 
-![](/blog/assets/images/istio_fault_injection_delay_fixed.png)
+![](/assets/images/istio_fault_injection_delay_fixed.png)
 
 ## HTTP 중단을 사용한 오류 주입
 다른 복원력 테스트 방법으로써 HTTP 중단을 소개합니다. 지연을 통한 방법과 달리 페이지가 즉시 로드되고 'ratings 서비스 사용할 수 없음'이라는 메시지가 표시됩니다.
@@ -164,10 +164,10 @@ spec:
 사용자 `jason`으로 로그인합니다. 규칙이 모든 pods에 전파되면 "ratings 서비스 사용할 수 없음"이라는 메시지와 함께 페이지가 표시됩니다. 사용자 `jason`에서 로그 아웃하면 `productpage` 페이지에 ratings v1이 정상적으로 표시됩니다.
 
     HTTP 중단을 사용한 오류 주입 상태
-    ![](/blog/assets/images/istio_fault_injection_aborted.png)
+    ![](/assets/images/istio_fault_injection_aborted.png)
 
     ratings v1이 정상적으로 표시 상태
-    ![](/blog/assets/images/istio_fault_injection_not_aborted.png)
+    ![](/assets/images/istio_fault_injection_not_aborted.png)
 
 ## 참고 자료
 https://istio.io/docs/tasks/traffic-management/fault-injection.html

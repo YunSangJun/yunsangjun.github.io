@@ -41,15 +41,15 @@ Keycloak Proxy와 Keycloak을 연동하기 위해서는 Keycloak 관리자 대�
 
 - Keycloak Proxy는 `/user` endpoint에 대한 클라이언트 요청을 허용합니다.
 
-![Keycloak Proxy Flow Allow](/blog/assets/images/keycloak_proxy_flow_user_allow.png)
+![Keycloak Proxy Flow Allow](/assets/images/keycloak_proxy_flow_user_allow.png)
 
 - Keycloak Proxy는 클라이언트가 admin 권한을 가지고 있지 않다면 `/admin` endpoint에 대한 클라이언트 요청을 거부합니다.
 
-![Keycloak Proxy Flow Deny](/blog/assets/images/keycloak_proxy_flow_admin_deny.png)
+![Keycloak Proxy Flow Deny](/assets/images/keycloak_proxy_flow_admin_deny.png)
 
 - Keycloak Proxy는 클라이언트가 admin 권한을 가지고 있다면 `/admin` endpoint에 대한 클라이언트 요청을 허용합니다.
 
-![Keycloak Proxy Flow Deny](/blog/assets/images/keycloak_proxy_flow_admin_allow.png)
+![Keycloak Proxy Flow Deny](/assets/images/keycloak_proxy_flow_admin_allow.png)
 
 ### 다운로드
 

@@ -61,7 +61,7 @@
       <time class="dt-published" datetime="2019-07-03T00:00:00+09:00" itemprop="datePublished">Jul 3, 2019
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">sj</span></span></p>
       
-<img src="/blog/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
+<img src="/assets/images/tag-256.png" alt="Tags: " class="tag-img"/>
 <div class="post-tags">
   
   
@@ -91,7 +91,7 @@
   <li>알림: Slack</li>
 </ul>
 
-<p><img src="/blog/assets/images/cloud/circleci/circleci_architecture.png" alt="" /></p>
+<p><img src="/assets/images/cloud/circleci/circleci_architecture.png" alt="" /></p>
 
 <h2 id="사전-준비">사전 준비</h2>
 
@@ -101,7 +101,7 @@
 
 <p>위 프로젝트를 자신의 Github 계정으로 fork합니다.</p>
 
-<p><img src="/blog/assets/images/cloud/circleci/circleci-prep-code.png" alt="" /></p>
+<p><img src="/assets/images/cloud/circleci/circleci-prep-code.png" alt="" /></p>
 
 <h3 id="aws-ecrelastic-container-registry-구성">AWS ECR(Elastic Container Registry) 구성</h3>
 
@@ -187,11 +187,11 @@ $ docker push $FULL_IMAGE_NAME
   </li>
   <li>
     <p>화면 상단 오른쪽의 <code class="highlighter-rouge">Log In</code> 버튼을 선택합니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-login-01.png" alt="" /></p>
+<img src="/assets/images/cloud/circleci/circleci-login-01.png" alt="" /></p>
   </li>
   <li>
     <p><code class="highlighter-rouge">Log In with GitHub</code> 버튼을 선택해 자신의 Github 계정으로 로그인하겠습니다. 
-<img src="/blog/assets/images/cloud/circleci/circleci-login-02.png" alt="" width="40%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-login-02.png" alt="" width="40%" /></p>
   </li>
 </ul>
 
@@ -200,7 +200,7 @@ $ docker push $FULL_IMAGE_NAME
 <ul>
   <li>CircleCI Console에 접속 &gt; 왼쪽 메뉴의 Add Project 선택</li>
   <li>Project 리스트 &gt; <code class="highlighter-rouge">circleci-demo</code> &gt; <code class="highlighter-rouge">Set Up Project</code> 버튼 선택
-<img src="/blog/assets/images/cloud/circleci/circleci-add-project-01.png" alt="" /></li>
+<img src="/assets/images/cloud/circleci/circleci-add-project-01.png" alt="" /></li>
 </ul>
 
 <h3 id="프로젝트-설정하기">프로젝트 설정하기</h3>
@@ -208,16 +208,16 @@ $ docker push $FULL_IMAGE_NAME
 <ul>
   <li>
     <p>Settings &gt; Organization &gt; Projects &gt; Followed projects &gt; <code class="highlighter-rouge">circleci-demo</code> &gt; 설정 버튼(톱니바퀴 아이콘) 선택
-<img src="/blog/assets/images/cloud/circleci/circleci-setup.png" alt="" /></p>
+<img src="/assets/images/cloud/circleci/circleci-setup.png" alt="" /></p>
   </li>
   <li>
     <p>Permissions &gt; AWS Permissions &gt; Access Key ID, Secret Access Key 입력
-<img src="/blog/assets/images/cloud/circleci/circleci-aws-permission.png" alt="" width="70%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-aws-permission.png" alt="" width="70%" /></p>
   </li>
   <li>
     <p>Permissions &gt; Build Settings &gt; Environment Variables &gt; 아래 환경 변수 입력</p>
 
-    <p><img src="/blog/assets/images/cloud/circleci/circleci-env.png" alt="" /></p>
+    <p><img src="/assets/images/cloud/circleci/circleci-env.png" alt="" /></p>
 
     <table>
       <tbody>
@@ -776,19 +776,19 @@ $ git push
 
 <p>CicleCI 콘솔에서 Workflows 메뉴를 선택하면 빌드 및 배포 상태를 확인할 수 있습니다.
 빌드 또는 배포 상태를 선택하면 해당 Job의 상세 정보를 확인할 수 있습니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-workflows.png" alt="" /></p>
+<img src="/assets/images/cloud/circleci/circleci-workflows.png" alt="" /></p>
 
 <p>CicleCI 콘솔에서 Jobs 메뉴를 선택하면 실행 또는 완료된 Job의 목록을 확인할 수 있습니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-jobs-01.png" alt="" /></p>
+<img src="/assets/images/cloud/circleci/circleci-jobs-01.png" alt="" /></p>
 
 <p>목록에서 Job을 선택하면 상세정보를 확인할 수 있습니다.<br />
-<img src="/blog/assets/images/cloud/circleci/circleci-jobs-02.png" alt="" /></p>
+<img src="/assets/images/cloud/circleci/circleci-jobs-02.png" alt="" /></p>
 
 <p>Deploy job의 마지막 단계인 Test deployment 로그를 확인해보면 ECS 서비스가 정상적으로 
 배포되었는지 테스트하는 로그를 확인할 수 있습니다.
 <code class="highlighter-rouge">Hello World(Version 1)</code> 메세지가 계속 출력되면 배포가 정상적으로 완료된것입니다.</p>
 
-<p><img src="/blog/assets/images/cloud/circleci/circleci-jobs-03.png" alt="" width="80%" /></p>
+<p><img src="/assets/images/cloud/circleci/circleci-jobs-03.png" alt="" width="80%" /></p>
 
 <h3 id="slack-연동">Slack 연동</h3>
 
@@ -800,41 +800,41 @@ $ git push
   </li>
   <li>
     <p>Create New App 버튼을 선택합니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-slack-01.png" alt="" width="80%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-slack-01.png" alt="" width="80%" /></p>
   </li>
   <li>
     <p>App Name에 circleci-demo를 입력하고 Slack workspace를 선택한뒤 Create App 버튼은 선택합니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-slack-02.png" alt="" width="60%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-slack-02.png" alt="" width="60%" /></p>
   </li>
   <li>
     <p>Slack 메신저에서 circleci-demo 채널을 생성합니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-slack-03.png" alt="" width="60%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-slack-03.png" alt="" width="60%" /></p>
   </li>
   <li>
     <p>다시 Slack MyApp 페이지로 돌아와서 생성한 circleci-demo 앱을 선택합니다.</p>
   </li>
   <li>
     <p>Features &gt; Incoming Webhooks &gt; Activate Incoming Webhooks를 On으로 변경합니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-slack-04.png" alt="" width="80%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-slack-04.png" alt="" width="80%" /></p>
   </li>
   <li>
     <p>하단의 Webhook URL의 Add New Webhook to Workspace 버튼을 선택합니다. 
-<img src="/blog/assets/images/cloud/circleci/circleci-slack-05.png" alt="" width="80%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-slack-05.png" alt="" width="80%" /></p>
   </li>
   <li>
     <p>Post to에서 circleci-demo 채널을 선택하고 Install 버튼을 선택합니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-slack-06.png" alt="" width="40%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-slack-06.png" alt="" width="40%" /></p>
   </li>
   <li>
     <p>생성된 Webhook URL을 복사해둡니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-slack-07.png" alt="" width="80%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-slack-07.png" alt="" width="80%" /></p>
   </li>
   <li>
     <p>다시 CircleCI 콘솔로 이동해서 프로젝트 설정 화면으로 이동합니다.</p>
   </li>
   <li>
     <p>Notifications &gt; Chat Notifications &gt; Webhook URL에 복사해둔 URL을 붙여넣고 저장합니다.
-<img src="/blog/assets/images/cloud/circleci/circleci-slack-08.png" alt="" width="60%" /></p>
+<img src="/assets/images/cloud/circleci/circleci-slack-08.png" alt="" width="60%" /></p>
   </li>
   <li>
     <p>이제 소스코드를 수정해서 빌드 및 배포를 다시 실행해보겠습니다. 
@@ -853,7 +853,7 @@ $ git push
     <p>CircleCI에서 소스 변경을 감지하고 빌드 및 배포 Job을 실행합니다. 
 완료 되면 아래와 같이 Slack 채널에 빌드 및 배포 성공을 알리는 메세지가 출력됩니다.</p>
 
-    <p><img src="/blog/assets/images/cloud/circleci/circleci-slack-09.png" alt="" width="70%" /></p>
+    <p><img src="/assets/images/cloud/circleci/circleci-slack-09.png" alt="" width="70%" /></p>
   </li>
 </ul>
 

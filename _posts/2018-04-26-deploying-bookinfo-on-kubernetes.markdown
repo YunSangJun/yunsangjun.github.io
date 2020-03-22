@@ -38,7 +38,7 @@ reviews 마이크로서비스에는 3가지 버전이 있습니다.<br>
 
 애플리케이션의 end-to-end 아키텍처는 아래와 같습니다. 이 애플리케이션은 다양한 프로그래밍 언어로 작성되었습니다.<br>
 
-![BookInfo Application Without Istio](/blog/assets/images/bookinfo_noistio.svg)
+![BookInfo Application Without Istio](/assets/images/bookinfo_noistio.svg)
 
 ## 사전 준비
 
@@ -49,7 +49,7 @@ reviews 마이크로서비스에는 3가지 버전이 있습니다.<br>
 ## BookInfo 애플리케이션
 Istio와 함께 샘플을 실행하기 위해 애플리케이션을 변경할 필요는 없습니다. 대신, Istio가 활성화 된 환경에서 서비스를 구성하고 실행하면 각각의 서비스에 Envoy 사이드카가 주입됩니다. 필요한 명령과 구성은 런타임 환경에 따라 다르지만 모든 경우의 결과는 다음과 같습니다.
 
-![BookInfo Application With Istio](/blog/assets/images/bookinfo_withistio.svg)
+![BookInfo Application With Istio](/assets/images/bookinfo_withistio.svg)
 
 모든 마이크로서비스는 Envoy 사이드카와 함께 패키지화되어 수신 및 발신 요청을 가로챕니다. Istio control plane, 라우팅, 원격 측정 수집 및 애플리케이션 전체에 대한 정책 적용을 통해 외부 제어에 필요한 후크를 제공합니다.
 
@@ -109,7 +109,7 @@ Istio와 함께 샘플을 실행하기 위해 애플리케이션을 변경할 �
     http://$GATEWAY_ADDRESS/productpage
     ```
 
-    ![](/blog/assets/images/istio_intel_routing_contents_norating.png)
+    ![](/assets/images/istio_intel_routing_contents_norating.png)
 
 ## 참고 자료
 https://istio.io/docs/guides/bookinfo.html
