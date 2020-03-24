@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Ansible 활용 #1 서버 계정 생성 자동화"
+title:  "Ansible 활용 - 서버 계정 생성 자동화"
 author: sj
 date: 2019-10-15
 categories: automation
