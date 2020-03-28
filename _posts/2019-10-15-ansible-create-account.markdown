@@ -36,7 +36,7 @@ Remote host에 계정을 추가하는 명령을 실행해보겠습니다.
 - 모듈 파라미터: user 모듈의 name 파라미터에 "example-user" 입력
 - become: 명령을 실행하는 사용자 계정의 권한을 승격. "--become" 또는 "-b" 입력
 
-```
+```bash
 default-user@ansible-host:~$ ansible all -m user -a "name=example-user" -b
 host01.example.com | CHANGED => {
     "ansible_facts": {
@@ -71,7 +71,7 @@ host01.example.com | CHANGED => {
 - 모듈 파라미터: shell 모듈의 파라미터에 "cat /etc/passwd" 명령 입력
 - 출력 옵션: "-o" 옵션을 추가해 결과를 한줄로 출력
 
-```
+```bash
 default-user@ansible-host:~$ ansible all -m shell -a "cat /etc/passwd |grep 'example-user'" -o
 host01.example.com | CHANGED | rc=0 | (stdout) example-user:x:1002:1003::/home/example-user:
 host02.example.com | CHANGED | rc=0 | (stdout) example-user:x:1002:1003::/home/example-user:
@@ -91,25 +91,25 @@ host03.example.com | CHANGED | rc=0 | (stdout) example-user:x:1002:1003::/home/e
     - update_password: "always" 입력(입력한 암호가 기존 패스워드와 다른 경우 업데이트)
     - password: 암호 "example-password"를 hash한 값을 입력
 
-```
+```bash
 default-user@ansible-host:~$ ansible all -m user -a "name=example-user update_password=always password={{ 'example-password' | password_hash('sha512') }}"
 ```
 
 이 명령을 실행하면 "example-user"라는 이름의 계정에 "example-password" 암호가 설정됩니다.
 
 암호가 정상적으로 설정되었는지 확인하기 위해 remote host에서 신규 생성한 계정으로 로그인을 해보겠습니다.
-패스워드 입력 프롬포트가 나타나면 위에서 설정한 패스워드 "example-password"를 입력합니다.
-```
-default-user@ansible-host:~$ su - example-user 
-Password:
-```
 
-"example-user" 계정으로 정상 로그인되었습니다.
-로그인을 확인했으니 다음 과정을 위해 로그아웃하고 원래 계정으로 돌아가겠습니다.
-```
-example-user@ansible-host:~$ exit
+```bash
+## Remote host에 접속
+default-user@ansible-host:~$ ssh host01.example.com
 
-default-user@ansible-host:~$ 
+## example-user 사용자 계정으로 로그인 
+## 패스워드 입력 프롬포트가 나타나면 위에서 설정한 패스워드 "example-password"를 입력
+default-user@host01.example.com:~$ su - example-user 
+Password: ...
+
+## example-user 계정으로 정상 로그인됨
+example-user@host01.example.com:~$ 
 ```
 
 ## 3. sudo 명령어 사용 권한 추가하기
@@ -129,7 +129,8 @@ default-user@ansible-host:~$
     - mode: 복사할 목적지의 파일/디렉토리 권한 입력. "0664"
 - become: 명령을 실행하는 사용자 계정의 권한을 승격. "--become" 또는 "-b" 입력
 
-```
+```bash
+## Remote host를 종료하고 Ansible host로 로그인 후 명령 실행
 default-user@ansible-host:~$ ansible all -m copy -a "content='example-user ALL=(ALL) NOPASSWD:ALL' dest=/etc/sudoers.d/example-user mode=0644" -b
 host01.example.com | CHANGED => {
     "ansible_facts": {
@@ -155,18 +156,29 @@ host01.example.com | CHANGED => {
 해당 파일에 "example-user ALL=(ALL) NOPASSWD:ALL" 내용이 추가됩니다.
 이 내용은 "example-user"에게 패스워드 없이 sudo를 실행할 수 있는 권한을 부여한다는 의미입니다.
 
-이제 sudo 권한을 확인해보겠습니다. 먼저 "example-user"로 다시 로그인합니다.
-```
-default-user@ansible-host:~$ su - example-user 
-Password: 
+이제 sudo 권한을 확인해보겠습니다. Remote host에 접속한 뒤 "example-user"로 다시 로그인합니다.
+
+```bash
+## Remote host에 접속
+default-user@ansible-host:~$ ssh host01.example.com
+
+## example-user 사용자 계정으로 로그인
+default-user@host01.example.com:~$ su - example-user 
+Password: ...
+
+## example-user 계정으로 정상 로그인됨
+example-user@host01.example.com:~$ 
 ```
 
 그리고 "root" 계정으로 로그인하는 sudo 명령을 실행해보겠습니다.
 패스워드 없이 root 계정으로 로그인된 것을 확인할 수 있습니다.
-```
-example-user@ansible-host:~$ sudo su - root
 
-root@ansible-host:~$
+```bash
+## sudo 명령으로 root 계정으로 로그인
+example-user@host01.example.com:~$ sudo su - root
+
+## root 계정으로 정상 로그인됨
+root@host01.example.com:~#
 ```
 
 ## 맺음말
@@ -177,7 +189,7 @@ Ansible 명령으로 간단한 작업들을 수행하는 것은 편리합니다.
 하지만 여러 가지 작업들을 수행해야하는 경우 Ansible 명령만으로 부족한 부분이 있습니다.
 
 이런 경우에 Ansible Playbook을 활용할 수 있습니다.
-이후에 Ansible Playbook이 무엇이고 어떻게 사용하는지에 대해서도 한번 살펴 보겠습니다.
+자세한 내용은 [Ansible Playbook 시작하기](/automation/2019/11/07/ansible-playbook-start.html)를 참고하시면됩니다.
 
 
 

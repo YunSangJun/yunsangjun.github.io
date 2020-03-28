@@ -19,7 +19,7 @@ Github Page는 Github에 업로드한 소스코드를 웹 호스팅 해주는 �
 
 # 1.Jekyll 설치
 아래 명령어를 실행해 jekyll 모듈을 설치합니다. Ruby가 설치되어 있어야 합니다.
-```
+```bash
 gem install jekyll
 ```
 
@@ -41,10 +41,12 @@ Repository 이름은 github page 주소와 연계되는데 아래 두 가지 방
 Github Site > Add Repository > Owner와 Repository Name을 입력 후 생성<br />
 생성한 repository를 clone 받고 README 파일을 push 합니다.
 
-```
+```bash
 git clone https://github.com/[Owner]/[RepositoryName].git
+
 cd [RepositoryName]
 echo "# [RepositoryName]" >> README.md
+
 git init
 git add README.md
 git commit -m "first commit"
@@ -54,8 +56,8 @@ git push -u origin master
 
 # 3.Jekyll template 생성
 아래 명령어를 실행해 블로그 템플릿을 만듭니다.
-```
-# jekyll new sample-blog
+```bash
+$ jekyll new sample-blog
 .
 ├── 404.html
 ├── CNAME
@@ -74,20 +76,20 @@ git push -u origin master
 `_config.yml` 파일을 열고 아래와 같이 편집합니다.
 
 - Repository명을 Github page 주소와 동일하게 설정한 경우
-```
+```yaml
 # baseurl: ""
 url: "https://[Owner].github.io"
 ```
 
 - Repository명을 Github page 주소의 subpath로 설정한 경우
-```
+```yaml
 baseurl: "/blog"
 url: "https://[Owner].github.io"
 ```
 
 그 외, 사용자의 커스텀 도메인 사용 시 url에 커스텀 도메인 주소를 넣어주면됩니다.
 
-```
+```yaml
 url: "http://blog.example.com" 
 ```
 
@@ -95,8 +97,8 @@ url: "http://blog.example.com"
 `_posts` 디렉토리 하위에 포맷(`yyyy-mm-dd-title.markdown`)을 맞춰 블로그 페이지를 작성합니다.<br />
 date는 UTC 기준입니다. KST 기준으로 변경하려면 +0900을 추가합니다.
 
-```
-# vi _post/2018-04-06-how-to-create-blog.markdown
+```bash
+$ vi _post/2018-04-06-how-to-create-blog.markdown
 ---
 layout: post
 title:  "Example"
@@ -111,14 +113,14 @@ categories: etc
 # 6.블로그 로컬 환경에서 실행
 아래 명령어를 실행해 로컬 환경에서 블로그 페이지를 확인할 수 있습니다.
 
-```
+```bash
 $ jekyll serve --watch
 http://127.0.0.1:4000/
 ```
 
 최근에는(2020.03 기준) 아래와 같이 명령어가 변경되었습니다.
 
-```
+```bash
 $ bundle exec jekyll serve
 Server address: http://127.0.0.1:4000
 ```
@@ -126,7 +128,7 @@ Server address: http://127.0.0.1:4000
 # 7.Github repository에 commit & push
 아래 명령어를 실행해 변경 내용을 Github repository에 반영합니다.
 
-```
+```bash
 git add --all
 git commit -m "init"
 git push

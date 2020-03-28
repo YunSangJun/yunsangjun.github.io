@@ -1,16 +1,16 @@
 pre, code {
     border: 0px solid #262626 !important;
-    background-color: #262626 !important;
-    color: #ffffff !important;
-    font-size: 13px !important;
+    background-color: #e6eaea !important;
+    color: #000000 !important;
+    font-size: 14px !important;
 }
 
 .highlighter-rouge .highlight {
-    background: #262626 !important;
+    background: #e6eaea !important;
 }
 
 code > a {
-    color: #ffffff !important;
+    color: #000000 !important;
 
 }
 

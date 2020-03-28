@@ -58,11 +58,11 @@ Ansible을 설치하기 위해서는 먼저 python을 설치해야합니다.
 
 아래 명령을 실행해 ansible을 설치합니다. "--user" 옵션으로 설치를 권장합니다.
 
-```
-//for local
+```bash
+## for local
 default-user@ansible-host:~$ pip install --user ansible
 
-//for global
+## for global
 default-user@ansible-host:~$ pip install ansible
 ```
 
@@ -71,14 +71,14 @@ default-user@ansible-host:~$ pip install ansible
 "--user" 옵션으로 설치한 경우 아래와 같이 환경 변수를 설정해야 합니다.
 </p>
 
-```
+```bash
 default-user@ansible-host:~$ PATH=$PATH:$HOME/.local/bin
 default-user@ansible-host:~$ export PATH
 ```
 
 설치가 완료되면 버전을 확인합니다.
 
-```
+```bash
 default-user@ansible-host:~$ ansible --version
 default-user@ansible-host:~$ ansible 2.9.2
 ...
@@ -94,7 +94,7 @@ Loopback(ansible host)을 호출하고 응답이 오는지 확인하는 명령�
 
 "pong" 이라는 응답이 오면 정상적으로 동작한 것입니다.
 
-```
+```bash
 default-user@ansible-host:~$ ansible localhost -m ping
 ...
 localhost | SUCCESS => {
@@ -109,12 +109,12 @@ localhost | SUCCESS => {
 예를 들어 remote host의 특정 파일을 복사하는 명령을 실행한다고 가정해보겟습니다.
 
 아래 명령은 쉘 스크립트를 사용해 remote host의 파일을 복사하는 명령을 실행합니다. 
-```
+```bash
 default-user@ansible-host:~$ ansible all -m shell -a "cp ~/.profile ~/.profile.bak"
 ```
 
 같은 명령을 "copy" 모듈을 사용할 수도 있습니다.
-```
+```bash
 default-user@ansible-host:~$ ansible all -m copy -a "src=~/.profile dest=~/.profile.bak"
 ```
 
@@ -131,7 +131,7 @@ Ansible host에서 여러대의 remote host를 호출해야 할 경우 "/etc/ans
 "/etc/ansible/hosts" 파일을 생성하고 remote host를 입력합니다.
 "[example]"는 remote host들의 그룹 이름입니다. 딱히 정해진 이름은 없으니 자유롭게 정하면됩니다. 
 
-```
+```bash
 default-user@ansible-host:~$ vi /etc/ansible/hosts
 [example]
 host01.example.com
@@ -151,7 +151,7 @@ Ansible host에서 remote host로 ssh 클라이언트를 통해 접속 가능한
 - host 명: 그룹명 "example" 입력
 - 모듈 명: "-m" 옵션에 "ping" 모듈 입력
 
-```
+```bash
 default-user@ansible-host:~$ ansible example -m ping
 host01.example.com | SUCCESS => {
     "ansible_facts": {
@@ -180,7 +180,7 @@ host03.example.com | SUCCESS => {
 "/etc/ansible/hosts" 파일에 여러개의 host 그룹을 등록할 수 있는데
 전체 그룹에 대해 호출하고 싶은 경우 "all"을 사용하면됩니다.
 
-```
+```bash
 default-user@ansible-host:~$ vi /etc/ansible/hosts
 [example01]
 host01.example.com
@@ -199,6 +199,6 @@ default-user@ansible-host:~$ ansible all -m ping
 
 지금까지 Ansible이 무엇인지 알아보고 간단한 사용 방법에 대해 알아봤습니다.
 
-서버를 구성 할 때 필수적으로 하는 작업(그리고 가장 번거로운)이 있습니다. 서버의 계정을 생성하는 작업인데 이 작업을 
-[Ansible을 활용해 자동화](/automation/2019/10/15/ansible-create-account.html)하는 방법에 대해 알아보겠습니다.
+서버를 구성 할 때 필수적으로 하는 작업(그리고 가장 번거로운)이 있는데 바로 서버의 계정을 생성하는 작업입니다.
+다음으로 [Ansible을 활용해 서버 계정 생성 자동화](/automation/2019/10/15/ansible-create-account.html)하는 방법에 대해 알아보겠습니다.
 
