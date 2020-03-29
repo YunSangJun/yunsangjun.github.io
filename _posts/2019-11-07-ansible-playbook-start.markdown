@@ -44,6 +44,12 @@ Ansible을 사용해서 각 단계의 작업을 수행하는 명령을 실행했
 2. 패스워드 설정하기
 3. sudo 명령어 사용 권한 추가하기
 
+<p class="tip-title">참고</p>
+<p class="tip-content">
+이 문서의 Ansible host(Ansible을 설치하고 있는 서버)에서 사용하는 계정은 sudo 권한이 없는 일반 사용자입니다.
+(sudo: 일반 사용자가 root 권한을 일시적으로 획득하여 특정 명령을 실행 할 수 있도록 하는 명령)
+</p>
+
 ### 1. Playbook 생성
 
 "create-account.yaml" 이라는 파일을 생성합니다.
@@ -85,16 +91,16 @@ Playbook은 yaml 포맷으로 선언적으로 작성합니다. 파일 위에서 
 
 다음으로 수행하는 각 작업(tasks)에 대해 살펴보겠습니다.
 
-- "create user": 사용자 계정 추가 작업
+- "create user" task
     - user: user 모듈 사용 선언
         - name: 생성할 사용자 계정 이름
 
-- "set password": 패스워드 설정 작업
+- "set password" task
     - user: user 모듈 사용 선언
         - name: 생성할 사용자 계정 이름
         - password: 생성할 사용자 계정 패스워드
 
-- "create sudoers": sudo 명령어 사용 권한 추가 작업
+- "create sudoers" task
     - copy: copy 모듈 사용 선언
         - content: 복사할 문자열
         - dest: 복사할 목적지로 remote host의 절대 경로
@@ -117,7 +123,7 @@ Python Ansible 패키지를 설치하면 함께 설치되는 "ansible-playbook" 
   - PASSWORD: 생성할 사용자 계정 패스워드
 
 ```bash
-$ ansible-playbook -i [path/to/inventory] create-account.yaml \
+default-user@ansible-host:~$ ansible-playbook -i [path/to/inventory] create-account.yaml \
 --extra-vars "HOST_NAME=[HOST_NAME] USER_NAME=[USER_NAME] PASSWORD=[PASSWORD]"
 ```
 
@@ -187,12 +193,6 @@ root@host01.example.com:~#
 처음에 Ansible은 도구, Inventory는 재료이고 Playbook은 작업 메뉴얼이라고 했는데요.
 이 문서를 읽고 이 뜻이 충분히 이해가 됐을지 모르겠습니다.
 
-여기까지 이해하셨다면 이제 운영 작업들을 자동화하는 코드를 작성하실텐데요.
-자동화 코드를 작성하다보면 문자열을 다루어야 할 경우가 많습니다.
-(예를 들어 버전 정보를 취합하는 경우 특정 기호를 기준으로 문자열을 분리해야 한다던지..)
-
-이런 경우 Playbook 문법에서도 어느 정도 지원을 하지만 익숙하지도 않고
-자유도, 지원하는 문자열 함수가 많지 않아 깊은 빡침을 경험할 수 있습니다.
-
-그래서 다음에는 Ansible Playbook에서 python을 활용해 문자열을 처리하는 방법에 대해 알아보겠습니다.
-
+여기까지 충분히 이해가 되었다면
+다음으로 [Ansible Playbook 응용](/automation/2019/11/18/ansible-playbook-advanced.html)
+단계에서 좀 더 다양한 기능을 살펴보세요.

@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Ansible Playbook 활용 #3 Python 연동"
+title:  "Ansible Playbook - 형상 관리"
 author: sj
-date: 2019-12-23
+date: 2019-11-23
 categories: automation
 tags:
 - ansible

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Ansible 활용 - 서버 계정 생성 자동화"
+title:  "Ansible - 서버 계정 생성 자동화"
 author: sj
 date: 2019-10-15
 categories: automation
@@ -18,13 +18,15 @@ tags:
 개인적인 스터디로 사용하는 서버라면 root 계정을 사용해도 무방하겠지만 
 운영용 서버라면 root 계정은 서버 관리자만 알고 일반 사용자는 계정과 필요한 권한만 할당 받는 것이 일반적입니다.
 
-Ansible의 처음 접하는 분이라면 
+이 문서에서는 Ansible을 사용하여 서버 계정 생성 작업을 자동화하는 방법에 대해 알아보겠습니다.
+
+만약 Ansible을 처음 접하는 분이라면 
 [Ansible 시작하기](/automation/2019/10/13/ansible-start.html)에서 
 기본적인 개념과 사용 방법에 대해 살펴보는것이 좋습니다.
 
 <p class="tip-title">참고</p>
 <p class="tip-content">
-이 가이드의 Ansible host(Ansible을 설치하고 있는 서버)에서 사용하는 계정은 sudo 권한이 없는 일반 사용자입니다.
+이 문서의 Ansible host(Ansible을 설치하고 있는 서버)에서 사용하는 계정은 sudo 권한이 없는 일반 사용자입니다.
 (sudo: 일반 사용자가 root 권한을 일시적으로 획득하여 특정 명령을 실행 할 수 있도록 하는 명령)
 </p>
 
