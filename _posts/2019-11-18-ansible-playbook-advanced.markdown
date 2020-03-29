@@ -287,7 +287,7 @@ example.txt ...
 {% raw %}"{{ ansible_hostname }}"{% endraw %}과 같이 선언한 부분은
 결과값을 가져온 remote host 이름을 추가하기 위해서입니다.
 
-"result.stdout"을 그대로 출력하지 않고 실제 버전 정보가 가져오기 위해 문자열 편집했습니다.
+"result.stdout"을 그대로 출력하지 않고 실제 버전 정보만 가져오기 위해 문자열 편집했습니다.
 
 ```yaml
 ---
