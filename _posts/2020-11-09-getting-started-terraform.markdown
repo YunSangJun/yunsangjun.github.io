@@ -286,7 +286,7 @@ Terraform has been successfully initialized!
 ```
 $ ls -all
 ...
-drwxr-xr-x  4 ...  110524863   128 11 10 15:41 .terraform
+drwxr-xr-x  4 ...  ... .terraform
 ```
 
 하위에 "environment" 파일 내용을 확인해보면 default라는 값이 있습니다.
@@ -321,7 +321,7 @@ $ cat .terraform/plugins/selections.json
 ```
 $ ls -all .terraform/plugins/registry.terraform.io/hashicorp/google/3.47.0/darwin_amd64
 ...
--rwxr-xr-x  1 ...  110524863  72462240 11 10 14:48 terraform-provider-google_v3.47.0_x5
+-rwxr-xr-x  1 ...  ... terraform-provider-google_v3.47.0_x5
 ```
 
 ## GKE cluster 프로비저닝하기
