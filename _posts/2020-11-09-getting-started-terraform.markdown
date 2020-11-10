@@ -213,7 +213,7 @@ terraform은 이 값을 해제합니다.
 이를 방지하기 위해서 "disable-legacy-endpoints" 값을 "true"로 설정해야합니다.
 </p>
 
-### 2.변수 정의
+### 2.변수 정의하기
 
 "main.tf" 파일에서 사용하는 변수를 선언하겠습니다.
 
@@ -243,7 +243,7 @@ variable "gke_machine_type" {
 }
 ```
 
-### 3.결과 정의
+### 3.결과 정의하기
 
 자원을 생성한 후 추출해야하는 값이 있는 경우 "output" block에 선업합니다. 
 이 값은 "terraform apply" 실행 시 사용자에게 보여집니다.
@@ -260,7 +260,7 @@ output "kubernetes_cluster_name" {
 }
 ```
 
-### 4.버전 정의
+### 4.버전 정의하기
 
 지금까지 작성한 Terraform 파일을 실행하기 위해 필요한 버전을 선언합니다.
 
@@ -328,7 +328,7 @@ $ ls -all .terraform/plugins/registry.terraform.io/hashicorp/google/3.47.0/darwi
 
 이제 드디어 GKE cluster를 생성해보겠습니다.
 
-### 1.환경 변수 설정
+### 1.환경 변수 설정하기
 
 "variabes.tf" 파일을 작성할 때 변수들에 값을 재할당 할 수 있다고 했습니다.
 
@@ -354,7 +354,7 @@ export PROJECT_ID="my-project"
 export REGION="asia-northeast3"
 ```
 
-### 2.검증
+### 2.검증하기
 
 자원을 생성하기전 먼저 검증을 할 수 있습니다. 
 인프라 자원을 변경하는 것은 매우 조심스러운 작업인데 실수로 지워버린다던가 하는 
@@ -383,7 +383,7 @@ Terraform will perform the following actions:
 Plan: 4 to add, 0 to change, 0 to destroy.
 ```
 
-### 3.생성
+### 3.생성하기
 
 검증을 완료했으니 실제 자원을 생성해보겠습니다.
 "terraform apply" 명령을 실행하고 위에서 설정한 환경변수를 Terraform 변수에 할당합니다. "plan" 명령과 다른 점은 실제로 이 명령을 수행할 것인지 한번 더 물어본다는 점입니다.
@@ -421,7 +421,7 @@ Outputs:
 Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
 ```
 
-## GKE cluster 확인
+## 생성한 자원 확인하기
 
 생성한 Kubenetes cluster에 접속해보겠습니다.
 gcloud CLI를 통해 credential 정보를 저장합니다.
@@ -434,7 +434,7 @@ Fetching cluster endpoint and auth data.
 kubeconfig entry generated for my-project-gke.
 ```
 
-"node-pools"의 정보를 조회합니다. Machine type이 기본값인 "e3-medium"으로 생성된것을 확인할 수 있습니다.
+"node-pools"의 정보를 조회합니다. Machine type이 기본값인 "e2-medium"으로 생성된것을 확인할 수 있습니다.
 
 ```
 $ gcloud container node-pools list \
@@ -454,7 +454,7 @@ gke-my-project-gk-my-project-gk-7f696cdb-g9f8   Ready    <none>   10m   v1.16.15
 gke-my-project-gk-my-project-gk-e52afe54-8cvt   Ready    <none>   10m   v1.16.15-gke.4300
 ```
 
-## GKE cluster 변경하기
+## 변경하기
 
 이번에는 GKE cluster의 설정을 변경해보겠습니다.
 Machine type을 기본값인 "e2-medium"에서 "e2-standard-2"로 변경해보겠습니다.
@@ -519,7 +519,7 @@ NAME                         MACHINE_TYPE   DISK_SIZE_GB  NODE_VERSION
 my-project-gke-node-pool     e2-standard-2  100           1.16.15-gke.4300
 ```
 
-## GKE cluster 삭제하기
+## 삭제하기
 
 이제 더 이상 사용 계획이 없는 cluster를 삭제하겠습니다.
 ```
