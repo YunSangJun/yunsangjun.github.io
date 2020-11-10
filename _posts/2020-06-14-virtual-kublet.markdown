@@ -2,7 +2,7 @@
 layout: post
 title:  "Virtual Kubelet을 활용해 Kubernetes를 서버리스 컨테이너로 확장하기"
 author: sj
-date: 2019-08-25
+date: 2020-06-14
 categories: kubernetes
 tags:
 - kubernetes
@@ -23,10 +23,16 @@ Virtual Kubelet에 대한 설명을 보면 `Kubernete를 다른 API와 연동하
 이 설명만 들으면 활용 방법이나 프로젝트에서 추구하는 목적이 크게 와닿지가 않습니다.
 
 이해를 돕기 위해 활용 사례를 들어보겠습니다.
-아래 그림과 같이 운영중인 Kubernetes cluster에 Public Cloud의 서버리스 컨테이너 서비스
-(예 - AWS ECS Fargate, Azure Container Instance 등)를 확장해 마치 하나의 cluster 처럼 사용할 수 있습니다.  
+아래 그림과 같이 운영중인 Kubernetes cluster에 Public Cloud의 서버리스 컨테이너 서비스를 확장해 마치 하나의 cluster 처럼 사용할 수 있습니다. 
 
 ![](/assets/images/kubernetes/virtual-kubelet/virtual-kubelet-architecture.png)
+
+현재 지원하는 클라우드 프로바이더는 아래와 같습니다.
+- Azure: ACI(Azure Container Instances), Azure Batch GPU
+- AWS: ECS Fargate
+- Alibaba cloud: ECI(Elastic Container Instance)
+- HashiCorp: Nomad
+- Openstack: Zun
 
 이를 통해 컨테이너 서비스 별로 서로 다른 사용 방식을 고려할 필요 없이 Kubernetes stack으로 통일하여 개발 및 운영을 할 수 있는 장점이 있습니다.
 또한 Public cloud에는 Kubernetes cluster를 추가로 운영할 필요없이 컨테이너에 대한 비용만 지불하면 되므로 비용 효율적인 측면이 있습니다.
@@ -143,12 +149,11 @@ Hands-on을 위해서 아래와 같은 준비사항이 필요합니다.
 
 <p class="tip-title">참고</p>
 <p class="tip-content">
-현재 Azure 한국 리전에서는 ACI 서비스가 없습니다. 
-서비스 중인 가장 가까운 리전은 japaneast 입니다.(japanwest도 없음)
+현재 한국 중부(Korea Central) 리전에서 사용가능합니다.
 </p>
 
 ```
-export ACI_REGION=japaneast
+export ACI_REGION=koreacentral
 az group create --name aci-group --location "$ACI_REGION"
 export AZURE_RG=aci-group
 ```
