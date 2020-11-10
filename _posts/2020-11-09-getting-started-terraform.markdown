@@ -475,9 +475,14 @@ Plan: 1 to add, 0 to change, 1 to destroy.
 ```
 
 실제 적용을 해보겠습니다. 기존 node pool을 삭제하고 새로운 node pool을 생성하는것이 확인됩니다.
-(node pool이 삭제되면서 실행중인 pod도 전부 삭제됩니다. 실제 개발/운영 환경이라면 node pool을 여러개 만들어 놓고
-변경 작업이 일어나는 node의 pod를 모두 다른 node로 migration하는 작업이 선행되어야 할 것으로 보입니다.
-Lagacy 환경에서는 상상도 할 수 없는 작업이 Kubernetes에서는 가능합니다)
+
+<p class="tip-title">참고</p>
+<p class="tip-content">
+node pool이 삭제되면서 실행중인 pod도 전부 삭제됩니다. 실제 개발/운영 환경이라면 node pool을 여러개 만들어 놓고
+변경 작업이 일어나는 node의 pod를 모두 다른 node로 migration하는 작업이 선행되어야 합니다.
+Lagacy 환경에서는 어렵고 시간이 많이 소요되는 작업이 Cloud, Kubernetes 환경에서는 좀 더 쉽고 빠르게 가능합니다
+</p>
+
 ```
 $ terraform apply \
     -var "project_id=$PROJECT_ID" \
