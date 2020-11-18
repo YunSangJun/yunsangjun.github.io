@@ -102,7 +102,7 @@ drwxr-xr-x  4 ...  110524863  128 ... my-dev
 그리고 "terraform apply" 명령을 실행하고 위에서 설정한 환경변수를 Terraform 변수에 할당합니다.
 
 ```
-$ export GOOGLE_APPLICATION_CREDENTIALS="/User/sjyun/.gcp/gke-service-account-dev.json"
+$ export GOOGLE_APPLICATION_CREDENTIALS=~/.gcp/gke-service-account-dev.json
 $ export PROJECT_ID="my-dev"
 $ export REGION="asia-northeast3"
 
@@ -178,7 +178,7 @@ my-dev
 추가로 운영계는 machine type을 "e2-standard-2"로 다르게 설정했습니다.
 
 ```
-$ export GOOGLE_APPLICATION_CREDENTIALS="/User/sjyun/.gcp/gke-service-account-prod.json"
+$ export GOOGLE_APPLICATION_CREDENTIALS=~/.gcp/gke-service-account-prod.json
 $ export PROJECT_ID="my-prod"
 $ export REGION="asia-northeast3"
 
@@ -237,7 +237,7 @@ $ terraform workspace list
 * my-dev
   my-prod
 
-$ export GOOGLE_APPLICATION_CREDENTIALS="/User/sjyun/.gcp/gke-service-account-dev.json"
+$ export GOOGLE_APPLICATION_CREDENTIALS=~/.gcp/gke-service-account-dev.json
 $ export PROJECT_ID="my-dev"
 
 $ terraform destroy \
@@ -255,7 +255,7 @@ $ terraform workspace list
   my-dev
 * my-prod
 
-$ export GOOGLE_APPLICATION_CREDENTIALS="/User/sjyun/.gcp/gke-service-account-prod.json"
+$ export GOOGLE_APPLICATION_CREDENTIALS=~/.gcp/gke-service-account-prod.json
 $ export PROJECT_ID="my-prod"
 
 $ terraform destroy \
